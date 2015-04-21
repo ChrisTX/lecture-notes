@@ -1,0 +1,183 @@
+\section{Lagrange multipliers for smooth equality constraints}\label{section_1.3}
+Aim: Lagrange multiplier rule for a problem 
+\[
+	minimize\,f(u),\quad subject\,to\,g(u) = 0
+\]
+Here, $f,g$ are assumed to be Fréchet-differentiable. To do so, one needs to show that the \emph{tangent space} of
+\[
+	M=\{u\in U:\,g(u)=0\}
+\]
+at a point $u_0$ consists of h, s.h. $g'(u_0)h = 0$. This turns out to be nontrivial in infinite-dimensional spaces.
+\begin{theorem}[Implicit function theorem]\label{theorem_1.26}
+	Let $U,V,W$ be Banach-spaces, and let $\Phi:\Theta(u_0,v_0)\subseteq U\times V\to W$ %O = Neighbourhood of u_0,v_0
+	be Fréchet-differentiable and defined on an open neighbourhood of $(u_0,v_0)\subseteq U\times V$ with $\Phi(u_0,v_0) = 0$. Suppose that 
+	\[
+		\Phi_v(u_0,v_0)=\frac{\partial\Phi}{\partial v}(u_0,v_0):\,V\to W
+	\]
+	is bijective. The, there exist $r>0, R>0$ s.t. for $\norma{u-u_0}{}<r$ there exists a \emph{unique} $v=v(u)\in V$ satisfying $(u,v)\in\mathcal{O}(u_0,v_0),\,\norma{v-v_0}{}<R$ and $\Phi(u,v) = 0$. The map $u\mapsto v(u)$ is Fréchet-differentiable in $N_r=\{u\in U:\norma{u-u_0}{}<r\}$. 
+\end{theorem}
+\begin{proof}
+	Assume $u_0=0, v_0=0, U\not=\{0\}, V\not=\{0\}, W\not=\{0\}$. Define 
+	\begin{eqnarray}
+		F(u,v) := \Phi_v(0,0)v - \Phi(u,v) \nonumber \\
+		A(u)v := \left[\Phi_v(0,0)\right]^{-1} F(u,v) 
+	\end{eqnarray}
+	Then, the problem $\Phi(u,v) = 0$ is equivalent to 
+	\begin{equation}\label{equation_1.3.*}
+		v = A(u)v
+	\end{equation}
+	 (fixpoint-problem). By the \emph{Banach inverse mapping theorem} we have $\left[\Phi_v(0,0)\right]^{-1}$ is a bounded linear map. Since the set of invertible operators on $V$ is open (can be shown by \emph{Neumann series}) in the space $\mathcal{L}(V,W)$, also $\left[\Phi_v(u,v)\right]^{-1}$ exists and $\left[\Phi_v(u,v)\right]^{-1}\leq const$ for $u,v$ small enough.\newline\noindent
+	We observe that 
+	\[
+		F_v(u,v) = \Phi_v(0,0) - \Phi_v(u,v)
+	\]
+	Since $F_v$ is continuous in $(0,0)$ by assumption and $F_v(0,0) = 0$, we can apply the (one dimensional) \emph{Taylor theorem} that
+	\[
+		\norma{F(u,v)-F(u,w)}{} \leq \sup_{0\leq\theta\leq 1} \norma{F_v(u,v+\theta(w-v))}{}\cdot\norma{v-w}{} \leq \mathcal{o}(1)\norma{v-w}{}\text{ for } u,v,w\to 0
+	\]
+	Since $F$ is continuous at $(0,0)$ and also $F(0,0) = 0$, we also get
+	\[
+		\norma{F(u,v)}{} \leq \norma{F(u,v)-F(u,0)}{} + \norma{F(u,0)}{} \leq \mathcal{o}(1)\norma{v}{} + \norma{F(u,0)}{}
+	\]
+	Where $F(u,0)\to 0$ for $u\to 0$. Let now $M_R=\{v\in V:\norma{v}{} < R\}$. Then for $r>0$ and $R>0$ small enough we get
+	\[
+		\norma{A(u)v}{}\leq R,\quad\norma{A(u)v-A(u)w}{}\leq\frac{1}{2}\norma{v-w}{}
+	\] 
+	for all $v,w\in M_R$ and a fixed (but arbitrary) $u\in N_r$. The \emph{Banach fixed-point theorem} now yields a nuique fixed point $v = v(u)$of the equation~\ref{equation_1.3.*}. \newline\noindent
+	We can choose $r,R$ so small, that $(u,v)\mapsto\left[\Phi_v(u,v)\right]^{-1}$ is continuous on $N_r\times M_R$ to $\mathcal{L}(W,V)$. To show that $u\mapsto v(u)$ is continous, we know that
+	\begin{eqnarray}
+		\norma{v(u)-v(z)}{} &=& \norma{A(u)v(u)-A(z)v(z)}{} \nonumber\\
+		&& \underbrace{\norma{A(u)(v(u)-v(z))}{}}_{\leq\frac{1}{2}\norma{v(u)-v(z)}{}} + \underbrace{\norma{(A(u)-A(z))v(z)}{}}_{\to 0\text{ for }u\to z} \nonumber
+	\end{eqnarray}
+	$\Rightarrow \norma{v(u)-v(z)}{}\to 0$ for $u\to z$. To show that it is $C^1$, consider for fixed $u$ and $h$ small enough
+	\[
+		k= v(u+h)-v(u)
+	\]
+	Since $\Phi\in C^1$, it follows from
+	\[
+		0 = \Phi(u+h,v+k) - \Phi(u,v)
+	\]
+	that
+	\[
+		0 = \Phi_u(u,v)h + \Phi_v(u,v)k
+	\]
+	Hence 
+	\[
+		k = - \left[\Phi_v(u,v)\right]^{-1}\left(\Phi_u(u,v) + \mathcal{o}(\norma{h}{}+\norma{k}{})\right)
+	\]
+	for $h$ small enough (since $k\to 0$ for $h\to 0$). This implies
+	\[
+		\norma{k}{}\leq const\norma{h}{}
+	\]
+	and therefore 
+	\[
+		k = v(u+h)-v(u) = -\left[\Phi_v(u,v(u))\right]^{-1}\left(\Phi_u(u,v(u))h+\mathcal{o}(\norma{h}{})\right)
+	\]
+	Hence $v'(u) = -\left[\Phi_v(u,v(u))\right]^{-1}\Phi_u(u,v(u))$. 
+\end{proof}
+
+
+
+
+
+%PROOF OF THEOREM 1.8 NACHTRAG
+
+\[
+	l(a) \leq l(\xi) + l(b-\xi),\quad\forall a\in A, b\in B
+\]
+Since $l$ is continuous and $l\not=0$ it holds
+\[
+	\delta = \inf_{b\in B} l(b-\xi) < 0
+\]
+This shows
+\[
+	\sup l(a) \leq l(\xi) - \delta < l(\xi)
+\]
+
+%END OF PROOF
+\section*{The submersion theorem (generalized implicit functions)}
+\begin{definition}\label{definition_1.27}
+	Let $M\subseteq U$ and $u_0\in M$. Then $h\in U$ is called a \emph{tangent vector to $M$ at $u_0$} if there exists an \emph{admissible curve} $\gamma:[0,\varepsilon]\to U$ s.t. $\gamma(t) = u_0 + th + \mathcal{o}(t)\in M,\,\forall t\in[0,\epsilon)$ ($\gamma'(0) = h$). Then, the set of all tangent vectors is a closed cone, the \emph{tangent conet at $u_0$}. If the tangent cone is a \emph{linear space} then it is called the \emph{tangent space to $M$ at $u_0$} and denoted by $T_{u_0}(M)$. 
+\end{definition}
+\begin{definition}[Submersion]\label{definition_1.28}
+	Let $U,V$ be Banach spaces. A mapping $g:\mathcal{D}(g)\subset U\to V$ is called a \emph{submersion} at $u_0\in\mathcal{D}(g)$, if the following statements hold:
+	\begin{enumerate}
+		\item $g\in C^1$ in a neighbourhood of $u_0$
+		\item $g'(u_0):U\to V$ is surjective
+		\item The null-space $\mathcal{N}(g'(u_0))$ splits $U$, that is there exists a continuous projection $P$ on $U$, s.t.
+				\[
+					P(U) = \mathcal{N}(g'(u_0))
+				\]
+				and
+				\[
+					U = \mathcal{N}(g'(u_0)) \bigoplus (I-P)(u)
+				\]
+	\end{enumerate}
+\end{definition}
+
+\begin{remark}
+	Condition $(iii)$ is nontrivial in general Banach spaces. However. it holds in the following cases:
+	\begin{enumerate}
+		\item $U$ is a Hilbert space (closed subsets of Hilbert spaces have a complement)
+		\item $dim(\mathcal{N}(g'(u_0))) < \infty$
+		\item $codim(\mathcal{N}(g'(u_0))) < \infty$ (derivative has finite rank)
+	\end{enumerate}
+
+\end{remark}
+
+\begin{theorem}[Ljustemite(?), 1934]\label{theorem_1.29}
+	Let $U,V$ be Banach spaces, $\Theta$ an open neighbourhood of $u_0\in U$ and $g:\Theta\subseteq U\to V$ be a submersion at $u_0$. Then the tangent cone to the set
+	\[
+		M=\{u\in\Theta:\,g(u)=0\}
+	\]
+	at $u_0$ is a tangent space, namely
+	\[
+		T_{u_0}M = \mathcal{N}(g'(u_0))
+	\]
+	Furthermore there exists a homeomorphism $\varphi:\tilde{\Theta}\subseteq T_{u_0}M\to M$ from an \emph{open neighbourhood} $\tilde{Theta}$ of zero in $T_{u_0}M$ to $M$, such that
+	\[
+		\varphi(h) = u_0+h + \mathcal{o}(\|h\|)
+	\]
+\end{theorem}
+\begin{proof}
+	Thanks to the splitting property, we can identify $U$ with $U_1\times U_2$, where $U_1=\mathcal{N}(g'(u_0))$ and $U_2 = (I-P)(u)$. We want to construct the homeomorphism first. Consider
+	\[
+		\Phi(u_1,u_2) = g(u_0+u_1+u_2)
+	\]
+	then $\Phi(0,0) 0 0$. By the chain rule, $\Phi\in C^1$ in a neighbourhood $(0,0)$ and 
+	\[
+		A \coloneqq \frac{\partial\Phi}{\partial u_2}(0,0) = g'(u_0)\,\parallel_{u_2}
+	\]
+	As $u_2$ is complimentary to $\mathcal{N}(g'(u_0))$, it follows that $A$ is injectiv, as well as $\mathcal{R}(A) = \mathcal{R}(g'(u_0)) = V$. By the \emph{implicit function theorem} there exists a $C^1$ map $\Psi$ such that locally $\Phi(u_1,u_2) = 0$ if and only if $u_2=\Psi(u_1)$. By the chain rule 
+	\[
+		\frac{\partial\Phi}{\partial u_1}(0,0) + A\Psi'(0)) = 0 
+	\]
+	Since $\frac{\partial\Phi}{\partial u_1}(0,0) = g'(u_0)\,\parallel_{u_1} = 0$, it follows $\Psi'(0) = 0$. Since $\Psi(0) = 0$ we get
+	\[
+		\Psi(u_1) = \mathcal{o}(\|u_1\|).
+	\]
+	The required homeomorphism is
+	\[
+		\varphi(u_1) \coloneqq u_0 + u_1 + \Psi(u_1)
+	\]
+	It remains to show, that the inverse of $\varphi$ is continuous. We already know that it is locally bijective from a neighbourhood of zero in $\mathcal{N}(g'(u_0))$ to a (relative) neighbourhood of $u_0$ in $M$. To see that it's a homeomorphism, note that the inverse map is simply given by $u_1 = P(u-u_0),\,g(u) = 0$. \newline\noindent
+	If $h$ is a tangent vector and $\gamma$ the corresponding admissible curve, then $g(\gamma(t))=0$ (for $t$ small enough) implies by chain rule that $g'(u_0)\gamma'(0)=h=0$. \newline\noindent
+	Conversely, if $h\in\mathcal{N}(g'(u_0))$, then $t\mapsto \varphi(th)$ is an admissible curve for $t$ small enough.   
+\end{proof}
+
+\section*{Generalized Ljusternik theorem}
+
+\begin{definition}\label{definition_1.30}
+	Let $g:\mathcal{D}(g)\subseteq U\to V$ be a $C^1$ function. A point $u_0\in\mathcal{D}(g)$ is called \emph{regular point of $g$}, if $g'(u_0):U\to V$ is surjective: $\mathcal{R}(g'(u_0)) = V$.
+\end{definition}
+
+\begin{theorem}\label{theorem_1.31}
+	Let $U,V$ Banach spaces, $\Theta$ an open neighbourhood of a regular point $u_0$ of $g:\mathcal{D}(g)\subseteq U\to V$. Then the tangent cone to the set $M = \{u\in\Theta:\,g(u) = 0\}$ at $u_0$ is a tangent space and
+	\[
+		T_{u_0}M = \mathcal{N}(g'(u_0))
+	\]
+\end{theorem}
+\begin{proof}
+	Ioffe (?), Tichomirov, ``Theorie der Extremalaufgaben'', Kap.0.2.4\par
+	Ljusternik, Sobolev, ``Elemente der Funktionalanalysis'', Kapitel 8, §10 
+\end{proof}
