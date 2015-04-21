@@ -39,6 +39,40 @@ To show: $\| A_1^{-1} \|_{\mathcal{L}(W'; V)} = \alpha^{-1} = \| A_2^{-1} \|_{\m
 This implies the left inequality. The right one can be proven analogously.
 \item Follows directly from Lemma 1.3.7.
 \end{enumerate}
+
+\section*{Exercise 7}
+\textbf{$\Rightarrow\quad$} Let $u\in H$ solution of $a(u,v) = b(v),\,\forall v\in H$. Then we have
+	\begin{eqnarray*}
+		\forall v\in V:&J(v) &= J(u) + a(u,v-u) - l(v-u) + \frac{1}{2} a(v-u,v-u)\\	
+						    &&= J(u) + \frac{1}{2} a(v-u,v-u)\\
+						    &&\geq J(u)
+	\end{eqnarray*}
+
+	and we see that $u$ minimizes the functional $J$ on $H$.\newline\newline\noindent
+	\textbf{$\Leftarrow\quad$ :} Let now $v\in V,\,\lambda \in (0,1]$ and set $w = u + \lambda v$. Calculation gives:
+	\[
+		J(w) - J(u) = \lambda\left[a(u,v) - l(v)\right] + \frac{\lambda^2}{2}a(v,v) \geq 0\text{ because }u\text{ minimizes }J 
+	\]
+	Dividing by $\lambda$ gives 
+	\[
+		a(u,v)-l(v) + \frac{\lambda}{2} a(v,v) \geq 0
+	\]
+	Let now $\lambda \to 0$:
+	\[
+		a(u,v)\geq l(v),\quad\forall v\in V
+	\]
+	This can also be written as
+	\begin{eqnarray*}
+		a(u,-v) \geq l(-v)\\
+		-a(u,v) \geq -l(v) \Leftrightarrow a(u,v) \leq l(v)
+	\end{eqnarray*}
+	So in the end
+	\[
+		a(u,v) = l(v),\quad\forall v\in H
+	\]
+	which means that $u$ is a solution of the problem.
+
+
 \section*{Exercise 8}
 To show: $\| \nabla (u - u_h)_{L^2(\Omega)}^2 =\| \nabla u \|_{L^2(\Omega)}^2 - \| \nabla u_h \|_{L^2(\Omega)}^2$.
 Use the Galerkin-orthogonality.
@@ -52,4 +86,42 @@ Then,
 &=& \| \nabla u \|_{L^2}^2 - a(u_h, u) \\
 &=& \| \nabla u \|_{L^2}^2 - \| \nabla u_h \|_{L^2}^2.
 \end{IEEEeqnarray*}
+
+\section*{Exercise 9}
+We can calculate the nodal basis-functions on the triangle given through the nodes $v_0=(0,0), v_1=(1,0), v_2=(0,1)$ by using the condition $\delta_i(v_j) = \delta_{i,j}$ on all 3 nodes. We obtain:
+	\begin{eqnarray*}
+		\delta_0(x,y) = -x -y +1\\
+		\delta_1(x,y) = x\\
+		\delta_2(x,y) = y
+	\end{eqnarray*}
+	We can directly compute the derivatives:
+	\begin{eqnarray*}
+		\nabla\delta_0(x,y) = \begin{bmatrix} -1&-1\end{bmatrix}\\
+		\nabla\delta_1(x,y) = \begin{bmatrix} 1&0\end{bmatrix}\\
+		\nabla\delta_2(x,y) = \begin{bmatrix} 0&1\end{bmatrix}
+	\end{eqnarray*}
+	Now we can just compute the matrices $S_T,T_T,C_T$ by using those expressions, together with a $\beta=[\beta_0,\beta_1]$. Therefore we use the integration rule
+	\[
+		\int_T f(x,y)\,d(x,y) = \int_0^1\int_0^{1-x} f(x,y)\,dy\,dx
+	\]In the end we obtain
+	\begin{eqnarray*}
+		M_T = 	\begin{bmatrix}
+					0.0833 & 0.0417 & 0.0417\\
+					0.0417 & 0.0833 & 0.0417\\
+					0.0417 & 0.0417 & 0.0833 
+				\end{bmatrix}
+				\\
+		C_T = 	\frac{1}{6}\begin{bmatrix}
+					-(\beta_0+\beta_1) & \beta_1 & \beta_1 \\
+					-(\beta_0+\beta_1) & \beta_1 & \beta_2 \\
+					-(\beta_0+\beta_1) & \beta_1 & \beta_2 \\
+				\end{bmatrix}
+				\\
+		T_T = 	\begin{bmatrix}
+					1 & -0.5 & -0.5\\
+					-0.5 & 0.5 & 0\\
+					-0.5 & 0 & 0.5
+				\end{bmatrix}
+	\end{eqnarray*}
+
 \end{document}
