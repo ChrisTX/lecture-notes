@@ -1,0 +1,249 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+\addtocounter{chapter}{-1}
+\chapter{Optimal control of PDEs}
+Consider optimization tasks in Banach spaces: \par
+\begin{problem}
+minimize $J(\xi)$ such that $\xi \in M$
+\end{problem}
+Here $J : X \to \R$ on a Banach space X, and $M \subseteq X$. Out motivation will be \textbf{optimal control problems}. \par
+\textbf{Optimal control:} Physical processes modeled by differential or integral equations in function spaces involving a control variable to drive a certain cost function to a minimum.
+\begin{example}
+\begin{enumerate}
+\item \textbf{Optimal stationary heating of a boundary:} \par
+\textit{Target function:} $\Omega \subset \R^3$, $\Gamma$ boundary.
+\begin{IEEEeqnarray*}{rCl}
+J_\lambda : L^2(\Omega) \times L^2(\Gamma) &\to& \R, \lambda \geq 0 \\
+(y, n) &\mapsto& \frac{1}{2} \int_\Omega (y(x) - y_\Omega(x))^2 \dx + \frac{\lambda}{2} \int_\Gamma |u(s)|^2 \ds \\
+&& = \frac{1}{2} \| y - y_\Omega \|^2 + \frac{\lambda}{2} \| u \|^2 
+\end{IEEEeqnarray*}
+$y_\Omega$ is the target temperature, $y$ is called the state and $u$ the control. \par
+\begin{problem}
+minimize $J_\lambda(y, u)$, \ac{st}
+\begin{IEEEeqnarray*}{r"l}
+\begin{cases}
+- \Delta y = 0 & \text{in } \Omega \\
+\frac{\partial y}{\partial \nu} = \alpha(u - y) & \text{on } \Gamma
+\end{cases} & \text{state equation} \\
+u_a(x) \leq u(x) \leq u_b(x) & \text{restriction on control}
+\end{IEEEeqnarray*}
+\end{problem}
+In abstract terms: 
+\begin{problem}
+minimize $J_\lambda(y, u)$, \ac{st}
+\begin{IEEEeqnarray*}{rCl}
+Ay &=& Bu \\
+u_a &\leq& u \leq u_b
+\end{IEEEeqnarray*}
+\end{problem}
+\begin{itemize}
+\item $J_\lambda$ is strictly convex (even quadratic)
+\item constraints constitute a convex set $M$
+\end{itemize}
+Thus, we have a convex optimization in a Hilbert space.
+By restricting to a smaller function space (Sobolev space), one may achieve that $y$ depends uniquely on $u$:
+\begin{equation}
+y = A^{-1} B u
+\end{equation}
+This given a \textbf{reduced problem}: \par
+\begin{problem}
+minimize $f_\lambda(u) = J(A^{-1} B u)$ \par
+\ac{st} $u_a \leq u \leq u_b$
+\end{problem}
+Minimizer $\bar{u}$ is called optimal control. \par
+\textbf{Questions:} Existence, uniqueness, necessary conditions, optimization methods.
+\item \textbf{Instationary boundary heating} \par
+Achieve specific temperature at fixed time $T$ (``hot potato'').
+Now $y = y(x, t)$, $u = u(x, t)$.
+\begin{problem}
+minimize $J_\lambda(y, u)$
+\begin{IEEEeqnarray*}{rCl}
+J_\lambda(y, u) &=& \frac{1}{2} \int_\Omega (y(x, T) - y_\Omega(x))^2 \dx + \frac{\lambda}{2} \int_0^T \int_\Gamma |u(x, t)|^2 \ds
+\end{IEEEeqnarray*}
+\ac{st}
+\begin{IEEEeqnarray*}{l}
+\begin{cases}
+y_t - \Delta y = 0 & \text{in } Q = \Omega \times (0, T) \\
+\frac{\partial y}{\partial \nu} = \alpha(u - y) & \text{in } \Sigma = \Gamma \times (0, T) \\
+y(x, 0) = y_0(x) & \text{in } \Omega
+\end{cases} \\
+u_a(x, t) \leq u(x, t) \leq u_b(x, t)
+\end{IEEEeqnarray*}
+\end{problem}
+Again we have a convex problem.
+\item \textbf{Optimal stationary heating inside}
+Heat source $E \subseteq \Omega$
+\begin{IEEEeqnarray*}{l}
+\begin{cases}
+- \Delta y = \chi_E \cdot u & \text{in } \Omega \\
+y = 0 & \text{on } \Gamma
+\end{cases}
+\end{IEEEeqnarray*}
+\end{enumerate}
+\end{example}
+\begin{example}[Non-convex examples]
+Non-convexity arises in optimal control by
+\begin{itemize}
+\item non-convex target functional $J$
+\item non-convex state equation
+\item non-convex control restrictions
+\end{itemize}
+\begin{enumerate}
+\setcounter{enumi}{3}
+\item \textbf{Heating with radiation:} \par
+Like in the first example, let
+\begin{IEEEeqnarray*}{l}
+\begin{cases}
+- \Delta y = 0 & \text{in } \Omega \\
+\frac{\partial y}{\partial \nu} = \alpha(u^4 - y^4) & \text{on } \Gamma
+\end{cases}
+\end{IEEEeqnarray*}
+Semilinear elliptic PDE.
+\item \textbf{Supra-conduction:} \par
+Simplified Ginzburg-Landan equation
+\begin{IEEEeqnarray*}{l}
+\begin{cases}
+- \Delta y - y + y^3 = u & \text{in } \Omega \\
+y = 0 & \text{on } \Gamma
+\end{cases}
+\end{IEEEeqnarray*}
+\end{enumerate}
+\end{example}
+\paragraph{Main concepts (in finite dimension)}
+Let $f : \R^n \to \R$ be $C^1$, strictly convex and \textbf{coercive}, that is $f(\xi) \to + \infty$ if $\| \xi \| \to + \infty$.
+Assume $M \subset \R^n$ is closed and convex. Consider
+\begin{problem}
+minimize $f(\xi)$ \ac{st} $\xi \in M$.
+\end{problem}
+\begin{theorem}
+This problem has a unique solution $\bar{\xi}$.
+\end{theorem}
+\begin{proof}
+Pick $\xi_0 \in \R^n$, then
+\[
+\mathcal{L}_0 = \{ \xi \in \R^n : f(\xi) \leq f(\xi_0) \}
+\]
+is compact. Therefore $\mathcal{L}_0 \cap M$ is compact and a solution $\bar{\xi}$ exists.
+Let $\bar{\xi}, \bar{\bar{\xi}} \in M, \bar\xi \neq \bar{\bar{\xi}}$ be two solutions. Then the line segment $\ell$ connecting $\bar\xi$ and $\bar{\bar{\xi}}$ belongs to $M$. In particular,
+\[
+\bar{\xi} = \bar\xi + \frac{1}{2} \left(\bar{\bar{\xi}} - \bar\xi\right) = \frac{1}{2} \bar{\bar{\xi}} + \left(1 - \frac{1}{2} \right) \bar\xi
+\]
+but
+\[
+f\left(\hat{\xi}\right) < \frac{1}{2} f \left(\bar{\bar{\xi}}\right) + \left(1 - \frac{1}{2}\right) f\left(\bar{\xi}\right) = f\left(\bar{\xi}\right).
+\]
+Contradiction to strict convexity.
+\end{proof}
+\textbf{Note:}
+\begin{itemize}
+\item Coercivity of $f$ + closeness of $M$ $\to$ existence
+\item strict convexity of $f$ + convexity of $M$ $\to$ uniqueness
+\end{itemize}
+\paragraph*{Optimality conditions:}
+\textbf{Tangent cone} of convex $M$:
+\[
+T_{\bar{\xi}}(M) = \{ \alpha(\xi - \bar{\xi}) \mid \alpha \geq 0, \xi \in M \}
+\]
+\textbf{Normal cone}:
+\begin{IEEEeqnarray*}{rCl}
+N_{\bar{\xi}} &=& (T_{\bar{\xi}}(M))^\circ = (\conv(T_{\bar{\xi}}(M)))^\circ \\
+&=& \{ v : \langle v, h \rangle \leq 0 \quad \forall h \in T_{\bar{\xi}} (M) \}
+\end{IEEEeqnarray*}
+\textbf{Optimality condition:} 
+\begin{IEEEeqnarray*}{r"rCl"l'l}
+& - \nabla f(\bar{\xi}) &\in& N_{\bar{\xi}}(M) \\
+\Leftrightarrow & \langle \nabla f(\bar{\xi}), h \rangle &\geq& 0 & \forall h \in T_{\bar{\xi}}(M) & \textbf{(Variational inequality)} \\
+\Leftrightarrow & \langle \nabla f(\bar{\xi}), \xi - \bar{\xi} \rangle &\geq& 0 & \forall \xi \in M
+\end{IEEEeqnarray*}
+\paragraph*{Prototypical control theory problems}
+\begin{problem}
+minimize $J(y, u)$, $y \in \R^n$, $u \in \R^m$, \ac{st}
+\begin{IEEEeqnarray*}{c}
+Au = Bu, \; A \text{ is invertible} \\
+\underbrace{u_a \leq u \leq u_b}_{\text{``box constraint''}} \Leftrightarrow u \in U_{ad}
+\end{IEEEeqnarray*}
+\end{problem}
+Then:
+\[
+M = \left\{ \begin{pmatrix}
+y \\ u
+\end{pmatrix} = \begin{pmatrix}
+A^{-1} B u \\ u 
+\end{pmatrix} : u \in U_{ad} \right\}
+\]
+is convex. \par
+\textbf{Variational inequality:} if $(\bar{y}, \bar{u})$ solves the problem then
+\begin{IEEEeqnarray*}{r"rCl"l}
+& \langle \nabla_y J(\bar{y}, \bar{u}), A^{-1} B (u - \bar{u}) \rangle + \langle \nabla_u J(\bar{y}, \bar{u}), u - \bar{u} \rangle &\geq& 0 & \forall u \in U_{ad} \\
+\Leftrightarrow & \langle B^\tp A^{-\tp} \nabla_y J(\bar{y}, \bar{u}) + \nabla_u J(\bar{y}, \bar{u}), u - \bar{u} \rangle &\geq& 0 & \forall u \in U_{ad} \IEEEyesnumber \label{eq:c0e1}
+\end{IEEEeqnarray*}
+\textbf{Lagrange function for equality constraint:}
+\[
+L(y, u, p) = J(y, u) - \langle Ay - Bu, p \rangle, p \in \R^n.
+\]
+Then,
+\[
+\nabla_y L(y, u, p) = 0
+\]
+is equivalent to
+\[
+A^\tp p = \nabla_y J(y, u),
+\]
+(because $\langle \nabla_y J(\bar{y}, \bar{u}), h \rangle = \langle Ah, p \rangle$) which is called \textbf{adjoint equation} and
+\[
+p = A^{-\tp} \nabla_y J(y, u)
+\]
+is called \textbf{adjoint state}. Therefore \eqref{eq:c0e1} reads
+\begin{IEEEeqnarray*}{rCl"l}
+\nabla_y L(\bar{y}, \bar{u}, \bar{p}) &=& 0 \\
+\langle \nabla_u L(\bar{y}, \bar{u}, \bar{p}, u - \bar{u}) &\geq& 0 & \forall u \in U_{ad}
+\end{IEEEeqnarray*}
+\textbf{Note:} $\bar{p}$ is a Lagrange multiplier. \par
+\textbf{Lagrange function for inequality constraints:}
+\[
+u_a - u \leq 0, u - u_b \leq 0.
+\]
+Let
+\[
+L(y, u, p, \mu_a, \mu_b) = J(y, u) - \langle Ay - Bu, p \rangle + \langle u_a - u, \mu_a \rangle + \langle u - u_b, \mu_b \rangle
+\]
+\begin{theorem}
+If $(\bar{y}, \bar{u})$ is a solution, then there exists $\bar{p} \in \R^n$, $\bar{\mu}_a \in \R^m$, $\bar{\mu}_b \in \R^m$, \ac{st}
+\[
+\begin{cases}
+\begin{IEEEeqnarraybox}{rCl}
+\nabla_y L(\bar{y}, \bar{u}, \bar{p}, \bar{\mu}_a, \bar{\mu}_b) &=& 0 \\
+\nabla_u L(\bar{y}, \bar{u}, \bar{p}, \bar{\mu}_a, \bar{\mu}_b) &=& 0 \\
+\bar{\mu}_a \geq 0, \bar{\mu}_b &\geq& 0 \\
+\langle u_a - \bar{u}, \bar{\mu}_a \rangle = 0, \langle \bar{u} - u_b, \bar{\mu}_b \rangle &=& 0
+\end{IEEEeqnarraybox}
+\end{cases}
+\]
+These conditions are called \textbf{KKT conditions}.
+\end{theorem}
+\begin{proof}
+Choose
+\[
+\bar{\mu}_a \coloneqq (B^\tp \bar{p} + \nabla_u J(\bar{y}, \bar{u}))_+ = (\nabla_u L(\bar{y}, \bar{u}, \bar{p}))_+
+\]
+and
+\[
+\bar{\mu}_b \coloneqq (-[\nabla_u L(\bar{y}, \bar{u}, \bar{p})])_+.
+\]
+\end{proof}
+\paragraph{Plan:}
+\begin{enumerate}
+\item Optimality in Banach spaces
+\begin{itemize}
+\item weak compactness, convexity
+\item dual spaces, Lagrange multipliers
+\end{itemize}
+\item Application to PDE control problems
+\begin{itemize}
+\item theory for PDE
+\item Sobolev spaces
+\end{itemize}
+\item Optimization methods
+\end{enumerate}
+\end{document}

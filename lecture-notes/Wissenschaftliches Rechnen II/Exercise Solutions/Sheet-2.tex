@@ -1,0 +1,55 @@
+\documentclass[a4paper]{amsart}
+
+\usepackage{geometry}
+\usepackage{parskip}
+\usepackage{mathtools}
+\usepackage{enumerate}
+\usepackage{IEEEtrantools}
+
+\DeclareMathOperator{\im}{Im}
+
+\begin{document}
+\title{Wissenschaftliches Rechnen II - Exercise Sheet 2 solutions}
+\maketitle{}
+\section*{Exercise 6}
+\begin{enumerate}[(a)]
+\item $\im A_1$ is closed in W'. Let $f \in \im A \subseteq W'$. Then, $\exists v_f \in V$ with $A_1 (v_f) = b$.
+\begin{IEEEeqnarray*}{rCl}
+	0 < \alpha &=& \inf_{v \in V_0} \sup_{w \in W_0} \frac{(A_1(v), w)}{\| v \|_V \| w \|_W} \\
+	&\leq& \sup_{w \in W_0} \frac{(A_1(v_f), W)}{\| v_f \|_V \| w \|_W} \\
+	&=& \sup_{w \in W_0} \frac{f(w)}{\| v_f \|_V \| w \|_W}.
+\end{IEEEeqnarray*}
+Thus, $\alpha \| v_f \|_V \leq \| f \|_{W'}$.
+Since $A_1 \in \mathcal{L}(V; W')$ and $\exists \alpha > 0 \; \forall f \in W', \; v_f \in V$ such that $A_1 v_f = f$ and $\alpha \| v_f \|_V \leq \| f \|_{W'}$. By Lemma 1.3.5 $\mathcal{R}(A_1)$ is closed in W'.
+\item Show $\im(A_1) = W$.
+From (BNB2), $A_2 = A_1'$, since $w_1, w_2 \in W$ with $A_2(w_1) = A_2(w_2)$ is equivalent to $a(v, w_1) = a(v, w_2) \; \forall v \in V$, which gives $a(v, w_1 - w_2) = 0 \; \forall v \in V$. By BNB, $w_1 = w_2$.
+
+\textit{Theorem:} $a$ closed image implies $W' = 0^\perp = (\ker A_2)^\perp = \im A_1$.
+\item $A_1$ is an isomorphism. $\im(A_1)$ is closed from (a). By Lemma 1.3.5,
+\[
+	\exists \alpha > 0 \, \forall w' \in W' \, \exists v_{w'} \in V \, \forall A_1 v_{w'} = w' \text{ and } \alpha \| v_{w'} \|_V \leq \| w' \|_{W'}.
+\]
+By Theorem 1.3.8, $A_1$ is an isomorphism.
+Then, $\| A_1^{-1} F \|_V \leq \alpha^{-1} \| F \|_{W'}$.
+\item $A_2$ is an isomorphism. $A_2 : W \to V'$. We know $A_2$ can be identified with $A_1'$ (see (b)), and $\im (A_2) = (\ker A_1)^\perp = 0^\perp = V'$.
+To show: $\| A_1^{-1} \|_{\mathcal{L}(W'; V)} = \alpha^{-1} = \| A_2^{-1} \|_{\mathcal{L}(V'; W)}$.
+\[
+\sup_{w' \in W'_0} \frac{\| A_1^{-1}, W' \|_V}{\| F \|_{W'}} \leq \alpha^{-1} \leq \| A_1^{-1} \|_{\mathcal{L}(W', V)}.
+\]
+This implies the left inequality. The right one can be proven analogously.
+\item Follows directly from Lemma 1.3.7.
+\end{enumerate}
+\section*{Exercise 8}
+To show: $\| \nabla (u - u_h)_{L^2(\Omega)}^2 =\| \nabla u \|_{L^2(\Omega)}^2 - \| \nabla u_h \|_{L^2(\Omega)}^2$.
+Use the Galerkin-orthogonality.
+\[
+	E(u - u_h, v_h) = 0, \quad \forall v_h \in V_h.
+\]
+Then,
+\begin{IEEEeqnarray*}{rCl}
+\| \nabla u - u_h \|_{L^2}^2 &=& a(u - u_h, u - u_h) \\
+&=& a(u - u_h, u) \\
+&=& \| \nabla u \|_{L^2}^2 - a(u_h, u) \\
+&=& \| \nabla u \|_{L^2}^2 - \| \nabla u_h \|_{L^2}^2.
+\end{IEEEeqnarray*}
+\end{document}

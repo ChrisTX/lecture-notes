@@ -1,0 +1,186 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+
+\section{Abstrakte Galerkin Methode}
+\label{sec:c1e6}
+Wir betrachten das Modelproblem aus \cref{sec:c1e4}:
+Seien $V$, $W$ Banachräume , $W$ reflexiv, $a\in\mathcal{L}(V\times W;\R)$, $ f \in W'$.
+\addtocounter{problem}{-2}
+\begin{problem} % Problem P
+Finde $u \in V$ sodass $a(u, w) = f(w) \quad \forall w \in W$.
+\end{problem}
+\addtocounter{problem}{1}
+Annahme: \cref{prb:P} ist wohlgestellt (d.h.~\cref{eq:BNB1}\slash{}\cref{eq:BNB2} sind erfüllt).
+
+Idee: Ersetze unendlich dimensionale Räume $V$, $W$ durch endlich dimensionale Räume $V_h$, $W_h$. (Der Index $h$ repräsentiert einen oder mehrere Diskretisierungsparameter, z.B. Gitterweite, Polynomgrad, etc.)
+
+Annahme: Konformität, d.h.
+\[
+	W_h \subseteq W, \; V_h \subseteq V 
+\]
+Unter diesen Annahmen konstruiert die Galerkin-Methode eine Näherung
+$u_h\in V_h$ der unbekannten Lösung $u\in V$ von \cref{prb:P} durch Lösung
+des approximativen (diskreten) Approximationsproblems
+\begin{problem} % Problem Ph
+\label{prb:Ph}
+Finde $u_h \in V_h$ sodass
+\[
+	\forall w_h \in W_h \; : \; a(u_h, w_h) = f(w_h).
+\]
+\end{problem}
+
+Sei $V_h = \spn \{v_i \mid i = 1,\ldots,N_H\}$ und $W_h = \spn\{w_i \mid i=1,\ldots,N_h\}$.
+Dann ist \cref{prb:Ph} äquivalent zu
+\begin{problem}
+Finde $c=(c_i)_{i=1,\ldots,N_h}\in\R^{N_h}$, so dass 
+\[Ac=F,\]
+wobei $A\in\R^{N_h\times N_h}$: $A_{i,j}=a(v_i,w_j)$ und 
+$F\in\R^{N_h}$: $F_i=f(w_i)$.
+\end{problem}
+Dann ist $u_h = \sum_{i=1}^{N_h}c_i v_i$.
+
+\begin{remark}
+	\label{bem:c1e6s1}
+	Die Konformität $V_h\subseteq V$, $W_h\subseteq W$ impliziert \emph{nicht} die Wohlgestelltheit von \cref{prb:Ph}!
+\end{remark}
+\begin{theorem}[Existenz, Eindeutigkeit, Stetigkeit der Galerkin-Approximation]
+	\label{thm:c1e6s2}
+	Seien $V_h\subseteq V$, $W_h\subseteq W$ endlich dimensionale Unterräume.
+	Dann ist \cref{prb:Ph} wohlgestellt genau dann wenn
+	\crefformat{eqBNB1h}{#2(BNB 1h)#3}
+	{
+	\addtocounter{equation}{-1}
+	\def\theequation{BNB 1h}
+	\begin{equation}
+	\label{eq:BNB1h}
+		\exists\alpha_h > 0 \inf_{v_h\in V_h\setminus \{0\}} \sup_{w_h\in W_h\setminus
+		\{0\}} \frac{a(v_h,w_h)}{\|v_h\|_V\|w_h\|_W} \ge \alpha_h
+	\end{equation}
+	}
+	und
+	\[
+		\dim V_h = \dim W_h.
+	\]
+	Es gelten ferner
+	\begin{enumerate}[(i)]
+		\item \label[equation]{thm:c1e6s2-i} $\|u_h\|_V \le \frac{\|a\|_{\mathcal{L}(V\times W)}}
+			{\alpha_h} \|u\|_V$ und 
+		\item \label[equation]{thm:c1e6s2-ii} $\|u_h\|_V \le \frac{1}{\alpha_h}\|f\|_V$
+	\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+	Die Wohlgestelltheit von \cref{prb:Ph} folgt aus \cref{thm:c1e4s2}. Gleiches
+	gilt für \labelcref{thm:c1e6s2-ii}. \labelcref{thm:c1e6s2-i} folgt aus
+	\begin{IEEEeqnarray*}{rCl}
+		\alpha_h \|u_h\|_V &\overset{\labelcref{eq:BNB1h}}{\le}& \sup_{w_h\in W_h\setminus\{0\}}
+			\overbrace{\frac{a(u_h,w_h)}{\|w_h\|_W}}^{=f(w_h) = a(u,w_h)} \\
+			 &=& \sup_{w_h\in W_h\setminus\{0\}}
+			\frac{a(u,w_h)}{\|w_h\|} \\
+			&\le& \|a\|_{\mathcal{L}(V\times W)}\|u\|_V
+	\end{IEEEeqnarray*}
+\end{proof}
+\begin{lemma}[Galerkin-Orthogonalität]
+\label{thm:c1e6s3}
+	Falls die Galerkin-Approximation $u_h\in V_h$ von \cref{prb:Ph} existiert
+	und falls $V_h\subseteq V$, $W_h\subseteq W$, dann gilt die sogenannte
+	\emph{Galerkin-Orthogonalität}
+	\[
+		\forall w_h\in W_h \; : \;  a(u-u_h, w_h) = 0
+	\]
+	(d.h. ``Der Fehler steht senkrecht auf $W_h$'').
+\end{lemma}
+\begin{proof}
+	Folgt aus der Konstruktion der Methode.
+\end{proof}
+\begin{theorem}[Quasi-Optimalität der Galerkin-Methode]
+\label{thm:c1e6s4}
+	Wenn die Galerkin-Approximation $u_h\in V_h$ von \cref{prb:Ph} die Bedingung
+	\cref{eq:BNB1h} erfüllt mit $\dim V_h = \dim W_h$, dann gilt die
+	Fehlerabschätzung
+	\[
+		\|u-u_h\|_V \le \left(1 + \frac{\|a\|_{\mathcal{L}(V\times W, \R)}}{\alpha_h}
+		 \right) \inf_{v_h\in V_h} \|u - v_h\|
+	\]
+\end{theorem}
+\begin{proof}
+	Durch \cref{eq:BNB1h} erhält man für jedes $v_h\in V_h$
+	\begin{IEEEeqnarray*}{rCl}
+		\alpha_h \|u_h-v_h\| &\le& \sup_{w_h\in W_h\setminus\{0\}} \frac{a(u_h-v_h,w_h)}{\|w_h\|_V} \\
+		&\overset{\text{\cref{thm:c1e6s3}}}{=}& \sup_{w_h\in W_h\setminus\{0\}} \frac{a(u-v_h,w_h)}{\|w_h\|_V} \le \|a\|_{\mathcal{L}(V\times W,\R)} \|u-v_h\|_V
+	\end{IEEEeqnarray*}
+	Die Aussage folgt durch Dreiecksungleichung
+	\[
+		\|u-v_h\|_V \le \|u-u_h\| + \|u_h - v_h\|
+	\]
+	und Bildung des Infimums über $v_h\in V_h$
+\end{proof}
+Wenn $V$ ein Hilbertraum ist, kann das Resultat verschärft werden.
+[Xu2003] %TODO insert reference
+\begin{theorem}
+	\label{thm:c1e6s5}
+	Sei $V$ Hilbertraum und die Voraussetzungen von \cref{thm:c1e6s4} seien
+	erfüllt. Dann gilt:
+	\[
+		\|u-u_h\|_V \le \frac{\|a\|_{\mathcal{L}(V\times W,\R)}}{\alpha_h}
+		\min_{v_h\in V_h} \|u-v_h\|
+	\]
+\end{theorem}
+\begin{proof}
+	Die Galerkin-Methode definiert eine Projektion $\pi_h$ durch $u\mapsto u_h$ 
+	(insbesondere $\pi_h\circ\pi_h=\pi_h$), $u_h$ das Problem
+	$a(u,w_h) = a(u_h,w_h)$ für alle $w_h \in W_h$ löst. \cref{thm:c1e6s2}
+	zeigt $\pi_h\in\mathcal{L}(V,V)$ und 
+	\[
+		\|\pi_h\| \le \frac{\|a\|_{\mathcal{L}(V\times W, \R)}}{\alpha_h}
+	\]
+	Da $V$ ein Hilbertraum ist, gilt für die komplementäre Projektion
+	$(1 - \pi_h): V \leftarrow V$, dass % 1 meint hier id
+	\[
+		\|\pi_h\|_{\mathcal{L}(V,V)} = \|1-\pi_h\|_{\mathcal{L}(V,V)}
+	\]
+	(Beweis [Sly06] %TODO reference
+	und als Übung).
+
+	Dann gilt für jedes $v_h \in V_h$ 
+	\begin{IEEEeqnarray*}{rCl}
+		\|u-u_h\|_V &=& \| (1 - \pi_h)u\|_V \\
+		&=& \|(1-\pi_h)(u-v_h)\|_V \\
+		&\le& \underbrace{\| (1-\pi_h)\|_{\mathcal{L}(V,V)}}
+			_{=\|\pi_h\|_{\mathcal{L}(V,V)} \le \frac{\|a\|_{\mathcal{L}(V\times W,\R)}}{\alpha_h}}\|u-v_h\|_V
+	\end{IEEEeqnarray*}
+	Aussage folgt aus durch Infimum über $v_h\in V_h$		
+\end{proof}
+\begin{corollary}[C\'ea's Lemma]
+\label{cor:c1e6s5}
+	Es seien $V = W$ Hilberträume und $a$ elliptisch (koerziv), d.h.
+	\[
+		\exists \alpha \; \forall v\in V: a(v,v) \ge \alpha \|v\|^2_V.
+	\]	
+	Dann erfüllen die Lösung von \cref{prb:P} und die Lösung von \cref{prb:Ph}
+	\[
+		\|u-u_h\|_V \le \frac{\|a\|_{\mathcal{L}(v\times V, \R)}}{\alpha}
+			\inf_{v_h\in V_h} \|u-v_h\|
+	\]
+	Wenn $\|.\|_V = \sqrt{a(.,.)}$ für das innere Produkt $a$ in $V$,
+	dann $u_h = P_{V,V_h}u$, $\|u-u_h\| = \min_{v_h\in V_h} \|u-v_h\|$
+\end{corollary}
+\begin{remark}[Konvergenz]
+\label{bem:c1e6s6}
+	Betrachte Familien von Räumen $\{V_h\}_{h>0}$, $\{W_h\}_{h>0}$ mit $V_h \subseteq V$ und $W_h \subseteq W$.
+	\begin{itemize}
+		\item typischerweise: Parameter $h\sim$  Gitterweite einer Triangulierung
+		\item Frage: Konvergenz für $h \to 0$
+		\item folgt noch nicht aus bisheriger Theorie
+		\item Man braucht
+			\begin{enumerate}
+				\item Dichtheit von $\bigcup_{h>0}v_h$ in $V$
+				\item Gemeinsame $\inf$-$\sup$-Bedingung, d.h. es gibt $\alpha' > 0$
+					so dass \cref{eq:BNB1h} gilt mit $\alpha' \le \inf_{h>0}\alpha_h$
+			\end{enumerate}
+			Dann folgt Konvergenz.
+	\end{itemize}
+\end{remark}
+
+\end{document}

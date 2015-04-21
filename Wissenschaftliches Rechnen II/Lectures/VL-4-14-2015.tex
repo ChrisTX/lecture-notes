@@ -1,0 +1,186 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+\section{Wohlgestelltheit linearer Variationsprobleme}
+\label{sec:c1e4}
+	
+Wir betrachten das folgende abstrakte Variationsproblem:
+\begin{problem} % Problem P
+\label{prb:P}
+Finde $u \in V$ sodass $a(u, w) = f(w) \quad \forall w \in W$.
+\end{problem}
+
+Wobei $(V,\| \cdot \|_V)$ ein Banachraum, $(W,\| \cdot \|_W)$ ein reflexiver Banachraum, $a\in\mathcal{L}(V\times W;\R)$ eine stetige Bilinearform und $f\in W'$ ein stetiges lineares Funktional auf $W$ sei. $u = u_f$ ist die gesuchte Unbekannte.
+
+Erinnerung:
+\begin{IEEEeqnarray*}{rCl"l}
+	-\lapl u &=& f & \text{in }\Omega \\
+	u &=& 0 & \text{auf }\partial\Omega
+\end{IEEEeqnarray*}
+führte auf das folgende Variationsproblem:
+Finde $u\in H^1_0(\Omega)$, sodass
+\[
+	\int_{\Omega} \nabla u\cdot\nabla v \dx = \int_\Omega f \dx,\quad\forall v\in H^1_0(\Omega)
+\]
+In diesem Fall entspricht die LHS der Bilinearform $a(\cdot,\cdot)$ und die RHS dem stetigen linearen Funktional auf $W = H^1_0(\Omega)$.
+Obiger Fall ist jedoch allgemeiner, da $V\neq W$ gelten kann.
+
+\begin{definition}[Wohlgestelltheit] \label{def:c1e4s1} % \label{problem_1.4.1}
+	\cref{prb:P} ist \emph{wohlgestellt}, falls es genau eine Lösung $u$ besitzt und falls folgende a priori Abschätzung erfüllt ist:
+	\[
+		\exists C>0 \; : \; \| u_f \|_V  \leq C\| f \|_{W'},\quad\forall f\in W'
+	\]
+	Das heißt: Die Lösung $u = u_f$ hängt stetig von der rechten Seite $f$ ab.
+\end{definition}
+
+\begin{theorem}[Charakterisierung der Wohlgestelltheit von \cref{prb:P}\slash{}Banach-Nečas-Babuška-Theorem] \label{thm:c1e4s2} % Thm 1.4.2
+	\crefformat{eqBNB1}{#2(BNB 1)#3}
+	\crefformat{eqBNB2}{#2(BNB 2)#3}
+	{
+	\addtocounter{equation}{-1}
+	\def\theequation{BNB 1}
+	\cref{prb:P} ist wohlgestellt, genau dann wenn
+	\begin{equation} % (BNB 1)
+	\label[eqBNB1]{eq:BNB1}
+		\exists\alpha > 0 \; : \; \inf_{v\in V\setminus\{0\}} \sup_{w\in W\setminus\{0\}} \frac{a(v,w)}{\| v \|_V \| w \|_W} \geq\alpha
+	\end{equation}
+	und
+	\addtocounter{equation}{-2}
+	\def\theequation{BNB 2}
+	\begin{equation} % (BNB 2)
+	\label[eqBNB2]{eq:BNB2}
+		\forall w\in W \; : \; \left(\forall v\in V \; : \; a(v,w) = 0\right)\;\Rightarrow\;w=0
+	\end{equation}
+	beziehungsweise äquivalent zu \cref{eq:BNB1}:
+	\begin{equation} % (BNB 2)
+	\label[eqBNB2]{eq:BNB2b}
+		\forall w\in W \; \exists v\in V \; :\; a(v,w) > 0
+	\end{equation}
+	}
+	Es gilt ferner
+	\[
+		\forall f\in W' \; :\; \| u_f \|_V \leq\alpha^{-1}\| f \|_{W'}
+	\]
+\end{theorem}
+
+\begin{proof}
+	Sei $A\in\mathcal{L}(V;W')$ der Operator, der $a$ zugeordnet ist, d.h.
+	\[
+		\langle Av, w \rangle_{W'\times W} = a(v,w),\quad\forall v\in V, \; \forall w\in W
+	\]
+	(vgl.~\cref{prop:c1e2s5}). Dann entspricht \cref{prb:P} der Operatorgleichung
+	\[
+		\text{Finde }u\in V\text{ sodass } Au = f\text{ in } W'
+	\]
+	Die Wohlgestelltheit von \cref{prb:P} ist äquivalent zur Bijektivität von $A$, und letztere ist in \cref{thm:c1e3s8}, bzw.~\cref{thm:c1e3s9} charakterisiert. Die Reflexivität von $W$ wird zur Rechtfertigung von \cref{eq:BNB2} benötigt. Details: Siehe Übungsaufgabe.
+\end{proof}
+
+\begin{remark} % Bem 1.4.3
+\label{bem:c1e4s3}
+	Unter den Bedingungen \cref{eq:BNB1} und \cref{eq:BNB2} gilt sogar eine umgekehrte \emph{$\inf$-$\sup$-Bedingung}:
+	\[
+		\alpha \coloneqq \inf_{v\in V\setminus\{0\}}\sup_{w\in W\setminus\{0\}}\frac{a(v,w)}{\| v \|_V \| w \|_W} = \inf_{w\in W\setminus\{0\}}\sup_{v\in V\setminus\{0\}}\frac{a(v,w)}{\| v \|_V \| w \|_W}
+	\]
+	wobei 
+	\[
+		\inf_{v\in V\setminus\{0\}}\sup_{w\in W\setminus\{0\}}\frac{a(v,w)}{\| v \|_V \| w \|_W} = \| A^{-1} \| ^{-1}
+	\]
+\end{remark}
+\section{Hilberträume und das Theorem von Lax-Milgram}
+
+\begin{definition}[Hilberträume und Separabilität] % Def 1.5.1
+\label{def:c1e5s1}
+	Ein Vektorraum $V$ mit innerem Produkt (Skalarprodukt) 
+	\[
+		(\cdot,\cdot)_V \; : \; V\times V\to \R
+	\]
+	heißt \emph{Hilbertraum}, falls er vollständig ist bzgl.~der induzierten Norm
+	\[
+		\| \cdot \|_V \coloneqq \sqrt{(\cdot,\cdot)_V}
+	\]
+	d.h.~er ist ein Banachraum mit innerem Produkt.
+
+	Ein Hilbertraum ist \emph{separabel}, falls er eine abzählbare, dichte Teilmenge enthält (das bedeutet, dass ein verallgemeinertes Konzept einer Basis in diesem Raum existiert).
+\end{definition}
+
+\begin{theorem}[Riesz'scher Darstellungssatz] % Thm 1.5.2
+\label{thm:c1e5s2}
+	Sei $V$ ein Hilbertraum. Für jedes Element $v'\in V'$ gibt es genau ein $v\in V$ so dass 
+	\[
+		\forall w\in V \; :\;\langle v', w \rangle_{V'\times V} = \left(v,w\right)_V
+	\]
+	Die Abbildung $V'\ni v'\to v\in V$ ist ein isometrischer Isomorphismus. 
+\end{theorem}
+
+\begin{proof}
+	Siehe \cite[S.~90]{Yosida}.
+\end{proof}
+
+\begin{corollary} % Kor 1.5.3
+\label{thm:c1e5s3}
+	Hilberträume sind reflexiv.
+\end{corollary}
+
+\begin{definition}[Orthogonale Projektion]
+\label{def:c1e5s4}
+	Sei $(V,(\cdot,\cdot)_V)$ ein Hilbertraum \\ und $S\subseteq V$ ein abgeschlossener Unterraum. Die \emph{orthogonale Projektion} $P_{V,S} \; : \; V\to S$ ist definiert durch
+	\[
+		\forall w\in S \; : \; \left(P_{V,S}v,w\right)_V = \left(v,w\right)_V
+	\]
+	Offensichtlich ist $P_{V,S}$ linear, also $P_{V,S}\in\mathcal{L}(V;S)$. Es folgt
+	\[
+		\left(P_{V,S}v-v,w\right)_V = 0
+	\]
+\end{definition}
+
+% BILD: Orthogonale Projektion
+
+\begin{proposition}[Charakterisierung von \unboldmath $P_{V,S}$ als Bestapproximation] % Prop 1.5.5
+\label{prop:c1e5s5}
+	$P_{V,S}$ definiert in \cref{def:c1e5s4} wird äquivalent durch die folgende Eigenschaft charakterisiert:
+	\[
+		\forall v\in V\;:\;\| v-P_{V,S}v \|_V = \min_{w\in S} \| v-w \|_V 
+	\]
+	wobei $\|\cdot\|_V$ die induzierte Norm aus $(\cdot,\cdot)_V$ ist. 
+\end{proposition}
+
+\begin{proof}
+	Übung.
+\end{proof}
+
+Wir betrachten jetzt das abstrakte Variationsproblem
+\begin{problem} % Problem (H)
+\label{prb:H}
+Finde $u \in V$ sodass $a(u, v) = f(v) \quad \forall v \in V$.
+\end{problem}
+wobei $V$ ein Hilbertraum, $a\in\mathcal{L}(V\times V;\mathbb{R})$ und $f\in V'$. $a$ ist nicht notwendigerweise symmetrisch (also kein Skalarprodukt).
+Die Wohlgestelltheit von \cref{prb:H} ist in \cref{thm:c1e4s2} charakterisiert.
+
+Ein wichtiger Spezialfall von \cref{prb:H}: $a$ ist koerziv.
+
+\begin{theorem}[Lax-Milgram]
+\label{thm:c1e5s6}
+	Sei $V$ ein Hilbertraum, $a\in\mathcal{L}(V\times V;\R)$, $f\in V'$. Falls $a$ koerziv ist, d.h.
+	\[
+		\exists\alpha > 0 \; : \; a(v,v)\geq\alpha\|v\|_V^2,\quad\forall v\in V
+	\]
+	dann ist \cref{prb:H} wohlgestellt mit a priori Abschätzung
+	\[
+		\|u\|_V \leq\alpha^{-1}\|f\|_{V'}
+	\]
+\end{theorem}
+%EIgene Bemerkung:
+Da die $\inf$-$\sup$-Bedingung umgeschrieben werden kann zu
+\[
+	\forall v\in V\;\exists w\in W \; :\;a(v,w)\geq\alpha\|v\|_V \| w \|_W
+\]
+ist die Koerzivität eine weitaus strengere Forderung, da diese für alle $v\in V$ und für alle $w\in W$ gelten muss.
+
+\begin{remark}
+	\begin{itemize}
+		\item Die Koerzivität von $a$ ist hinreichend aber (im Allgemeinen) nicht notwendig für die Wohlgestelltheit von \cref{prb:H}
+		\item Falls $a$ symmetrisch ist, dann impliziert $a$ koerziv, dass \cref{prb:H} wohlgestellt ist.
+			Das ist im wesentlichen der Riesz'sche Darstellungssatz (\cref{thm:c1e5s2}) plus die Äquivalenz der Normen $\|\cdot\|_V$ und $\|\cdot\|_a \coloneqq \sqrt{a(\cdot,\cdot)}$.
+	\end{itemize}
+\end{remark}
+\end{document}
