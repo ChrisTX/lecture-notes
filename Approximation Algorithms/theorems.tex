@@ -45,8 +45,6 @@
 \theorembodyfont{\normalfont}
 \newmdtheoremenv[backgroundcolor=algorithmcolor,style=theoremframing]{algorithm}{Algorithm}
 \crefname{algorithm}{Algorithm}{Algorithms}
-\newmdtheoremenv[backgroundcolor=problemcolor,style=theoremframing]{problem}{Problem}
-\crefname{problem}{Problem}{Problems}
 
 \theoremstyle{nonumberplain}
 \theoremheaderfont{\sc}
@@ -55,3 +53,6 @@
 \theoremsymbol{\rule{1ex}{1ex}}
 \newtheorem{proof}{Proof}
 \crefname{proof}{Proof}{Proofs}
+
+% Num Alg specific
+\newenvironment{problem}[1][]{\begin{mdframed}[style=theoremframing,frametitle={#1},frametitlefont={\sc},frametitlebelowskip=0pt]}{\end{mdframed}}
