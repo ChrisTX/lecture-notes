@@ -60,8 +60,15 @@ for all $(u_n) \subset C$ with $u_n \rightharpoonup u$.
 If $C$ is weakly sequentially compact and $f$ is weakly sequentially lower \\ semi-continuous, then \cref{prb:c1e1} has at least one solution.
 \end{theorem}
 \subsection*{Separation of convex sets}
+\begin{remark*}[Sublinear functional]
+	Let $p\in X^*$, so $p:X\to\R$. $p$ is called a \emph{sublinear functional}, if
+	\begin{IEEEeqnarray*}{rCl}
+		p(\xi + \eta) & \leq & p(\xi) + p(\eta),\quad  \forall \xi,\eta\in X\\
+		p(\alpha\xi) &=& \alpha p(\xi), \quad \text{for some }\alpha \geq 0 
+	\end{IEEEeqnarray*}
+\end{remark*}
 \begin{theoremnonumb}[Hahn-Banach-Theorem] % unnumbered
-Let $X$ be a real linear space, $p : X \to \R$ be a sublinear functional ($p(\xi + \eta) \leq p(\xi) + p(\eta)$, $p(\alpha \xi) = \alpha p(\xi), \alpha \geq 0$) is a linear functional on $X_0 \subseteq X$ is a linear subspace. If $\ell_0$ is a linear functional on $X_0$ such that 
+Let $X$ be a real linear space, $p : X \to \R$ be a sublinear functional and $X_0\subseteq X$ a linear subspace. If $\ell_0$ is a linear functional on $X_0$ such that 
 \[
 	\ell(\xi) \leq p(\xi) \quad \forall \xi \in X,
 \]
