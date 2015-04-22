@@ -1,0 +1,128 @@
+\documentclass[a4paper]{amsart}
+
+\usepackage{geometry}
+\usepackage{parskip}
+\usepackage{mathtools}
+\usepackage{enumerate}
+\usepackage{IEEEtrantools}
+
+\newcommand{\Q}{\ensuremath{\mathbb{Q}}}
+\newcommand{\R}{\ensuremath{\mathbb{R}}}
+\newcommand{\N}{\ensuremath{\mathbb{N}}}
+\newcommand{\Z}{\ensuremath{\mathbb{Z}}}
+\newcommand{\C}{\ensuremath{\mathbb{C}}}
+
+\DeclareMathOperator*{\spn}{span}
+
+\begin{document}
+\title{Numerical Simulation - Exercise Sheet 1 solutions}
+\maketitle{}
+\section*{Theoretical Exercise 2}
+\subsection*{a)}
+The Lagrange function is
+\[
+	\mathcal{L}(x, y, \lambda) = 3x^2 + y^2 + \lambda \left(\frac{3}{2} x^2 + y - 2\right)
+\]
+Then solve
+\[
+	\nabla \mathcal{L}(x, y, \lambda) \overset{!}{=} 0.
+\]
+\subsection*{b)}
+The Lagrange multiplier gives the ascent of the tangential:
+\[
+	\nabla t = \lambda \nabla g.
+\]
+\section*{Theoretical Exercise 3}
+\subsection*{a)}
+\begin{itemize}
+\item[($\Rightarrow$)] Let $F$ be sequentially lower semicontinuous and $r \in \R$ such that $x_n \to x$, $(x_n) \subset A_r$, where
+\[
+	A_r \coloneqq \{ y : F(y) \leq r \}.
+\]
+It is to show that $x \in A_r$.
+As $x_n \in A_r$, $F(x_n) \leq r$ and thus $\liminf_{n \to \infty} F(x_n) \leq r$.
+Because $F$ is sequentially lower semicontinuous:
+\[
+	F(x) \leq \liminf_{n \to \infty} F(x_n) \leq r
+\]
+Thus, $x \in A_r$.
+\item[($\Leftarrow$)] Let $x \in M$, $x_n \to x$ in $X$
+Let
+\[
+	r \coloneqq \liminf_{n \to \infty} F(x_n) = \lim_{n \to \infty} \inf_{k \leq n} F(x_n).
+\]
+Furthermore, let
+\[
+	r_m = r + \frac{1}{m}.
+\]
+Consider the subsequence $x_{n_k}$ defining the $\liminf$ on the right hand side, i.e.
+\[
+	\liminf_{k \to \infty} F(x_{n_k}) = \liminf_{n \to \infty} F(x_n) = r.
+\]
+Thus,
+\[
+	\exists N \in \N \, : \, \forall k \geq N \, : \, x_{n_k} \in A_{r_m}.
+\]
+By considering a further subsequence and because $A_{r_m}$ is closed, we obtain $x \in A_{r_m}$.
+As $n$ is arbitrary, $n \to \infty$ implies $x \in A_r$.
+\end{itemize}
+\subsection*{b)}
+To show: $\{ F + G > r \}$ is open. Consider
+\[
+	\{ F + G > r \} \overset{!}{=} \bigcup_{s + t = r} (\{ F > s\} \cap \{ G > t\})
+\]
+Obviously, ``$\subseteq$'' holds. To verify ``$\supseteq$'':
+\[
+	y \in M \, : \, F(y) > s, \quad x \in M \, : \, G(x) > t.
+\]
+Then
+\[
+	\exists z \in M \, : \, F(z) + G(z) > r.
+\]
+
+Furthermore:
+\[
+	\{ \sup_{\alpha \in I} F_\alpha > r \} = \bigcup_{\alpha \in I} \{ F_\alpha > r \}.
+\]
+\emph{Lemma:} For $F$ lower semicontinuous, $\varphi : [\alpha, \beta] \to \bar{\R}$ continuous, monotonously increasing, it holds that
+\[
+	g \coloneqq \varphi \circ f
+\]
+is lower semicontinuous. \\
+\emph{Proof:} $\{ \varphi \leq \lambda \}$ is of the form $[\alpha, \mu]$. Moreover, $\{ \alpha \leq f \leq \mu \}$ is closed, since it is agreeing with $\{ f \leq \mu \}$.
+This is $\{ g \leq \lambda \}$.
+
+Let $f, g \geq 0$, w.l.o.g.~$f, g > 0$.
+Then, $\log f, \log g$ lower semicontinuous implies $\log fg = \log f + \log g$ is lower semicontinuous.
+Hence, $fg = \exp(\log(fg))$ is lower semicontinuous.
+
+For the multiplication:
+To show: $\{ F \cdot G > r \}$ is open. Consider
+\[
+	\{ F \cdot G > r \} = \bigcup_{\substack{s \cdot t = r \\ s, t \geq 0} } (\{ F > s\} \cap \{ G > t\}) \cup (\{ F = s\} \cap \{ G > t\}) \cup (\{ F > s\} \cap \{ G = t\}).
+\]
+\section*{Theoretical Exercise 4}
+Let
+\[
+	z = x - y
+\]
+and
+\[
+	M = \spn \{ z \}.
+\]
+Define a functional $\hat{\ell}$ on $M$:
+\[
+	\hat{\ell}(m) = \lambda \| z \|,
+\]
+where $m = \lambda z$.
+Now,
+\[
+	\hat{\ell}(m) = \lambda \| z \| \leq |\lambda| \| z \| = \| m \|.
+\]
+Due to Hahn-Banach, there exists $\tilde{\ell} \in X^*$ such that $\tilde{\ell}|_M = \hat{\ell}$.
+Then,
+\[
+	0 = \tilde{\ell}(x) - \tilde{\ell}(y) = \tilde{\ell}\underbrace{(x - y)}_{\in M} = \| x - y \|.
+\]
+Thus, $x = y$.
+\end{document}
