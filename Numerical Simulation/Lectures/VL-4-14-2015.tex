@@ -152,13 +152,13 @@ so $\ell$ is continuous.
 Let $A$ be a closed convex subset of a normed space $X$ and let $\xi \notin A$. Then there exists a continuous linear functional that strictly separates $A$ and $\{ \xi \}$.
 \end{theorem}
 \begin{proof}
-Since $X \setminus A$ is open, there exists an open ball $B$ around $\xi$ such that $A \cap B \neq \emptyset$. Since $B^\circ \neq \emptyset$, we can apply \cref{thm:c1e7} to obtain $\ell \in X^*$ such that
+Since $X \setminus A$ is open, there exists an open ball $B$ around $\xi$ \ac{st} $A \cap B \neq \emptyset$. Since $B^\circ \neq \emptyset$, we can apply \cref{thm:c1e7} to obtain $\ell \in X^*$ \ac{st}
 \[
 	\ell(a) \leq \ell(\xi) + \ell(b - \xi) \quad \forall b \in B, a \in A.
 \]
-Since $\ell$ is continuous, there exists $\delta > 0$ such that
+Since $\ell$ is continuous, and $\ell \neq 0$, there exists $\delta > 0$ \ac{st}
 \[
-	\ell(b - \xi) > - \delta \quad \forall b \in B.
+	-\delta = \inf_{b \in B} \ell(b - \xi) < 0.
 \]
 This shows
 \[
