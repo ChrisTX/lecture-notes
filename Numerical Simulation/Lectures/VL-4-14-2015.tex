@@ -80,12 +80,16 @@ then there exists a linear function $\ell$ on $X$ (``\emph{extension}'') such th
 \begin{definitionnonumb}[Minkowski functional] % unnumbered
 Let $A$ be a convex subset of a \emph{normed} $X$, such that $0 \in \Int A = A^\circ$. Then
 \[
+	p_A:X\to \R_0^+
+\]
+with 
+\[
 	p_A(\xi) = \inf \left\{ r \geq 0 : \frac{\xi}{r} \in A \right\}
 \]
 is sublinear functional and is called \emph{Minkowski functional}.
 \end{definitionnonumb}
 \begin{remark*}
-	Minkowski functionals can be seen as a generalization to the norm.
+	The Minkowski functional can be seen as a generalization to the norm on the space. In general, it can be built for each \emph{absorbing subset} $A$ of $X$ (that is: $\forall x\in X\exists r\geq 0:\,\alpha x\in A,\,\forall\|\alpha\|\leq r$).
 \end{remark*}
 \begin{definition} % Definition 1.6
 \label{def:c1e6}
