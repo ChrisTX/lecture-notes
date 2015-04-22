@@ -99,7 +99,7 @@ Die induzierte Norm ist
 Sei $u \in H^1(\Omega)$. Definiere die Spur $\gamma_0 u : \partial \Omega \to \R$ durch
 \[
 (\gamma_0 u)(x) \coloneqq \begin{cases}
-\lim_{r \to 0} \frac{1}{B_r(x) \cap \Omega} \int_{B_r(x) \cap} u(y) \dy, & \text{falls der Grenzwert existiert} \\
+\lim_{r \to 0} \frac{1}{\meas{B_r(x) \cap \Omega}} \int_{B_r(x) \cap \Omega} u(y) \dy, & \text{falls der Grenzwert existiert} \\
 0, & \text{sonst}.
 \end{cases}
 \]
@@ -142,7 +142,7 @@ Die Friedrischs'sche Ungleichung zeigt, dass die $H^1$-Seminorm $|v|_{H^1} \colo
 \begin{definition}[schwache Lösung] % Def 2.2.5
 Eine Funktion $u \in H_D^1(\Omega)$ heißt schwache Lösung von \labelcref{eq:c2e1s1} mit gemischten Randbedingungen \labelcref{eq:c2e1s3}, falls gilt
 \[
-	\forall v \in H_D^1(\Omega) \; : \; \underbrace{ \int_\Omega (A \nabla u) \cdot \nabla v + (\beta \cdot \nabla u) + cuv \dx }_{a(u, v)} = \underbrace{ \int_\Omega fv \dx + \int_{\Gamma_N} gv \ds }_{F(v)}.
+	\forall v \in H_D^1(\Omega) \; : \; \underbrace{ \int_\Omega (A \nabla u) \cdot \nabla v + (\beta \cdot \nabla u) v + cuv \dx }_{a(u, v)} = \underbrace{ \int_\Omega fv \dx + \int_{\Gamma_N} gv \ds }_{F(v)}.
 \]
 \end{definition}
 \end{document}
