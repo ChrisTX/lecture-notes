@@ -84,22 +84,23 @@ minimize $\| y - y_d \|$ \ac{st} $y \in M$.
 \end{mdframed}
 $\hat{y}_d$ is called \emph{best approximation}.
 \end{examplenumb}
-\subsection{Fr\'echet differentiability}
+\pagebreak
+\subsection{Fréchet differentiability}
 \begin{definition} % Def 1.20
 \label{def:c1e20}
-Let $U$ and $V$ be Banach spaces. A function $f : U \to V$ is called \emph{Fr\'echet-differentiable} if there exists a bounded linear operator $f'(u) : U \to V$ \ac{st}
+Let $U$ and $V$ be Banach spaces. A function $f : U \to V$ is called \emph{Fréchet-differentiable} if there exists a bounded linear operator $f'(u) : U \to V$ \ac{st}
 \[
-	f(u +h) = f(u) + f'(u) h + \underbrace{ o(\| h \|) }_{\lim_{h \to 0} \frac{o (\| h \|)}{\| h \|} = 0}.
+	f(u +h) = f(u) + f'(u) h + \underbrace{ \smallo(\| h \|) }_{\lim_{h \to 0} \frac{o (\| h \|)}{\| h \|} = 0}.
 \]
-$f'(u)$ is called \emph{Fr\'echet derivative at $u$}.
-If $f$ is Fr\'echet differentiable at every $u$, then $f$ is called \emph{Fr\'echet-differentiable}, and the map
+$f'(u)$ is called \emph{Fréchet derivative at $u$}.
+If $f$ is Fréchet differentiable at every $u$, then $f$ is called \emph{Fréchet-differentiable}, and the map
 \[
 	f' : U \to \mathcal{L}(U, V) \; : \; u \mapsto f'(u)
 \]
 is the derivative.
 If this map is continuous (\ac{wrt} to the operator norm in $\mathcal{L}(U, V)$), then $f$ is called \emph{continuously differentiable} or a \emph{$C^1$ function}.
 \end{definition}
-\underline{Recall:} $f$ is Fr\'echet differentiable implies $f$ is continuous.
+\underline{Recall:} $f$ is Fréchet differentiable implies $f$ is continuous.
 In case $V = \R$, the derivatives $f'(u)$ are elements of $U^*$. In case of a Hilbert space, $U = U^*$.
 \begin{definition} % Def 1.21
 \label{def:c1e21}
@@ -112,13 +113,13 @@ The identification of $f'(u)$ as an element of $U$ is called the \emph{gradient 
 \begin{examplenumb} % Example 1.21
 \label{ex:c1e21}
 \begin{enumerate}[(i)]
-\item Let $A : U \to V$ be bounded and linear. Then $A$ is Fr\'echet-differentiable, and $A'(u) = A \quad \forall u \in U$.
+\item Let $A : U \to V$ be bounded and linear. Then $A$ is Fréchet-differentiable, and $A'(u) = A \quad \forall u \in U$.
 \item \underline{Quadratic function on a Hilbert space:} \\
 Let $U$ be a Hilbert space, $A \in \mathcal{L}(U, U)$ self-adjoint and $b \in U$. Then,
 \[
 	f(u) = \frac{1}{2} \langle u, A u \rangle - \langle b, u \rangle + f(0)
 \]
-is Fr\'echet-differentiable, and
+is Fréchet-differentiable, and
 \[
 	\nabla f(u) = Au - b.
 \]
@@ -136,7 +137,7 @@ Thus, $f'(u)h = \cos (u(1)) h(1)$.
 \[
 	\nabla_{u_1} f(\bar{u}_1, \bar{u}_2) = \frac{\partial f}{\partial u_1}(\bar{u}_1, \bar{u}_2)
 \]
-is the Fr\'echet-derivative of
+is the Fréchet-derivative of
 \[
 	h_1 \mapsto f(\bar{u}_1 + h, \bar{u}_2)
 \]
@@ -144,7 +145,7 @@ in zero. Similar for $u_2$.
 \end{itemize}
 \begin{proposition} % Prop 1.22
 \label{prop:c1e22}
-If $f : U_1 \times U_2 \to V$ is Fr\'echet-differentiable, then
+If $f : U_1 \times U_2 \to V$ is Fréchet-differentiable, then
 \[
 	f'(\bar{u}_1, \bar{u}_2)[u_1, u_2] = f_{u_1} (\bar{u}_1, \bar{u}_2)[h_1] + f_{u_2} (\bar{u}_1, \bar{u}_2)[h_2]
 \]
@@ -153,9 +154,8 @@ In this case $f'(\bar{u}_1, \bar{u}_2) = 0$ \ac{iff} $f_{u_1}(\bar{u}_1, \bar{u}
 \subsection{First-order necessity conditions}
 \begin{theorem} % Thm 1.23
 \label{thm:c1e23}
-Let $U$ be a real Banach space, $C \subseteq U$ and $f : \mathcal{U} \to \R$ be Fr\'echet-differentiable on an open set $\mathcal{U}$ which contains $C$. If $\bar{u} \in \Int C$ solves
+Let $U$ be a real Banach space, $C \subseteq U$ and $f : \mathcal{U} \to \R$ be Fréchet-differentiable on an open set $\mathcal{U}$ which contains $C$. If $\bar{u} \in \Int C$ solves
 \begin{mdframed}[style=theoremframing]
-\addtocounter{equation}{-1}
 \begin{equation}
 \label{eq:thmc1e23-star}
 \begin{IEEEeqnarraybox}{u"c}
@@ -180,12 +180,12 @@ It is enough that $f$ is \emph{Gateaux-differentiable}.
 \begin{proof}
 If $\bar{u}$ solves \labelcref{eq:thmc1e23-star}, then
 \[
-f(\bar{u}) \leq f(\bar{u} + u - \bar{u}) = f(\bar{u}) + f'(\bar{u}[u - \bar{u}]) + o(\| u - \bar{u} \|)
+f(\bar{u}) \leq f(\bar{u} + u - \bar{u}) = f(\bar{u}) + f'(\bar{u}[u - \bar{u}]) + \smallo(\| u - \bar{u} \|)
 \]
 Then,
 \begin{IEEEeqnarray*}{rCl}
 f'(\bar{u})\left[ \frac{u - \bar{u}}{ \| u - \bar{u} \|} \right] &=& \lim_{t \to 0^+} f'(\bar{u}) \left[ \frac{t (u - \bar{u})}{t \| u - \bar{u} \|} \right] \\
-&\geq& \lim_{t \to 0^+} \frac{o( t \| u - \bar{u} \| )}{t \| u - \bar{u} \| } = 0
+&\geq& \lim_{t \to 0^+} \frac{\smallo( t \| u - \bar{u} \| )}{t \| u - \bar{u} \| } = 0
 \end{IEEEeqnarray*}
 Thus,
 \[
@@ -199,7 +199,6 @@ which holds for convex $f$.
 \end{proof}
 \underline{Case of interest:}
 \begin{mdframed}[style=theoremframing]
-\addtocounter{equation}{-1}
 \begin{equation}
 \label{eq:c1starstar}
 \begin{IEEEeqnarraybox}{u"c}
