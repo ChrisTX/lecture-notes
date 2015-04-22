@@ -1,0 +1,225 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+\begin{problem}[Clique]
+\begin{tabular}{ll}
+\textit{Input:} & A graph $G = (V, E)$, $k \in \N$. \\
+\textit{Question:} & Is there an $S \subseteq V(G)$, $|S| = k$ \ac{st} \\
+& for all $x \neq y \in S \;  : \; \{ x, y \} \in E(G)$?
+\end{tabular}
+\end{problem}
+\begin{theorem} % Thm 10
+\label{thm:10}
+\textsc{Clique} is \NP-complete.
+\end{theorem}
+\begin{proof}
+\textsc{Clique} is obviously in \NP. $S \subseteq V(G)$ is a clique in $G$ \ac{iff} $S$ is a stable set in $\bar{G}$.
+\end{proof}
+\begin{problem}[Set Cover]
+\begin{tabular}{ll}
+\textit{Input:} & A family $S_1, \ldots, S_m$ of subsets of a finite set $S$, $k \in \N$. \\
+\textit{Question:} & Is there a family $S_{i_1}, \ldots, S_{i_k}$, \ac{st} $\bigcup_{l=1}^k S_{i_l} = S$?
+\end{tabular}
+\end{problem}
+\begin{theorem} % Thm 11
+\label{thm:11}
+\textsc{Set Cover} is \NP-complete.
+\end{theorem}
+\begin{proof}
+\textsc{Set Cover} is obviously in \NP.
+Reduce \textsc{Vertex Cover} to \textsc{Set Cover}.
+Let $G = (V, E)$ and $k \in \N$ be an instance of \textsc{Vertex Cover}. Construct an instance of \textsc{Set Cover} as follows:
+\begin{IEEEeqnarray*}{rCl}
+	S &\coloneqq& E, \\
+	S_{x} &\coloneqq& \left\{ e \in E \mid e \text{ is incident to } x \right\} \quad \text{for all } x \in V(G).
+\end{IEEEeqnarray*}
+There exists a \textsc{Vertex Cover} \ac{iff} there exists a \textsc{Set Cover} for this instance.
+\end{proof}
+\begin{problem}[Integer Linear Inequalities]
+\begin{tabular}{ll}
+\textit{Input:} & A matrix $A \in \Z^{m \times n}$, $b \in \Z^m$. \\
+\textit{Question:} & Is there a vector $x \in \Z^n$ \ac{st} $Ax \leq b$?
+\end{tabular}
+\end{problem}
+\begin{theorem} % Thm 12
+\label{thm:12}
+\textsc{Integer Linear Inequalities} is \NP-complete.
+\end{theorem}
+\begin{proof}
+The problem is in \NP: We know (from linear optimization) there always exists a solution $x$ with polynomially bounded size, if any solution exists.
+
+Reduce \textsc{3Sat} to \textsc{Integer Linear Inequalities}: Let $F = C_1 \wedge \ldots \wedge C_q$ be a \textsc{3Sat} formula in $x_1, \ldots, x_n$.
+Use $2n$ variables $x_1, \overline{x_1}, \ldots, x_n, \overline{x_n}$ and the system
+\begin{IEEEeqnarray*}{rCl}
+- x_i - \overline{x_i} &\leq& -1 \\
+x_i + \overline{x_i} &\leq& 1 \\
+-x_i &\leq& 0 \\
+-\overline{x_i} &\leq& 0
+\end{IEEEeqnarray*}
+This system forces either $x_i = 0, \overline{x_i} = 1$ or $x_i = 1, \overline{x_i} = 0$.
+For each clause $\alpha_1 \vee \alpha_2 \vee \alpha_3$ with literals $\alpha_i$ add an inequality
+\[
+	-\alpha_1 -\alpha_2 - \alpha_3 \leq - 1.
+\]
+Thus, each clause contains at least one \textit{true} literal. Here we identify \textit{true} with 1 and \textit{false} with 0.
+\end{proof}
+\begin{problem}[3-Dimensional Matching Problem (3-DM)]
+\begin{tabular}{ll}
+\textit{Input:} & Disjoint sets $X, Y, Z$, each of size $n$ and $T \subseteq X \times Y \times Z$. \\
+\textit{Question:} & Is there an $M \subseteq T$, $|M|= n$ \ac{st} \\
+&for all $a \in X \cup Y \cup Z$ there exists exactly one $m \in M$ containing $a$?
+\end{tabular}
+\end{problem}
+This problem generalizes bipartite perfect matching and is a special case of \textsc{Set Cover}.
+\begin{theorem} % Thm 13
+\label{thm:13}
+\textsc{3-Dimensional Matching} is \NP-complete.
+\end{theorem}
+\begin{proof}
+This problem is obviously in \NP.
+Reduce \textsc{3Sat} to \textsc{3DM}. Let $F = C_1 \wedge \ldots \wedge C_k$ be a \textsc{3Sat} formula in variables $x_1, \ldots, x_n$.
+First construct variable gadgets:
+For each variable $x$, we use $4k$ vertices $a_1^x, \ldots, a_{2k}^x$, $b_1^x, \ldots, b_{2k}^x$.
+Define
+\[
+	(a_i^x, a_{i+1}^x, b_i^x) \quad (i \approx \operatorname{mod} 2k) % \mod includes space, unwanted here
+\]
+A triple $(a_i^x, a_{i+1}^x, b_i^x)$ is \emph{even} \ac{iff} $i$ is even else \emph{odd}. We call $b_i^x$ the \emph{tip} of a triple.
+Even triples correspond to setting $x$ to \textit{false}, which in turn corresponds to odd tips are not covered. Analogously, odd triples correspond to $x$ being \textit{true} and leaving the even tips uncovered.
+For a clause $C_i$, we add vertices $c_i$ and $c_i'$ and add triples to connect them:
+\begin{IEEEeqnarray*}{l"l}
+	(c_i, c_i', b_{2i}^x) & \text{if } C_i \text{ contains the literal } x, \\
+	(c_i, c_i', b_{2i-1}^x) & \text{if } C_i \text{ contains the literal } \bar{x}.
+\end{IEEEeqnarray*}
+Add \emph{cleanup} triples $(q_i, q_i', b_j^x)$ for $i = 1, \ldots, (n-1)k$, $j = 1, \ldots, 2k$.
+This gives us $2nk$ tips:
+\begin{itemize}
+\item $nk$ are covered by variables,
+\item $k$ are covered by clauses,
+\item $(n-1)k$ are covered by cleanup triples.
+\end{itemize}
+
+$F$ is satisfiable: Choose triples for the variables corresponding to a truth assignment. Choose exactly one literal from each clause that makes it \textit{true}. Select the corresponding triple for the clause, add cleanup triples. \\
+Suppose a \textsc{3DM} exists. Then all even or odd triples must be selected for a variable $x$. Set $x$ to \textit{true}\slash{}\textit{false}.
+
+We have to verify that we defined an instance of \textsc{3DM}:
+\begin{IEEEeqnarray*}{rCl}
+	X &\coloneqq& \left\{ a_{2i}^x \mid x \in \{ x_1, \ldots, x_n \}, \; i = 1, \ldots, k \right\} \cup \left\{ c_i \mid i = 1, \ldots, k \right\} \\
+	&& \cup \left\{ q_i \mid i = 1, \ldots, (n-1)k \right\}. \\
+	Y &\coloneqq& \ldots a_{2i - 1} \ldots c_i' \ldots q_i' \\
+	Z &\coloneqq& \left\{ b_i^x \mid x \in \{ x_1, \ldots, x_n \}, i = 1, \ldots, 2k \right\}.
+\end{IEEEeqnarray*}
+Furthermore: $|X| = n \cdot k + k (n - 1) \cdot k = 2nk = |Y| = |Z|$.
+\end{proof}
+\begin{problem}[Subset Sum]
+\begin{tabular}{ll}
+\textit{Input:} & $a_1, \ldots, a_n \in \N$, $K \in \N$. \\
+\textit{Question:} & Is there an $S \subseteq \{ 1, \ldots, n \}$, \ac{st} $\sum_{i \in S} a_i = K$?
+\end{tabular}
+\end{problem}
+\begin{theorem} % Thm 14
+\label{thm:14}
+\textsc{Subset Sum} is \NP-complete.
+\end{theorem}
+\begin{proof}
+\textsc{Subset Sum} is obviously in \NP.
+Reduce \textsc{3DM} to \textsc{Subset Sum}: Let $X \times Y \times Z$, $|X| = |Y| = |Z| = n$.
+Let $T \subseteq X \times Y \times Z$ be an instance of \textsc{3DM}, $|T| = m$,
+\[
+	t = \begin{pmatrix}
+	X & Y & Z \\
+	\underbrace{(0 \ldots 1 \ldots 0)}_{n} & \underbrace{(0 \ldots 1 \ldots 0)}_{n} & \underbrace{(0 \ldots 1 \ldots 0)}_{n}
+	\end{pmatrix}
+\]
+Each $t \in T$ can be viewed as a 0-1-vector of length $3n$.
+View it as a number with base $(m + 1)$.
+Let $K$ be the number corresponding to the all-1-vector. Define $a_t$ as the number defined as above corresponding to $t$.
+By \textsc{3DM} we obtain a solution to \textsc{Subset Sum}.
+On the other hand, a solution to \textsc{Subset Sum} yields a solution to \textsc{3DM} (because no \textit{true} numbers can have a 1 at the same position as we have at most $m$ numbers and base $m + 1$).
+\end{proof}
+\begin{problem}[Partition]
+\begin{tabular}{ll}
+\textit{Input:} & $a_1, \ldots, a_n \in \N$. \\
+\textit{Question:} & Is there an $S \subseteq \{ 1, \ldots, n \}$, \ac{st} $\sum_{i \in S} a_i = \sum_{i \notin S} a_i$?
+\end{tabular}
+\end{problem}
+\begin{theorem} % Thm 15
+\label{thm:15}
+\textsc{Partition} is \NP-complete.
+\end{theorem}
+\begin{proof}
+It is obviously in \NP.
+Reduce \textsc{Subset Sum} to \textsc{Partition}. Let $a_1, \ldots, a_n \in \N$, $K \in \N$.
+If
+\[
+	K = \frac{1}{2} \sum_{i = 1}^n a_i
+\]
+we're done.
+Otherwise assume (we can consider $\bar{S}$ otherwise)
+\[
+	K \geq \frac{1}{2} \sum_{i = 1}^n a_i.
+\]
+Add an element $a_{n+1}$ to this instance, \ac{st}
+\[
+	K = \frac{1}{2} \sum_{i = 1}^{n+1} a_i
+\]
+Now we have for $S \subseteq \{ 1, \ldots, n \}$:
+\[
+	\sum_{i \in S} a_i = K \; \Leftrightarrow \; \sum_{i \in S} a_i = \sum_{i \in \{ 1, \ldots, n + 1 \} \setminus S} a_i.
+\]
+\end{proof}
+\begin{problem}[Component Grouping]
+\begin{tabular}{ll}
+\textit{Input:} & Graph $G$, $K \in \N$. \\
+\textit{Question:} & Is there a set of connected components in $G$ that \\
+& contains exactly $K$ vertices?
+\end{tabular}
+\end{problem}
+Reducing an instance $a_1, \ldots, a_k \in \N$ of \textsc{Subset Sum} to it by adding paths $P_i$ \ac{st} $P_i$ contains $a_i$ vertices yields a reduction, but not one of polynomial size.
+\begin{theorem} % Thm 16
+\label{thm:16}
+Component Grouping is in $P$.
+\end{theorem}
+\begin{proof}
+Define
+\[
+	f(i, k) \coloneqq \max_{\substack{S \subseteq \{1, \ldots, i\} \\ \sum_{j \in S} a_j \leq k}} \sum_{j \in S} a_j.
+\]
+$f(n, K)$ is a solution to our problem.
+\begin{IEEEeqnarray*}{rCl}
+f(0, k) &\coloneqq& 0 \\
+f(i, k) &\coloneqq& \begin{cases}
+\max \{ f(i-1, k), a_i + f(i-1, k - a_i) \} & \text{if } a_i < k \\
+f(i - 1, k) & \text{otherwise}.
+\end{cases}
+\end{IEEEeqnarray*}
+Thus we get an $\mathcal{O}(n^2)$ algorithm.
+\end{proof}
+\begin{problem}[$k$-Colorability]
+\begin{tabular}{ll}
+\textit{Input:} & Graph $G$, $k \in \N$. \\
+\textit{Question:} & Is there a function $f : V(G) \to \{ 1, \ldots, k \}$ \ac{st} \\
+& $f(x) \neq f(y)$ if $\{ x, y \} \in E(G)$?
+\end{tabular}
+\end{problem}
+\textit{We know:} \textsc{2-Colorability} is in $P$.
+\begin{theorem} % Thm 17
+\label{thm:17}
+\textsc{3-Colorability} is \NP-complete.
+\end{theorem}
+\begin{proof}
+It is obviously in \NP.
+Reduction from \textsc{3Sat}.
+
+Use three colors: Identify red with \textit{false}, green with \textit{true} and black with \textit{illegal}. For two vertices, $x \vee y$, create a gadget out of a 3-clique and connect two additional vertices $x$ and $y$ to it. The other vertex is called $z$. Then $z$ has to be \textit{false} \ac{iff} $x$ and $y$ are false.
+ By chaining this gadget, we can model $x \vee y \vee w$.
+
+ Take such a gadget for each clause. Inputs $x, y, w$ are literals. Identify all literals that are the same. Connect $x$ and $\bar{x}$. Furthermore, add another 3-clique and connect the black node to all vertices in order to prevent them to be colored black.
+\end{proof}
+\begin{theorem} % Thm 18
+\textsc{$k$-Colorability} is \NP-complete for $k \geq 3$.
+\end{theorem}
+\begin{proof}
+$k > 3$: Add a clique of size $k - 3$ connect it to the graph.
+\end{proof}
+\end{document}

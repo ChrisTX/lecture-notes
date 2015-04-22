@@ -21,14 +21,14 @@ $k$-\textsc{Sat} is \NP-complete for $k \geq 3$.
 \end{theorem}
 \begin{proof}
 $k$-\textsc{Sat} $\in \NP$ is clear.
-It suffices to show that $3\textsc{Sat}$ is \NP-complete. Reduce \textsc{Sat} to 3\textsc{Sat}.
+It suffices to show that $\textsc{3Sat}$ is \NP-complete. Reduce \textsc{Sat} to \textsc{3Sat}.
 Let $F$ be an instance of $\textsc{Sat}$, $F = C_1 \wedge \ldots \wedge C_k$.
 Choose a clause $C_i = a_1 \vee \ldots \vee a_l$ with $l \geq 4$.
 Consider that
 \[
 (a_1 \vee \ldots \vee a_l) \; \Leftrightarrow \; (a_1 \vee a_2 \vee x) \wedge (a_3 \vee a_4 \ldots \vee a_l \vee \bar{x})
 \]
-By iterating this for every clause, we obtain a 3\textsc{Sat} instance equivalent to the original instance.
+By iterating this for every clause, we obtain a \textsc{3Sat} instance equivalent to the original instance.
 \end{proof}
 \begin{theorem} % Thm 5
 \label{thm:5}
@@ -55,7 +55,7 @@ For a clause $(a \vee b)$ insert edges $(\bar{a}, b)$ and $(\bar{b}, a)$.
 \end{theorem}
 \begin{proof}
 The problem is obviously in \NP.
-Reduce to 3\textsc{Sat} to \textsc{Directed Hamiltonian Cycle}. Let $F = C_1 \wedge \ldots \wedge C_k$ with variables $x_1, \ldots, x_n$.
+Reduce to \textsc{3Sat} to \textsc{Directed Hamiltonian Cycle}. Let $F = C_1 \wedge \ldots \wedge C_k$ with variables $x_1, \ldots, x_n$.
 For each variable, introduce a path of length $3 \cdot k + 2$ directed in both directions.
 Add a vertex for each clause. Add vertices $s, t$ and connect
 \begin{itemize}
@@ -122,11 +122,12 @@ Now $G$ has a \textsc{Directed Hamiltonian Cycle} \ac{iff} $G'$ has a \textsc{Ha
 \end{theorem}
 \begin{proof}
 \textsc{Vertex Cover} being in \NP{} is obvious.
-Reduce 3\textsc{Sat} to \textsc{Vertex Cover}.
+Reduce \textsc{3Sat} to \textsc{Vertex Cover}.
 Let $F = C_1 \wedge \ldots \wedge C_k$. Construct a graph $G = (V, E)$
 \Ac{wlog} each clause contains exactly 3 literals.
 For each clause $C_i$ construct a clique with vertices corresponding to its 3 literals.
 Add an edge between each $x$, $\bar{x}$.
+
 \underline{Claim:} $F$ has a truth assignment \ac{iff} $G$ contains a \textsc{Vertex Cover} with $\leq 2k$ vertices.
 \begin{itemize}
 \item[$(\Rightarrow)$] Choose one true literal in each clause. Set $S$ as the set of all other vertices.
