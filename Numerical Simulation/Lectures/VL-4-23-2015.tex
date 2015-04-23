@@ -1,0 +1,220 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+\subsection{Lagrange multiplier rule}
+\begin{problem} % (*)
+\label{prob:c1e3-star}
+minimize $f(u)$ subject to $g(u) = 0$,
+where $f : U \to \R$, $g : U \to V$.
+\end{problem}
+Then
+\[
+	\mathcal{L}(u, \lambda_0, \lambda_1^*) = \lambda_0 f(u) + \lambda_1^* (g(u))
+\]
+is the Lagrange function and $\lambda_0 \in \R, \lambda_1^* \in V*$ are the ``\emph{Lagrange multipliers}''.
+\begin{theorem}[Lagrange multiplier rule] % Theorem 1.32 
+\label{thm:c1e32}
+Let $u_0$ be a local minimum of \cref{prob:c1e3-star} such that
+\begin{enumerate}[(i)]
+\item $f$ and $g$ are Fréchet-differentiable in a neighborhood of $u_0$,
+\item $\mathcal{R}(g'(u_0))$ is closed.
+\end{enumerate}
+Then there exists $\lambda_0 \in \R$ and $\lambda_1^* \in V^*$ which do not vanish simultaneously \ac{st}
+\[
+\mathcal{L}_u(u_0, \lambda_0, \lambda_1^*) = \lambda_0 f'(u) + g'(u_0)^* \lambda_1^* = 0 \in U^*,
+\]
+($g'(u_0)^* \, : \, V^* \to U^*$ is the adjoint operator) that is
+\[
+\lambda_0 f'(u) h + \lambda_1^* (g'(u_0)h) = 0 \quad h \in U.
+\]
+If $g$ is in $C^1$ and $u_0$ is a regular point of $g$, then $\lambda_0 \neq 0$, so that \ac{wlog} $\lambda_0 = 1$.
+\end{theorem}
+\begin{proof}
+We first consider the case that $u_0$ is a regular point, then $\mathcal{R}(g'(n_0)) = V$. In this case it holds with $M = \{ u \in U \, : \, g(u) = 0\}$ that $T_{u_0} M = \mathcal{N}(g'(n_0))$ by \cref{thm:c1e31}. Let $h \in \mathcal{N}(g'(u_0))$. Since $T_{u_0} M$ is a linear space, there exists an admissible curve $\gamma : (- \varepsilon, \varepsilon) \to M$ \ac{st} $\dot\gamma(0) = h$. Then the function $t \mapsto f(\gamma(t))$ takes a local minimal at $t=0$. By the chain rule,
+\[
+	f(u_0) \dot\gamma(0) = f'(u_0) h = 0.
+\]
+Since this holds for every $h \in \mathcal{N}(g'(u_0))$, this means that
+\[
+	f'(u_0) \in (\mathcal{N}(g'(u_0)))^\perp,
+\]
+(with $(\cdot)^\perp$ denoting the annihilator). By the closed range theorem,
+\[
+	(\mathcal{N}(g'(u_0)))^\perp = \mathcal{R}((g'(u_0))^*).
+\]
+In summary,
+\[
+	f'(u_0) = -g'(u_0)^* \lambda_1^*
+\]
+for some $\lambda_1 \in V^*$.
+Assume now $\mathcal{R}(g'(u_0)) \neq V$, then there exists $\lambda_1^* \in V^*$, $\lambda_1^* \neq 0$, \ac{st}
+\[
+	\lambda_1^*(V) = 0 \quad \forall v \in \mathcal{R}(g'(u_0))
+\]
+(by Hahn-Banach), that is
+\[
+	\lambda_1^*(g'(u_0)h) = 0 \quad \forall h \in U.
+\]
+Setting $\lambda_0 = 0$, the Lagrange multiplier rule holds.
+\end{proof}
+\begin{example} % Ex 1.33
+Consider
+\label{ex:c1e33}
+\begin{problemnonumb}
+minimize $f(u)$ \ac{st} $g_1(u) = 0, \ldots, g_n(u) = 0$, $g_i : U \to \R$.
+\end{problemnonumb}
+\emph{Lagrange function:}
+\[
+	\mathcal{L}(u, \lambda_0, \lambda_1, \ldots, \lambda_n) = \lambda_0 f(u) + \sum_{i=1}^n \lambda_i g_i(u).
+\]
+\emph{Necessary condition:}
+If $u_0$ is a local minimum, and all $f$ and $g_i$ are locally $C^1$, then there exists $\lambda_0, \lambda_1, \ldots, \lambda_n \in \R$ which do not vanish simultaneously \ac{st}
+\[
+	\mathcal{L}_u(u_0, \lambda_0, \lambda_1, \lambda_n) = \lambda_0 f'(u) + \sum_{i=1}^n \lambda_i g_i'(u) = 0.
+\]
+If the $g'(u_0)$ are linearly independent, then $\lambda_0 \neq 0$ (and we choose it to be equal to 1).
+\end{example}
+\section{General Lagrange multipliers} % 1.4
+\label{sec:c1e4}
+\underline{Idea:} Let $f : C \to \R$ have a minimum at $u_0 \in \partial C$. Let $K_0$ be the cone of directions in which $f$ is (locally) decreasing and $K_1$ be the cone of directions that point from $u_0$ into $C$. Then we need
+\[
+	K_0 \cap K_1 = \{ 0 \} \text{ or } = \emptyset.
+\]
+Hence, we need conditions under which cones do not intersect. Thus, we need a separation theorem.
+\begin{proposition}[Krein's extension theorem] % Prop 1.34
+\label{prop:c1e34}
+Let $U$ be a Banach space, $K$ a convex cone, and $L$ a linear subspace of $U$ \ac{st}
+\[
+	L \cap \Int K = \emptyset.
+\]
+If $\ell : L \to \R$ is a continuous linear functional such that
+\[
+	\ell(u) \geq 0 \quad \forall u \in L \cap K.
+\]
+Then $\ell$ can be extended to a continuous functional on $U$ \ac{st}
+\[
+	\ell(u) \geq 0 \quad \forall u \in K.
+\]
+\end{proposition}
+\begin{proof}
+Exercise.
+\end{proof}
+\subsection{Cones and dual cones}
+\begin{definition} % Def 1.35
+\label{def:c1e35}
+Let $U$ be a Banach space. A subset $K \subseteq U$ is called a \emph{cone}, if $u \in K$ implies $\alpha u \in K$ for all $\alpha > 0$. The \emph{dual cone $K^+$} is defined as
+\[
+	K^+ = \{ \ell \in U^* \, : \, \ell(u) \geq 0 \; \forall u \in K \}.
+\]
+\end{definition}
+\begin{proposition} % Prop 1.36
+\label{prop:c1e36}
+Let $K$ be a cone in a Banach space.
+\begin{enumerate}[(i)]
+\item\label[equation]{prop:c1e36-i} $K^+$ is closed, convex and nonempty.
+\item\label[equation]{prop:c1e36-ii} If $K \neq \emptyset$, then
+\[
+	\inf_{u \in K} \ell(u) = \begin{cases}
+	0 & \text{if } \ell \in K^+ \\
+	-\infty & \text{if } \ell \notin K^+
+	\end{cases}.
+\]
+\end{enumerate}
+\end{proposition}
+\begin{proof}
+\labelcref{prop:c1e36-i} is trivial.
+
+\labelcref{prop:c1e36-ii}: If $\ell \in K^+$, then $\alpha \underbrace{ \ell(u) }_{\geq 0} = \ell\underbrace{(\alpha u)}_{\in K} \to 0$ for $\alpha \to 0$. If $\ell \notin K^+$, then there exists $u \in K$, \ac{st}
+\[
+	\ell(\alpha u) = \alpha \underbrace{\ell(u)}_{< 0} \to -\infty \quad \text{for } \alpha \to \infty.
+\]
+\end{proof}
+\subsection{Dubovickii-Miljutin Lemma}
+\begin{lemma}[Dubovickii-Miljutin] % Lemma 1.37
+\label{thm:c1e37}
+Let $K_0, K_1, \ldots, K_{n+1}$ be nonempty convex cones in a Banach space $U$, \ac{st} \\
+$K_0, \ldots, K_n$ are open. Then the following statements are equivalent:
+\begin{enumerate}[(i)]
+\item\label[equation]{thm:c1e37-i} It holds $\bigcap_{i=0}^{n+1} K_i = \emptyset$.
+\item \label[equation]{thm:c1e37-ii} There exists $\ell_i \in K_i^+$, $i = 0, \ldots, n+1$ which are not simultaneously zero, \ac{st}
+\[
+	\ell_0 + \ell_1 + \ldots + \ell_{n+1} = 0.
+\]
+\end{enumerate}
+\end{lemma}
+\begin{proof}
+\labelcref{thm:c1e37-ii} $\Rightarrow$ \labelcref{thm:c1e37-i}: Assume the opposite: There exists
+\[
+	u \in \bigcap_{i=0}^{n+1} K_i.
+\]
+By \labelcref{thm:c1e37-ii} we cannot have
+\[
+	\ell_0 = \ell_1 = \ldots = \ell_n = 0.
+\]
+\ac{wlog} assume $\ell_0(v) \neq 0$ for some $v \in U$. Since $K_0$ is open, it follows
+\[
+	\ell_0(u) + \lambda \ell_0(v) = \ell_0\underbrace{(u + \lambda v)}_{\in K} \geq 0
+\]
+for $|\lambda|$ small enough. This implies $\ell_0(u) > 0$.
+Since all $\ell_i \in K_i^+$, we get the contradiction
+\[
+	0 = \ell_0(u) + \underbrace{\ell_1(u)}_{\geq 0} + \ldots + \underbrace{\ell_{n+1}(u)}_{\geq 0} \geq \ell_0(u) > 0.
+\]
+
+\labelcref{thm:c1e37-i} $\Rightarrow$ \labelcref{thm:c1e37-ii}: Since $K_0 \neq 0$, but \labelcref{thm:c1e37-i} holds, there must be $m \leq n$, \ac{st}
+\[
+	K \coloneqq \bigcap_{i = 0}^{m} K_i \neq \emptyset, \quad K \cap K_{m + 1} = \emptyset.
+\]
+By assumption, $K$ is open, and $K$ and $K_{m + 1}$ are convex.
+We thus can apply the Separation Theorem \labelcref{thm:c1e7}: There exists $\ell \in U^*$, $\ell \neq 0$, \ac{st}
+\[
+	\sup_{u \in K_{m + 1}} \ell(u) \leq \inf_{v \in K}\ell(v)
+\]
+By \cref{prop:c1e36}, \labelcref{prop:c1e36-ii}, thus implies $\ell \in K^+$ and $-\ell \in K_{m +1}^+$. We choose $\ell_{m + 1} = -\ell$, $\ell_{m+2} = \ldots = \ell_{n+1} = 0$. Then,
+\[
+	\ell + \ell_{m + 1} + \ell_{m + 2} + \ldots + \ell_{n + 1} = 0.
+\]
+We now claim that
+\begin{equation}
+\label{eq:thm-c1e37-star}
+\tag{$\star$} K^+ = \left( \bigcap_{i=0}^m K_i \right)^+ = K_0^+ + K_1^+ + \ldots + K_m^+,
+\end{equation}
+which then proves \labelcref{prop:c1e36-ii}, since then $\ell = \ell_0 + \ldots + \ell_m$ for some $\ell_i \in K_i^+$, $i = 0, \ldots, m$.
+Note that ``$\supseteq$'' in \cref{eq:thm-c1e37-star} is trivial by definition of dual cones.
+To prove ``$\subseteq$'', let
+\begin{IEEEeqnarray*}{rCl}
+	X &=& \bigtimes_{i=0}^m U = U^{m + 1}, \\
+	L &=& \{ (u, u, \ldots, u) \, : \, u \in U \} \subseteq X, \\
+	C &=& K_0 \times K_1 \times \ldots \times K_m,
+\end{IEEEeqnarray*}
+then $C$ is an open convex cone in the Banach space in $X$, and $L \cap C \neq \emptyset$ because $K\neq \emptyset$.
+Every $F \in X^*$ has the form
+\[
+	F(x) = \sum_{i=0}^m \ell_i(u_i),
+\]
+where $x = (u_0, \ldots, u_{m})$ and $\ell_i \in U^*$.
+
+Now pick $\ell \in K^+$. Then we can define $F$ on $L$ as
+\[
+	F(x) = \ell(u) \quad \text{for } x = (u, u, \ldots, u) \in L.
+\]
+Since $\ell \in \left( \bigcap_{i=0}^m K_i \right)^+$, it holds that
+\[
+	F(x) \geq 0 \quad \forall x \in L \cap C.
+\]
+By \cref{prop:c1e34}, we can extend $F$ to $X$ \ac{st}
+\begin{IEEEeqnarray*}{l"rCl"l}
+	& F(x) &\geq& 0 & \forall x \in C, \\
+	\Leftrightarrow & \sum_{i=0}^m \ell_i(u_i) &\geq& 0 & \forall (u_0, \ldots, u_m) \in K_0 \times \ldots \times K_m \text{ for some } \ell_i \in U^*. 
+\end{IEEEeqnarray*}
+Since the $K_i$ are cones, it follows
+\[
+	\ell_i(u_i) \geq 0 \quad \forall u_i \in K_i
+\]
+that is, $\ell_i \in K_i^+$. By construction
+\[
+	\ell(u) = \sum_{i=0}^m \ell_i(u) \quad \forall u \in U,
+\]
+which proves ``$\subseteq$'' in \cref{eq:thm-c1e37-star}.
+\end{proof}
+\end{document}
