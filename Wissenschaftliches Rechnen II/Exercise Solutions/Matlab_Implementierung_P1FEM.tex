@@ -1,0 +1,147 @@
+\documentclass[a4paper]{amsart}
+
+\usepackage{geometry}
+\usepackage{parskip}
+\usepackage{mathtools}
+\usepackage{enumerate}
+\usepackage{IEEEtrantools}
+
+\DeclareMathOperator{\im}{Im}
+
+\begin{document}
+\section*{Einfache MATLAB-Implementierung der $P_1$-FEM}
+
+\emph{Modellproblem:}
+\[
+	-\Delta u = f,\quad u_{|\partial\Omega} = 0
+\]
+mit $f\in L^2(\Omega)$.\par
+\emph{Schwache Formulierung:} Gesucht ist $u\in V \coloneqq H^1_0(\Omega)$, sodass
+\[
+	\forall v\in V:\quad a(u,v) = \int_\Omega fv\,dx
+\]
+wobei
+\[
+	a(v,w) \coloneqq \int_\Omega\nabla v\cdot\nabla w\,dx
+\]
+\emph{Diskretisierung:} Tirangulierung $\mathcal{T}$ von $\Omega$, und definiere $P_1(\mathcal{T}) = \{\text{stückweise affine Funktionen}\}$. Dann
+\[
+	V_h \coloneqq = P_1(\mathcal{T})\cap V = \{\text{stetige stückweise affine FUnktionen mit Nebenbedinungen}\}
+\]
+\emph{Diskretisiertes Problem (Galerkin-Approximation):} Suche $u_h\in\mathcal{V}_h$ mit 
+\[
+	\forall u_h\in V_h:\,a(u_h,v_h) = \int_\Omega f v_h\, dx
+\]
+\emph{Basis von $V_h$:} Nodale Basisfunktionen, definiert durchc
+\[
+	\mathcal{I}_y(x) = \delta_{x,y}\quad\text{für innere Knoten }(y,z)\in\left[\mathcal{N}(\Omega)\right]^2
+\]
+Dann gilt
+\[
+	u_h = \sum_{z\in\mathcal{N}(\Omega)} = x_z\lambda_z
+\]
+\emph{Diskretes Gleichungssystem}: $Sx = b$ wobei $S = \left(\int_\Omega \lambda_y\lambda_z\, dx\right)_{y,z\in\mathcal{N}(\Omega)}$ \emph{`Steifigkeitsmatrix'}, $b=\left(\int_\Omega f\lambda_z\right)_{z\in\mathcal{N}(\Omega)}$ (bspw. Approximation durch Quadriken)\par
+Dann lässt sich $b$ darstellen durch die \emph{'Massenmatrix'} 
+\[
+	M\coloneqq \left(\int_\Omega \lambda_y\lambda_z\,dx\right)_{y,z\in\mathcal{N}}
+\]
+mit 
+\[
+	\tilde{b} = \left( M(f(x)) \right)_{x\in\mathcal{N}(\Omega)}
+\]
+\emph{Assemblierung der Matrizen:} Diskretisierung $\mathcal{T}$ ist beschrieben durch
+\begin{eqnarray*}
+	coords\in\mathbb{R}^{\# \mathcal{N}\times 2}\\
+	elems\in\mathbb{R}^{\#\mathcal{T}\times 3}\\
+	dirichlet\in\mathbb{R}^{\xi_D\times 2}
+\end{eqnarray*}
+Hierbei sind $\mathcal{N} = \text{Menge der Knoten},\,\mathcal{N}(\Omega) = \text{Menge der inneren knoten} = \mathcal{N}\setminus\Gamma_D$
+
+Beispiel: Würfel mit Ecken $(0,0),(1,0),(1,1),(0,1)$ ergibt folgende Datenstruktur:
+\begin{eqnarray*}
+	coords &=& \begin{bmatrix} 0 & 0\\ 1 & 0 \\ 1 & 1 \\ 0 & 1\end{bmatrix} \\
+	elems &=& \begin{bmatrix}3&1&2\\1&3&4\end{bmatrix}\\
+	dirichlet &=& \begin{bmatrix}..\end{bmatrix} %FEHLT!
+\end{eqnarray*}
+
+
+Assemblierung von $S$ (Steifigkeitsmatrix) und $M$ durch lokale Matrizen. Zu $T\in\mathcal{T}$ definiere
+\begin{eqnarray*}
+		S_T &=& \left(\int_T\nabla\lambda_j\cdot\nabla\lambda_k\,dx\right)_{j,k = 1,2,3}\\
+		M_T &=& \left(\int_T \lambda_j\lambda_k\,dx\right)_{j,k = 1,2,3}
+\end{eqnarray*}
+Wobei $T = conv\{P_1,P_2,P_3\}$ mit Notation $\lambda_j = \lambda_{P_j}$. Bekannt ist aus der Übung, dass
+\[
+	M_T = \frac{\vert T\vert}{12}\begin{bmatrix}2&1&1\\1&2&1\\1&1&2\end{bmatrix}
+\]
+Bekannt ist auch, dass $\lambda_1(x) + \lambda_2(x) + \lambda_3(x) = 1,\quad\forall x\in T$, sowie $\lambda_j(P_k) = \delta_{j,k}$, woraus folgt dass
+\[
+	\forall x\in T:\,\lambda_1(x)P_1 + \lambda_2(x)P_2 + \lambda_3(x)P_3 = x\text{ in baryzentrischen Koordinaten}
+\]
+Das führt auf die Gleichung
+\[
+	\underbrace{\begin{bmatrix} 1&1&1\\P_1&P_2&P_3\end{bmatrix}}{\coloneqq R}\begin{bmatrix}\lambda_1\\ \lambda_2\\ \lambda_3\end{bmatrix} = \begin{bmatrix} 1 \\ x_1 \\ x_2\end{bmatrix}
+\]
+Ableiten ergibt
+\[
+	R\,\begin{bmatrix}\nabla\lambda_1^T\\ \nabla\lambda_2^T\\ \nabla\lambda_3^T\end{bmatrix} = \begin{bmatrix} 0 & 0 \\ 1 & 0\\ 0 & 1 \end{bmatrix}
+\]
+c.f. Zeile 11 im Code:
+\[
+	grads\coloneqq\begin{bmatrix} \nabla\lambda_1^T\\ \nabla\lambda_2^T\\ \nabla\lambda_3^T\end{bmatrix} = R^{-1} \begin{bmatrix}0 & 0 \\ 0 & 1 \\ 0 & 1\end{bmatrix}
+\]
+und zudem
+\[
+	S_T = \vert T \vert\, grads \otimes grads\text{ dyadisches Produkt: }x\otimes y = xy^T
+\]
+
+\emph{Kommentare zum Matlab-Code:}\par
+Input: $\mathcal{T}, f, u_D$ (Dirichlet-Daten), $N = \#\mathcal{N}$ (Anzahl der Knoten (auch Rand))\par
+Schleife über alle $T\in\mathcal{T}$ (Zeilen 9-16)\par
+Zeile 10: $\vert T\vert = \frac{1}{2} \det \begin{bmatrix}1 & 1 & 1\\ P_1 & P_2 & P_3\end{bmatrix}$ (Übung)\par
+Zeile 11: s.o., Berechnung lokaler Gradienten\par
+Zeile 12/13: $(P_1,P_2,P_3)$ haben globale Nummern $(\alpha_1,\alpha_2,\alpha_3)$\par
+Udate: 
+\[
+	\underbrace{S([\alpha_1,\alpha_2,\alpha_3],[\alpha_1,\alpha_2,\alpha_3])}{3\times 3\text{ Matrix}} = S([\alpha_1,\alpha_2,\alpha_3],[\alpha_1,\alpha_2,\alpha_3]) + S_T
+\]
+Zeile 14/15: Analog für $M$\par
+Zeile 19: $x = \text{Nullvektor der Länge }\#\mathcal{N}$ \par
+Zeile 20: $x(\mathcal{N}_D) = \text{Auswertung der Randdaten}$\par
+Aufspaltung $x = x_0 + x_D$ wobei $x_0 = 0$ für alle Dirichlet-Knoten, $x_D$ erfüllt Dirichlet-Bedingung\par
+\[
+	\Rightarrow Sx = S(x_0+x_D) \overbrace{!}{=} b \Leftrightarrow Sx_0 = (b-\varrho x_D)
+\]
+Zeile 22: Dies ergibt neue rechte Seite 
+\[
+	b = M \left[f(z)\right]_{z\in\mathcal{N}} - Sx_D
+\]
+Es ergibt sich also ein lineares Gleichungssystem zu  Nullrandbedingungen!\par
+Zeile 24: $freeNodes \equiv \text{Vektor der Indices von den Innenknoten } \mathcal{N}(\Omega) \text{ enthält}$. Insbesondere ist die Untermatrix $S(freeNodes,freeNodes)$ invertierbar! Lösung des Systems erfolgt in Zeile 26.\par
+Lösen von $Ax = b$ in MATLAB durch $x=A\,b$.\newline\newline\noindent
+\emph{Bemerkungen: } 
+Effizientere Implementierungen sind möglich durch
+\begin{enumerate}
+	\item Parallele Berechnung der lokalen Matrizen
+	\item Effiziente Assemblierung der dünnbesetzten Matrizen
+\end{enumerate}
+
+Übungsblatt 3 befasst sich mit der folgenden Gleichung:
+\[
+	-\varepsilon\Delta u + \beta \nabla u = f
+\]
+Schwache Formulierung
+\[
+	\forall v\in V:\, \varepsilon(\nabla u,\nabla v)_L^2 + (\beta\varepsilon u,v)_{{L^2}} = (f,v)_{L^2}
+\]
+Wir benötigen also noch die ``Konvektionsmatrix''
+\[
+	C = \left(\int_\Omega (\beta\nabla\lambda_y)\lambda_z\, dx\right)_{y,z}
+\]
+Die lokale Konvektionsmatrix (auf einem Element) ist gegeben durch
+\[
+	C_T = \int_T(\underbrace{\beta\nabla\lambda_j}{konstant})\lambda_k\, dx)_{j,k = 1,2,3}
+\]
+
+\textbf{Bemerkung: } $\forall j\in\{1,2,3\}$ gilt $\int_T \lambda_j\,dx = \frac{1}{3}\vert T\vert$
+\end{document}
