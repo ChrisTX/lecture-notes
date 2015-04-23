@@ -1,38 +1,45 @@
-\documentclass[a4paper]{amsart}
+\documentclass[oneside,a4paper]{amsart}
 
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+
+\frenchspacing
 \usepackage{geometry}
 \usepackage{parskip}
 \usepackage{mathtools}
 \usepackage{enumerate}
 \usepackage{IEEEtrantools}
+\usepackage{relsize}
 
-\DeclareMathOperator{\im}{Im}
+% Transpose symbol
+\newcommand{\tp}{\ensuremath{\mathsmaller T}}
 
 \begin{document}
 \section*{Einfache MATLAB-Implementierung der $P_1$-FEM}
 
 \emph{Modellproblem:}
 \[
-	-\Delta u = f,\quad u_{|\partial\Omega} = 0
+	-\Delta u = f,\quad u|_{\partial\Omega} = 0
 \]
 mit $f\in L^2(\Omega)$.\par
 \emph{Schwache Formulierung:} Gesucht ist $u\in V \coloneqq H^1_0(\Omega)$, sodass
 \[
-	\forall v\in V:\quad a(u,v) = \int_\Omega fv\,dx
+	\forall v\in V\,:\, a(u,v) = \int_\Omega fv\,dx
 \]
 wobei
 \[
 	a(v,w) \coloneqq \int_\Omega\nabla v\cdot\nabla w\,dx
 \]
-\emph{Diskretisierung:} Tirangulierung $\mathcal{T}$ von $\Omega$, und definiere $P_1(\mathcal{T}) = \{\text{stückweise affine Funktionen}\}$. Dann
+\emph{Diskretisierung:} Triangulierung $\mathcal{T}$ von $\Omega$, und definiere $P_1(\mathcal{T}) = \{\text{stückweise affine Funktionen}\}$. Dann
 \[
-	V_h \coloneqq = P_1(\mathcal{T})\cap V = \{\text{stetige stückweise affine FUnktionen mit Nebenbedinungen}\}
+	V_h \coloneqq P_1(\mathcal{T})\cap V = \{\text{stetige stückweise affine Funktionen mit Nebenbedingungen}\}
 \]
 \emph{Diskretisiertes Problem (Galerkin-Approximation):} Suche $u_h\in\mathcal{V}_h$ mit 
 \[
-	\forall u_h\in V_h:\,a(u_h,v_h) = \int_\Omega f v_h\, dx
+	\forall u_h\in V_h\,:\,a(u_h,v_h) = \int_\Omega f v_h\, dx
 \]
-\emph{Basis von $V_h$:} Nodale Basisfunktionen, definiert durchc
+\emph{Basis von $V_h$:} Nodale Basisfunktionen, definiert durch
 \[
 	\mathcal{I}_y(x) = \delta_{x,y}\quad\text{für innere Knoten }(y,z)\in\left[\mathcal{N}(\Omega)\right]^2
 \]
@@ -55,7 +62,7 @@ mit
 	elems\in\mathbb{R}^{\#\mathcal{T}\times 3}\\
 	dirichlet\in\mathbb{R}^{\xi_D\times 2}
 \end{eqnarray*}
-Hierbei sind $\mathcal{N} = \text{Menge der Knoten},\,\mathcal{N}(\Omega) = \text{Menge der inneren knoten} = \mathcal{N}\setminus\Gamma_D$
+Hierbei sind $\mathcal{N} = \text{Menge der Knoten},\,\mathcal{N}(\Omega) = \text{Menge der inneren Knoten} = \mathcal{N}\setminus\Gamma_D$
 
 Beispiel: Würfel mit Ecken $(0,0),(1,0),(1,1),(0,1)$ ergibt folgende Datenstruktur:
 \begin{eqnarray*}
@@ -70,7 +77,7 @@ Assemblierung von $S$ (Steifigkeitsmatrix) und $M$ durch lokale Matrizen. Zu $T\
 		S_T &=& \left(\int_T\nabla\lambda_j\cdot\nabla\lambda_k\,dx\right)_{j,k = 1,2,3}\\
 		M_T &=& \left(\int_T \lambda_j\lambda_k\,dx\right)_{j,k = 1,2,3}
 \end{eqnarray*}
-Wobei $T = conv\{P_1,P_2,P_3\}$ mit Notation $\lambda_j = \lambda_{P_j}$. Bekannt ist aus der Übung, dass
+Wobei $T = \operatorname{conv}\{P_1,P_2,P_3\}$ mit Notation $\lambda_j = \lambda_{P_j}$. Bekannt ist aus der Übung, dass
 \[
 	M_T = \frac{\vert T\vert}{12}\begin{bmatrix}2&1&1\\1&2&1\\1&1&2\end{bmatrix}
 \]
@@ -80,19 +87,19 @@ Bekannt ist auch, dass $\lambda_1(x) + \lambda_2(x) + \lambda_3(x) = 1,\quad\for
 \]
 Das führt auf die Gleichung
 \[
-	\underbrace{\begin{bmatrix} 1&1&1\\P_1&P_2&P_3\end{bmatrix}}{\coloneqq R}\begin{bmatrix}\lambda_1\\ \lambda_2\\ \lambda_3\end{bmatrix} = \begin{bmatrix} 1 \\ x_1 \\ x_2\end{bmatrix}
+	\underbrace{\begin{bmatrix} 1&1&1\\P_1&P_2&P_3\end{bmatrix}}_{\coloneqq R}\begin{bmatrix}\lambda_1\\ \lambda_2\\ \lambda_3\end{bmatrix} = \begin{bmatrix} 1 \\ x_1 \\ x_2\end{bmatrix}
 \]
 Ableiten ergibt
 \[
-	R\,\begin{bmatrix}\nabla\lambda_1^T\\ \nabla\lambda_2^T\\ \nabla\lambda_3^T\end{bmatrix} = \begin{bmatrix} 0 & 0 \\ 1 & 0\\ 0 & 1 \end{bmatrix}
+	R\,\begin{bmatrix}\nabla\lambda_1^\tp\\ \nabla\lambda_2^\tp\\ \nabla\lambda_3^\tp\end{bmatrix} = \begin{bmatrix} 0 & 0 \\ 1 & 0\\ 0 & 1 \end{bmatrix}
 \]
 c.f. Zeile 11 im Code:
 \[
-	grads\coloneqq\begin{bmatrix} \nabla\lambda_1^T\\ \nabla\lambda_2^T\\ \nabla\lambda_3^T\end{bmatrix} = R^{-1} \begin{bmatrix}0 & 0 \\ 0 & 1 \\ 0 & 1\end{bmatrix}
+	grads\coloneqq\begin{bmatrix} \nabla\lambda_1^\tp\\ \nabla\lambda_2^\tp\\ \nabla\lambda_3^\tp\end{bmatrix} = R^{-1} \begin{bmatrix}0 & 0 \\ 0 & 1 \\ 0 & 1\end{bmatrix}
 \]
 und zudem
 \[
-	S_T = \vert T \vert\, grads \otimes grads\text{ dyadisches Produkt: }x\otimes y = xy^T
+	S_T = \vert T \vert\, grads \otimes grads\text{ dyadisches Produkt: }x\otimes y = xy^\tp
 \]
 
 \emph{Kommentare zum Matlab-Code:}\par
@@ -101,16 +108,16 @@ Schleife über alle $T\in\mathcal{T}$ (Zeilen 9-16)\par
 Zeile 10: $\vert T\vert = \frac{1}{2} \det \begin{bmatrix}1 & 1 & 1\\ P_1 & P_2 & P_3\end{bmatrix}$ (Übung)\par
 Zeile 11: s.o., Berechnung lokaler Gradienten\par
 Zeile 12/13: $(P_1,P_2,P_3)$ haben globale Nummern $(\alpha_1,\alpha_2,\alpha_3)$\par
-Udate: 
+Update: 
 \[
-	\underbrace{S([\alpha_1,\alpha_2,\alpha_3],[\alpha_1,\alpha_2,\alpha_3])}{3\times 3\text{ Matrix}} = S([\alpha_1,\alpha_2,\alpha_3],[\alpha_1,\alpha_2,\alpha_3]) + S_T
+	\underbrace{S([\alpha_1,\alpha_2,\alpha_3],[\alpha_1,\alpha_2,\alpha_3])}_{3\times 3\text{ Matrix}} = S([\alpha_1,\alpha_2,\alpha_3],[\alpha_1,\alpha_2,\alpha_3]) + S_T
 \]
 Zeile 14/15: Analog für $M$\par
 Zeile 19: $x = \text{Nullvektor der Länge }\#\mathcal{N}$ \par
 Zeile 20: $x(\mathcal{N}_D) = \text{Auswertung der Randdaten}$\par
 Aufspaltung $x = x_0 + x_D$ wobei $x_0 = 0$ für alle Dirichlet-Knoten, $x_D$ erfüllt Dirichlet-Bedingung\par
 \[
-	\Rightarrow Sx = S(x_0+x_D) \overbrace{!}{=} b \Leftrightarrow Sx_0 = (b-\varrho x_D)
+	\Rightarrow Sx = S(x_0+x_D) \overset{!}{=} b \Leftrightarrow Sx_0 = (b-\varrho x_D)
 \]
 Zeile 22: Dies ergibt neue rechte Seite 
 \[
@@ -118,8 +125,8 @@ Zeile 22: Dies ergibt neue rechte Seite
 \]
 Es ergibt sich also ein lineares Gleichungssystem zu  Nullrandbedingungen!\par
 Zeile 24: $freeNodes \equiv \text{Vektor der Indices von den Innenknoten } \mathcal{N}(\Omega) \text{ enthält}$. Insbesondere ist die Untermatrix $S(freeNodes,freeNodes)$ invertierbar! Lösung des Systems erfolgt in Zeile 26.\par
-Lösen von $Ax = b$ in MATLAB durch $x=A\,b$.\newline\newline\noindent
-\emph{Bemerkungen: } 
+Lösen von $Ax = b$ in MATLAB durch $x=A\,b$.\par
+\emph{Bemerkungen:} 
 Effizientere Implementierungen sind möglich durch
 \begin{enumerate}
 	\item Parallele Berechnung der lokalen Matrizen
@@ -140,7 +147,7 @@ Wir benötigen also noch die ``Konvektionsmatrix''
 \]
 Die lokale Konvektionsmatrix (auf einem Element) ist gegeben durch
 \[
-	C_T = \int_T(\underbrace{\beta\nabla\lambda_j}{konstant})\lambda_k\, dx)_{j,k = 1,2,3}
+	C_T = \int_T(\underbrace{\beta\nabla\lambda_j}_{\text{konstant}})\lambda_k\, dx)_{j,k = 1,2,3}
 \]
 
 \textbf{Bemerkung: } $\forall j\in\{1,2,3\}$ gilt $\int_T \lambda_j\,dx = \frac{1}{3}\vert T\vert$
