@@ -1,4 +1,4 @@
-\documentclass[a4paper]{amsart}
+\documentclass[oneside,a4paper]{amsart}
 
 \usepackage{geometry}
 \usepackage{parskip}
@@ -41,18 +41,20 @@ This implies the left inequality. The right one can be proven analogously.
 \end{enumerate}
 
 \section*{Exercise 7}
-\textbf{$\Rightarrow\quad$} Let $u\in H$ solution of $a(u,v) = b(v),\,\forall v\in H$. Then we have
-	\begin{eqnarray*}
-		\forall v\in V:&J(v) &= J(u) + a(u,v-u) - l(v-u) + \frac{1}{2} a(v-u,v-u)\\	
-						    &&= J(u) + \frac{1}{2} a(v-u,v-u)\\
-						    &&\geq J(u)
-	\end{eqnarray*}
+$\Rightarrow$: Let $u\in H$ solution of $a(u,v) = b(v),\,\forall v\in H$. Then we have
+	\begin{IEEEeqnarray*}{r"rCl}
+		\forall v\in V\,:&J(v) &=& J(u) + a(u,v-u) - l(v-u) + \frac{1}{2} a(v-u,v-u)\\	
+						    &&=& J(u) + \frac{1}{2} a(v-u,v-u)\\
+						    &&\geq& J(u)
+	\end{IEEEeqnarray*}
 
-	and we see that $u$ minimizes the functional $J$ on $H$.\newline\newline\noindent
-	\textbf{$\Leftarrow\quad$ :} Let now $v\in V,\,\lambda \in (0,1]$ and set $w = u + \lambda v$. Calculation gives:
+	and we see that $u$ minimizes the functional $J$ on $H$.
+
+	$\Leftarrow$: Let now $v\in V,\,\lambda \in (0,1]$ and set $w = u + \lambda v$. Calculation gives:
 	\[
-		J(w) - J(u) = \lambda\left[a(u,v) - l(v)\right] + \frac{\lambda^2}{2}a(v,v) \geq 0\text{ because }u\text{ minimizes }J 
+		J(w) - J(u) = \lambda\left[a(u,v) - l(v)\right] + \frac{\lambda^2}{2}a(v,v) \geq 0, 
 	\]
+	because $u$ minimizes $J$.
 	Dividing by $\lambda$ gives 
 	\[
 		a(u,v)-l(v) + \frac{\lambda}{2} a(v,v) \geq 0
@@ -62,10 +64,10 @@ This implies the left inequality. The right one can be proven analogously.
 		a(u,v)\geq l(v),\quad\forall v\in V
 	\]
 	This can also be written as
-	\begin{eqnarray*}
-		a(u,-v) \geq l(-v)\\
-		-a(u,v) \geq -l(v) \Leftrightarrow a(u,v) \leq l(v)
-	\end{eqnarray*}
+	\begin{IEEEeqnarray*}{rCl}
+		a(u,-v) &\geq& l(-v)\\
+		-a(u,v) &\geq& -l(v) \Leftrightarrow a(u,v) \leq l(v)
+	\end{IEEEeqnarray*}
 	So in the end
 	\[
 		a(u,v) = l(v),\quad\forall v\in H
@@ -88,7 +90,11 @@ Then,
 \end{IEEEeqnarray*}
 
 \section*{Exercise 9}
-We can calculate the nodal basis-functions on the triangle given through the nodes $v_0=(0,0), v_1=(1,0), v_2=(0,1)$ by using the condition $\delta_i(v_j) = \delta_{i,j}$ on all 3 nodes. We obtain:
+We can calculate the nodal basis-functions on the triangle given through the nodes 
+\[
+	v_0=(0,0), v_1=(1,0), v_2=(0,1)
+\]
+by using the condition $\delta_i(v_j) = \delta_{i,j}$ on all 3 nodes. We obtain:
 	\begin{eqnarray*}
 		\delta_0(x,y) = -x -y +1\\
 		\delta_1(x,y) = x\\

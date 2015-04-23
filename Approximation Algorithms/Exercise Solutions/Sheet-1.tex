@@ -1,0 +1,117 @@
+\documentclass[oneside,a4paper]{amsart}
+
+\usepackage{geometry}
+\usepackage{parskip}
+\usepackage{mathtools}
+\usepackage{enumerate}
+\usepackage{IEEEtrantools}
+
+\newcommand{\NP}{\ensuremath{N \! P}}
+
+\begin{document}
+\title{Approximation Algorithms - Exercise Sheet 1 solutions}
+\maketitle{}
+\section*{Exercise 1.1}
+\subsection*{(i)}
+\textit{Note:} This problem is called Not-All-Equal \textsc{4-Sat} (\textsc{4-NAE-Sat}).
+
+Obviously the problem is in \NP.
+
+Reduce \textsc{3-Sat} to the \textsc{4-NAE-Sat}.
+Let $F = C_1 \wedge \ldots \wedge C_k$ be an instance of \textsc{3-Sat}.
+(w.l.o.g.~$|C_i| = 3$).
+Construct a \textsc{4-Sat} instance $F'$: Add an additional variable $w$: For
+\[
+	C_i = (x \vee y \vee z)
+\]
+add
+\[
+	C_i' = (x \vee y \vee z \vee w)
+\]
+to $F'$. \\
+\underline{Claim:} $F$ satisfiable is equivalent to $F'$ is satisfiable with at least one \textit{false} literal in each clause.
+
+``$\Rightarrow$'': $F$ satisfiable implies each $C_i$ contains at least one \textit{true} literal. By setting $w = \textit{false}$, we obtain a solution satisfying $F'$.
+
+``$\Leftarrow$'': Assume $F'$ is a valid instance of \textsc{4-NAE-Sat}. Then, all $C_i'$ have at least one literal of $x, y, z$ that has a different value than $w$.
+If $w$ is \textit{false}, $C_i$ is satisfied with the same assignment. Otherwise, negate all assignments and again at least one literal in each clause is \textit{true}.
+\subsection*{(ii)}
+Given an instance of \textsc{4-NAE-Sat},
+\[
+	\bigwedge (a_i \vee b_i \vee c_i \vee d_i).
+\]
+We transform this into \textsc{3-NAE-Sat} by the usual mean of transforming \textsc{4-Sat} into \textsc{3-Sat}:
+\[
+	\bigwedge (a_i \vee b_i \vee c_i \vee d_i) \; \to \; \bigwedge (a_i \vee b_i \vee z_i) \wedge (c_i \vee d_i \vee \overline{z_i}).
+\]
+We have: $a_i \neq z_i$ or $b_i \neq z_i$ and $c_i \neq \overline{z_i}$ or $d_i \neq \overline{z_i}$.
+
+For the other direction: If $a_i = b_i$, set $z_i \coloneqq \overline{a_i}$. If $a_i \neq b_i$, we can choose $z_i$ arbitrarily.
+\subsection*{(iii)}
+Obviously the problem is in \NP.
+
+Take an instance of \textsc{3-NAE-Sat}. We assume that every variable appears in at least one clause (if not, add $(x \vee \bar{x})$) and that each clause has exactly three variables (if not duplicate variables in the clause).
+Build a graph as follows: Let $V(G) = \{ x_1, \ldots, x_n, \overline{x_1}, \ldots, \overline{x_n} \}$. We add edges:
+\[
+	E(G) = \{ \{ x_i, \overline{x_i}\} \mid i \leq n\} \cup \{ \{ x, y \}, \{ y, z \}, \{ z, x \} \mid \forall \text{ clauses } (x \vee y \vee z) \}.
+\]
+Set $k = 2m + n$, where $m$ is the number of clauses.
+
+Given a solution to the original problem: We set
+\[
+	X = \{ x_i \mid x_i \text{ is \textit{true}} \} \cup \{ \overline{x_i} \mid x_i \text{ is \textit{false}} \}.
+\]
+Then, $\delta(X)$ contains 2 edges from each clause and $n$ edges between the variables.
+Thus, $|\delta(X)| = k$ and $|X| \leq k$.
+
+Consider, given a valid set $X$, at most 2 edges from each clause can be in $\delta(X)$.
+So $\delta(X)$ needs to contain exactly 2 edges from every clause and all the variable edges.
+Then, set all literals to $X$ to \textit{true}.
+\section*{Exercise 1.2}
+Reduction from \textsc{3-Sat}. We have clauses $C_1, \ldots, C_m$ and variables $v_1, \ldots, v_n$. Create a \textsc{Crossword Puzzle} by adding $n$ columns for the variables $v_1, \ldots, v_n$ and then $m+1$ and $m$ extra columns. Add rows for the clauses $C_1, \ldots, C_m$ and $n$ extra rows, yielding $(n + 2m + 1) \times (m+ n)$. Using $B$, we cut out the last $m$ entries in the first row, decreasing the cut out by one each row. We also cut the last $n$ rows as follows: Cut out the first entry in the first of the these up to all entries in the last row - additionally cut the last $(m + 1)$ and $m$ extra rows.
+
+Set $\Sigma \coloneqq \{ 0, 1, N \}$.
+For each $v_i$ add 2 words to $D$:
+\begin{itemize}
+\item $w_i$ with
+\[
+w_{ij} = \begin{cases}
+1 & \text{if } v_i \in C_j \\
+0 & \text{if } \overline{v_i} \in C_j \\
+N & \text{otherwise} \\
+\end{cases}
+\]
+and $w_{ij} = N$ for $j = m + 2, \ldots, m + i - 1$.
+\item $\overline{w_i}$ with
+\[
+w_{ij} = \begin{cases}
+0 & \text{if } v_i \in C_j \\
+1 & \text{if } \overline{v_i} \in C_j \\
+N & \text{otherwise} \\
+\end{cases}
+\]
+and $w_{ij} = N$ for $j = m + 2, \ldots, m + i - 1$.
+\end{itemize}
+For each clause $C_j$, add 7 words to $D$: Add all combinations ($2^8 - 1$ as all \textit{false} is not satisfying) that satisfy $C_j$:
+For $k = 1, \ldots, 7$, $w_{ki} = N$ whenever $\{ v_i, \overline{v_i} \} \cap C_j = \emptyset$. Fill the remaining spaces with $001$, $010$, $011$, $101$, $110$ and $111$.
+
+Furthermore, add words $\{ N \}^1, \ldots, \{ N \}^{\max \{ m - 1, n - 1 \}}$ to $D$.
+Then, $|D|$, $|E|$, $|B|$ are polynomial in the input size.
+
+Given a truth assignment for $v_1, \ldots, v_n$. Take $w_i$ for the $i$th column if $v_i = \textit{true}$ and $\overline{w_i}$ if $v_i = \textit{false}$.
+
+On the other hand, given a valid assignment for $W$.
+If $w_i$ is in the $i$th column, set $v_i$ to \textit{true} and otherwise (if $\overline{w_i}$ is in the column), set $v_i$ to \textit{false}.
+\section*{Exercise 1.3}
+\subsection*{(i)}
+Write $V(G) = \{ v_1, \ldots, v_n \}$ and $E(G) = S_1 \mathop{\dot{\cup}} S_2$, where
+\begin{IEEEeqnarray*}{rCl}
+	S_1 &=& \{ e \in E(G) \mid e = (v_i, v_j) \text{ with } i < j\} \\
+	S_2 &=& \{ e \in E(G) \mid e = (v_i, v_j) \text{ with } i > j\}
+\end{IEEEeqnarray*}
+Then chose the subgraph $(V, S_i)$ such that $w(S_i) \geq w(S_{i-1})$. This is a 2-factor approximation, as
+\[
+	w(E) = w(S_i) + w(S_1-i) \leq 2 w(S_i).
+\]
+This gives a runtime of $\mathcal{O}(n + m)$.
+\end{document}

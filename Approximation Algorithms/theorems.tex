@@ -37,14 +37,8 @@
 \crefname{definition}{Definition}{Definitions}
 \theoremstyle{nonumberplain}
 \theoremheaderfont{\itshape}
-\newtheorem{remark}[dummythm]{Remark}
+\newtheorem{remark}{Remark}
 \crefname{remark}{Remark}{Remarks}
-
-\theoremstyle{nonumberbreak}
-\theoremheaderfont={\sc}
-\theorembodyfont{\normalfont}
-\newmdtheoremenv[backgroundcolor=algorithmcolor,style=theoremframing]{algorithm}{Algorithm}
-\crefname{algorithm}{Algorithm}{Algorithms}
 
 \theoremstyle{nonumberplain}
 \theoremheaderfont{\sc}
@@ -54,5 +48,6 @@
 \newtheorem{proof}{Proof}
 \crefname{proof}{Proof}{Proofs}
 
-% Num Alg specific
-\newenvironment{problem}[1][]{\begin{mdframed}[style=theoremframing,frametitle={#1},frametitlefont={\sc},frametitlebelowskip=0pt]}{\end{mdframed}}
+% Approximation Algorithm specific
+\newenvironment{problem}[1][]{\begin{mdframed}[style=theoremframing,frametitle={#1},frametitlefont={\sc},frametitlebelowskip=0pt,backgroundcolor=problemcolor]}{\end{mdframed}}
+\newenvironment{algorithm}[1][]{\begin{mdframed}[style=theoremframing,frametitle={#1},frametitlefont={\sc},backgroundcolor=algorithmcolor]}{\end{mdframed}}

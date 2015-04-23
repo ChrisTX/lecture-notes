@@ -1,0 +1,178 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+The \emph{complement} of a decision problem $P \subseteq \{ 0, 1\}^*$ is the decision problem $\{ 0, 1\}^* \setminus P$.
+The class \coNP is the class of all decision problems, \ac{st} their complement is in \NP.
+Famous example: \emph{Prime?} \\
+\begin{tabular}{ll}
+\textit{Input:} & $n \in \N$ \\
+\textit{Question:} & Is $n$ prime?
+\end{tabular} \par
+Prime? is in \NP{} [Pratl, 1975].
+A problem in $\NP \cap \coNP$ is said to have a \emph{good characterization}.
+Prime? is also in $P$ [Agrawal, Kayal, Saxena, 2004].
+
+A \emph{discrete optimization problem} is a four-tuple $(X, S, c, \goal)$ with
+\begin{itemize}
+\item $X \subseteq \{ 0, 1\}^*$ can be decided in polynomial time. The elements of $X$ are \emph{instances}.
+\item $S \, : \, X \to 2^{\{ 0, 1\}^*}$ where $\emptyset \neq S(x) \subseteq \{ 0, 1\}^*$ is the set of \emph{solutions} of instance $x$, \ac{st} there exists a polynomial $p$ with
+\[
+	|y| \leq p(|x|) \quad \forall y \in S(x) \, \forall x \in X.
+\]
+\item $c : \{ (x, y) \mid x \in X, y \in S(x)\} \to \Z$ is a function computable in polynomial time.
+\item $\goal \in \{ \min, \max \}$.
+\end{itemize}
+We denote by \emph{$\OPT(x)$} the value $\goal \{ c((x, y)) \mid y \in S(x) \}$.
+An \emph{optimum solution} for an instance $x$ is a $y \in S(x)$ with $c((x, y)) = \OPT(x)$. An algorithm for an optimization problem $(X, S, c, \goal)$ is an algorithm $A$ which computes for each input $x \in X$ a $y\in S(x)$.
+We write $\emph{A(x)} \coloneqq c((x, y))$ if $A$ returns $y$ as a solution to $x$.
+If $A(x) = \OPT(x)$ for all $x \in X$ then $A$ is an \emph{exact algorithm}.
+
+An algorithm is called \emph{pseudo-polynomial} if its runtime is polynomially bounded (in the largest number appearing in the input) if the input is given unary.
+\begin{theorem} % Thm 19
+\label{thm:19}
+There exists a pseudo-polynomial algorithm for \textsc{Subset Sum}.
+\end{theorem}
+\begin{proof}
+See the algorithm for \textsc{Component Grouping}, with runtime $\mathcal{O}(n \cdot K)$, where $K$ is the size of the largest number in unary notation.
+\end{proof}
+An \NP-complete (\NP-hard) problem is \emph{strongly \NP-complete (\NP-hard)} if it stays \NP-complete (\NP-hard) if the input is given unary.
+\begin{theorem} % Thm 20
+\label{thm:20}
+Unless $P = \NP$ there exists no exact pseudo-polynomial algorithm for a strongly \NP-complete (\NP-hard) problem.
+\end{theorem}
+\begin{proof}
+Follows from the definition.
+\end{proof}
+\chapter{Approximation Algorithms} % Ch 2
+\label{ch:2}
+An \emph{approximation algorithm} $A$ for an optimization problem $P$ is a polynomial time algorithm for $P$.
+An algorithm $A$ has \emph{approximation ratio $c$} if
+\begin{IEEEeqnarray*}{rCl'l}
+	A(I) &\leq& c \cdot \OPT(I), & P \text{ is a minimization problem}, \\
+	A(I) &\geq& c \cdot \OPT(I), & P \text{ is a maximization problem}.
+\end{IEEEeqnarray*}
+If $P$ is a minimization problem, then $1 \leq c < \infty$. If $P$ is a maximization problem, then $0 \leq c \leq 1$ (sometimes $\sfrac{1}{c}$ is being used instead in order to always use a number greater than one).
+\begin{problem}[Minimum Weight Set Cover Problem]
+\begin{tabular}{ll}
+\textit{Input:} & A family $S_1, \ldots, S_m$ of subsets of a finite set $U$ with $\bigcup_{i=1}^m S_i = U$ and \\
+& weights $c : \{ S_1, \ldots, S_m \} \to \R_+$.\\
+\textit{Output:} & A subfamily $S_{i_1}, \ldots, S_{i_k}$ \ac{st} $\bigcup_{j=1}^k S_{i_j} = U$ and \\
+& $\sum_{j=1}^k c(S_{i_j})$ is minimum.
+\end{tabular}
+\end{problem}
+\begin{algorithm}[Greedy Weighted Set Cover]
+\begin{algorithmic}[1]
+\State $C \coloneqq \emptyset$, $F \coloneqq \emptyset$
+\While{$C \neq U$}
+\State Choose $S \in \{S_1, \ldots, S_m\}$ \ac{st} $\frac{c(S)}{|S\setminus C|}$ is minimum.
+\State $C \coloneqq C \cup S$
+\State $F \coloneqq F \cup \{ S \}$
+\EndWhile
+\end{algorithmic}
+\end{algorithm}
+\begin{theorem} % Thm 21
+\label{thm:21}
+The \textsc{Greedy Weighted Set Cover} algorithm has approximation ratio
+\[
+	H_n \coloneqq \sum_{i=1}^n \frac{1}{i},
+\]
+where $n \coloneqq |U|$.
+\end{theorem}
+\begin{proof}
+\ac{wlog} assume that $F = \{ S_1, \ldots, S_k \}$ is the solution of the greedy algorithm in this ordering. For each $x \in U$ assign the cost
+\[
+\tilde{c}(x) \coloneqq \frac{c(S_i)}{|S_i \setminus (S_1 \cup \ldots \cup S_{i-1})|},
+\]
+where $i$ is chosen minimum \ac{st} $x \in S_i$. \\
+\underline{Claim:} For $S \in \{S_1, \ldots, S_m\}$ we have
+\[
+	\sum_{x \in S} \tilde{c}(x) \leq c(s) \cdot H_{|S|}.
+\]
+Using this claim, we get for an optimum solution $F^*$:
+\begin{IEEEeqnarray*}{rCl}
+	\sum_{S \in F} c(S) &=& \sum_{x \in U} \tilde{c}(x) \\
+	&\leq& \sum_{S \in F^*} \underbrace{ \sum_{x \in S} \tilde{c}(x) }_{\text{Claim: }\leq c(S) \cdot H_{|S|}} \\
+	&\leq& \sum_{S \in F} c(S) \cdot H_{|S|} \\
+	&\leq& H_{n} \cdot \sum_{S \in F^*} c(S).
+\end{IEEEeqnarray*}
+\begin{proof}[Claim]
+Let $S = \{ x_1, \ldots, x_p \}$ be one of the sets $\{ S_1, \ldots, S_m\}$. Assume $x_i$ are ordered in the way they are covered by the greedy algorithm. The greedy algorithm could have taken $S$ to cover element $x_i$.
+Hence,
+\[
+	\tilde{c}(x_i) \leq \frac{c(S)}{|S| - (i-1)},
+\]
+as we know that at least $|S| - (i-1)$ elements of $S$ are not yet covered.
+Thus,
+\begin{IEEEeqnarray*}{rCl}
+	\sum_{x \in S} \tilde{c}(x) &\leq& \sum_{i = 1}^{|S|} \frac{c(S)}{|S| - (i-1)} \\
+	&\leq& c(S) \cdot \sum_{i=1}^{|S|} \frac{1}{i} \\
+	&=& c(S) \cdot H_{|S|}.
+\end{IEEEeqnarray*}
+This proves the claim.
+Due to the proof of the claim, the theorem has been proven.
+\end{proof}
+\NoEndMark
+\end{proof}
+The result is best possible:
+Take $S = \{ 1, \ldots, n \}$ and let $S_i = \{ i \}$ with costs $\frac{1}{i}$. Additionally add $S_{n+1} = S$ with weight $1 + \varepsilon$. The greedy algorithm will select all singletons, whereas $S_{n+1}$ would be optimal. This gives an approximation ratio of $H_n$.
+The same boundary can be proven for the unweighted case. \\
+\begin{remark}
+\begin{itemize}
+\item Unless $P = \NP$ no \textit{better} algorithm exists.
+\item The proof shows:
+\[
+	\sum_{S \in F} c(S) \leq H_l \cdot \sum_{S \in F^*} c(S),
+\]
+where
+\[
+	l \coloneqq \max_{S \in \{S_1, \ldots, S_m\}} \{ |S| \}.
+\]
+\item Runtime: $\mathcal{O}(m^2 + \sum_{i=1}^m |S_i|)$.
+\item Negative weights? Add all sets with negative weight. In general, we cannot find a boundary on the approximation ratio, as the optimum solution could have weight zero, in which case we would have to find an optimum solution.
+\item Special case: $|S_i| = 2$: \textsc{Edge Cover} can be solved exactly in polynomial time (\textsc{Minimum-Weight-Perfect-Matching}).
+\item Special case: \textsc{Minimum Size Vertex Cover}.
+\end{itemize}
+\end{remark}
+\begin{theorem} % Thm 22
+There exists a 2-approximation algorithm for \textsc{Minimum Size Vertex Cover}.
+\end{theorem}
+\begin{proof}
+Compute a \textit{maximal} matching $M$. Set
+\[
+	S \coloneqq \{ x \in V(G) \mid \exists \{ x, y\} \in M\}.
+\]
+Then $S$ is a vertex cover and $|S| = 2 \cdot |M|$. \\
+\underline{Observation:} $\OPT \geq |M|$, as not two edges in a matching are incident.
+Thus, $|S| \leq 2 \cdot \OPT$.
+\end{proof}
+\begin{remark}
+\begin{itemize}
+\item This is the best ratio known for \textsc{Minimum Size Vertex Cover}.
+\item $1.36$ is a lower bound unless $P = \NP$ [Dinur, Sufu, 2005].
+\item $2-\varepsilon$ is a lower bound if the unique games conjecture is true [Knot, Reger, 2008].
+\end{itemize}
+\end{remark}
+\begin{problem}[$k$-Center]
+\begin{tabular}{ll}
+\textit{Input:} & A finite set $X$, a metric $\dist : X \times X \to \R$, $k \in N$. \\
+\textit{Output:} & A set $C \subseteq X$ with $|C| = k$, \ac{st} \\
+&$\max_{x \in X} \min_{c \in C} \{\dist(x, c)\}$ is minimum.
+\end{tabular}
+\end{problem}
+\textsc{$k$-Center} can be solved in polynomial time for fixed $k$: enumerate all $C$. There are
+\[
+	\begin{pmatrix}
+	|X| \\ k
+	\end{pmatrix} 
+\]
+possibilities, thus we have a runtime of $\mathcal{O}(|X|^{k+1} k)$.
+View this as a problem on graphs:
+\begin{IEEEeqnarray*}{rCl}
+X \, &:& \, \text{vertices of a complete graph } G. \\
+\dist \, &:& \, E(G) \to \R_{\geq 0} \text{ metric}.
+\end{IEEEeqnarray*}
+Let $G = (V, E)$ be a graph. $D \subseteq V(G)$ is a dominating set if
+\[
+	\forall v \in V(G) \setminus D \, \exists d \in D \, : \, \{ v, d \} \in E(G).
+\]
+\end{document}
