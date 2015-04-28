@@ -1,0 +1,223 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+An equivalent formulation of \textsc{$k$-Center} in terms of graph theory is:
+\begin{problem}[$k$-Center]
+\begin{tabular}{ll}
+\textit{Input:} & A complete graph $G = (V, E)$, a matric $\dist : E(G) \to \R$, $k \in \N$. \\
+\textit{Output:} & A set $C \subseteq V(G)$ with $|C| = k$, \ac{st} \\
+&$\max_{v \in V} \min_{c \in C} \{\dist(x, c)\}$ is minimum.
+\end{tabular}
+\end{problem}
+A dominating set is then defined as
+\[
+	S \subseteq V(G) \; : \; \forall x \in V \setminus S \; \exists s \in S \; : \; \{ x, s \} \in E(G).
+\]
+We call
+\[
+	\dom(G) \coloneqq \min \{ |D| \mid D \text{ is a dominating set for } G \}
+\]
+the \emph{domination number}.
+\begin{theorem} % Thm 23
+\label{thm:23}
+Computing $\dom(G)$ is \NP-hard.
+\end{theorem}
+\begin{proof}
+Reduction from \textsc{Vertex Cover}: Let $G$ be an instance of \textsc{Vertex Cover}.
+Construct a new graph $G'$ as follows: Replace all edges of $G$ by a path of length $2$.
+Completely connect all vertices in $G'$ that are in $G$.
+
+If $C$ is a \textsc{Vertex Cover} in $G$, then $C$ is a dominating set in $G'$: This is clear for vertices in $G$, clear for other vertices as they correspond to edges in $G$.
+
+If $C$ is a dominating set in $G'$, there always  exists a dominating set in $G'$ of the same size using only vertices in $G$.
+\end{proof}
+Consider an $n \times n$-grid. What is its domination number? The restricted problem is in $P$ because sparse \NP-hard sets do not exist unless $P = \NP$.
+In 2011, it was found that the domination number for an $n \times n$-grid (if $n \geq 7$) is
+\[
+	\left\lfloor \frac{(n+2)^2}{5} \right\rfloor - 4.
+\]
+\begin{theorem} % Thm 24
+\label{thm:24}
+\textsc{$k$-Center} is \NP-hard.
+\end{theorem}
+\begin{proof}
+Reduction from \textsc{Dominating Set}: Let $G = (V, E)$ be an instance of \textsc{Dominating Set}.
+Construct a complete graph $G'$ on $V(G)$ with
+\[
+\dist(e) \coloneqq \begin{cases}
+1, & \text{if } e \in E(G) \\
+2, & \text{if } e \notin E(G)
+\end{cases}
+\]
+as metric.
+Then
+\[
+	\dom(G) = \min_{1 \leq k \leq |V|} \left\{ C \subseteq V \mid |C| = k \text{ and } \max_{x \in V} \min_{c \in C} \{ \dist(x, c) = 1 \} \right\}.
+\]
+This forces a solution to only use edges in the graph, as other choices would increase the maximum to $2$.
+\end{proof}
+Let $G = (V, E)$ be a graph. A subset $S \subseteq V(G)$ is called \emph{2-stable} if the shortest path between any two different vertices in $S$ has a length of at least $3$.
+
+We can compute \underline{maximal} 2-stable sets in polynomial time.
+\begin{algorithm}[$k$-Center-Algorithm]
+\begin{tabular}{ll}
+\textit{Input:} & A complete graph $G = (V, E)$, metric weights $\dist : E(G) \to \R$, $k \in \N$ \\
+\textit{Output:} & A set $S \subseteq V(G)$.
+\end{tabular}
+\begin{algorithmic}[1]
+\State Let $E = \{ e_1, \ldots, e_m \}$ \ac{st} $\dist(e_1) \leq \dist(e_2) \leq \ldots \leq \dist(e_m)$.
+\For{$i = 1$ to $m$}
+\State $G_i \coloneqq (V, \{ e_1, \ldots, e_i \})$
+\State Compute a maximal 2-stable set $S_i$ in $G_i$
+\State If $|S_i| \leq k$ then return $(S_i)$
+\EndFor
+\end{algorithmic}
+\end{algorithm}
+\begin{theorem} % Thm 25
+\label{thm:25}
+The \textsc{$k$-Center-Algorithm} has an approximation ratio of $2$.
+\end{theorem}
+\begin{proof}
+The algorithm will always return a solution.
+Let $S$ be the maximal $2$-stable set returned by the algorithm in iteration $j$.
+Each vertex not in $S$ is connected by a path of length at most $2$ with a vertex in $S$.
+Thus, $S$ is a solution to the \textsc{$k$-Center} problem with value smaller or equal to $2 \cdot \dist(e_j)$.
+
+\underline{Claim 1:} $\dom(G_i) \geq |S_i|$ for all $1 \leq i \leq m$. \\
+Let $D$ be a dominating set in $G_i$. Then, $G_i$ be covered by $|D|$ stars. The set $S_i$ can contain at most $1$ vertex from each star, implying $\dim(G_i) \geq |S_i|$.
+
+\underline{Claim 2:} $\OPT \geq \dist(e_j)$. \\
+For $i < j$ the algorithm finds a 2-stable set $S_i$ in $G_i$ with $|S_i| > k$. By Claim 1: $\dom(G_i) \geq |S_i| > k$.
+Thus, an optimum solution to the \textsc{$k$-Center} problem has to use at least one edge of at least $\dist(e_j)$.
+
+By Claim 2, we have a 2-approximation.
+\end{proof} 
+\begin{remark}
+The analysis is tight:
+Consider a graph consisting out of $K_n$ with distance $2$ on its edges and an additional vertex connected to all vertices with distance $1$. For the \textsc{$k$-Center} problem with $k = 1$, $\OPT = 1$. However, the algorithm may find a solution with value $2$.
+\end{remark}
+\begin{theorem} % Thm 26
+\label{thm:26}
+For no $\varepsilon > 0$ there exists a $(2-\varepsilon)$-approximation algorithm for the \textsc{$k$-Center} problem, unless $P = \NP$.
+\end{theorem}
+\begin{proof}
+Reduce \textsc{Dominating Set} to this problem.
+Let $G = (V, E)$ be an instance of \textsc{Dominating Set}.
+Construct a complete graph $G'$ on $V(G)$ with
+\[
+	\dist(e) \coloneqq \begin{cases}
+	1, & \text{if } e \in E(G) \\
+	2, & \text{if } e \notin E(G) \\
+	\end{cases}
+\]
+If $\dom(G) \leq k$, then the \textsc{$k$-Center} problem has a solution with value $1$.
+If $\dom(G) > k$, then the \textsc{$k$-Center} problem has a solution with value $2$.
+
+A $(2-\varepsilon)$-approximation algorithm for the \textsc{$k$-Center} can distinguish between two cases: If $\OPT = 1$, then the algorithm returns a solution with value $2 - \varepsilon$ and if $\OPT = 2$ the algorithm returns $2$.
+\end{proof}
+\begin{remark}
+\begin{itemize}
+\item In the Euclidean case a $1.833$-approximation is known.
+\item Its runtime is $\mathcal{O}(n\cdot m)$.
+\end{itemize}
+\end{remark}
+\begin{problem}[Maximum Satisfiability (Max-Sat)]
+\begin{tabular}{ll}
+\textit{Input:} & A set $\mathcal{C}$ of clauses with variables $X = \{ x_1, \ldots, x_n \}$ and \\
+& weights $c : \mathcal{C} \to \R_+$ \\
+\textit{Output:} & A truth assignment to the $x_i$ \ac{st} the total weight of all \\
+& satisfied clauses of $\mathcal{C}$ is maximal.
+\end{tabular}
+\end{problem}
+A simple randomized \sfrac{1}{2}-approximation algorithm: Assign randomly the value ``\textit{true}'' or ``\textit{false}'' to each variable.
+What is the approximation ratio of this algorithm?\tabularnewline
+For a randomized algorithm $A$ we define its approximation ratio to be c, if
+\[
+	\mathbb{E}(A(I)) \leq c \cdot \OPT(I)
+\]
+(if $I$ is a minimization problem).
+Set
+\[
+	Y_z \coloneqq \begin{cases}
+	1, & \text{if clause } z \text{ is satisfied} \\
+	0, & \text{else}
+	\end{cases}
+\]
+and
+\[
+	|z| \coloneqq \text{\# of literals}.
+\]
+In a preprocessing step, we ensure each variable occurs one per clause, i.e.~we remove $x_1 \vee \overline{x_1}$.
+Then,
+\[
+	\mathbb{E}(Y_z) = \Pr [Y_z = 1] = \frac{1}{2^{|z|}} \cdot \left( 2^{|z|} - 1 \right) = 1 - 2^{-|z|}.
+\]
+Hence,
+\begin{IEEEeqnarray*}{rCl}
+\mathbb{E} \left[ \sum_{z \in Z} Y_z \cdot c(z) \right] &=& \sum_{ z \in Z} c(z) \cdot \mathbb{E}(Y_z) \\
+&=& \sum_{z \in Z} c(z) \cdot \left( 1 - 2^{-|z|} \right) \\
+&\geq& \left(1 - 2^{-p} \right) \cdot \sum_{z \in Z} c(z),
+\end{IEEEeqnarray*}
+with $p \coloneqq \min_{z \in Z} |z|$. $p \geq 1$ implies this being a \sfrac{1}{2}-approximation.
+\begin{remark}
+This algorithm can be derandomized by the method of conditional probabilities.
+\end{remark}
+\begin{algorithm}[Johnson's Algorithm]
+\begin{tabular}{ll}
+\textit{Input:} & Set $\mathcal{C}$ of clauses with variables $X = \{ x_1, \ldots, x_n \}$, $w \; : \; \mathcal{C} \to \R_+$ \\
+\textit{Output:} & A truth assignment for $X$.
+\end{tabular}
+\begin{algorithmic}[1]
+\State Set $\tilde{w}(C) \coloneqq \frac{w(C)}{2^{|\mathcal{C}|}} \quad \forall C \in \mathcal{C}$.
+\For{$i \coloneqq 1$ to $n$}
+\If{$\sum_{x_i \in C} \tilde{w}(C) > \sum_{\overline{x_i} \in C} \tilde{w}(C)$}
+\State $y \coloneqq x_i$
+\Else
+\State $y \coloneqq \overline{x_i}$.
+\EndIf
+\State Set $y$ to \textit{true}.
+\State Set
+\[
+\tilde{w}(C) \coloneqq \begin{cases}
+0, & \text{if } y \in C \\
+2 \cdot \tilde{w}(C), & \text{if } \bar{y} \in C
+\end{cases}
+\]
+\EndFor
+\end{algorithmic}
+\end{algorithm}
+\begin{theorem} % Thm 27
+\label{thm:27}
+\textsc{Johnson's Algorithm} for \textsc{Max-Sat} has approximation ratio $1 - 2^{-p}$ with $p \coloneqq \min_{C \in \mathcal{C}} |C|$.
+\end{theorem}
+\begin{proof}
+\begin{itemize}
+\item $\sum_{C \in \mathcal{C}} \tilde{w}(C)$ will never increase during the algorithm.
+\item at the start we have
+\[
+	\sum_{C \in \mathcal{C}} \tilde{w}(C) = \sum_{C \in \mathcal{C}} \frac{w(C)}{2^{|C|}}
+\]
+\end{itemize}
+Let $F \subseteq \mathcal{C}$ be the set of clauses not satisfied by the algorithm at termination. Then
+\begin{IEEEeqnarray*}{rCl}
+\sum_{C \in \mathcal{C}} \tilde{w}(C) &=& \sum_{F \subseteq \mathcal{C}} \tilde{w}(C) \\
+&=& \sum_{F \subseteq \mathcal{C}} w(C) \\
+&\leq& \sum_{C \in \mathcal{C}} \frac{w(C)}{2^{|C|}} \\
+&\leq& 2^{-p} \sum_{C \in \mathcal{C}} w(C).
+\end{IEEEeqnarray*}
+Hence, the total weight of satisfied clauses is greater or equal to
+\[
+	\left(1 - 2^{-p} \right) \sum_{C \in \mathcal{C}} w(C).
+\]
+\end{proof}
+Is the analysis tight?
+\begin{table}[h]
+\begin{tabular}{cc}
+$x_1$ & $\overline{x_1} \vee x_2$ \\
+$w = 1$ & $w = 2$ \\
+$\tilde{w} = \sfrac{1}{2}$ & $\tilde{w} = \sfrac{1}{2}$
+\end{tabular}
+\end{table}
+
+Then $x_1$ would be \textit{false}. The algorithm achieves $2$ but $\OPT = 3$.
+\end{document}
