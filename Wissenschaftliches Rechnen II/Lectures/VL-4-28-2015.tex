@@ -1,0 +1,173 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+\begin{remark} % Bem 2.2.6
+\label{bem:c2e2s6}
+Jede Lösung $u \in C^2(\bar{\Omega})$ von \cref{eq:c2e1s1} ist auch eine schwache Lösung.
+Umgekehrt ist jede schwache Lösung $u \in C^2$ auch eine (starke) Lösung von \cref{eq:c2e1s1}.
+\end{remark}
+\begin{theorem}[Existenz und Eindeutigkeit schwacher Lösungen] % Thm 2.2.7
+\label{thm:c2e2s7}
+Falls $- \frac{1}{2} \dive \beta + c \geq 0$ fast überall in $\Omega$ und $\beta \cdot \nu \geq 0$ fast überall auf $\Gamma_N$, dann besitzt \cref{eq:c2e1s1} mit gemischten Randbedingungen \labelcref{eq:c2e1s3} eine eindeutige schwache Lösung $u \in H_D^1(\Omega)$ und es gilt
+\[
+	\| u \|_{H^1_D} \leq \frac{1 + {C_F'}^2}{\lambda} \left( \| f \|_{L^2(\Omega)} + C_{trace} \| g \|_{L^2(\Gamma_N)} \right).
+\] 
+\end{theorem}
+\begin{proof}
+Der Beweis erfolgt mittels Lax-Milgram.
+Definiere das lineare Funktional
+\begin{IEEEeqnarray*}{rCl}
+F \; : \; H_D^1(\Omega) &\to& \R \\
+v &\mapsto& \int_\Omega fv \dx + \int_{\Gamma_N} gv \ds
+\end{IEEEeqnarray*}
+und die Bilinearform
+\begin{IEEEeqnarray*}{rCl}
+a \; : \; H_D^1(\Omega) \times H_D^1(\Omega) &\to& \R \\
+a(u, v) &\coloneqq& \int_\Omega (A \nabla u) \cdot \nabla v + (\beta \cdot \nabla u) v + cuv \dx.
+\end{IEEEeqnarray*}
+Dann ist \cref{eq:c2e1s4} äquivalent zu: Finde $u \in H_D^1(\Omega)$, sodass $\forall v \in H_D^1(\Omega) a(u, v) = F(v)$.
+Wir müssen zeigen, dass
+\begin{itemize}
+\item $F$ stetig
+\item $a$ stetig
+\item $a$ koerziv
+\end{itemize}
+Dann folgt mittel Lax-Milgram die Behauptung.
+
+\underline{Stetigkeit von $F$:}
+\begin{IEEEeqnarray*}{rCl}
+|F(v)| &\overset{\text{C.S.U.}}{\leq}& \| f \|_{L^2(\Omega)} \| v \|_{L^2(\Omega)} + \| g \|_{L^2(\Gamma_N)} \underbrace{ \| v \|_{L^2(\Gamma_N)} }_{\underset{\text{\cref{bem:c2e2s1}}}{\leq} C_{trace} \| v \|_{H^1_D}} \\
+&\leq& \left( \| f \|_{L^2(\Omega)} + C_{trace} \| g \|_{L^2(\Omega)} \right) \| v \|_{H^1_D}. \\
+\| F \|_{H^1_D(\Omega)} &\leq& \| f \|_{L^2(\Omega)} + C_{trace} \| g \|_{L^2(\Omega)}.
+\end{IEEEeqnarray*}
+\underline{Koerzivität von $a$:}
+\begin{IEEEeqnarray*}{rCl}
+a(v, v) &=& \int_\Omega \underbrace{ (\nabla v)^\tp A \nabla v }_{\geq \lambda (\nabla v)^2} + \int_\Omega (\nabla v) \cdot (v\beta) + \int_\Omega c v^2 \dx 
+\end{IEEEeqnarray*}
+Zudem ist
+\[
+	\int_\Omega (\nabla v) \cdot (v \beta) = -\int_\Omega v \underbrace{ \dive (\beta v) }_{v \dive \beta + \beta \nabla v} + \int_{\Gamma_N} (\beta \cdot \nu) v^2 \ds
+\]
+Damit ist
+\[ 
+	2 \int_\Omega (\nabla v) \cdot (v \beta) = -\int_\Omega v^2 \dive \beta - \int_\Omega v \beta \nabla v + \int_{\Gamma_N} (\beta \cdot \nu) v^2 \ds.
+\]
+Dann ist
+\[
+	\int_\Omega (\nabla v) \cdot(v \beta) = -\frac{1}{2} \int_\Omega v^2 \dive \beta + \frac{1}{2} \int_{\Gamma_N} (\beta \cdot \nu) v^2 \ds.
+\]
+Insgesamt:
+\begin{IEEEeqnarray*}{rCl}
+a(v, v) &\geq& \lambda \| \nabla v \|_{L^2(\Omega)}^2 + \int_\Omega v^2 \underbrace{ \left( - \frac{1}{2} \dive \beta + c \right) }_{\geq 0} \dx \\
+&\geq& \frac{\lambda}{1 + {C_F'}^2} \| v \|_{H^1_D(\Omega)}^2, 
+\end{IEEEeqnarray*}
+wobei $C_F' \coloneqq C_F \frac{\diam \Omega}{\pi}$.
+Nebenrechnung:
+\[
+\| v \|_{H^1_D}^2 = \| \nabla v \|_{L^2}^2 + \| v \|_{L^2}^2 \leq \left(1 + {C_F'}^2 \right) \| \nabla v \|_{L^2}^\beta.
+\]
+\underline{Stetigkeit von $a$:}
+\begin{IEEEeqnarray*}{rCl}
+a(u, v) &\overset{\text{C.S.U.}}{\leq}& \underbrace{ \| A \|_{L^\infty(\Omega; \R^{d \times d})}}_{\Lambda} \| u \|_{H^1_D} \| v \|_{H^1_D} + \| \beta \|_{L^\infty(\Omega; \R^d)} \| u \|_{H^1_D} \| v \|_{H^1_D} \\
+&& {} + \| c \|_{L^\infty} \| u \|_{H^1_D} \| v \|_{H^1_D} \\
+&\leq& \left( \Lambda + \| \beta \|_{L^\infty(\Omega, \R^d)} + \| c \|_{L^\infty(\Omega)} \right) \| u \|_{H^1_D} \| v \|_{H^1_D}.
+\end{IEEEeqnarray*}
+\NoEndMark
+\hfill\proofSymbol
+\end{proof}
+\section{Konstruktion (simplizialer) finiter Elemente} % 2.3
+\label{sec:c2e3}
+Vereinfachende Annahme: $\Omega \subset \R^d$, $d \in \{ 1, 2, 3 \}$ offen, beschränkt, zusammenhängend und polyhedral berandet ($\Omega$ Intervall ($d = 1$), Polygon ($d = 2$), Polyeder ($d = 3$)).
+
+Die Konstruktion finiter Elemente besteht aus drei wesentlichen Schritten:
+\begin{enumerate}[(a)]
+\item Zerlegung $\tau$ von $\Omega$ in einfache Teilgebiete ``Elemente'' (Simplexe)
+\item Wähle Finite-Elemente-Raum $\mathcal{S}(\tau)$ besteht aus einfachen Funktionen auf den Teilgebieten (Polynome)
+\item Konstruktion einer \emph{lokalen} Basis.
+\end{enumerate}
+\begin{definition}[Reguläres\slash{}zulässiges Finite-Elemente-Gitter (Triangulierung)] % Def 2.3.1
+\label{def:c2e3s1}
+Sei $\tau = \{ T_j \mid 1 \leq j \leq N_\tau \}$ eine Zerlegung von $\Omega$ in abgeschlossene, nichtleere Elemente (Intervalle\slash{}Dreiecke\slash{}Tetraeder), sodass
+\[
+	\bar{\Omega} = \bigcup_{T \in \tau} T.
+\]
+Wir nennen $\tau$ ein reguläres Finite-Elemente-Gitter (reguläre Triangulierung), falls für alle $T_1, T_2 \in \tau$ gilt:\tabularnewline
+Entweder $T_1 \cap T_2 = \emptyset$ oder $T_1$ und $T_2$ teilen genau einen Knoten oder eine Kante ($d \geq 2$) oder genau eine Seite ($d = 3$).
+Wir verwenden folgende Notation
+\begin{itemize}
+\item $\mathcal{N}(\tau)$ Menge der Knoten (vertices)
+\item $\mathcal{E}(\tau)$ Menge der Kanten ($d \geq 2$)
+\item $\mathcal{F}(\tau)$ Menge der Seiten ($d = 3$)
+\item lokale Gitterweite $h_T \coloneqq \diam(T)$, $T \in \tau$
+\item globale Gitterweite $h_\tau \coloneqq \max_{T \in \tau} h_T$
+\end{itemize}
+\end{definition}
+\begin{definition}[Referenzelement] % Def 2.3.2
+\label{def:c2e3s2}
+Das Referenzelement wird definiert als
+\[
+	\hat{T} \coloneqq \left\{ x \in \R_{\geq 0}^2 \mid |x|_1 \leq 1 \right\}
+\]
+\end{definition}
+\begin{remark}[Affine Äquivalenz] % Bem 2.3.3
+\label{def:c2e3s3}
+Zu jedem Element $T \in \tau$ gibt es einen affinen Diffeomorphismus $\Phi_T \; : \; \hat{T} \to T$.
+\begin{itemize}
+\item $d = 1$: $T = [z_1, z_2]$, $\Phi_T(\hat{x}) = z_1 + \hat{x} (z_2 - z_1)$.
+\item $d = 2$: $T = \conv \{ z_1, z_2, z_3\}$, 
+\[
+	\Phi_T(\hat{x}) = z_1 + \Bigg[ z_2 - z_1 \Bigg| z_3 - z_1 \Bigg] \hat{x}.
+\]
+\end{itemize}
+\end{remark}
+\begin{definition}[Raum der Polynome $k$-ten Grades] % Def 2.3.4
+\label{def:c2e3s4}
+Definiere \\ $\PP_0 \coloneqq \R$ und für $k \geq 1$:
+\[
+	\PP_k \coloneqq \spn \{ x^\alpha \mid \alpha \in \N_0^d \; : \; |a|_1 \leq k \}
+\]
+Hierbei ist für $\alpha = (\alpha_1, \ldots \alpha_d)$ und $x = (x_1, \ldots, x_d)$
+\[
+	x^\alpha = x_1^{\alpha_1} \cdot x_2^{\alpha_2} \cdot x_d^{\alpha_d}
+\]
+und
+\[
+	|\alpha|_1 = \sum_{i = 0}^d \alpha_i.
+\]
+Wir werden die Menge der Multiindizes, die $\PP_k$ entsprechen, mit
+\[
+	\mathcal{M}_k \coloneqq \{ \alpha \in \N_0^d \mid |\alpha|_1 \leq k\}
+\]
+bezeichnen.
+\end{definition}
+\begin{remark} % Bem 2.3.5
+\label{bem:c2e3s5}
+$\PP_k$ ist invariant unter affiner Koordinatentransformation.
+\end{remark}
+Wir möchten die Elemente von $\PP_k$ durch Funktionswerte charakterisieren.
+\begin{theorem} % Thm 2.3.6
+\label{thm:c2e3s6}
+Sei $k \in \N$ und
+\[
+\hat{\Sigma}_k \coloneqq \left\{ z_\alpha \coloneqq \begin{pmatrix}
+\frac{\alpha_1}{k}, \frac{\alpha_2}{k}, \frac{\alpha_3}{k}, \ldots, \frac{\alpha_d}{k}
+\end{pmatrix}^\tp \mid \alpha \in \mathcal{M}_k \right\}
+\]
+sei die Menge der Referenzknoten.
+Dann gilt
+\[
+\dim \PP_k = \left|\hat{\Sigma}_k\right|
+\]
+und für alle
+\[
+	u = (u_z)_{z \in \hat{\Sigma}_k} \in \R^{\dim \PP_k}
+\]
+existiert genau ein Polynom $p \in \PP_k$ mit der Interpolationseigenschaft
+\[
+	\forall z \in \hat{\Sigma}_k \; : \; p(z) = u_z.
+\]
+\end{theorem}
+\begin{proof}
+mittels Induktion.
+\end{proof}
+\end{document}
