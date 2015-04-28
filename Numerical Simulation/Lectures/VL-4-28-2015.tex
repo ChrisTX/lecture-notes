@@ -1,0 +1,144 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+
+\subsection{General theorem on necessary and sufficient conditions}
+
+Let $u$ be a Banach space, $f:\mathcal{D}(f)\subseteq U\to\R$. Consider \par
+
+\begin{equation}\label{prob:c1e4-star}
+	\left\{
+	\begin{aligned}
+	\text{minimize } & f(u),\quad &\\
+	\text{subject to }&u\in N_j\subseteq U, j=1,...,n\,&\text{`inequality constraints'} \\
+	\text{and } & u\in M\subseteq U&\text{`equality constraints'}
+	\end{aligned}
+	\right\}
+\end{equation}
+
+\begin{definition}
+	A vector $h\in U$ is called 
+	\begin{enumerate}
+		\item a \emph{regular descent direction} of $f$ at $u_0$, if there exist $t_0 > 0, \delta>0$ and a neighbourhood $\mathcal{O}_0$ of zero, s.t.
+			\[
+				\frac{f(u_0+t(h+v)) - f(u_0)}{t}\leq -\delta,\quad\forall t\in (0,t_0),\forall v\in \mathcal{O}_0
+			\]
+			The set of such $h$ is called the \emph{regular descent cone} of $f$ at $u_0$.
+		\item an \emph{admissible direction} at $u_0$ w.r.t. $N\subseteq U$, if there exist $t_0>0$ and a neighbourhood $\mathcal{O}_0$ of zero, s.t.
+			\[
+				u_0 + t(h+v)\in N,\quad \forall t\in (0,t_0),\forall v\in \mathcal{O}_0
+			\]
+			The set of all these $h$ is called the \emph{admissible direction cone} at $u_0$ w.r.t. $N$.
+	\end{enumerate}
+\end{definition}
+\begin{remark*} 
+	If $h$ is a regular descent direction, or an admissible direction, then $\alpha h$ is the same. So the nomenclature as `cones' makes sense. Moreover both cones are always open.
+\end{remark*}
+
+Regarding Problem~\ref{prob:c1e4-star}, we now define
+
+\begin{equation*}
+	\left\{
+	\begin{aligned}
+	K_0 &\coloneqq& \text{regular descent cone at } u_0\text{ for }f \text{ in Problem~\ref{prob:c1e4-star}}\\
+	K_j &\coloneqq& \text{admissible direction cones at }u_0\text{w.r.t. }N_j,\,j=1,...n\\
+	K_{n+1}&\coloneqq& \text{tangent cone to }M\text{ at }u_0\text{ Def. 1.27} % REFERENZ
+	\end{aligned}
+	\right.
+\end{equation*}
+
+
+\begin{theorem}\label{thm:c1e39}
+	For the problem~\ref{prob:c1e4-star} we assume the following:
+	\begin{enumerate}
+		\item\label{thm:c1e39:e1} $\int{N_j}\not=\emptyset,\,j=1,...,n$
+		\item \label{thm:c139:e2} $K_0,...,K_{n+1}$ are convex, and $K_0\not=\emptyset$
+	\end{enumerate}
+	Then, if $u_0$ is a local minimum for problem~\ref{prob:c1e4-star}, there exist linear functions $\ell_i\in K_i^+,\,i=0,...,n+1$ which are not simultaneously zero, s.t. 
+	\[
+		\ell_0+\ell_1+...+\ell_{n+1} = 0\quad\text{'Necessary condition'}
+	\]
+	The $\ell_i$ are called \emph{generalized Lagrange-Multipliers}. It holds
+	\[
+		\ell_k\not=0\text{ if }\cap_{i=0,i\not=k}^{n+1} K_i\not=\emptyset
+	\]
+\end{theorem}
+
+The necessary condition condition (existence of the $\ell_i$) is sufficient for $u_0$ to be a global solution of problem~\ref{prob:c1e4-star}, if additionally it holds that
+\begin{enumerate}
+	\setcounter{enumi}{2}
+	\item \label{thm:c1e39:e3}$f$ is convex and continuous
+	\item \label{thm:c1e39:e4}\emph{Slater condition}: $N_1,...,N_n$ and $M$ are convex and
+			\[
+				\left(\cap_{j=1}^n int\,N_j\right)\cap M\not=\emptyset
+			\]
+\end{enumerate} 
+
+\begin{remark*}
+	We can always assume that one $N_j$ is present, by choosing $N_j=U$.
+\end{remark*}
+
+\begin{proof}
+	We first prove that the condition is necessary.\par
+	As we have statet in a remark above, $K_0,...,K_n$ are open. We showthat $\cap_{i=0}^{n+1}K_i=\emptyset$. Then the claim follows from the Dubovickii-Miljutin Lemma~\ref{thm:c1e37}. Assume $h\in\cap_{i=0}^{n+1}K_i$. Then there exist $t_0>0,\delta>0$ and a neighbourhood $\mathcal{O}_0$ of zero, s.t.
+	\[
+		\frac{f(u_0+  t(h+v)) - f(u_0)}{t}\leq -\delta 
+	\]
+	and
+	\[
+		u_0 + t(h+v)\in N_j,\,j=1,...,n
+	\]
+	for all $t\in(0,t_0)$ and $v\in\mathcal{O}_0$, for some $t_0 > 0$. Further, let $\gamma$ be the admissible curve for $h\in K_{n+1}$, then for small enough $t$ we have
+	\[
+		\gamma(t) = \underbrace{u_0 + th + o(t)}_{=u_0 + t(h+\frac{o(t)}{t})}\in M,\text{ and }0\leftarrow\frac{o(t)}{t}\in\mathcal{O}_0
+	\]
+	In other words
+	\[
+		\gamma(t)\in N_1,...,N_n,M\text{ and }f(\gamma(t)) - f(u_0) \leq -t\delta < 0,\text{ for small anough }t
+	\]
+	As $\gamma(t)\to u_0,$ for $t\to 0$ this contradicts the local optimality of $u_0$.\par
+	To prove the claim about $l_k\not=0$, assume, say, $l_0 = 0$, but $\cap_{i=1}^{n+1}K_i\not=\emptyset$. Then by assumption not all $\ell_1,...,\ell_{n+1}$ vanish, so one can condlude from lemma~\ref{thm:c1e37}, that $\cap_{i=1}^{n+1}K_i = \emptyset$, which is again a contradiction.\par
+	We now prove the sufficient condition. We additionally assume the additional assumptions (iii), (iv) hold, but that exists $u_1\in N_1\cap...\cap N_n\cap M$ with $f(u_1)<f(u_0)$. By (iv) we can pick $h\in\ int\,N_1 \cap...\cap int\,N_n\cap M$. Let
+	\[
+		u_s = su_1 + (1-s)h,\quad 0<s<1
+	\]
+	It follows that $u_s+v\in N_1\cap...\cap N_n$ for small enough $\|v\|$. and by convexity
+	\[
+		u_0 + t(u_s+v-u_0)\in N_1\cap...\cap N_n,\quad\forall t\in (0,1)
+	\]
+	By definition, this proves
+	\[
+		u_s-u_0\in K_j,\quad j=1,...,n
+	\]
+	Also, by convexity ($M$ is convex as well) we have $\underbrace{u_0 + t(u_s-u_0)}_{\gamma(t)}\in M,\,\forall t\in(0,1)$. By definition, $u_s-u_0 \in K_{n+1}$. If we show that $u_s-u_0\in K_0$, so $u_s-u_0$ is also a descent direction, for some $s$, then we obtain a contradiction to lemma~\ref{thm:c1e37}. To show that $u_s-u_0\in K:0$, we choose $s\in(0,1)$ in a specific way, s.t.
+	\[
+		f(u_s+v) < f(u_0),\quad\text{ for small enough }\|v\|
+	\]
+	which is possible by the continuity of $f$ and $f(u_s)\to f(u_1)$, for $s\to 1$. Since $f$ is assumed to be convex, so we get for these $v$ that
+	\[
+		f(u_0+t(u_s+v-u_0)) \leq t f(u_s+v) + (1-t) f(u_0)
+	\]
+	This yields
+	\[
+		\frac{f(u_0+t(u_s-u_0+v))-f(u_0)}{t}\leq f(u_s+v)-f(u_0) < 0
+	\]
+	Therefore $u_s-u_0$ is a regular descent direction, i.e. $u_s-u_0\in K_0$.
+\end{proof}
+
+The main difficulty for is, that the result is not applicable to point-wise constraints in $L_p$ spaces.\par
+\textbf{Example 1.40: } %1.40
+Consider the problem in $U = L_2[0,1]$:
+\[
+	minimize\,\|u-u_*\|^2_{L_2},\,u_*\,given\text{ subject to } 0 \leq u(x)\leq 1\,a.e.
+\]
+This problem has a solution by theorem~\ref{thm:c1e14} since the set $N = \{u:0\leq u(x)\leq 1\}$ is bounded and convex in $L_2[0,1]$. But $N$ has no interior point: Let $\varphi_N = \sqrt{n}\mathbb{1}_{[0,\frac{1}{n^2}]}$, then $\| u-(u+\varphi_n) \|_{L_2}^2 = \|\varphi_n\|_{L_2}^2 =\frac{1}{n}$ but $u+\varphi_n\not= N$. Therefore, the lagrange-multiplier rule is not applicable. \par On the other hand, if we pose the problem in $C[0,1]$:
+\[
+	minimize\,\|u-u_*\|_\infty,\,u_*\in C[0,1]\,given\text{ subj. to }0\leq u(x)\leq 1\,\forall x\in[0,1]
+\]
+then $N = \{u\in C[0,1]: 0\leq u\leq 1\}$ \underline{does} contain an interior point and the theorem~\ref{thm:c1e39} is applicable. However\par
+\textbf{Exercise: }
+\begin{enumerate}
+\item Prove or disprove, that the problem in $C[0,1]$ always has a solution 
+\item Formulate the necessary conditions from Theorem~\ref{thm:c1e39} (what is $C[0,1]^*$?)
+\end{enumerate}
+\end{document}
