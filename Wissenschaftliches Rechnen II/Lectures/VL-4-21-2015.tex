@@ -8,7 +8,6 @@
 \begin{problem} % Problem (1)
 \label{prb:c2e1}
 Seien $\Omega \subseteq \R^d$, $d = \{ 1, 2, 3\}$, beschränktes Gebiet mit Lipschitz-Rand $\Gamma \coloneqq \partial \Omega$ und äußerer Einheitsnormalen $\nu$.
-\end{problem}
 In diesem Kapitel betrachten wir die skalare, lineare elliptische \ac{PDE} 2.~Ordnung:
 \begin{equation} % (2.1.1)
 \label{eq:c2e1s1}
@@ -25,6 +24,7 @@ wobei
 \item $c : \Omega \to \R$, $c \in L^\infty(\Omega)$.
 \item $f \in L^2(\Omega)$.
 \end{itemize}
+\end{problem}
 Eigenschaft \labelcref{eq:c2e2s2} charakterisiert die Gleichung als elliptisch.
 Die eindeutige Lösbarkeit der PDE \labelcref{eq:c2e1s1} erfordert Randbedingungen, z.B.
 \begin{itemize}
@@ -44,7 +44,7 @@ wobei $u_D$ gegeben ist.
 wobei $g \in L^2(\Gamma)$ gegeben ist.
 \item \emph{gemischte Dirichlet\slash{}Neumann-Randbedingungen}
 \begin{IEEEeqnarray*}{rCl'l}
-u &=& 0 & \text{auf } \Gamma_D, \IEEEyesnumber \label[equation]{eq:c2e1s3} \\ % (2.1.3)
+u &=& 0 & \text{auf } \Gamma_D, \IEEEyesnumber \label{eq:c2e1s3} \\ % (2.1.3)
 (A \nabla u) \cdot \nu &=& g & \text{auf } \Gamma_N,
 \end{IEEEeqnarray*}
 wobei $\Gamma = \Gamma_D \cup \Gamma_N$, $\Gamma_D \cap \Gamma_N = \emptyset$, $\Gamma_D$ abgeschlossen in $\Gamma$, $|\Gamma_D| > 0$ und $g \in L^2(\Gamma_N)$.
@@ -140,9 +140,10 @@ Die Friedrischs'sche Ungleichung zeigt, dass die $H^1$-Seminorm $|v|_{H^1} \colo
 \end{IEEEeqnarray*}
 \end{remark}
 \begin{definition}[schwache Lösung] % Def 2.2.5
-Eine Funktion $u \in H_D^1(\Omega)$ heißt schwache Lösung von \labelcref{eq:c2e1s1} mit gemischten Randbedingungen \labelcref{eq:c2e1s3}, falls gilt
-\[
-	\forall v \in H_D^1(\Omega) \; : \; \underbrace{ \int_\Omega (A \nabla u) \cdot \nabla v + (\beta \cdot \nabla u) v + cuv \dx }_{a(u, v)} = \underbrace{ \int_\Omega fv \dx + \int_{\Gamma_N} gv \ds }_{F(v)}.
-\]
+Eine Funktion $u \in H_D^1(\Omega)$ heißt schwache Lösung von \cref{eq:c2e1s1} mit gemischten Randbedingungen \labelcref{eq:c2e1s3}, falls gilt
+\begin{equation} % (2.1.4)
+\label{eq:c2e1s4}
+	\forall v \in H_D^1(\Omega) \, : \, \underbrace{ \int_\Omega (A \nabla u) \cdot \nabla v + (\beta \cdot \nabla u) v + cuv \dx }_{a(u, v)} = \underbrace{ \int_\Omega fv \dx + \int_{\Gamma_N} gv \ds }_{F(v)}.
+\end{equation}
 \end{definition}
 \end{document}
