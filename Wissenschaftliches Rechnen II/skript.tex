@@ -23,8 +23,15 @@
 \usepackage{tikz}
 \usepackage{acro}
 
-\pdfminorversion=7
-\usepackage{hyperref}
+\usepackage{ifpdf}
+
+\ifpdf
+	\pdfminorversion=7
+	\usepackage{hyperref}
+\else
+	\usepackage[hypertex]{hyperref}
+\fi
+
 
 \newcommand\myshade{85}
 \colorlet{mylinkcolor}{NavyBlue}
@@ -41,7 +48,11 @@
 % Unbedingt NACH hyperref laden.
 \usepackage{algpseudocode}
 \usepackage[amsmath,hyperref,thmmarks]{ntheorem}
-\usepackage[ntheorem,framemethod=tikz]{mdframed}
+\ifpdf
+	\usepackage[ntheorem,framemethod=tikz]{mdframed}
+\else
+	\usepackage[ntheorem,framemethod=default]{mdframed}
+\fi
 \usepackage[capitalize,nameinlink]{cleveref}
 \usepackage[a4paper]{geometry}
 \usepackage{IEEEtrantools}
