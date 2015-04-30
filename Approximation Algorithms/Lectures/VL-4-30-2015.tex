@@ -1,0 +1,223 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+\begin{algorithm}[Johnson's Algorithm (reformulation)]
+\begin{tabular}{ll}
+\textit{Input:} & Set $\mathcal{C}$ of clauses with variables $X = \{ x_1, \ldots, x_n \}$, $w \; : \; \mathcal{C} \to \R_+$ \\
+\textit{Output:} & A truth assignment for $X$.
+\end{tabular}
+\begin{algorithmic}[1]
+\State Set $w_0(C) \coloneqq \frac{w(C)}{2^{|\mathcal{C}|}}$ for $C \in \mathcal{C}$.
+\State $T_0 \coloneqq \emptyset$
+\For{$i \coloneqq 1$ to $n$}
+\If{$\sum_{x_i \in C} w_{i-1}(C) > \sum_{\overline{x_i} \in C} w_{i-1}(C)$}
+\State $y \coloneqq x_i$
+\Else
+\State $y \coloneqq \overline{x_i}$.
+\EndIf
+\State Assign \textit{true} to $y$.
+\State Set
+\[
+w_i(C) \coloneqq \begin{cases}
+0, & \text{if } y \in C \\
+2 \cdot w_{i-1}(C), & \text{if } \bar{y} \in C \\
+w_{i-1}(C), & \text{else}
+\end{cases}
+\]
+\State $T_i \coloneqq T_{i-1} \cup \{ C \in \mathcal{C} \mid y \in C\}$.
+\EndFor
+\end{algorithmic}
+\end{algorithm}
+\begin{example}
+Consider the following instances:
+\begin{table}[h]
+\begin{tabular}{ccc}
+$x_1$ & $x_1$ & $\overline{x_1} \vee x_2$ \\
+$w = 1$ & $w=1$ & $w = 2$
+\end{tabular}
+\end{table}
+
+The algorithm without scaling may choose to set $x_1$ to \textit{false}, and the total weight would be 2. This gives a \sfrac{1}{2}-approximation, as the optimum is 4.
+\begin{table}[h]
+\begin{tabular}{cc}
+$x_1$ & $\overline{x_1} \vee x_2$ \\
+$w = 1$ & $w = 2$
+\end{tabular}
+\end{table}
+
+The algorithm with scaling finds a solution of weight 2. Thus, we have a \sfrac{2}{3}-approximation.
+\end{example}
+We define:
+\begin{IEEEeqnarray*}{rCl}
+T_i &\coloneqq& \text{ set of all clauses that are \textit{true} after iteration } i \\
+F_i &\coloneqq& \mathcal{C}\setminus T_i \text{ is the set of all clauses that are possibly \textit{false}} \\
+&& \text{at the end of the algorithm.} \\
+w_i(F_i) &\leq& w_{i-1}(F_{i-1}) \; \Leftrightarrow \; w_i(F_i) - w_{i-1}(F_{i-1}) \leq 0
+\end{IEEEeqnarray*}
+\begin{lemma} % Lemma 28
+\label{thm:28}
+Let $\mathcal{C}$ be a set of clauses with variables $\{ x_1, \ldots, x_n \}$ and weights $w : \mathcal{C} \to \R_+$. Let $\pi : \{ x_1, \ldots, x_n\} \to \{ \textit{true}, \textit{false} \}$ be an arbitrary truth assignment.
+After each iteration ($i = 1, \ldots, n$) of \textsc{Johnson's Algorithm} we have
+\[
+	w_i\left( F_i^\pi \right) - w_{i-1} \left( F_{i-1}^\pi \right) \leq \frac{1}{2} \left( w(T_i) - w(T_{i-1}) \right),
+\]
+where $F_i^\pi \subseteq F_i$ is the set of all clauses in $F_i$ that are \textit{false} if the assignment of $x_1, \ldots, x_i$ by the algorithm is extended to $x_{i+1}, \ldots, x_n$ by using $\pi$.
+\end{lemma}
+\begin{theorem} % Thm 29
+\label{thm:29}
+\textsc{Johnson's Algorithm} for \textsc{Max-Sat} has approximation ratio \sfrac{2}{3}. 
+\end{theorem}
+\begin{proof}
+Let $\mathcal{C}$, $w : \mathcal{C} \to \R_+$ be an instance of \textsc{Max-Sat} with variables $\{ x_1, \ldots, x_n \}$. Let $\pi : \{ x_1, \ldots, x_n\} \to \{ \textit{true}, \textit{false} \}$ be an optimum assignment and $\OPT$ its value.
+
+\underline{Claim:} $w(T_n) \geq \frac{1}{3} \left( w(\mathcal{C}) + \OPT \right)$. \\
+\[
+\sum_{i=1}^n \left( w_i \left(F_i^\pi \right) - w_{i-1} \left( F_{i-1}^\pi \right) \right) \leq \frac{1}{2} \sum_{i=1}^n \left( w(T_i) - w(T_i-1) \right)
+\]
+Thus,
+\[
+	w_n\left(F_n^\pi\right) - w_0\left(F_0^\pi\right) \leq \frac{1}{2} \left( w(T_n) - w(T_0) \right).
+\]
+Then, $w(T_0) = 0$ and $F_n^\pi = F_n$. Hence,
+\[
+	w_n \left( F_n^\pi \right) = w(F_n) = w(\mathcal{C}) - w(T_n).
+\]
+Lastly,
+\[
+	w_0 \left( F_0^\pi \right) \leq \frac{1}{2} w \left( F_0^\pi \right) = \frac{1}{2} (w(\mathcal{C}) - \OPT).
+\]
+By inserting these equalities into above equation:
+\[
+	w(\mathcal{C}) - w(T_n) \leq \frac{3}{2} w(T_n) + \frac{1}{2} w(\mathcal{C}) - \frac{1}{2} \OPT. 
+\]
+This gives
+\[
+	\frac{1}{2} ( w(\mathcal{C}) + \OPT ) \leq \frac{3}{2} w(T_n). 
+\]
+\end{proof}
+\begin{proof}[\cref{thm:28}]
+Consider iteration $i$ of \textsc{Johnson's Algorithm}. \Ac{wlog} assume that the algorithm assigns \textit{true} to $x_i$.
+Then,
+\begin{equation}
+\tag{$\star$}
+\label{eq:thm-28-star}
+\sum_{x_i \in C} w_{i-1}(C) \geq \sum_{\overline{x_i} \in C} w_{i-1} (C).
+\end{equation}
+We now prove
+\begin{equation}
+\tag{i}
+\label{eq:thm-28-i}
+\frac{1}{2} ( w(T_i) - w(T_{i-1}) ) \geq \sum_{x_i \in C} w_{i-1}(C)
+\end{equation}
+and
+\begin{equation}
+\tag{ii}
+\label{eq:thm-28-ii}
+\sum_{\overline{x_i} \in C} w_{i-1}(C) \geq w_i \left( F_i^\pi \right) - w_{i-1} \left( F_{i-1}^\pi \right)
+\end{equation}
+\begin{proof}[\labelcref{eq:thm-28-i}]
+Let $C \in T_i \setminus T_{i-1}$. Then, $x_i \in C$ and thus
+\[
+	w_{i-1} (C) \leq \frac{w(C)}{2}.
+\]
+Hence,
+\[
+	w(T_i) - w(T_{i-1}) \geq 2 \cdot \sum_{x_i \in C} w_{i-1}(C)
+\]
+\end{proof}
+\begin{proof}[\labelcref{eq:thm-28-ii}]
+\underline{Case 1:} $\pi(x_i) = \textit{true}$. \\
+Algorithm also assigns \textit{true} to $x_i$. Thus, $F_i^\pi = F_{i-1}^\pi$.
+Each clause in $F_i^\pi$ contains either $\overline{x_i}$ or neither $x_i$ nor $\overline{x_i}$.
+Thus we have:
+\begin{IEEEeqnarray*}{rCl}
+w_i \left( F_i^\pi \right) &=& \sum_{C \in F_i^\pi} w_i(C) \\
+&=& \sum_{\substack{C \in F_i^\pi \\ \overline{x_i} \in C}} w_i(C) + \sum_{\substack{C \in F_i^\pi \\ x_i, \overline{x_i} \notin C}} w_i(C) \\
+&=& \sum_{\substack{C \in F_i^\pi \\ \overline{x_i} \in C}} 2\cdot w_{i-1}(C) + \sum_{\substack{C \in F_i^\pi \\ x_i, \overline{x_i} \notin C}} w_{i-1}(C) \\
+&=& \sum_{\substack{C \in F_i^\pi \\ \overline{x_i} \in C}} w_{i-1}(C) + w_{i-1} \left( F_{i-1}^\pi \right)
+\end{IEEEeqnarray*}
+Hence,
+\[
+	w_i \left( F_i^\pi \right) - w_{i-1} \left( F_{i-1}^\pi \right) = \sum_{\substack{C \in F_i^\pi \\ \overline{x_i} \in C }} w_{i-1}(C) \leq \sum_{\overline{x_i} \in C} w_{i-1}(C).
+\]
+
+\underline{Case 2:} $\pi(x_i) = \textit{false}$. \\
+The algorithm and $\pi$ disagree on $x_i$. No clause in $F_{i-1}^\pi$ contains $\overline{x_i}$. No clause in $F_i^\pi$ contains $x_i$. If a clause contains neither $x_i$ nor $\overline{x_i}$ then it's in both sets $F_{i-1}^\pi$ and $F_i^\pi$ or in none.
+Therefore,
+\begin{IEEEeqnarray*}{rCl}
+	w_i \left( F_i^\pi \right) - w_{i-1} \left( F_{i-1}^\pi \right) &=& \sum_{\substack{C \in F_i^\pi, \\ \overline{x_i} \in C }} w_i(C) - \sum_{\substack{C \in F_{i-1}^\pi, \\ x_i \in C}} w_{i-1}(C) \\
+	&=& 2 \cdot \sum_{\substack{C \in F_i^\pi, \\ \overline{x_i} \in C}} w_{i-1}(C) - \sum_{\substack{C \in F_{i-1}^\pi, \\ x_i \in C}} w_{i-1}(C) \\
+	&\leq& 2 \cdot \sum_{\overline{x_i} \in C} w_{i-1}(C) - \sum_{x_i \in C} w_{i-1}(C) \\
+	&\leq& \sum_{\overline{x_i} \in C} w_{i-1}(C).
+\end{IEEEeqnarray*}
+\end{proof}
+The statements follows from both claims.
+\end{proof}
+\begin{remark}
+\begin{itemize}
+\item \textsc{Johnson's Algorithm}: $0.66$ approximation.
+\item Avidor, Borkovitch, Zwick (2006): $0.7968$ approximation.
+\end{itemize}
+\end{remark}
+\paragraph{Example.}
+Consider the \textsc{Set Cover} problem.
+\[
+	U = \{ 1, \ldots, n \}, \; S_1, \ldots, S_m \subseteq U, \; c : \{ S_1, \ldots, S_m \} \to \R_+.
+\]
+\underline{IP}:
+\begin{IEEEeqnarray*}{lrCl}
+\min \sum_{i=1}^m c(S_i) - x_i \\
+\text{\ac{st}} & \sum_{j \in S_i} x_i &\geq& 1 \quad \text{for each } j \in \{ 1, \ldots, n \} \\
+& x_i &\in& \{ 0, 1\}
+\end{IEEEeqnarray*}
+We obtain an LP from this, by replacing the integrality condition with $x_i \geq 0$.
+Set 
+\[
+	f \coloneqq \max_{1 \leq j \leq n} |\{ i \mid j \in S_i \}|
+\]
+as the maximal occurrence of an element.
+\begin{algorithm}[LP-based Algorithm for Set Cover]
+\begin{tabular}{ll}
+\textit{Input:} & $U = \{ 1, \ldots, n \}$, $S_1, \ldots, S_m \subseteq U$, $c : \{ S_1, \ldots, S_m \} \to \R_+$ \\
+\textit{Output:} & A family $\mathcal{F} \subset \{ S_1, \ldots, S_m \}$ \ac{st} $\bigcup_{S \in \mathcal{F}} S = U$.
+\end{tabular}
+\begin{algorithmic}[1]
+\State Compute an optimum solution $x \in \R^n$ of the \textsc{Set Cover}-LP.
+\State $\mathcal{F} \coloneqq \left\{ S_i \mid x_i \geq \frac{1}{f} \right\}$.
+\end{algorithmic}
+\end{algorithm}
+\begin{theorem} % Thm 30
+The LP-based approximation algorithm for \textsc{Set Cover} has approximation ratio $f$.
+\end{theorem}
+\begin{proof}
+Let $x$ be an optimum solution of the \textsc{Set Cover}-LP. Set 
+\[
+	x_i' \coloneqq \begin{cases}
+	1, & \text{if } x_i \geq \frac{1}{f} \\
+	0, & \text{else}
+	\end{cases}.
+\]
+
+\underline{Claim:} $x'$ is a feasible solution of the \textsc{Set Cover} problem (IP). Consider an arbitrary $j \in \{ 1, \ldots, n \}$. We have
+\[
+	\sum_{j \in S_i} x_i \geq 1.
+\]
+As $j$ appears in at most $f$ different sets $S_i$ there must exist at least $i$ with $j \in S_i$ and $x_i \geq \frac{1}{f}$.
+This implies
+\[
+	x_i' = 1 = \sum_{j \in S_i} x_i' \geq 1.
+\]
+
+Furthermore,
+\begin{IEEEeqnarray*}{rCl}
+	\sum_{i=1}^m c(S_i) \cdot x_i' &\leq& \sum_{i=1}^m c(S_i) \cdot x_i \cdot f \\
+	&=& f \cdot \sum_{i=1}^m c(S_i) \cdot x_i \\
+	&=& f \cdot \OPT_{LP} \\
+	&\leq& f \cdot \OPT_{IP}.
+\end{IEEEeqnarray*}
+This proves the approximation ratio.
+\end{proof}
+\begin{remark}
+The difference between $\OPT_{LP}$ and $\OPT_{IP}$ is called \emph{integrality gap}.
+\end{remark}
+\end{document}

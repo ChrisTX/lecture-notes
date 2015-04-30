@@ -1,0 +1,103 @@
+\documentclass[oneside,a4paper]{amsart}
+
+\usepackage{geometry}
+\usepackage{parskip}
+\usepackage{mathtools}
+\usepackage{enumerate}
+\usepackage{IEEEtrantools}
+
+\newcommand{\NP}{\ensuremath{N \! P}}
+
+\begin{document}
+\title{Approximation Algorithms - Exercise Sheet 2 solutions}
+\maketitle{}
+\section*{Exercise 2.1}
+\subsection*{(i)}
+\[
+	n_i = |X| - 2 d_i,
+\]
+where $d_i$ is the number of edges of color $i$ in $X$.
+
+Alternatively: By considering $\tilde{G} = (V, E_1 \cup E_2)$ Then, $|\delta_{\tilde{G}}(v)| = 2$. Thus,
+\[
+	\underbrace{ |(E_1 \cup E_2) \cap \delta(X)| }_{= n_1 + n_2} \equiv 0 \mod 2
+\]
+\subsection*{(ii)}
+By part (i): $n_1 \equiv n_2 \equiv n_3 \mod 2$, $n_1 + n_2 + n_3 = 5$.
+W.l.o.g.~$n_1 = 3, n_2 = 1, n_3 = 1$.
+We have to exclude (w.l.o.g.~by symmetry) that
+\begin{enumerate}
+\item $\alpha(a) = \alpha(c) = \alpha(e) = 1$
+\item $\alpha(a) = \alpha(d) = \alpha(e) = 1$
+\end{enumerate}
+If $\alpha(a) = \alpha(c) = \alpha(e) = 1$, $\alpha(b) = 2$, $\alpha(d) = 3$. This assignment makes it impossible to color the topmost edge. In the same way the other case can be proven to be impossible.
+\subsection*{(iii)}
+Consider two copies of $H$, the second one called $\bar{H}$. We name (w.r.t.~Figure 1 on the sheet), $H$'s $a$ $e$, $b$ $f$ and $e$ $a$. For $\bar{H}$ we use $b$ for $e$, $e'$ for $c$ and $f'$ for $d$. We connect them using the other edges.
+
+By (ii): $\alpha(e) = \alpha(f)$ iff $\alpha(e') = \alpha(f')$.
+
+\underline{Claim:} $\alpha(e) = \alpha(f) \; \Rightarrow \; \alpha(a) = \alpha(b)$.
+\begin{proof}
+By (i), since $|\hat{H}| = 2 \cdot |H|$ implies $n_i$ being even for $i \in \{ 1, 2, 3\}$.
+Since $\alpha(e) = \alpha(f)$, it follows that $\alpha(e') = \alpha(f')$ and also $\alpha(a) = \alpha(b)$, since otherwise there would be an odd $n_j$.
+\end{proof}
+$H_t$: Take $\{ \bar{H}^i \}_{1 \leq i \leq t}$.
+Connect $e'_i$ to $a_{i+1}$ and $f'_i$ to $b_{i+1}$ for $1 \leq i \leq t - 1$.
+As well: $e_t'$ to $a_1$ and $f_t'$ to $b_1$.
+
+We have
+\[
+	\delta(H_t) = \{ e_i, f_i \}_i.
+\]
+If there exists an $i$ s.t.~$\alpha(e_i) = \alpha(f_i)$, then the claim implies this holds for all $i$. In the same way, inequality for one $i$ implies inequality for all $i$.
+\subsection*{(iv)}
+By a coloring argument, if all $e_i$, $f_i$ were unequal, the uneven number of edges in the inner cycle creates a contradiction again.
+\subsection*{(v)}
+$\in \NP$ \checkmark
+
+Reduce \textsc{3Sat} to this. We assume our \textsc{3Sat} instance has only clauses with 3 literals.
+Build a graph: For each variable, take $H_t$, where $t$ is the number of occurrences of that variable (or its negation). For each clause, take the component $K$. Connect the edge pairs of the components of a clause to the edge pairs of the corresponding variables, adding a component $H$ in between, if the variable is negated.
+Add vertices so that all edges end somewhere.
+
+If we have a coloring of this graph, we set the variables to \textit{true} that have edge pairs of the same color, the other variables to \textit{false}. Then, every clause has an incoming pair of edges of the same color and thus a true variable.
+
+If we have a truth assignment, color edge pairs $(1, 1)$ for \textit{true} variables and $(2, 3)$ for \textit{false} ones.
+\section*{Exercise 2.2}
+\subsection*{(i)}
+In every step $|\delta(X)|$ increases by at least $1$. Since $|\delta(x)| \leq |E|$, this terminates in polynomial time.
+
+Assume that we have $X \subseteq V$ with
+\[
+	\forall v \in V \setminus X \; : \; |\delta(\{v\}, X)| > |\delta(\{v\}, V \setminus X)|
+\]
+and
+\[
+	\forall v \in X \; : \; |\delta(\{ v \}, V \setminus X)| > |\delta(\{ v\}, X)|.
+\]
+Then,
+\begin{IEEEeqnarray*}{rCl}
+2 \cdot |E| &=& \sum_{v \in V} |\delta(v)| \\
+&=& \sum_{v \in X} |\delta(\{ v\}, V \setminus X)| + |\delta(\{ v\}, X)| + \sum_{v \in V \setminus X} |\delta(\{ v\}, X)| + |\delta(\{ v\}, V \setminus X) \\
+&<& 2 \cdot \sum_{v \in X} |\delta(\{ v\}, V \setminus X)| + 2 \sum_{v \in V \setminus X} |\delta(\{ v\}, X) \\
+&=& 2 \cdot |\delta(X)| + 2 \cdot |\delta(X)| \\
+&=& 4 \cdot |\delta(X)|.
+\end{IEEEeqnarray*}
+Thus,
+\[
+	|\delta(X)| > \frac{1}{2} |E| \geq \frac{1}{2} \operatorname{OPT}.
+\]
+\subsection*{(ii)}
+Let $G_k = (V_k, E_k)$, with $n = 3k + 1$, $k \in \mathbb{N}$ and
+\begin{IEEEeqnarray*}{rCl}
+V_k &=& \{ v_1, \ldots, v_n \} \\
+E_k &=& \{ \{ v_i, v_{i+1} \} \mid i = 1, \ldots, n - 1 \}.
+\end{IEEEeqnarray*}
+The optimum solution is $X^* = \{ v_i \mid i \text{ odd} \}$, but the algorithm could pick
+\[
+	X = \{ v_1 \mid i -1 \equiv 0 \mod 3 \}.
+\]
+So,
+\[
+	|\delta(X^*)| = 3k \; \text{ and } \; |\delta(X)| = 2k.
+\]
+\end{document}

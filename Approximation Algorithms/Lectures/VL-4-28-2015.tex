@@ -168,14 +168,14 @@ This algorithm can be derandomized by the method of conditional probabilities.
 \textit{Output:} & A truth assignment for $X$.
 \end{tabular}
 \begin{algorithmic}[1]
-\State Set $\tilde{w}(C) \coloneqq \frac{w(C)}{2^{|\mathcal{C}|}} \quad \forall C \in \mathcal{C}$.
+\State Set $\tilde{w}(C) \coloneqq \frac{w(C)}{2^{|\mathcal{C}|}}$ for $C \in \mathcal{C}$.
 \For{$i \coloneqq 1$ to $n$}
 \If{$\sum_{x_i \in C} \tilde{w}(C) > \sum_{\overline{x_i} \in C} \tilde{w}(C)$}
 \State $y \coloneqq x_i$
 \Else
 \State $y \coloneqq \overline{x_i}$.
 \EndIf
-\State Set $y$ to \textit{true}.
+\State Assign \textit{true} to $y$.
 \State Set
 \[
 \tilde{w}(C) \coloneqq \begin{cases}
@@ -210,6 +210,8 @@ Hence, the total weight of satisfied clauses is greater or equal to
 	\left(1 - 2^{-p} \right) \sum_{C \in \mathcal{C}} w(C).
 \]
 \end{proof}
+\begin{example}
+
 Is the analysis tight?
 \begin{table}[h]
 \begin{tabular}{cc}
@@ -220,4 +222,5 @@ $\tilde{w} = \sfrac{1}{2}$ & $\tilde{w} = \sfrac{1}{2}$
 \end{table}
 
 Then $x_1$ would be \textit{false}. The algorithm achieves $2$ but $\OPT = 3$.
+\end{example} 
 \end{document}
