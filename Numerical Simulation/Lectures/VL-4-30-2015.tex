@@ -1,0 +1,214 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+\section{Saddle points and generalized KKT conditions} % 1.5
+\label{sec:c1e5}
+\begin{definition} % Def 1.41
+\label{def:c1e41}
+Let $K$ be a convex cone in a vector space $Z$ such that $0 \in K$. We write $z \geq_K \zeta$ \ac{iff} $z - \zeta \in K$.
+Analogously, $z \leq_K \zeta$ if $\zeta - z \in K$. The cone $K$ defining this relation is called the \emph{nonnegative cone in $Z$}.
+\end{definition}
+\begin{example}
+$Z = \R^3$, $K = \{ z \in \R^3 \; : \; z_1 = 0, z_2 \leq 0, z_3 \geq 0\}$.
+\end{example}
+\begin{definition} % Def 1.42
+\label{def:c1e42}
+Let $U$, $Z$ be linear spaces, and $K$ a nonnegative cone in $Z$. A function $G : U \to Z$ is called \emph{convex} (\ac{wrt} $\leq_K$) if
+\[
+	G(tu + (1-t)v) \leq_K tG(u) + (1-t) G(v) \quad \forall t \in (0, 1)
+\]
+\end{definition}
+\begin{problem}[General convex program]
+\label{prob:c1e5-star}
+\begin{IEEEeqnarray*}{u"l}
+minimize & f(u) \\
+subject to & G(u) \leq_K 0, \; u \in C
+\end{IEEEeqnarray*}
+\end{problem}
+\paragraph{Assumptions:}
+\begin{itemize}
+\item $C \subseteq U$ convex subset of the linear space $U$
+\item $f : C \to \R$ convex
+\item $G : U \to Z$ convex \ac{wrt} $\leq_K$
+\end{itemize}
+\underline{Observation:} The set
+\[
+\{ u \; : \; G(u) \leq_K 0, u \in C \}
+\]
+is convex.
+
+\textbf{Lagrange multipliers:} \\
+\underline{Idea:} In the setting of \cref{prob:c1e5-star}, let
+\[
+	\Gamma = \{ z \in Z \; : \; \exists u \in C \text{ with } G(u) \leq_K z \}.
+\]
+This set $\Gamma$ is convex. Define the \emph{primal function}
+\begin{IEEEeqnarray*}{rCl}
+\omega : \Gamma &\to& \R \cup \{ - \infty \}, \\
+\omega(z) &=& \inf \{  f(u) \; : \; u \in C, G(u) \leq_K z \}.
+\end{IEEEeqnarray*}
+We are interested in $\omega(0)$.
+\begin{proposition}
+The function $\omega$ is convex and decreasing, that is $z_1, z_2 \in \Gamma$ with $z_1 \geq_K z_2$, then $\omega(z_1) \leq \omega(z_2)$.
+\end{proposition}
+\begin{proof}
+\begin{IEEEeqnarray*}{rCl}
+\omega(tz_1 + (1-t) z_2) &=& \inf \{ f (u) \; : \; u \in C, G(u) \leq_K tz_1 + (1-t) z_2\} \\
+&\leq& \inf \{ f(u) \; : \; u = tu_1 + (1-t) u_2;\; u_1, u_2 \in C, \\
+&& G(u_1) \leq_K z_1, G(u_2) \leq_K z_2 \} \\
+&\leq& \inf \{ f(u_1) \; : \; u_1 \in C, G(u_1) \leq_K z_1 \} \\
+&& {} + (1-t) \inf \{ f(u_2) \; : \; u_2 \in C, G(u_2) \leq_K z_2 \} \\
+&=& t\omega(z_1) + (1-t) \omega(z_2).
+\end{IEEEeqnarray*}
+If $z_2 \leq_K z_1$, then $G(u) \leq_K z_2$ implies
+\[
+z_1 - G(u) = \underbrace{ z_1 - z_2 }_{\in K} + \underbrace{ z_2 - G(u) }_{\in K} \in K \quad \Leftrightarrow \quad G(u) \leq_K z_1.
+\]
+Therefore, the infimum in $\omega(z_2)$ is taken over a subset compared to $\omega(z_1)$.
+\end{proof}
+\underline{Idea:} There exist $z^* \in Z^*$ such that $z \mapsto \omega(z) + z^*(z)$ is minimized in 0.
+
+In the following, $Z$ is a normed space. \\
+\emph{Slater condition:} There exists $u_1 \in C$ \ac{st} 
+\[
+	G(u_1) <_K 0 \; \Leftrightarrow \; -G(u_1) \in \Int K.
+\]
+\begin{theorem}[Generalized KKT] % Thm 1.45
+\label{thm:c1e45}
+Let $U$ be a linear space, $Z$ a normed space, $C \subseteq U$ convex, and $K \subseteq Z$ a nonnegative cone.
+Let $f : C \to \R$ and $G : U \to Z$ be convex, and assume the Slater condition holds:
+Let
+\[
+	\mu_0 = \inf f(u) \quad \text{\ac{st}} \; u \in C, G(u) \leq_K 0
+\]
+and assume $\mu_0 > -\infty$.
+Then there exists $z_0^* \in K^+$ such that
+\[
+	\mu_0 = \inf_{u \in C} \left[ f(u) + \langle z_0^*, G(u) \rangle \right].
+\]
+If $u_0 \in C$, $G(u_0) \leq_K 0$ solves the convex program \cref{prob:c1e5-star} (i.e.~$f(u_0) = \mu_0$), then the \emph{complementary slack condition}
+\[
+	\langle z_0^*, G(u_0) \rangle = 0
+\]
+holds.
+\end{theorem}
+\begin{proof}
+In $W = Z \times R$, we define
+\begin{IEEEeqnarray*}{rCl}
+A &=& \{ (z, r) \; : \; r \geq f(u), G(u) \leq_K z \text{ for some } u \in C \}, \\
+B &=& \{ (z, r) \; : \; r \leq \mu_0, z \leq_K 0 \}.
+\end{IEEEeqnarray*}
+Both $A$ and $B$ are easily shown to be convex.
+The definition of $\mu_0$ implies that $\Int A \cap B = \emptyset$.
+Also, since $-K$ contains an interior point, $B$ contains an interior point.
+By the separation \cref{thm:c1e7}, there exists
+\[
+	\omega_0^* = (z_0^*, r_0) \in W^*, \; \omega_0^* \neq 0,
+\]
+such that
+\[
+	r_0 r_1 + \langle z_0^*, z_1 \rangle \geq r_0 r_2 + \langle z_0^*, z_2 \rangle \quad \forall (z_1, r_1) \in \Int A, (z_2, r_2) \in B.  
+\]
+By continuity of $\omega_0^*$ this in fact holds for all $(z_1, r_1) \in A$, $(z_2, r_2) \in B$.
+By the nature of $B$, this can only hold, if
+\[
+	r_0 \geq 0 \; \text{ and } \; z_0^*(z_2) \leq 0 \quad \forall z_2 \leq_K 0 \quad \Leftrightarrow \quad - z_2 \in K \quad \Leftrightarrow \quad z_0^* \in K^+.
+\]
+We show $r_0 > 0$. The point $(0, \mu_0)$ is in $B$, hence:
+\begin{equation}
+\tag{+}
+\label{eq:thm-c1e45-plus}
+r_0 r + \langle z_0^*, z \rangle \geq r_0 \mu_0 \quad \forall (r, z) \in A.
+\end{equation}
+If $r_0 = 0$, then we would have $\langle z_0^*, G(u_1) \rangle \geq 0$, but $z_0^* \neq 0$.
+As $G(u_1)$ is an interior point of $-K$, this implies $\langle z_0^*, z \rangle > 0$ for some $z \in - K$, which contradicts $z_0^* \in K^+$ as already shown. Hence $r_0 > 0$, we can assume $r_0 = 1$.
+
+Now we use that $(0, \mu_0) \in \partial A$. Therefore, using $r_0 = 1$ in \cref{eq:thm-c1e45-plus}:
+\begin{IEEEeqnarray*}{rCl}
+	\mu_0 &\overset{\text{\cref{eq:thm-c1e45-plus}}}{=}& \inf_{(z, r) \in A} \left[r + \langle z_0^*, z \rangle \right] \\
+	&\overset{\text{restricting to } (f(u),G(u)) \cap A}{\leq}& \inf_{u \in C} \left[ f(u) + \langle z_0^*, G(u) \rangle \right] \\
+	&\leq& \inf_{\substack{u \in C \\ G(u) \leq_K 0}} [ f(u) + \underbrace{ \langle z_0^*, G(u) \rangle }_{\leq 0}] \\
+	&\leq& \inf_{\substack{u \in C \\ G(u) \leq_K 0}} f(u) = \mu_0.
+\end{IEEEeqnarray*}
+
+\underline{Slack condition:} Given $u_0 \in C$, $G(u_0) \leq_K 0$ \ac{st} $f(u_0) = \mu_0$, then
+\begin{IEEEeqnarray*}{rCl}
+\mu_0 &\leq& f(u_0) + \underbrace{ \langle z_0^*, G(u_0) \rangle }_{\leq 0} \\
+&\leq& f(u_0) = \mu_0.
+\end{IEEEeqnarray*}
+Thus,
+\[
+	\langle z_0^*, G(u_0) \rangle = 0.
+\]
+\end{proof}
+\paragraph{Saddle point formulation}
+\begin{definition} % Def 1.46
+\label{def:c1e46}
+The function $L : C \times Z^* \to \R$,
+\[
+	L(u, z^*) = f(u) + \langle z^*, G(u) \rangle
+\]
+is called the \emph{Lagrange function} of the convex program \cref{prob:c1e5-star}.
+
+A point $(u_0, z_0^*) \in C \times K^+$ is called a \emph{saddle point} of the Lagrange function $L$, if it satisfies
+\[
+	L(u_0, z^*) \leq L(u_0, z_0^*) \leq L(u, z_0^*) \quad \forall u \in C, z^* \in K^+.
+\]
+In this case, $z_0^*$ is called the \emph{Lagrange multiplier} for $u_0$.
+\end{definition}
+\begin{theorem}[Saddle point formulation] % Thm 1.47
+\label{thm:c1e47}
+Under the same assumptions as in \cref{thm:c1e45}, if a point $u_0 \in C$, $G(u_0) \leq_K 0$ solves the convex program \cref{prob:c1e5-star}, then there exists a Lagrange multipliert $z_0^* \in K^+$ such that $(u_0, z_0^*)$ is a saddle point of $L$ satisfying the complementary slack condition $\langle z_0^*, G(u_0) \rangle = 0$.
+\end{theorem}
+\begin{proof}
+From \cref{thm:c1e45} we get $z_0^* \in K^+$ with $\langle z_0^*, G(u_0) \rangle = 0$ and
+\[
+	L(u_0, z_0^*) \leq L(u, z_0^*) \quad \forall u \in C.
+\]
+Since $G(u_0) \leq_K 0$, we have 
+\[
+	z^*(G(u_0)) \leq 0 \quad \forall z^* \in K^+.
+\]
+Therefore,
+\[
+	L(u_0, z^*) = f(u_0) + \langle z^*, G(u_0) \rangle \leq f(u_0) = L(u_0, z_0^*) \quad \forall z^* \in K^+.
+\]
+\end{proof}
+\begin{theorem} % Thm 1.48
+\label{thm:c1e48}
+Let the cone $K$ be closed. If there exists $u_0 \in C$ and a Lagrange multiplier $z_0 \in K^+$ such that $(u_0, z_0^*)$ is a saddle point of the Lagrange function,
+\[
+	L(u_0, z^*) \leq L(u_0, z_0^*) \leq L(u, z_0^*) \quad \forall u \in C, z^* \in K^+.
+\]
+Then $u_0$ solves the convex program \cref{prob:c1e5-star} and the complementary slack condition
+\[
+	\langle z^*_0, G(u_0) \rangle = 0
+\]
+holds.
+\end{theorem}
+\begin{proof}
+We get from the first inequality
+\begin{equation}
+\tag{++}
+\label{eq:thm-c1e48-plusplus}
+\langle z^*, G(u_0) \rangle \leq \langle z_0^*, G(u_0) \rangle \quad \forall z^* \in K^+.
+\end{equation}
+In particular,
+\[
+	\forall z_1^* \in K^+ \; : \; \langle z_0^* + z_1^*, G(u_0) \rangle \leq \langle z_0^*, G(u_0) \rangle.
+\]
+Thus,
+\[
+	\langle z_1^*, G(u_0) \rangle \leq 0 \quad \forall z_1 \in K^+.
+\]
+This implies $-G(u_0) \in K^{++} = K$ (Exercise) ($K^{++} = \{ z \in Z : z^*(z) \geq 0 \; \forall z \in K\}$),
+that is $G(u_0) \leq_K 0$. Now \cref{eq:thm-c1e48-plusplus} implies
+\[
+	\langle z_0^*, G(u_0) \rangle = 0.
+\]
+For $z_1 \in C$, $G(z_1) \leq_K 0$ it follows
+\[
+	f(u_0) = L(u_0, z_0^*) \leq L(u_1, z_0^*) = f(u_1) + \underbrace{ \langle z_0^*, G(u_1) \rangle }_{\leq 0} \leq f(u_1).
+\]
+\end{proof}
+\end{document}

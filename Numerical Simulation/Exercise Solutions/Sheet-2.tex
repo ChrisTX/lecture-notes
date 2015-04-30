@@ -128,4 +128,42 @@
 	\]
 
 	? ? ?
+
+	\section*{Exercise 3}
+	\subsection*{$D \leq \inf_{u \in M} \| b - u \| : f \in B(M^\perp)$}
+	\begin{IEEEeqnarray*}{rCl}
+	f(b) &=& f(b-u) \\
+	&\leq& \| b - u \| \quad \forall u \in M
+	\end{IEEEeqnarray*}
+	\subsection*{$D \geq \inf_{u \in M} \| b - u \| : f \in B(M^\perp)$}
+	Given $\varepsilon > 0$.
+	Choose $v \in M$:
+	\[
+	\| b - v \| \leq \inf \| b - u \| + \varepsilon.
+	\]
+	Define $g : \operatorname{span}\{ b , M \}:$
+	\begin{IEEEeqnarray*}{rCl}
+	g(b - v) & \coloneqq& \| b - v \| \\
+	g(u) &\coloneqq& 0 \quad \forall u \in M
+	\end{IEEEeqnarray*}
+	For $w = \lambda b + u \in \operatorname{span}\{b, M\}$:
+	\begin{IEEEeqnarray*}{rCl}
+	\frac{|g(w)|}{\| w \|} &\leq& \frac{\lambda \| b - v\|}{\lambda \inf \| b \|} \\
+	&\leq& 1 - \frac{\varepsilon}{\inf \| b - u\| } \eqqcolon C_\varepsilon.
+	\end{IEEEeqnarray*}
+	Hence,
+	\[
+		\exists \tilde{g} \in X^* \; : \; \tilde{g}|_{\operatorname{span}\{ b, M\}} = g \text{ und } \| \tilde{g} \| \leq C_\varepsilon.
+	\]
+	It holds:
+	\begin{IEEEeqnarray*}{rCl}
+	D &\geq& \frac{1}{C_\varepsilon} \tilde{g}(b) \\
+	&=& \frac{1}{C_\varepsilon}(b - v) \\
+	&=& \| b - v \| \frac{1}{C_\varepsilon} \\
+	&\geq& \inf \| b - u \| \frac{1}{C_\varepsilon}.
+	\end{IEEEeqnarray*}
+	By $\varepsilon \to 0$:
+	\[
+		D \geq \inf \| b - u \|.
+	\]
 \end{document}

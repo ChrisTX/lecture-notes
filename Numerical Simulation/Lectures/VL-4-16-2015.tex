@@ -157,18 +157,18 @@ In this case $f'(\bar{u}_1, \bar{u}_2) = 0$ \ac{iff} $f_{u_1}(\bar{u}_1, \bar{u}
 Let $U$ be a real Banach space, $C \subseteq U$ and $f : \mathcal{U} \to \R$ be Fréchet-differentiable on an open set $\mathcal{U}$ which contains $C$. If $\bar{u} \in \Int C$ solves
 \begin{mdframed}[style=theoremframing]
 \begin{equation}
-\label{eq:thmc1e23-star}
+\label{eq:thm-c1e23-star}
 \begin{IEEEeqnarraybox}{u"c}
 minimize & f(u) \\
 subect to & u \in C
 \end{IEEEeqnarraybox} \tag{\ensuremath{\star}}
 \end{equation}
 \end{mdframed}
-then $f'(\bar{u}) = 0$. If $f$ is convex, $f'(\bar{u}) = 0$ implies that $\bar{u}$ solves \labelcref{eq:thmc1e23-star}.
+then $f'(\bar{u}) = 0$. If $f$ is convex, $f'(\bar{u}) = 0$ implies that $\bar{u}$ solves \labelcref{eq:thm-c1e23-star}.
 \end{theorem}
 \begin{theorem} % Thm 1.24
 \label{thm:c1e24}
-Consider the same situation as in \cref{thm:c1e23}, but assume that $C$ is closed and convex. Then, if $\bar{u} \in C$ (!) solves \labelcref{eq:thmc1e23-star}, it holds
+Consider the same situation as in \cref{thm:c1e23}, but assume that $C$ is closed and convex. Then, if $\bar{u} \in C$ (!) solves \labelcref{eq:thm-c1e23-star}, it holds
 \[
 	f'(u)[u - \bar{u}] \geq 0 \quad \forall u \in C \; \text{``\emph{varational inequality}''}.
 \]
@@ -178,7 +178,7 @@ The converse is true, if $f$ is convex.
 It is enough that $f$ is \emph{Gateaux-differentiable}.
 \end{remark}
 \begin{proof}
-If $\bar{u}$ solves \labelcref{eq:thmc1e23-star}, then
+If $\bar{u}$ solves \labelcref{eq:thm-c1e23-star}, then
 \[
 f(\bar{u}) \leq f(\bar{u} + u - \bar{u}) = f(\bar{u}) + f'(\bar{u}[u - \bar{u}]) + \smallo(\| u - \bar{u} \|)
 \]
