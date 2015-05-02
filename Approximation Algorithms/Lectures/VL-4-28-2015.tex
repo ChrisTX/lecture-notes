@@ -4,7 +4,7 @@
 An equivalent formulation of \textsc{$k$-Center} in terms of graph theory is:
 \begin{problem}[$k$-Center]
 \begin{tabular}{ll}
-\textit{Input:} & A complete graph $G = (V, E)$, a matric $\dist : E(G) \to \R$, $k \in \N$. \\
+\textit{Input:} & A complete graph $G = (V, E)$, a metric $\dist : E(G) \to \R$, $k \in \N$. \\
 \textit{Output:} & A set $C \subseteq V(G)$ with $|C| = k$, \ac{st} \\
 &$\max_{v \in V} \min_{c \in C} \{\dist(x, c)\}$ is minimum.
 \end{tabular}
@@ -84,7 +84,7 @@ Each vertex not in $S$ is connected by a path of length at most $2$ with a verte
 Thus, $S$ is a solution to the \textsc{$k$-Center} problem with value smaller or equal to $2 \cdot \dist(e_j)$.
 
 \underline{Claim 1:} $\dom(G_i) \geq |S_i|$ for all $1 \leq i \leq m$. \\
-Let $D$ be a dominating set in $G_i$. Then, $G_i$ be covered by $|D|$ stars. The set $S_i$ can contain at most $1$ vertex from each star, implying $\dim(G_i) \geq |S_i|$.
+Let $D$ be a dominating set in $G_i$. Then, $G_i$ be covered by $|D|$ stars. The set $S_i$ can contain at most $1$ vertex from each star, implying $\dom(G_i) \geq |S_i|$.
 
 \underline{Claim 2:} $\OPT \geq \dist(e_j)$. \\
 For $i < j$ the algorithm finds a 2-stable set $S_i$ in $G_i$ with $|S_i| > k$. By Claim 1: $\dom(G_i) \geq |S_i| > k$.
@@ -108,7 +108,7 @@ Construct a complete graph $G'$ on $V(G)$ with
 	\dist(e) \coloneqq \begin{cases}
 	1, & \text{if } e \in E(G) \\
 	2, & \text{if } e \notin E(G) \\
-	\end{cases}
+	\end{cases}.
 \]
 If $\dom(G) \leq k$, then the \textsc{$k$-Center} problem has a solution with value $1$.
 If $\dom(G) > k$, then the \textsc{$k$-Center} problem has a solution with value $2$.
@@ -130,7 +130,7 @@ A $(2-\varepsilon)$-approximation algorithm for the \textsc{$k$-Center} can dist
 \end{tabular}
 \end{problem}
 A simple randomized \sfrac{1}{2}-approximation algorithm: Assign randomly the value ``\textit{true}'' or ``\textit{false}'' to each variable.
-What is the approximation ratio of this algorithm?\tabularnewline
+What is the approximation ratio of this algorithm?
 For a randomized algorithm $A$ we define its approximation ratio to be c, if
 \[
 	\mathbb{E}(A(I)) \leq c \cdot \OPT(I)
