@@ -1,0 +1,139 @@
+\documentclass[oneside,a4paper]{amsart}
+
+\usepackage{geometry}
+\usepackage{parskip}
+\usepackage{mathtools}
+\usepackage{enumerate}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{IEEEtrantools}
+
+\begin{document}
+\title{Wissenschaftliches Rechnen II - Exercise Sheet 2 solutions}
+\maketitle{}
+\textcolor{red}{\textbf{WARNING: These discussions are partially incorrect and only the first three exercises have been discussed at all!}}
+\section*{Exercise 12}
+\subsection*{(i)}
+\begin{IEEEeqnarray*}{rCl}
+\int_{B_3} u(x)^2 &=& \int_{B_3} \log^2(|x|) \\
+&=& \int_0^1 \int_{\partial B_\gamma} \log(r)^2 \: \mathrm{d} S \\
+&=& \int_0^1 \omega_3 r^2 \log(r)^2 \\  
+\end{IEEEeqnarray*}
+This is a bounded term. Thus, $u \in L^2(\Omega)$.
+\subsection*{(ii)}
+Let
+\[
+	g(x) = \frac{1}{|x|} \cdot \frac{x}{|x|}.
+\]
+Then,
+\begin{IEEEeqnarray*}{rCl}
+	\int_{B_3} g^2(x) \: \mathrm{d} x &=& \int_0^1 \frac{1}{r^2} \int_{\partial B_\gamma} \ldots \: \mathrm{d} S \\
+	&=& \int_0^1 \omega_3 r^{3 - 1 - 2} \\
+	&=& \omega_3.
+\end{IEEEeqnarray*}
+
+Actually $g = \nabla u$ in the sense of distributions.
+\begin{IEEEeqnarray*}{rCl}
+	\int_{B_1} u(x) \partial_i \varphi, \; \varphi \in C_c^\infty(B_1) &=& \int_{B_1} \log(|x|) \partial_i \varphi \\
+	&\overset{\text{if } \operatorname{supp}(\varphi) \not\ni \{ 0 \}}{=}& - \int_{B_1} g(x) \varphi.
+\end{IEEEeqnarray*}
+Then,
+\begin{IEEEeqnarray*}{rCl}
+\int_{B_1} \log|x| \partial_i \varphi &=& \int_{B_\varepsilon} \log |x| \partial_i \varphi(x) + \int_{B_1 \setminus B_\varepsilon} \log |x| \partial_i \varphi \\
+&\leq& \| u \|_{L^2(B_\varepsilon)} \| \nabla \varphi \|_{L^2(B_1)} - \underbrace{ \int_{B_1 \setminus B_\varepsilon} \left( \frac{x_i}{|x|^2} \right) \varphi }_{\xrightarrow{\varepsilon \to 0} -\int_{B_1} g(x)_i \varphi} + \underbrace{ \int_{\partial B_\varepsilon} ((\log \varepsilon) \cdot \nu_i) \cdot \varphi }_{\leq \log \varepsilon c \varepsilon^2 \to 0}
+\end{IEEEeqnarray*}
+\section*{Exercise 13}
+\begin{enumerate}[(a)]
+\item $(x, t) \mapsto (r \cos \theta, r \sin \theta)$
+\item $\varphi : \mathbb{R}^n \to S^{n-1} \times \mathbb{R}, \; x \mapsto (\underbrace{\frac{x}{|x|}}_{\omega} \underbrace{|x|}{r})$
+\end{enumerate}
+Take $u \in C^2(\mathbb{R}^n)$:
+\begin{IEEEeqnarray*}{r"rCl}
+& u(\varphi(x)) &=& u(\omega, r) \\
+& \nabla u(\varphi(x)) \cdot \nabla \varphi(x) &=& \nabla_p u(\omega, r) \\
+\longrightarrow & \nabla_p u &=& \nabla u(\varphi(x))
+\end{IEEEeqnarray*}
+Additionally,
+\[
+\nabla \varphi(x) = \begin{pmatrix}
+\frac{1}{|x|} \left( \delta_{ij} - \frac{x_i x_j}{|x|^2} \right) \\
+\frac{x_i}{|x|}
+\end{pmatrix} = \begin{pmatrix}
+\frac{1}{|x|} \left( I - \frac{x \otimes x}{r^2} \right) \\
+\frac{x_i}{|x|}
+\end{pmatrix}
+\]
+Thus,
+\begin{IEEEeqnarray*}{rCl}
+\nabla_{S^{n-1}} &=& \nabla(\ldots) \frac{1}{r} \left( I - \frac{x \otimes x}{r^2} \right) \\
+\partial_r &=& \partial_{\frac{x}{|x|}} 
+\end{IEEEeqnarray*}
+
+\textit{Remark:} Let $M$ be a manifold with outer normal $\nu$.
+\begin{IEEEeqnarray*}{rCl}
+df : T_x M &\to& \mathbb{R} \\
+df(x) &=& Df(x) \cdot P_M(x) = Df(I - \nu \otimes \nu).
+\end{IEEEeqnarray*}
+
+Continuing our calculation, for $\tau \in \mathbb{R}^n$ we have
+\begin{IEEEeqnarray*}{rCl}
+\left( \nabla_{S^{n-1}} u \right) \cdot \tau &=& \frac{1}{r} \nabla u \left( \tau - \frac{x (x \cdot \tau)}{r^2} \right) \\
+\partial_r u = \partial_{\frac{x}{|x|}} u.
+\end{IEEEeqnarray*}
+This gives
+\begin{IEEEeqnarray*}{rCl}
+\eta \left( \nabla_{S^{n-1}}^2 u \right) \tau &=& \frac{1}{r^2} \left( (\eta(\nabla^2 u) \tau) - \frac{(\eta \cdot x)(\tau \cdot x)}{r^3} \right) \\&&{} - \frac{1}{r^3} \left( \partial_\nu u \cdot ( \eta \cdot (x \otimes \mathrm{d}x ) \tau + \eta (\mathrm{d} x \otimes x) \tau \right)
+\end{IEEEeqnarray*}
+It holds that
+\[
+	\mathrm{d}x = \frac{1}{r} \frac{x^\perp}{|x|}.
+\]
+Thus
+\begin{IEEEeqnarray*}{rCl}
+\eta \cdot \left(\nabla_{S^{n-1}_r} u\right) &=& \frac{1}{r^2} \left[ (\eta \cdot \nabla^2 u, \tau) - \nabla^2 u \left( \eta \cdot \frac{x^\perp}{|x|} \right) \left( \tau \cdot \frac{x^\perp}{|x|} \right) \right] \\&&{} - \frac{1}{r^3} \left[ \left( \frac{\eta \cdot x}{r} \right) \left( \frac{x^\perp \cdot \tau}{r} \right) + \left( \frac{\eta \cdot x^\perp}{ r } \right) \left( \frac{x \cdot \tau}{r} \right) \right].
+\end{IEEEeqnarray*}
+For $\tau_1 \in T_x S_r^{n-1}$, we have
+\begin{IEEEeqnarray*}{rCl}
+\sum_{i=1}^{n-1} \tau_i \nabla_{S_r^{n-1}}^2 u \cdot \tau_i &=& \operatorname{tr} (\nabla_{S_{r}^{n-1}}^2 u) \\
+&=& \partial^2_r u + \Delta_{S^{n-1}_r u} \\
+&=& \frac{1}{r^2} (\Delta u)
+\end{IEEEeqnarray*}
+
+\begin{IEEEeqnarray*}{r"rCl}
+& \nabla_S u &=& \nabla u(I - \nu \otimes \nu) \\
+\rightarrow & \nabla_S^2 u &=& (I - \nu \otimes \nu)(\nabla^2 u)(I - \nu \otimes \nu) - \nabla u \underbrace{ (\nu \otimes \mathrm{d}\nu) }_{\sum_{i=1}^{n-1} k_i \tau_i \otimes \tau_i}.
+\end{IEEEeqnarray*}
+
+\begin{IEEEeqnarray*}{rCl}
+\Delta_S u &=& \sum \tau_i \nabla^2_S u \tau_i \\
+&=& \sum \tau_i \nabla^2 u \tau_i - \sum_{i=1}^{n-1} \partial_\nu u k_i \\
+&\rightarrow& \operatorname{tr}(\nabla u) - \partial^2_\nu u - (\partial_\nu u) \sum_{i=1}^{n-1} \underbrace{ k_i }_{= \frac{1}{r}}
+\end{IEEEeqnarray*}
+Thus
+\[
+\frac{1}{r^2} \Delta_{S^{n-1}} u = \Delta u - \frac{\partial_{r}^2 u}{r^2} + \frac{\partial_r}{r^2} (n - 1)
+\]
+Transforming back, we obtain
+\[
+\Delta u = \frac{1}{r^2} \Delta_{S^{n-1}} + \frac{\partial_r (\partial_r u r^n)}{r^{n-2}}
+\]
+\section*{Exercise 14}
+$u(r, \varphi) = r^{\frac{1}{\alpha}} \sin \left( \frac{\varphi}{\alpha} \right)$.
+\subsection*{(a)}
+The Laplacian has to be calculated for the normal coordinates like in Exercise 13. For polar coordinates we would get
+\[
+	\Delta u = \Delta_p u + \frac{1}{r} \partial_r (r \partial_r u)
+\]
+Thus, we get:
+\begin{IEEEeqnarray*}{rCl}
+\Delta u &=& \Delta_{S^1} u + \frac{1}{r} \partial_r (r \partial_r u) \\
+&=& \frac{1}{\alpha} r^{\frac{1}{\alpha}} \cos \left( \frac{\varphi}{\alpha} \right) + \frac{1}{r} \partial_r \left( \frac{1}{\alpha} r^{\frac{1}{\alpha - 1}} \sin \left( \frac{\varphi}{\alpha} \right) \right) \\
+&=& - \left( \frac{1}{\alpha} \right)^2 r^{\frac{1}{\alpha}} \sin \left( \frac{\varphi}{\alpha} \right) + ...
+\end{IEEEeqnarray*}
+\section*{Exercise 15}
+\begin{IEEEeqnarray*}{rCl}
+\int_\Omega |D^2 u|^2 &=& \int_\Omega (\partial_{ij} u)(\partial_{ij} u) \\
+&=& - \int_\Omega (\partial_{iij} u)(\partial_j u ) + \int_{\partial \Omega} (\partial_{ij} u) (\partial_j u) \nu_i \\
+&=& \int_\Omega (\partial_{ii} u)(\partial_{jj} u) - \int_{\partial \Omega} (\partial_{ii} u)(\partial_j u) \nu_j \\
+&=& \int_\Omega |\Delta u|^2 + \int_\Omega \nabla^2 u : \nabla u \otimes \nu - \int_{\partial \Omega} (\Delta u)(\partial_j u)
+\end{IEEEeqnarray*}
+\end{document}
