@@ -1,8 +1,8 @@
 \documentclass[../skript.tex]{subfiles}
 
 \begin{document}
-\begin{algorithm}[Johnson's Algorithm (reformulation)]
-\begin{tabular}{ll}
+\begin{algorithm}[Johnson's Algorithm (Reformulation)]
+\begin{tabular}{@{}ll}
 \textit{Input:} & Set $\mathcal{C}$ of clauses with variables $X = \{ x_1, \ldots, x_n \}$, $w \; : \; \mathcal{C} \to \R_+$ \\
 \textit{Output:} & A truth assignment for $X$.
 \end{tabular}
@@ -22,7 +22,7 @@ w_i(C) \coloneqq \begin{cases}
 0, & \text{if } y \in C \\
 2 \cdot w_{i-1}(C), & \text{if } \bar{y} \in C \\
 w_{i-1}(C), & \text{else}
-\end{cases}
+\end{cases}.
 \]
 \State $T_i \coloneqq T_{i-1} \cup \{ C \in \mathcal{C} \mid y \in C\}$.
 \EndFor
@@ -45,7 +45,7 @@ $w = 1$ & $w = 2$
 \end{tabular}
 \end{table}
 
-The algorithm with scaling finds a solution of weight 2. Thus, we have a \sfrac{2}{3}-approximation.
+The algorithm with scaling finds a solution of weight 2. Thus, we have a \\ \sfrac{2}{3}-approximation.
 \end{example}
 We define:
 \begin{IEEEeqnarray*}{rCl}
@@ -70,7 +70,7 @@ where $F_i^\pi \subseteq F_i$ is the set of all clauses in $F_i$ that are \texti
 \begin{proof}
 Let $\mathcal{C}$, $w : \mathcal{C} \to \R_+$ be an instance of \textsc{Max-Sat} with variables $\{ x_1, \ldots, x_n \}$. Let $\pi : \{ x_1, \ldots, x_n\} \to \{ \textit{true}, \textit{false} \}$ be an optimum assignment and $\OPT$ its value.
 
-\underline{Claim:} $w(T_n) \geq \frac{1}{3} \left( w(\mathcal{C}) + \OPT \right)$. \\
+\underline{Claim:} $w(T_n) \geq \frac{1}{3} \left( w(\mathcal{C}) + \OPT \right)$.
 \[
 \sum_{i=1}^n \left( w_i \left(F_i^\pi \right) - w_{i-1} \left( F_{i-1}^\pi \right) \right) \leq \frac{1}{2} \sum_{i=1}^n \left( w(T_i) - w(T_i-1) \right)
 \]
@@ -177,7 +177,7 @@ Set
 \]
 as the maximal occurrence of an element.
 \begin{algorithm}[LP-based Algorithm for Set Cover]
-\begin{tabular}{ll}
+\begin{tabular}{@{}ll}
 \textit{Input:} & $U = \{ 1, \ldots, n \}$, $S_1, \ldots, S_m \subseteq U$, $c : \{ S_1, \ldots, S_m \} \to \R_+$ \\
 \textit{Output:} & A family $\mathcal{F} \subset \{ S_1, \ldots, S_m \}$ \ac{st} $\bigcup_{S \in \mathcal{F}} S = U$.
 \end{tabular}

@@ -2,7 +2,7 @@
 
 \begin{document}
 \begin{problem}[Clique]
-\begin{tabular}{ll}
+\begin{tabular}{@{}ll}
 \textit{Input:} & A graph $G = (V, E)$, $k \in \N$. \\
 \textit{Question:} & Is there an $S \subseteq V(G)$, $|S| \geq k$, \ac{st} $\forall x \neq y \in S \;  : \; \{ x, y \} \in E(G)$?
 \end{tabular}
@@ -15,7 +15,7 @@
 \textsc{Clique} is obviously in \NP. $S \subseteq V(G)$ is a clique in $G$ \ac{iff} $S$ is a stable set in $\bar{G}$.
 \end{proof}
 \begin{problem}[Set Cover]
-\begin{tabular}{ll}
+\begin{tabular}{@{}ll}
 \textit{Input:} & A family $S_1, \ldots, S_m$ of subsets of a finite set $S$, $k \in \N$. \\
 \textit{Question:} & Is there a family $S_{i_1}, \ldots, S_{i_k}$, \ac{st} $\bigcup_{l=1}^k S_{i_l} = S$?
 \end{tabular}
@@ -35,7 +35,7 @@ Let $G = (V, E)$ and $k \in \N$ be an instance of \textsc{Vertex Cover}. Constru
 There exists a \textsc{Vertex Cover} \ac{iff} there exists a \textsc{Set Cover} for this instance.
 \end{proof}
 \begin{problem}[Integer Linear Inequalities]
-\begin{tabular}{ll}
+\begin{tabular}{@{}ll}
 \textit{Input:} & A matrix $A \in \Z^{m \times n}$, $b \in \Z^m$. \\
 \textit{Question:} & Is there a vector $x \in \Z^n$ \ac{st} $Ax \leq b$?
 \end{tabular}
@@ -63,7 +63,7 @@ For each clause $\alpha_1 \vee \alpha_2 \vee \alpha_3$ with literals $\alpha_i$ 
 Thus, each clause contains at least one \textit{true} literal. Here we identify \textit{true} with 1 and \textit{false} with 0.
 \end{proof}
 \begin{problem}[3-Dimensional Matching Problem (3-DM)]
-\begin{tabular}{ll}
+\begin{tabular}{@{}ll}
 \textit{Input:} & Disjoint sets $X, Y, Z$, each of size $n$ and $T \subseteq X \times Y \times Z$. \\
 \textit{Question:} & Is there an $M \subseteq T$, $|M|= n$ \ac{st} \\
 &for all $a \in X \cup Y \cup Z$ there exists exactly one $m \in M$ containing $a$?
@@ -113,7 +113,7 @@ We have to verify that we defined an instance of \textsc{3DM}:
 Furthermore: $|X| = n \cdot k + k (n - 1) \cdot k = 2nk = |Y| = |Z|$.
 \end{proof}
 \begin{problem}[Subset Sum]
-\begin{tabular}{ll}
+\begin{tabular}{@{}ll}
 \textit{Input:} & $a_1, \ldots, a_n \in \N$, $K \in \N$. \\
 \textit{Question:} & Is there an $S \subseteq \{ 1, \ldots, n \}$, \ac{st} $\sum_{i \in S} a_i = K$?
 \end{tabular}
@@ -139,7 +139,7 @@ By \textsc{3DM} we obtain a solution to \textsc{Subset Sum}.
 On the other hand, a solution to \textsc{Subset Sum} yields a solution to \textsc{3DM} (because no \textit{true} numbers can have a 1 at the same position as we have at most $m$ numbers and base $m + 1$).
 \end{proof}
 \begin{problem}[Partition]
-\begin{tabular}{ll}
+\begin{tabular}{@{}ll}
 \textit{Input:} & $a_1, \ldots, a_n \in \N$. \\
 \textit{Question:} & Is there an $S \subseteq \{ 1, \ldots, n \}$, \ac{st} $\sum_{i \in S} a_i = \sum_{i \notin S} a_i$?
 \end{tabular}
@@ -170,7 +170,7 @@ Now we have for $S \subseteq \{ 1, \ldots, n \}$:
 \]
 \end{proof}
 \begin{problem}[Component Grouping]
-\begin{tabular}{ll}
+\begin{tabular}{@{}ll}
 \textit{Input:} & Graph $G$, $K \in \N$. \\
 \textit{Question:} & Is there a set of connected components in $G$ that \\
 & contains exactly $K$ vertices?
@@ -197,7 +197,7 @@ f(i - 1, k) & \text{otherwise}.
 Thus we get an $\mathcal{O}(n^2)$ algorithm.
 \end{proof}
 \begin{problem}[$k$-Colorability]
-\begin{tabular}{ll}
+\begin{tabular}{@{}ll}
 \textit{Input:} & Graph $G$, $k \in \N$. \\
 \textit{Question:} & Is there a function $f : V(G) \to \{ 1, \ldots, k \}$ \ac{st} \\
 & $f(x) \neq f(y)$ if $\{ x, y \} \in E(G)$?

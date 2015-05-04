@@ -53,7 +53,7 @@ An algorithm $A$ has \emph{approximation ratio $c$} if
 \end{IEEEeqnarray*}
 If $P$ is a minimization problem, then $1 \leq c < \infty$. If $P$ is a maximization problem, then $0 \leq c \leq 1$ (sometimes \sfrac{1}{$c$} is being used instead in order to always use a number greater than one).
 \begin{problem}[Minimum Weight Set Cover Problem]
-\begin{tabular}{ll}
+\begin{tabular}{@{}ll}
 \textit{Input:} & A family $S_1, \ldots, S_m$ of subsets of a finite set $U$ with $\bigcup_{i=1}^m S_i = U$ and \\
 & weights $c : \{ S_1, \ldots, S_m \} \to \R_+$.\\
 \textit{Output:} & A subfamily $S_{i_1}, \ldots, S_{i_k}$ \ac{st} $\bigcup_{j=1}^k S_{i_j} = U$ and \\
@@ -153,7 +153,7 @@ Thus, $|S| \leq 2 \cdot \OPT$.
 \end{itemize}
 \end{remark}
 \begin{problem}[$k$-Center]
-\begin{tabular}{ll}
+\begin{tabular}{@{}ll}
 \textit{Input:} & A finite set $X$, a metric $\dist : X \times X \to \R$, $k \in \N$. \\
 \textit{Output:} & A set $C \subseteq X$ with $|C| = k$, \ac{st} \\
 &$\max_{x \in X} \min_{c \in C} \{\dist(x, c)\}$ is minimum.
@@ -168,7 +168,7 @@ Thus, $|S| \leq 2 \cdot \OPT$.
 possibilities, thus we have a runtime of $\mathcal{O}(|X|^{k+1} k)$.
 View this as a problem on graphs:
 \begin{IEEEeqnarray*}{rCl}
-X \, &:& \, \text{vertices of a complete graph } G. \\
+X \, &:& \, \text{vertices of a complete graph } G, \\
 \dist \, &:& \, E(G) \to \R_{\geq 0} \text{ metric}.
 \end{IEEEeqnarray*}
 Let $G = (V, E)$ be a graph. $D \subseteq V(G)$ is a \emph{dominating set} if

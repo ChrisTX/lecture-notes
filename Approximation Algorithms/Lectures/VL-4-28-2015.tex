@@ -3,10 +3,10 @@
 \begin{document}
 An equivalent formulation of \textsc{$k$-Center} in terms of graph theory is:
 \begin{problem}[$k$-Center]
-\begin{tabular}{ll}
+\begin{tabular}{@{}ll}
 \textit{Input:} & A complete graph $G = (V, E)$, a metric $\dist : E(G) \to \R$, $k \in \N$. \\
-\textit{Output:} & A set $C \subseteq V(G)$ with $|C| = k$, \ac{st} \\
-&$\max_{v \in V} \min_{c \in C} \{\dist(x, c)\}$ is minimum.
+\textit{Output:} & A set $C \subseteq V(G)$ with $|C| = k$, \ac{st} $\max_{x \in V} \min_{c \in C} \{\dist(x, c)\}$ \\
+& is minimum.
 \end{tabular}
 \end{problem}
 A dominating set is then defined as
@@ -60,7 +60,7 @@ Let $G = (V, E)$ be a graph. A subset $S \subseteq V(G)$ is called \emph{2-stabl
 
 We can compute \underline{maximal} 2-stable sets in polynomial time.
 \begin{algorithm}[$k$-Center-Algorithm]
-\begin{tabular}{ll}
+\begin{tabular}{@{}ll}
 \textit{Input:} & A complete graph $G = (V, E)$, metric weights $\dist : E(G) \to \R$, $k \in \N$ \\
 \textit{Output:} & A set $S \subseteq V(G)$.
 \end{tabular}
@@ -69,7 +69,9 @@ We can compute \underline{maximal} 2-stable sets in polynomial time.
 \For{$i = 1$ to $m$}
 \State $G_i \coloneqq (V, \{ e_1, \ldots, e_i \})$
 \State Compute a maximal 2-stable set $S_i$ in $G_i$
-\State If $|S_i| \leq k$ then return $(S_i)$
+\If{$|S_i| \leq k$}
+\State return $(S_i)$
+\EndIf
 \EndFor
 \end{algorithmic}
 \end{algorithm}
@@ -122,7 +124,7 @@ A $(2-\varepsilon)$-approximation algorithm for the \textsc{$k$-Center} can dist
 \end{itemize}
 \end{remark}
 \begin{problem}[Maximum Satisfiability (Max-Sat)]
-\begin{tabular}{ll}
+\begin{tabular}{@{}ll}
 \textit{Input:} & A set $\mathcal{C}$ of clauses with variables $X = \{ x_1, \ldots, x_n \}$ and \\
 & weights $c : \mathcal{C} \to \R_+$ \\
 \textit{Output:} & A truth assignment to the $x_i$ \ac{st} the total weight of all \\
@@ -163,7 +165,7 @@ with $p \coloneqq \min_{z \in Z} |z|$. $p \geq 1$ implies this being a \sfrac{1}
 This algorithm can be derandomized by the method of conditional probabilities.
 \end{remark}
 \begin{algorithm}[Johnson's Algorithm]
-\begin{tabular}{ll}
+\begin{tabular}{@{}ll}
 \textit{Input:} & Set $\mathcal{C}$ of clauses with variables $X = \{ x_1, \ldots, x_n \}$, $w \; : \; \mathcal{C} \to \R_+$ \\
 \textit{Output:} & A truth assignment for $X$.
 \end{tabular}

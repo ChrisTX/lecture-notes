@@ -4,8 +4,7 @@
 \addtocounter{chapter}{-1}
 \chapter{Motivation}
 \begin{problem}[Traveling Salesman Problem]
-\vspace{\topskip}
-\begin{tabular}{ll}
+\begin{tabular}{@{}ll}
 \textit{Input:} & A complete (undirected) graph $G = (V, E)$, $c : E(G) \to \R_+$ \\
 \textit{Output:} & A Hamiltonian cycle (\emph{TSP-tour}) $T$, \ac{st}
 \end{tabular}
@@ -100,7 +99,7 @@ A problem is called \emph{\NP-hard} if all problems in \NP polynomially reduce t
 If there exists a polynomial time algorithm for any \NP-problem, then $P = \NP$.
 \end{proposition}
 \begin{problem}[Satisfiability \lbrack Cook, 1971\rbrack]
-\begin{tabular}{ll}
+\begin{tabular}{@{}ll}
 \textit{Input:} & A boolean formula $F$ in conjunctive normal form. \\
 \textit{Question:} & Is $F$ satisfiable?
 \end{tabular}

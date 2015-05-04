@@ -10,7 +10,7 @@ An \emph{approximation algorithm} $A$ for some optimization problem $P$ is a pol
 For minimization problems $k \geq 1$ and for maximization problems $k \leq 1$.
 \end{definition}
 \begin{problem}[$k$-Sat]
-\begin{tabular}{ll}
+\begin{tabular}{@{}ll}
 \textit{Input:} & Instance of \textsc{Sat} such that each clause contains at most $k$ literals. \\
 \textit{Question:} & Is there a truth assignment for $F$?
 \end{tabular}
@@ -44,7 +44,7 @@ For a clause $(a \vee b)$ insert edges $(\bar{a}, b)$ and $(\bar{b}, a)$.
 \end{itemize}
 \end{proof}
 \begin{problem}[Directed Hamiltonian Cycle]
-\begin{tabular}{ll}
+\begin{tabular}{@{}ll}
 \textit{Input:} & $G = (V, E)$ directed graph. \\
 \textit{Question:} & Does $G$ contain a cycle visiting all vertices?
 \end{tabular}
@@ -93,7 +93,7 @@ Assume the path visited $C_j$ from $\beta_j$ and proceeds to $\gamma_j$. Let $\a
 \end{proof}
 \end{proof}
 \begin{problem}[Hamiltonian Cycle]
-\begin{tabular}{ll}
+\begin{tabular}{@{}ll}
 \textit{Input:} & $G = (V, E)$ undirected graph. \\
 \textit{Question:} & Is there a cycle in $G$ containing all vertices?
 \end{tabular}
@@ -110,7 +110,7 @@ Now $G$ has a \textsc{Directed Hamiltonian Cycle} \ac{iff} $G'$ has a \textsc{Ha
 \underline{Observation:} On a Hamiltonian Cycle for $G'$, the vertices $v'$, $v''$ and $v'''$ are traversed consecutively.
 \end{proof}
 \begin{problem}[Vertex Cover]
-\begin{tabular}{ll}
+\begin{tabular}{@{}ll}
 \textit{Input:} & $G = (V, E)$ undirected graph, $k \in \N$. \\
 \textit{Question:} & Is there a set $S \subseteq V$ with $|S| \leq k$, \ac{st} each edge has \\
 & an endpoint in $S$?
@@ -136,7 +136,7 @@ Set the literals \emph{not} corresponding to vertices in $S$ to \textit{true}.
 \end{itemize}
 \end{proof}
 \begin{problem}[Stable Set]
-\begin{tabular}{ll}
+\begin{tabular}{@{}ll}
 \textit{Input:} & $G = (V, E)$ undirected graph, $k \in \N$. \\
 \textit{Question:} & Is there a set $S \subseteq V$ with $|S| \geq k$, \\
 & \ac{st} there are no edges connecting vertices in $S$?
