@@ -137,7 +137,11 @@ Gemäß Abschnitt \cref{sec:c1e6} lautet die Galerkin-FEM für die Approximation
  \end{problem}
 
  \begin{theorem}[Stabilität und Quasi-Optimalität der Galerkin-FE]\label{thm:c2e4s1}
- 	Unter den generellen Annahmen von Abschnitt \cref{sec:c2e1} an die Daten und den Annahmen von Theorem \cref{thm:c2e2s7} hat Problem \cref{prb:c2e4s1} eine \emph{eindeutige} Lösung $u_h\in P^{k,0}_D(\tau_h)$ und es gilt
+ 	Unter den generellen Annahmen von Abschnitt \cref{sec:c2e1} an die Daten und den Annahmen von Theorem \cref{thm:c2e2s7} hat Problem \cref{prb:c2e4s1} eine \emph{eindeutige} Lösung $u_h\in P^{k,0}_D(\tau_h)$ so dass
+ 	\[
+ 		\forall v_h\in P^{k,0}_D(\mathcal{T}_h):\,a(u_h,v_h) = F(v_h) = a(u,v_h)
+ 	\]
+ 	und es gilt
  	\[
  		\|u_h\|_{H^1(\Omega)}\leq C(A,b,c,\Omega)\|u\|_{H^1(\Omega)} 
  	\]
