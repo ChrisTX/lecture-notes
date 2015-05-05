@@ -153,7 +153,7 @@ The best known approximation ratio is due to Halldorsson, 1993:
 	\mathcal{O} \left( \frac{n}{\log n} \cdot \left( \frac{\log \log n}{\log n} \right)^2 \right).
 \]
 However, Feige and Kilian proved in 1996 that an approximation ratio of $n^{1 - \varepsilon}$ is not possible unless $P = \NP$.
-\begin{algorithm}[Wiqderson's Coloring Algorithm]
+\begin{algorithm}[Wigderson's Coloring Algorithm]
 \begin{tabular}{@{}ll}
 \textit{Input:} & A 3-colorable graph $G$ \\
 \textit{Output:} & A coloring of $G$.
@@ -170,7 +170,7 @@ However, Feige and Kilian proved in 1996 that an approximation ratio of $n^{1 - 
 \end{algorithm}
 \begin{theorem} % Thm 35
 \label{thm:35}
-For 3-colorable graphs, \textsc{Wiqderson's Coloring Algorithm} has approximation ratio $\mathcal{O}(\sqrt{n})$.
+For 3-colorable graphs, \textsc{Wigderson's Coloring Algorithm} has approximation ratio $\mathcal{O}(\sqrt{n})$.
 \end{theorem}
 \begin{proof}
 In the \textbf{while}-loop, we have $|x \cup N(x)| \geq \sqrt{n}$.
@@ -184,7 +184,7 @@ The best known result is a $\mathcal{O}(n^{0.2038})$-approximation due to Kawara
 3-colorable graphs cannot be colored in polynomial time with 4 colors unless $P = \NP$.
 \end{theorem}
 \begin{proof}
-Guruswami, 2004.
+[Guruswami, 2004].
 \end{proof}
 This theorem implies: There cannot exist a polynomial time algorithm for $\chi(G)$ that uses at most
 \[
