@@ -43,7 +43,7 @@
 }
 
 % These have to be loaded after hyperref!
-\usepackage{algpseudocode}
+\usepackage[vlined,linesnumbered]{algorithm2e}
 \usepackage[amsmath,hyperref,thmmarks]{ntheorem}
 \ifpdf
 	\usepackage[ntheorem,framemethod=tikz]{mdframed}
@@ -54,19 +54,11 @@
 \usepackage[a4paper]{geometry}
 \usepackage{IEEEtrantools}
 
-% Suppress warnings with algorithmic 
-\makeatletter
-\newcounter{algorithmicH}% New algorithmic-like hyperref counter
-\let\oldalgorithmic\algorithmic
-\renewcommand{\algorithmic}{%
-  \stepcounter{algorithmicH}% Step counter
-  \oldalgorithmic}% Do what was always done with algorithmic environment
-\renewcommand{\theHALG@line}{ALG@line.\thealgorithmicH.\arabic{ALG@line}}
-\makeatother
-
 % Dokument structure
 \setcounter{secnumdepth}{2}
 \setcounter{tocdepth}{2}
+
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{\node[shape=circle,draw,inner sep=1pt] (char) {#1};}}
 
 % Theorems
 \input{theorems.tex}

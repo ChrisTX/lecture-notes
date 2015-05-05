@@ -1,41 +1,23 @@
-
-\definecolor{theoremcolor}{rgb}{1,0.96,0.94}
-\definecolor{lemmacolor}{rgb}{1,0.96,0.91}
-\definecolor{corollarycolor}{rgb}{1,1,0.91}
-\definecolor{propositioncolor}{rgb}{0.93,0.97,1}
-
-\definecolor{definitioncolor}{rgb}{0.95,0.95,1}
-\definecolor{examplecolor}{rgb}{0.93,1,1}
-\definecolor{algorithmcolor}{rgb}{0.93,1,0.96}
-
-\definecolor{remarkcolor}{rgb}{0.95,0.95,0.95}
-\definecolor{addendumcolor}{rgb}{0.96,0.91,0.91}
-
-\definecolor{problemcolor}{rgb}{0.97,1,0.93}
-\definecolor{assumptioncolor}{rgb}{0.93,0.97,1}
-
 \newcounter{dummythm}
-\mdfdefinestyle{theoremframing}{skipabove=\topskip,skipbelow=\topskip,nobreak=true}
+\mdfdefinestyle{theoremframing}{skipabove=\topskip,skipbelow=\topskip,nobreak=true,innerleftmargin=7pt,innerrightmargin=7pt}
 
-\theoremstyle{break}
-\newmdtheoremenv[backgroundcolor=theoremcolor,style=theoremframing]{theorem}[dummythm]{Theorem}
+\theoremseparator{.}
+\theoremstyle{plain}
+\newmdtheoremenv[style=theoremframing]{theorem}[dummythm]{Theorem}
 \crefname{theorem}{Theorem}{Theorems}
-\newmdtheoremenv[backgroundcolor=lemmacolor,style=theoremframing]{lemma}[dummythm]{Lemma}
+\newmdtheoremenv[style=theoremframing]{lemma}[dummythm]{Lemma}
 \crefname{lemma}{Lemma}{Lemmata}
-\newmdtheoremenv[backgroundcolor=corollarycolor,style=theoremframing]{corollary}[dummythm]{Corollary}
+\newmdtheoremenv[style=theoremframing]{corollary}[dummythm]{Corollary}
 \crefname{corollary}{Corollary}{Corollaries}
-\newmdtheoremenv[backgroundcolor=propositioncolor,style=theoremframing]{proposition}[dummythm]{Proposition}
+\newmdtheoremenv[style=theoremframing]{proposition}[dummythm]{Proposition}
 \crefname{proposition}{Proposition}{Propositions}
 
-\theoremstyle{nonumberbreak}
-\theoremseparator{.}
+\theoremstyle{nonumberplain}
 \newtheorem{example}{Example}
 \crefname{example}{Example}{Examples}
-\theoremstyle{nonumberbreak}
 \theorembodyfont{\normalfont}
-\newmdtheoremenv[backgroundcolor=definitioncolor,style=theoremframing]{definition}{Definition}
+\newmdtheoremenv[style=theoremframing]{definition}{Definition}
 \crefname{definition}{Definition}{Definitions}
-\theoremstyle{nonumberplain}
 \theoremheaderfont{\itshape}
 \newtheorem{remark}{Remark}
 \crefname{remark}{Remark}{Remarks}
@@ -49,5 +31,15 @@
 \crefname{proof}{Proof}{Proofs}
 
 % Approximation Algorithm specific
-\newenvironment{problem}[1][]{\begin{mdframed}[style=theoremframing,frametitle={#1},frametitlefont={\sc},frametitlebelowskip=0pt,backgroundcolor=problemcolor]}{\end{mdframed}}
-\newenvironment{algorithm}[1][]{\begin{mdframed}[style=theoremframing,frametitle={#1},frametitlefont={\sc},backgroundcolor=algorithmcolor]}{\end{mdframed}}
+\newenvironment{problem}[1][]{\begin{mdframed}[style=theoremframing,frametitle={#1},frametitlefont={\sc},frametitlebelowskip=0pt]}{\end{mdframed}}
+\newenvironment{algorithmbox}[1][]{\begin{mdframed}[style=theoremframing,frametitle={#1},frametitlefont={\sc},frametitlebelowskip=0pt]}{\end{mdframed}}
+
+% Algorithm2e specific
+\IncMargin{2.5em}
+\SetNlSty{circled}{}{}
+\SetNlSkip{1em}
+\DontPrintSemicolon
+\newcommand{\EndAlgorithmLine}{\vskip\medskipamount % or other desired dimension
+\leaders\vrule width \textwidth\vskip0.4pt % or other desired thickness
+\vskip\smallskipamount % ditto
+\nointerlineskip}

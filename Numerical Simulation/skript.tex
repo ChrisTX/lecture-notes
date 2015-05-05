@@ -45,7 +45,6 @@
 }
 
 % These have to be loaded after hyperref!
-\usepackage{algpseudocode}
 \usepackage[amsmath,hyperref,thmmarks]{ntheorem}
 \ifpdf
 	\usepackage[ntheorem,framemethod=tikz]{mdframed}
@@ -55,16 +54,6 @@
 \usepackage[capitalize,nameinlink]{cleveref}
 \usepackage[a4paper]{geometry}
 \usepackage{IEEEtrantools}
-
-% Suppress warnings with algorithmic 
-\makeatletter
-\newcounter{algorithmicH}% New algorithmic-like hyperref counter
-\let\oldalgorithmic\algorithmic
-\renewcommand{\algorithmic}{%
-  \stepcounter{algorithmicH}% Step counter
-  \oldalgorithmic}% Do what was always done with algorithmic environment
-\renewcommand{\theHALG@line}{ALG@line.\thealgorithmicH.\arabic{ALG@line}}
-\makeatother
 
 % Dokument structure
 \setcounter{secnumdepth}{2}

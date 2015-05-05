@@ -1,49 +1,45 @@
 \documentclass[../skript.tex]{subfiles}
 
 \begin{document}
-\begin{algorithm}[Johnson's Algorithm (Reformulation)]
+\begin{algorithmbox}[Johnson's Algorithm (Reformulation)]
 \begin{tabular}{@{}ll}
-\textit{Input:} & Set $\mathcal{C}$ of clauses with variables $X = \{ x_1, \ldots, x_n \}$, $w \; : \; \mathcal{C} \to \R_+$ \\
+\textit{Input:} & Set $\mathcal{C}$ of clauses with variables $X = \{ x_1, \ldots, x_n \}$, $w \; : \; \mathcal{C} \to \R_+$. \\
 \textit{Output:} & A truth assignment for $X$.
 \end{tabular}
-\begin{algorithmic}[1]
-\State Set $w_0(C) \coloneqq \frac{w(C)}{2^{|\mathcal{C}|}}$ for $C \in \mathcal{C}$.
-\State $T_0 \coloneqq \emptyset$
-\For{$i \coloneqq 1$ to $n$}
-\If{$\sum_{x_i \in C} w_{i-1}(C) > \sum_{\overline{x_i} \in C} w_{i-1}(C)$}
-\State $y \coloneqq x_i$
-\Else
-\State $y \coloneqq \overline{x_i}$.
-\EndIf
-\State Assign \textit{true} to $y$.
-\State Set
-\[
-w_i(C) \coloneqq \begin{cases}
-0, & \text{if } y \in C \\
-2 \cdot w_{i-1}(C), & \text{if } \bar{y} \in C \\
-w_{i-1}(C), & \text{else}
-\end{cases}.
-\]
-\State $T_i \coloneqq T_{i-1} \cup \{ C \in \mathcal{C} \mid y \in C\}$.
-\EndFor
-\end{algorithmic}
+\end{algorithmbox}
+\vspace{-7pt}
+\begin{algorithm}[H]
+Set $w_0(C) \coloneqq \frac{w(C)}{2^{|\mathcal{C}|}}$ for $C \in \mathcal{C}$.\;
+$T_0 \coloneqq \emptyset$\;
+\For{$i \coloneqq 1$ \KwTo $n$}{
+	\leIf{$\sum_{x_i \in C} w_{i-1}(C) > \sum_{\overline{x_i} \in C} w_{i-1}(C)$}{$y \coloneqq x_i$}{$y \coloneqq \overline{x_i}$}
+	Assign \textit{true} to $y$.\;
+	$w_i(C) \coloneqq \begin{cases}
+	0, & \text{if } y \in C \\
+	2 \cdot w_{i-1}(C), & \text{if } \bar{y} \in C \\
+	w_{i-1}(C), & \text{else}
+	\end{cases}$.\;
+	$T_i \coloneqq T_{i-1} \cup \{ C \in \mathcal{C} \mid y \in C\}$.\;
+}
 \end{algorithm}
+\vspace{-7pt}
+\EndAlgorithmLine
 \begin{example}
 Consider the following instances:
-\begin{table}[h]
+\begin{center}
 \begin{tabular}{ccc}
 $x_1$ & $x_1$ & $\overline{x_1} \vee x_2$ \\
 $w = 1$ & $w=1$ & $w = 2$
 \end{tabular}
-\end{table}
+\end{center}
 
 The algorithm without scaling may choose to set $x_1$ to \textit{false}, and the total weight would be 2. This gives a \sfrac{1}{2}-approximation, as the optimum is 4.
-\begin{table}[h]
+\begin{center}
 \begin{tabular}{cc}
 $x_1$ & $\overline{x_1} \vee x_2$ \\
 $w = 1$ & $w = 2$
 \end{tabular}
-\end{table}
+\end{center}
 
 The algorithm with scaling finds a solution of weight 2. Thus, we have a \\ \sfrac{2}{3}-approximation.
 \end{example}
@@ -176,18 +172,21 @@ Set
 	f \coloneqq \max_{1 \leq j \leq n} |\{ i \mid j \in S_i \}|
 \]
 as the maximal occurrence of an element.
-\begin{algorithm}[LP-based Algorithm for Set Cover]
+\begin{algorithmbox}[LP-Based Algorithm for Set Cover]
 \begin{tabular}{@{}ll}
-\textit{Input:} & $U = \{ 1, \ldots, n \}$, $S_1, \ldots, S_m \subseteq U$, $c : \{ S_1, \ldots, S_m \} \to \R_+$ \\
-\textit{Output:} & A family $\mathcal{F} \subset \{ S_1, \ldots, S_m \}$ \ac{st} $\bigcup_{S \in \mathcal{F}} S = U$.
+\textit{Input:} & $U = \{ 1, \ldots, n \}$, $S_1, \ldots, S_m \subseteq U$, $c : \{ S_1, \ldots, S_m \} \to \R_+$. \\
+\textit{Output:} & A family $\mathcal{F} \subset \{ S_1, \ldots, S_m \}$ \ac{st}~$\bigcup_{S \in \mathcal{F}} S = U$.
 \end{tabular}
-\begin{algorithmic}[1]
-\State Compute an optimum solution $x \in \R^m$ of the \textsc{Set Cover}-LP.
-\State $\mathcal{F} \coloneqq \left\{ S_i \mid x_i \geq \frac{1}{f} \right\}$.
-\end{algorithmic}
+\end{algorithmbox}
+\vspace{-7pt}
+\begin{algorithm}[H]
+Compute an optimum solution $x \in \R^m$ of the \textsc{Set Cover}-LP.\;
+$\mathcal{F} \coloneqq \left\{ S_i \mid x_i \geq \frac{1}{f} \right\}$.\;
 \end{algorithm}
+\vspace{-7pt}
+\EndAlgorithmLine
 \begin{theorem} % Thm 30
-The LP-based approximation algorithm for \textsc{Set Cover} has approximation ratio $f$.
+The \textsc{LP-Based Algorithm for Set Cover} has approximation ratio $f$.
 \end{theorem}
 \begin{proof}
 Let $x$ be an optimum solution of the \textsc{Set Cover}-LP. Set 

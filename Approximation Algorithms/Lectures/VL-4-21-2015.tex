@@ -106,7 +106,7 @@ Suppose a \textsc{3DM} exists. Then all even or odd triples must be selected for
 We have to verify that we defined an instance of \textsc{3DM}:
 \begin{IEEEeqnarray*}{rCl}
 	X &\coloneqq& \left\{ a_{2i}^x \mid x \in \{ x_1, \ldots, x_n \}, \; i = 1, \ldots, k \right\} \cup \left\{ c_i \mid i = 1, \ldots, k \right\} \\
-	&& \cup \left\{ q_i \mid i = 1, \ldots, (n-1)k \right\}. \\
+	&& {} \cup \left\{ q_i \mid i = 1, \ldots, (n-1)k \right\}. \\
 	Y &\coloneqq& \ldots a_{2i - 1} \ldots c_i' \ldots q_i' \\
 	Z &\coloneqq& \left\{ b_i^x \mid x \in \{ x_1, \ldots, x_n \}, i = 1, \ldots, 2k \right\}.
 \end{IEEEeqnarray*}
@@ -179,7 +179,7 @@ Now we have for $S \subseteq \{ 1, \ldots, n \}$:
 Reducing an instance $a_1, \ldots, a_k \in \N$ of \textsc{Subset Sum} to it by adding paths $P_i$ \ac{st} $P_i$ contains $a_i$ vertices yields a reduction, but not one of polynomial size.
 \begin{theorem} % Thm 16
 \label{thm:16}
-Component Grouping is in $P$.
+\textsc{Component Grouping} is in $P$.
 \end{theorem}
 \begin{proof}
 Define

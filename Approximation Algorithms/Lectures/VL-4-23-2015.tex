@@ -60,16 +60,24 @@ If $P$ is a minimization problem, then $1 \leq c < \infty$. If $P$ is a maximiza
 & $\sum_{j=1}^k c(S_{i_j})$ is minimum.
 \end{tabular}
 \end{problem}
-\begin{algorithm}[Greedy Weighted Set Cover]
-\begin{algorithmic}[1]
-\State $C \coloneqq \emptyset$, $F \coloneqq \emptyset$
-\While{$C \neq U$}
-\State Choose $S \in \{S_1, \ldots, S_m\}$ \ac{st} $\frac{c(S)}{|S\setminus C|}$ is minimum.
-\State $C \coloneqq C \cup S$
-\State $F \coloneqq F \cup \{ S \}$
-\EndWhile
-\end{algorithmic}
+\begin{algorithmbox}[Greedy Weighted Set Cover]
+\begin{tabular}{@{}ll}
+\textit{Input:} & A family $S_1, \ldots, S_m$ of subsets of a finite set $U$ with $\bigcup_{i=1}^m S_i = U$ and \\
+& weights $c : \{ S_1, \ldots, S_m \} \to \R_+$.\\
+\textit{Output:} & A subfamily $S_{i_1}, \ldots, S_{i_k}$ \ac{st} $\bigcup_{j=1}^k S_{i_j} = U$.
+\end{tabular}
+\end{algorithmbox}
+\vspace{-7pt}
+\begin{algorithm}[H]
+$C \coloneqq \emptyset$, $F \coloneqq \emptyset$ \;
+\While{$C \neq U$}{
+	Choose $S \in \{S_1, \ldots, S_m\}$ \ac{st} $\frac{c(S)}{|S\setminus C|}$ is minimum.\;
+	$C \coloneqq C \cup S$\;
+	$F \coloneqq F \cup \{ S \}$\;
+}
 \end{algorithm}
+\vspace{-7pt}
+\EndAlgorithmLine
 \begin{theorem} % Thm 21
 \label{thm:21}
 The \textsc{Greedy Weighted Set Cover} algorithm has approximation ratio

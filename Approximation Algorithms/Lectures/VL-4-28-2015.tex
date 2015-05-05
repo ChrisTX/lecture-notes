@@ -59,22 +59,23 @@ This forces a solution to only use edges in the graph, as other choices would in
 Let $G = (V, E)$ be a graph. A subset $S \subseteq V(G)$ is called \emph{2-stable} if the shortest path between any two different vertices in $S$ has a length of at least $3$.
 
 We can compute \underline{maximal} 2-stable sets in polynomial time.
-\begin{algorithm}[$k$-Center-Algorithm]
+\begin{algorithmbox}[$k$-Center-Algorithm]
 \begin{tabular}{@{}ll}
-\textit{Input:} & A complete graph $G = (V, E)$, metric weights $\dist : E(G) \to \R$, $k \in \N$ \\
+\textit{Input:} & A complete graph $G = (V, E)$, metric weights $\dist : E(G) \to \R$, $k \in \N$. \\
 \textit{Output:} & A set $S \subseteq V(G)$.
 \end{tabular}
-\begin{algorithmic}[1]
-\State Let $E = \{ e_1, \ldots, e_m \}$ \ac{st} $\dist(e_1) \leq \dist(e_2) \leq \ldots \leq \dist(e_m)$.
-\For{$i = 1$ to $m$}
-\State $G_i \coloneqq (V, \{ e_1, \ldots, e_i \})$
-\State Compute a maximal 2-stable set $S_i$ in $G_i$
-\If{$|S_i| \leq k$}
-\State return $(S_i)$
-\EndIf
-\EndFor
-\end{algorithmic}
+\end{algorithmbox}
+\vspace{-7pt}
+\begin{algorithm}[H]
+Let $E = \{ e_1, \ldots, e_m \}$ \ac{st} $\dist(e_1) \leq \dist(e_2) \leq \ldots \leq \dist(e_m)$.\;
+\For{$i = 1$ \KwTo $m$}{
+	$G_i \coloneqq (V, \{ e_1, \ldots, e_i \})$\;
+	Compute a maximal 2-stable set $S_i$ in $G_i$\;
+	\lIf{$|S_i| \leq k$}{\Return $(S_i)$}
+}
 \end{algorithm}
+\vspace{-7pt}
+\EndAlgorithmLine
 \begin{theorem} % Thm 25
 \label{thm:25}
 The \textsc{$k$-Center-Algorithm} has an approximation ratio of $2$.
@@ -164,30 +165,27 @@ with $p \coloneqq \min_{z \in Z} |z|$. $p \geq 1$ implies this being a \sfrac{1}
 \begin{remark}
 This algorithm can be derandomized by the method of conditional probabilities.
 \end{remark}
-\begin{algorithm}[Johnson's Algorithm]
+\begin{algorithmbox}[Johnson's Algorithm]
 \begin{tabular}{@{}ll}
-\textit{Input:} & Set $\mathcal{C}$ of clauses with variables $X = \{ x_1, \ldots, x_n \}$, $w \; : \; \mathcal{C} \to \R_+$ \\
+\textit{Input:} & Set $\mathcal{C}$ of clauses with variables $X = \{ x_1, \ldots, x_n \}$, $w \; : \; \mathcal{C} \to \R_+$. \\
 \textit{Output:} & A truth assignment for $X$.
 \end{tabular}
-\begin{algorithmic}[1]
-\State Set $\tilde{w}(C) \coloneqq \frac{w(C)}{2^{|\mathcal{C}|}}$ for $C \in \mathcal{C}$.
-\For{$i \coloneqq 1$ to $n$}
-\If{$\sum_{x_i \in C} \tilde{w}(C) > \sum_{\overline{x_i} \in C} \tilde{w}(C)$}
-\State $y \coloneqq x_i$
-\Else
-\State $y \coloneqq \overline{x_i}$.
-\EndIf
-\State Assign \textit{true} to $y$.
-\State Set
-\[
-\tilde{w}(C) \coloneqq \begin{cases}
-0, & \text{if } y \in C \\
-2 \cdot \tilde{w}(C), & \text{if } \bar{y} \in C
-\end{cases}
-\]
-\EndFor
-\end{algorithmic}
+\end{algorithmbox}
+\vspace{-7pt}
+\begin{algorithm}[H]
+Set $\tilde{w}(C) \coloneqq \frac{w(C)}{2^{|\mathcal{C}|}}$ for $C \in \mathcal{C}$.\;
+\For{$i \coloneqq 1$ \KwTo $n$}{
+	\leIf{$\sum_{x_i \in C} \tilde{w}(C) > \sum_{\overline{x_i} \in C} \tilde{w}(C)$}{$y \coloneqq x_i$}{$y \coloneqq \overline{x_i}$}
+	Assign \textit{true} to $y$.\;
+	$\tilde{w}(C) \coloneqq \begin{cases}
+		0, & \text{if } y \in C \\
+		2 \cdot \tilde{w}(C), & \text{if } \bar{y} \in C
+		\end{cases}
+	$\;
+}
 \end{algorithm}
+\vspace{-7pt}
+\EndAlgorithmLine
 \begin{theorem} % Thm 27
 \label{thm:27}
 \textsc{Johnson's Algorithm} for \textsc{Max-Sat} has approximation ratio $1 - 2^{-p}$ with $p \coloneqq \min_{C \in \mathcal{C}} |C|$.
@@ -215,13 +213,13 @@ Hence, the total weight of satisfied clauses is greater or equal to
 \begin{example}
 
 Is the analysis tight?
-\begin{table}[h]
+\begin{center}
 \begin{tabular}{cc}
 $x_1$ & $\overline{x_1} \vee x_2$ \\
 $w = 1$ & $w = 2$ \\
 $\tilde{w} = \sfrac{1}{2}$ & $\tilde{w} = \sfrac{1}{2}$
 \end{tabular}
-\end{table}
+\end{center}
 
 Then $x_1$ would be \textit{false}. The algorithm achieves $2$ but $\OPT = 3$.
 \end{example} 
