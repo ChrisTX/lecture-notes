@@ -115,7 +115,7 @@ and
 \label{eq:thm-28-ii}
 \sum_{\overline{x_i} \in C} w_{i-1}(C) \geq w_i \left( F_i^\pi \right) - w_{i-1} \left( F_{i-1}^\pi \right)
 \end{equation}
-\begin{proof}[\labelcref{eq:thm-28-i}]
+\begin{proof}[\labelcref{eq:thm-28-i}] \NoEndMark
 Let $C \in T_i \setminus T_{i-1}$. Then, $x_i \in C$ and thus
 \[
 	w_{i-1} (C) \leq \frac{w(C)}{2}.
@@ -125,7 +125,7 @@ Hence,
 	w(T_i) - w(T_{i-1}) \geq 2 \cdot \sum_{x_i \in C} w_{i-1}(C)
 \]
 \end{proof}
-\begin{proof}[\labelcref{eq:thm-28-ii}]
+\begin{proof}[\labelcref{eq:thm-28-ii}] \NoEndMark
 \underline{Case 1:} $\pi(x_i) = \textit{true}$. \\
 Algorithm also assigns \textit{true} to $x_i$. Thus, $F_i^\pi = F_{i-1}^\pi$.
 Each clause in $F_i^\pi$ contains either $\overline{x_i}$ or neither $x_i$ nor $\overline{x_i}$.
@@ -182,7 +182,7 @@ as the maximal occurrence of an element.
 \textit{Output:} & A family $\mathcal{F} \subset \{ S_1, \ldots, S_m \}$ \ac{st} $\bigcup_{S \in \mathcal{F}} S = U$.
 \end{tabular}
 \begin{algorithmic}[1]
-\State Compute an optimum solution $x \in \R^n$ of the \textsc{Set Cover}-LP.
+\State Compute an optimum solution $x \in \R^m$ of the \textsc{Set Cover}-LP.
 \State $\mathcal{F} \coloneqq \left\{ S_i \mid x_i \geq \frac{1}{f} \right\}$.
 \end{algorithmic}
 \end{algorithm}

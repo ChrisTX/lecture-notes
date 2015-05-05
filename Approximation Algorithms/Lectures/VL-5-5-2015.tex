@@ -1,0 +1,221 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+\begin{algorithm}[Set Cover via Randomized Rounding]
+\begin{tabular}{@{}ll}
+\textit{Input:} & $U = \{ 1, \ldots, n \}$, $S_1, \ldots, S_m \subseteq U$, $c : \{ S_1, \ldots, S_m \} \to \R_+$ \\
+\textit{Output:} & A family $\mathcal{S} \subset \{ S_1, \ldots, S_m \}$ \ac{st} $\bigcup_{S \in \mathcal{S}} S = U$.
+\end{tabular}
+\begin{algorithmic}[1]
+\State Compute an optimum solution $x \in \R^m$ of the \textsc{Set Cover}-LP.
+\For{$i \coloneqq 1$ to $2 \log n$}
+\State Select each $S_j$ with probability $x_j$ to obtain a family $\mathcal{S}_i$
+\EndFor
+\State return $\mathcal{S} \coloneqq \bigcup_{i=1}^{2 \log n} \mathcal{S}_i$
+\end{algorithmic}
+\end{algorithm}
+\begin{theorem} % Thm 31
+The randomized rounding algorithm for \textsc{Set Cover} returns with probability $\geq \sfrac{1}{2}$ a solution with approximation ratio $\mathcal{O}(\log n)$.
+\end{theorem}
+\begin{proof}
+It holds that
+\[
+\mathbb{E}[c(\mathcal{S}_i)] = \sum_{j=1}^m c(S_j) \cdot x_j = \OPT_{LP}.
+\]
+Then,
+\[
+\mathbb{E}[c(\mathcal{S})] \leq 2 \log n \cdot \OPT_{LP}.
+\]
+What is the probability that $\mathcal{S}_i$ covers element $j$?
+
+Assume \ac{wlog}~that element $j$ is contained in $S_1, \ldots, S_k$.
+Then,
+\[
+	x_1 + x_2 + \ldots + x_k \geq 1 \quad \Longrightarrow \quad \prod_{i=1}^k (1 - x_i) \leq \left( 1 - \frac{1}{k} \right)^k.
+\]
+Thus:
+\begin{IEEEeqnarray*}{rCl}
+\Pr [ j \text{ is covered by } \mathcal{S}_i] &=& 1 - \Pr [j \text{ is covered by } \mathcal{S}_i] \\
+&=& 1 - \prod_{i=1}^k (1-x_i) \\
+&\geq& 1- \left( 1 - \frac{1}{k} \right)^k \\
+&\geq& 1 - \frac{1}{e}.
+\end{IEEEeqnarray*}
+This yields
+\[
+	\Pr[j \text{ is not covered by } \mathcal{S}]  \leq \left( \frac{1}{e} \right)^{2 \log n} = \frac{1}{n^2}.
+\]
+By considering all elements:
+\[
+	\Pr[ \exists j \text{ that is not covered by } \mathcal{S}] \leq n \cdot \frac{1}{n^2} = \frac{1}{n}.
+\]
+Therefore, by using Markov's inequality, we obtain:
+\[
+	\Pr\left[c(\mathcal{S}) \geq 8 \cdot \log n \cdot \OPT_{LP}\right] \leq \frac{2 \cdot \log n \cdot \OPT_{LP}}{8 \cdot \log n \cdot \OPT_{LP}} = \frac{1}{4},
+\]
+implying
+\[
+	\Pr\left[ c(\mathcal{S}) \leq 8 \cdot \log n \cdot \OPT_{LP} \text{ and } \mathcal{S} \text{ is a set cover} \right] \geq \frac{1}{2}.
+\]
+\end{proof}
+Let $G = (V, E)$, $f : V(G) \to \{ 1, \ldots, k\}$, \ac{st}~$f(x) \neq f(y)$ if $x \neq y$ and $\{ x, y \} \in E(G)$. Then $\chi(G)$ is defined as $\chi(G) : \min k$, \ac{st}~$f$ exists. This is known to be \NP-hard and we already know about an $\mathcal{O}(n)$-approximation.
+\begin{proposition} % Prop 32
+\label{prop:32}
+For arbitrarily large $c \in \N$ there exists a linear time approximation algorithm for $\chi$ with approximation ratio $\sfrac{n}{c}$.
+\end{proposition}
+\begin{proof}
+Partition the graph into $\sfrac{n}{c}$ pieces of size $c$. We can color constant size graphs in constant time. Therefore, we have a $\sfrac{n}{c} \cdot \chi(G)$-approximation.
+\end{proof}
+Consider an algorithm that colors in a runtime of $\alpha^n$, $n \coloneqq V(G)$, $\alpha \in \R$. Such algorithms exists with $\alpha = 2 + \varepsilon$, $\varepsilon > 0$ (Koivisto, 2006). Hence, we obtain a $\sfrac{n}{\log n}$-approximation for $\chi$. In 1976, Lawler proved the existence of an algorithm with constant $\alpha \approx 2.44\ldots$.
+\begin{algorithm}[Greedy-Coloring]
+\begin{algorithmic}[1]
+\State Assign the smallest possible color to vertex $i$, $i = 1, \ldots, n$.
+\end{algorithmic}
+\end{algorithm}
+\begin{theorem} % Thm 33
+\textsc{Greedy-Coloring} needs at most $1 + \max_{x \in V(G)} |\delta(x)|$ colors and its runtime is linear.
+\end{theorem}
+\begin{proof}
+At most $|\delta(x)|$ colored neighbors exist.
+\end{proof}
+\begin{algorithm}[Johnson's Coloring Algorithm]
+\begin{algorithmic}[1]
+\State $k \coloneqq 0$
+\While{$G \neq 0$}
+	\State greedily choose a \emph{maximal stable set} $S$ in $G$ by always selecting a vertex of minimum degree.
+	\State $G \coloneqq G - S$.
+	\State $k \coloneqq k + 1$.
+	\State color vertices in $S$ with color $k$.
+\EndWhile
+\end{algorithmic}
+\end{algorithm}
+\begin{theorem} % Thm 34
+\textsc{Johnson's Coloring Algorithm} has an approximation ratio of $\mathcal{O}(\frac{n}{\log n})$.
+\end{theorem}
+\begin{proof}
+Let $k \coloneqq \chi(G)$, $n \coloneqq |V(G)|$. \\
+\underline{Observation:} There exists a stable set of size $\geq \frac{n}{k}$ in $G$. \\
+Thus, there exists an $x \in V(G)$ \ac{st}
+\[
+	|\delta(x)| \leq n - \frac{n}{k}.
+\]
+Let $S_1$ be the first color class found by \textsc{Johnson's Coloring Algorithm} and let $x_1$ be the first vertex in $S_1$. Then, $x_1$ has at least $\frac{n}{k} - 1$ non-neighbors.
+As
+\[
+	\chi(G - x_1 - N(x_1)) \leq k,
+\]
+$x_2$ is chosen in this subgraph, implying that $x_2$ has at least
+\[
+	\frac{ \left( \frac{n}{k} - 1 \right) }{ k - 1 }
+\]
+non-neighbors.
+
+We iterate finding $x_1, \ldots, x_{t+1}$ until
+\[
+	\frac{n}{k^t} - \frac{1}{k^{t-1}} - \ldots - \frac{1}{k} - 1 > 0.
+\]
+Hence,
+\[
+	\sum_{i=1}^{t-1} \frac{1}{k^i} = \frac{1 - \left( \frac{1}{k} \right)^t}{1 - \left( \frac{1}{k} \right)} < \frac{1}{\sfrac{1}{2}} = 2, \quad (k \geq 2).
+\]
+Thus,
+\[
+	\frac{n}{k^{|S_1|}} - 2 \leq 0,
+\]
+implying
+\[
+	|S_1| \geq \frac{\log n - 1}{\log k}.
+\]
+The sets $S_1, S_2, \ldots$ are constructed. Let $n_i \coloneqq |V(G - (S_1 \cup S_2 \cup \ldots \cup S_{i-1}))|$.
+Let $j$ be the index \ac{st}
+\[
+	n_1 > n_2 > \ldots > n_j \geq 2 \sqrt{n} > n_{j+1} > \ldots.
+\]
+We have for $i \in \{1, \ldots, j\}$:
+\[
+	|S_i| \geq \frac{\log n_i - 1}{\log k} \geq \frac{\log(2 \sqrt{n}) - 1}{\log k} = \frac{\log n}{2 \cdot \log k}.
+\]
+Thus,
+\[
+	n \geq \sum_{i=1}^j |S_i| \geq j \cdot \frac{\log n}{2 \cdot \log k},
+\]
+implying
+\[
+	j \leq \frac{2n \cdot \log k}{\log n}.
+\]
+Hence, \textsc{Johnson's Coloring Algorithm} needs at most
+\[
+	\frac{2n \cdot \log k}{\log n} + 2 \cdot \sqrt{n}
+\]
+colors and has a $\mathcal{O}(n/\log n)$-approximation ratio for $k = \chi(G)$.
+\end{proof}
+The best known approximation ratio is due to Halldorsson, 1993:
+\[
+	\mathcal{O} \left( \frac{n}{\log n} \cdot \left( \frac{\log \log n}{\log n} \right)^2 \right).
+\]
+However, Feige and Kilian proved in 1996 that an approximation ratio of $n^{1 - \varepsilon}$ is not possible unless $P = \NP$.
+\begin{algorithm}[Wiqderson's Coloring Algorithm]
+\begin{tabular}{@{}ll}
+\textit{Input:} & A 3-colorable graph $G$ \\
+\textit{Output:} & A coloring of $G$.
+\end{tabular}
+\begin{algorithmic}[1]
+\State $k \coloneqq 0$
+\While{$\exists x \in V(G)$ with $|\delta(x)| \geq \sqrt{n}$}
+	\State color $x \cup N(x)$ using 3 colors.
+	\State $G \coloneqq G - (x \cup N(x))$.
+	\State $k \coloneqq k + 1$.
+\EndWhile
+\State Color vertices in $G$ with the \textsc{Greedy-Coloring} algorithm.
+\end{algorithmic}
+\end{algorithm}
+\begin{theorem} % Thm 35
+\label{thm:35}
+For 3-colorable graphs, \textsc{Wiqderson's Coloring Algorithm} has approximation ratio $\mathcal{O}(\sqrt{n})$.
+\end{theorem}
+\begin{proof}
+In the \textbf{while}-loop, we have $|x \cup N(x)| \geq \sqrt{n}$.
+Thus, we have at most $\sqrt{n}$ iterations and need less or equal to $3 \sqrt{n}$ colors in the \textbf{while}-loop.
+For all vertices $x$ in remaining graph it holds $|\delta(x)| < \sqrt{n}$.
+Hence, the Greedy needs at most $\sqrt{n}$ colors and altogether the algorithm uses less or equal to $4 \sqrt{n}$ colors.
+\end{proof}
+The best known result is a $\mathcal{O}(n^{0.2038})$-approximation due to Kawarabayashi, Thorup (2012).
+\begin{theorem} % Thm 36
+\label{thm:36}
+3-colorable graphs cannot be colored in polynomial time with 4 colors unless $P = \NP$.
+\end{theorem}
+\begin{proof}
+Guruswami, 2004.
+\end{proof}
+This theorem implies: There cannot exist a polynomial time algorithm for $\chi(G)$ that uses at most
+\[
+	\left( \frac{5}{3} - \varepsilon \right) \cdot \chi(G)
+\]
+colors, with $\varepsilon > 0$, unless $P = \NP$. However, we cannot rule out algorithms with an approximation of for example $\chi(G) + 2$ because of this result.
+
+An approximation algorithm $A$ for an optimization problem $P$ has an \emph{asymptotic approximation ratio $c$} if there exists some constant $k$ such that
+\begin{IEEEeqnarray*}{rCl"l}
+	A(I) &\leq& c \cdot \OPT(I) + k, & \text{if } P \text{ is a minimization problem,} \\
+	A(I) &\geq& c \cdot \OPT(I) - k, & \text{if } P \text{ is a maximization problem.}
+\end{IEEEeqnarray*}
+\begin{theorem} % Thm 37
+\label{thm:37}
+If $P \neq \NP$, then no approximation algorithm for $\chi$ having an approximation ratio $< \sfrac{5}{3}$ exists.
+\end{theorem}
+For the proof, we use the composition $G_1[G_2]$ of two graphs $G_1, G_2$, in which we replace each vertex of $G_1$ by a copy of $G_2$ and connect two vertices between different copies if the vertices in $G_1$ are connected. Formally:
+\[
+	\left(V_1 \times V_2, \left\{ \{ (u_1, u_2), (v_1, v_2) \} \mid \{ u_1, u_2 \} \in E_1 \text{ or } (u_1 = v_1 \text{ and } \{ u_2, v_2 \} \in E_2) \right\}\right).
+\]
+In particular:
+\[
+	\chi(K_n[G]) = n \cdot \chi(G).
+\]
+\begin{proof}[\cref{thm:37}]
+Let $G$ be an arbitrary graph, $N \in \N$.
+Set $G^* \coloneqq K_N[G]$. Then
+\begin{IEEEeqnarray*}{rCl"c"rCl}
+\chi(G) &=& 3 & \Longrightarrow & \chi(G^*) &=& 3 \cdot N \\
+\chi(G) &>& 3 & \Longrightarrow & \chi(G^*) &\geq& 4 \cdot N
+\end{IEEEeqnarray*}
+This proves the result.
+\end{proof}
+\end{document}
