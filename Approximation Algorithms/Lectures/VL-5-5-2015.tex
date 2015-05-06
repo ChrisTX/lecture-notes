@@ -4,7 +4,7 @@
 \begin{algorithmbox}[Set Cover via Randomized Rounding]
 \begin{tabular}{@{}ll}
 \textit{Input:} & $U = \{ 1, \ldots, n \}$, $S_1, \ldots, S_m \subseteq U$, $c : \{ S_1, \ldots, S_m \} \to \R_+$. \\
-\textit{Output:} & A family $\mathscr{S} \subset \{ S_1, \ldots, S_m \}$ \ac{st}~$\bigcup_{S \in \mathscr{S}} S = U$.
+\textit{Output:} & A family $\mathscr{S} \subset \{ S_1, \ldots, S_m \}$ \ac{st}\ $\bigcup_{S \in \mathscr{S}} S = U$.
 \end{tabular}
 \end{algorithmbox}
 \vspace{-7pt}
@@ -31,7 +31,7 @@ Then,
 \]
 What is the probability that $\mathscr{S}_i$ covers element $j$?
 
-Assume \ac{wlog}~that element $j$ is contained in $S_1, \ldots, S_k$.
+Assume \ac{wlog}\ that element $j$ is contained in $S_1, \ldots, S_k$.
 Then,
 \[
 	x_1 + x_2 + \ldots + x_k \geq 1 \quad \Longrightarrow \quad \prod_{i=1}^k (1 - x_i) \leq \left( 1 - \frac{1}{k} \right)^k.
@@ -60,7 +60,7 @@ implying
 	\Pr\left[ c(\mathscr{S}) \leq 8 \cdot \log n \cdot \OPT_{LP} \text{ and } \mathscr{S} \text{ is a set cover} \right] \geq \frac{1}{2}.
 \]
 \end{proof}
-Let $G = (V, E)$, $f : V(G) \to \{ 1, \ldots, k\}$, \ac{st}~$f(x) \neq f(y)$ if $x \neq y$ and $\{ x, y \} \in E(G)$. Then $\chi(G)$ is defined as $\chi(G) : \min k$, \ac{st}~$f$ exists. This is known to be \NP-hard and we already know about an $\mathcal{O}(n)$-approximation.
+Let $G = (V, E)$, $f : V(G) \to \{ 1, \ldots, k\}$, \ac{st}\ $f(x) \neq f(y)$ if $x \neq y$ and $\{ x, y \} \in E(G)$. Then $\chi(G)$ is defined as $\chi(G) : \min k$, \ac{st}\ $f$ exists. This is known to be \NP-hard and we already know about an $\mathcal{O}(n)$-approximation.
 \begin{proposition} % Prop 32
 \label{prop:32}
 For arbitrarily large $c \in \N$ there exists a linear time approximation algorithm for $\chi$ with approximation ratio $\frac{n}{c}$.

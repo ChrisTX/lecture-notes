@@ -30,7 +30,7 @@ Does there exists a polynomial time algorithm for the \textsc{TSP} that always g
 \end{description}
 
 Approximation algorithms often are much simpler than exact algorithms. \\
-\textsc{Greedy Algorithm}: e.g.~matching problems.
+\textsc{Greedy Algorithm}: e.g.\ matching problems.
 
 How to design approximation algorithms?
 
@@ -55,9 +55,9 @@ Structure:
 \chapter{\texorpdfstring{\NP-completeness}{NP-completeness}} % Ch 1
 \label{ch:1}
 \begin{description}
-\item[alphabet] set of symbols, e.g.~$0,1$.
-\item[string] sequences of symbols, e.g.~$01101$.
-\item[length of a string] number of symbols, e.g.~$|01101| = 5$.
+\item[alphabet] set of symbols, e.g.\ $0,1$.
+\item[string] sequences of symbols, e.g.\ $01101$.
+\item[length of a string] number of symbols, e.g.\ $|01101| = 5$.
 \end{description}
 We denote the alphabet as $\Sigma$ and as $\Sigma^n$, $n \in \N$ all strings of length exactly $n$ with symbols from $\Sigma$.
 The \emph{strings over $\Sigma$} are denoted as
@@ -65,7 +65,7 @@ The \emph{strings over $\Sigma$} are denoted as
 	\Sigma^* \coloneqq \bigcup_{n \in \N} \Sigma^n
 \]
 Decision problem: only ``yes'' and ``no'' are possible answers.
-Identify all ``yes''-instances as the decision problem, i.e.~a decision problem is simply a subset of $\Sigma^*$ (\emph{languages}).
+Identify all ``yes''-instances as the decision problem, i.e.\ a decision problem is simply a subset of $\Sigma^*$ (\emph{languages}).
 
 Let $X \subseteq \{ 0, 1\}^*$. An algorithm $A$ for the decision problem $X$ is an algorithm that for given $s \in \{0, 1\}^*$ returns the value $A(s)$, which is ``yes'' or ``no'', \ac{st} $s \in X \Leftrightarrow A(s) = \text{``yes''}$. $A$ has \emph{polynomial runtime} if there exists a polynomial $p$, \ac{st} for every input $s$ the algorithm $A$ after at most $\mathcal{O}(p(|S|))$ \emph{``steps''}.
 
