@@ -2,57 +2,57 @@
 
 \begin{document}
 
-\begin{proof}
-	$\forall u = (u_z)_{z\in\hat{\Sigma}_k}\in\R^{\vert\hat{\sigma}_k\vert}\exists! p\in \mathbb{P}_k:$
+\begin{proof}[Skizze]
+\begin{itemize}
+\item $d=1$: Benutze die Lagrange-Basis-Darstellung
 	\[
-		\forall z\in\hat{\Sigma}_k\,p(z) = u_z
+		p(\hat{x}) = \sum_{z\in\hat{\Sigma}_k}u_z\prod_{y\in\hat{\Sigma}_k\setminus\{z\}}\left(\frac{\hat{x}-y}{z-y}\right).
 	\]
-	\textbf{Beweisskizze: }\par
-	\textbf{$d=1$: } Benutze Lagrange-Basis-Darstellung
-	\[
-		p(\hat{x}) = \sum_{z\in\hat{\Sigma}_k}u_z\prod_{y\in\hat{\Sigma}_k\setminus\{z\}}\left(\frac{\hat{x}-y}{z-y}\right)
-	\]
-	\textbf{$d=2$: } \textbf{Fall $k=1$: } Seien $\hat{z}_j$ die Knoten von $\hat{T}$ (Referenzelement), $0\leq 1\leq d$. Definiere \emph{baryzentrische Koordinaten} über
-	\begin{eqnarray*}
-		\hat{\lambda}_0(\hat{x})&\coloneqq& 1-\sum_{j=1}^d\hat{x}_j\\
-		\hat{\lambda}_k(\hat{x})&\coloneqq& \hat{x}_k,\quad k=1,...,d
-	\end{eqnarray*}
-	Lagrange-Eigenschaft:
-	\[
-		\hat{\lambda}_k(\hat{z}_j) = \delta_{k,j},\quad 0\leq k,j\leq d
-	\]
-	Dann
-	\[
-		p(\hat{x}) = u_{\hat{z}_0}\hat{\lambda}_0 + \hat{u}_{\hat{z}_1}\hat{\lambda}_1 + \hat{u}_{\hat{z}_2}\hat{\lambda}_2 
-	\]
-	\textbf{Fall $k=2,3$: } Die Monome $b_\alpha(\hat{x}) = x^\alpha,\,\alpha\in\mathcal{M}_k$ bilden eine Basis von $\mathbb{P}_k$. Wir müssen zeigen, dass es Koeffizienten $(c_\alpha)_{\alpha\in\mathcal{M}_k}$ gibt, so dass 
-	\[
-		\forall\alpha\in\mathcal{M}_k:\quad\sum_{\beta\in\mathcal{M}_k} P_{\alpha,\beta}c_\beta = u_{z_\alpha}
-	\] 
-	wobei $P_{\alpha,\beta}\coloneqq (z_\alpha)^\beta$. D.h. wir müssen zeigen, dass $(P_{\alpha,\beta})_{\alpha,\beta\in\mathcal{M}_k}\in\R^{\vert\mathcal{M}_k\vert\times\vert\mathcal{M}_k\vert}$. Für $k=2,3$ kann das explizit nachgeprüft werden.\par
-	\textbf{Fall $k=4$: } Wir zeigen, dass der Kern der Matrix $( P_{\alpha,\beta})_{\alpha,\beta\in\mathcal{M}_k}$ invertierbar ist. Angenommen es sei $p\in\mathbb{P}_k$ mit $p(z) = 0$ für alle $z\in\hat{\Sigma}_k$, also im Kern der Matrix. Dann gilt insbesondere
-	\[
-		p_{\vert\partial\hat{T}} = 0
-	\]
-	d.h. wir haben auf den Kanten des Referenzelements $\hat{T}$ ein 1-dimensionales Polynom $(k-1)$-ten Grades. Daher gibt es $\Psi\in\mathbb{P}_{k-3}$:
-	\[
-		p = \hat{\lambda}_0\hat{\lambda}_1\hat{\lambda}_2\Psi
-	\]
-	Wobei $\hat{\lambda}_i$ per Definition auf der $i$-ten Kante des Referenzelements verschwindet. Inuktionsannahme zeigt, dass $\Psi\equiv 0$.
+\item $d=2$: 
+	\begin{description}
+		\item[Fall $k=1$:] Seien $\hat{z}_j$ die Knoten von $\hat{T}$ (Referenzelement), $0\leq 1\leq d$. Definiere \emph{baryzentrische Koordinaten} über
+		\begin{IEEEeqnarray*}{rCl"l}
+			\hat{\lambda}_0(\hat{x})&\coloneqq& 1-\sum_{j=1}^d\hat{x}_j,\\
+			\hat{\lambda}_k(\hat{x})&\coloneqq& \hat{x}_k, & k=1, \ldots ,d.
+		\end{IEEEeqnarray*}
+		Mit dieser Definition gilt  die Lagrange-Eigenschaft:
+		\[
+			\hat{\lambda}_k(\hat{z}_j) = \delta_{k,j},\quad 0\leq k,j\leq d.
+		\]
+		Dann
+		\[
+			p(\hat{x}) = \hat{u}_{\hat{z}_0}\hat{\lambda}_0 + \hat{u}_{\hat{z}_1}\hat{\lambda}_1 + \hat{u}_{\hat{z}_2}\hat{\lambda}_2.
+		\]
+		\item[Fall $k=2,3$:] Die Monome $b_\alpha(\hat{x}) = x^\alpha,\;\alpha\in\mathcal{M}_k$ bilden eine Basis von $\PP_k$. Wir müssen zeigen, dass es Koeffizienten $c_\alpha,\;\alpha\in\mathcal{M}_k$ gibt, so dass 
+		\[
+			\forall\alpha\in\mathcal{M}_k\;:\;\sum_{\beta\in\mathcal{M}_k} P_{\alpha,\beta}c_\beta = u_{z_\alpha}.
+		\] 
+		wobei $P_{\alpha,\beta}\coloneqq (z_\alpha)^\beta$. D.h.~wir müssen zeigen, dass $(P_{\alpha,\beta})_{\alpha,\beta\in\mathcal{M}_k}\in\R^{|\mathcal{M}_k|\times|\mathcal{M}_k|}$. Für $k=2,3$ kann das explizit nachgeprüft werden.
+		\item[Fall $k=4$:] Wir zeigen, dass der Kern der Matrix $( P_{\alpha,\beta})_{\alpha,\beta\in\mathcal{M}_k}$ invertierbar ist. Angenommen es sei $p\in\PP_k$ mit $p(z) = 0$ für alle $z\in\hat{\Sigma}_k$, also im Kern der Matrix. Dann gilt insbesondere
+		\[
+			p|_{\partial\hat{T}} = 0,
+		\]
+		d.h.~wir haben auf den Kanten des Referenzelements $\hat{T}$ ein 1-dimensionales Polynom $(k-1)$-ten Grades. Daher gibt es $\Psi\in\PP_{k-3}$:
+		\[
+			p = \hat{\lambda}_0\hat{\lambda}_1\hat{\lambda}_2\Psi.
+		\]
+		Wobei $\hat{\lambda}_i$ per Definition auf der $i$-ten Kante des Referenzelements verschwindet. Induktionsannahme zeigt, dass $\Psi\equiv 0$.
+	\end{description}
+\end{itemize}
 \end{proof}
 
 \begin{corollary}\label{cor:c2e3s7}
 	Sei $k\in\mathbb{N}$ und $\Phi$ eine affine Transformation. Definiere 
 	\[
-		\Sigma_k \coloneqq \Phi\left(\hat{\Sigma}_k\right)
+		\Sigma_k \coloneqq \Phi\left(\hat{\Sigma}_k\right).
 	\]
 	Dann gilt
 	\[
-		\forall u=(u_z)_{z\in\Sigma_k}\exists ! p \in \mathbb{P}_k:\,\forall z\in\Sigma_k:\,p(z)=u_z
+		\forall u=(u_z)_{z\in\Sigma_k} \; \exists ! p \in \PP_k\;:\;\forall z\in\Sigma_k\,:\,p(z)=u_z.
 	\]
 \end{corollary}
 \begin{proof}
-	Sei $q\in\mathbb{P}_k$ das eindeutige Polynom, dass auf $\hat{\Sigma}_k$ interpoliert. Dann erfüllt
+	Sei $q\in\PP_k$ das eindeutige Polynom, dass auf $\hat{\Sigma}_k$ interpoliert. Dann erfüllt
 	\[
 		p = q\circ\Phi^{-1}
 	\] 
@@ -60,86 +60,94 @@
 \end{proof}
 
 \begin{definition}[Finite-Elemente-Räume]\label{def:c2e3s8}
-	Sei $\tau$ eine reguläre Triangulierung von $\Omega$ und $k\in\mathbb{N}_0$. Definieredie Funktionenräume
-	\begin{eqnarray*}
-		P^{k,-1}(\tau) &\coloneqq& \{p:\bar{\Omega}\to\R\vert\,\forall T\in\tau: p_{\vert T}\in\mathbb{P}_k\}\quad\text{unstetige FE, discontinuous-dg-Räume}\\
-		P^{k,0}(\tau) &\coloneqq& \{p\in P^{k,-1}\vert\, p \text{ stetig auf } \bar{\Omega}\} = P^{k,-1}\cap C^0(\bar{\Omega})\\
-		P^{k,0}_d(\tau) &\coloneqq& \{p\in P^{k,0}(\tau\vert\, p_{\vert\Gamma_D} = 0)\}
-	\end{eqnarray*}
+	Sei $\tau$ eine reguläre Triangulierung von $\Omega$ und $k\in\mathbb{N}_0$. Definiere die Funktionenräume
+	\begin{IEEEeqnarray*}{rClClCl}
+		P^{k,-1}(\tau) &\coloneqq& \{p:\bar{\Omega}\to\R &\mid& \forall T\in\tau: p|_T\in\PP_k\},\\
+		P^{k,0}(\tau) &\coloneqq& \{p\in P^{k,-1} &\mid& \, p \text{ stetig auf } \bar{\Omega}\} &=& P^{k,-1}\cap C^0(\bar{\Omega}),\\
+		P^{k,0}_D(\tau) &\coloneqq& \{p\in P^{k,0}(\tau) &\mid& \, p|_{\Gamma_D} = 0\}.
+	\end{IEEEeqnarray*}
+	$P^{k,-1}$ sind dabei unstetige FE-Räume (auch discontinuous Galerkin (dG)-Räume genannt).
 	$P^{k,0}$ und $P^{k,0}_D$ sind \emph{stetige FE-Räume}, und $\Gamma_D\subseteq\partial\Omega$ bezeichnet den Dirichlet-Teil des Randes. Die stetigen FE-Räume werden auch als \emph{$H^1(\Omega)$-konforme} Räume genannt. Unstetige FE-Räume werden als \emph{nicht-$H^1(\Omega)$-konforme} Räume bezeichnet.
 \end{definition}
 
 \begin{theorem}\label{thm:c2e3s9}
-	Sei $\tau$ eine reguläre Triangulierung, $k\in\mathbb{N}, T_1,T_2\in\tau$ mit $T_1\cap T_2\not=\emptyset$. Seien ferner $p_1,p_2\in\mathbb{P}_k$  zwei Polynome. Definiere 
-	\begin{eqnarray*}
-		\varphi: T_1\cup T_2\to\R\\
-		\varphi_{\vert T_1} = p_1\\
-		\varphi_{\vert T_2} = p_2
-	\end{eqnarray*}
-	d.h. $\varphi$ ist ein Element aus $P^{k,-1}(\{T_1,T_2\})$. Seien $\Phi_{T_1},\Phi_{T_2}$ affine Diffeomorphismen, die das Referenzelement $\hat{T}$ auf $T_1$ bzw. $T_2$ abbilden. Seien 
-	\begin{eqnarray*}
-		\Sigma_k(T_1)\coloneqq\Phi_{T_1}\left(\hat{\Sigma}_k\right)\\
-		\Sigma_k(T_2)\coloneqq\Phi_{T_2}\left(\hat{\Sigma}_k\right)		
-	\end{eqnarray*} 
+	Sei $\tau$ eine reguläre Triangulierung, $k\in\mathbb{N}, T_1,T_2\in\tau$ mit $T_1\cap T_2\not=\emptyset$. Seien ferner $p_1,p_2\in\PP_k$  zwei Polynome. Definiere 
+	\begin{IEEEeqnarray*}{rCl}
+		\varphi: T_1\cup T_2&\to&\R\\
+		\varphi|_{T_1} &=& p_1\\
+		\varphi|_{T_2} &=& p_2
+	\end{IEEEeqnarray*}
+	d.h.~$\varphi$ ist ein Element aus $P^{k,-1}(\{T_1,T_2\})$. Seien $\Phi_{T_1},\Phi_{T_2}$ affine Diffeomorphismen, die das Referenzelement $\hat{T}$ auf $T_1$ bzw. $T_2$ abbilden. Seien 
+	\begin{IEEEeqnarray*}{rCl}
+		\Sigma_k(T_1)&\coloneqq&\Phi_{T_1}\left(\hat{\Sigma}_k\right),\\
+		\Sigma_k(T_2)&\coloneqq&\Phi_{T_2}\left(\hat{\Sigma}_k\right).		
+	\end{IEEEeqnarray*} 
 	Dann gilt
-	\begin{eqnarray*}
-		\varphi\text{ ist stetig, also } \varphi\in P^{k,0}(\{T_1,T_2\})
-			\Leftrightarrow 
-		\forall z\in\Sigma_k(T_1)\cap\Sigma_k(T_2):\,p_1(z) = p_2(z)
-	\end{eqnarray*}
-	(d.h. $\varphi$ ist genau dann stetig ($d=2$: auf der Schnittkante), wenn die Funktionswerte von $p_1$ und $p_2$ in allen Schnittpunkten der Elemente ($d=2$: auf der Kante) übereinstimmen).  
+	\[
+		\varphi\text{ ist stetig, also } \varphi\in P^{k,0}(\{T_1,T_2\}) \quad
+			\Longleftrightarrow \quad
+		\forall z\in\Sigma_k(T_1)\cap\Sigma_k(T_2):\,p_1(z) = p_2(z),
+	\]
+	(d.h.~$\varphi$ ist genau dann stetig ($d=2$: auf der Schnittkante), wenn die Funktionswerte von $p_1$ und $p_2$ in allen Schnittpunkten der Elemente ($d=2$: auf der Kante) übereinstimmen).  
 \end{theorem}
 \begin{proof}
-	Folgt aus Theorem \cref{thm:c2e3s6}.
+	Folgt aus \cref{thm:c2e3s6}.
 \end{proof}
 
 \begin{corollary}
+\label{cor:c2e3s10}
 	Sei
 	\[
-		\Sigma_k(\tau) \coloneqq \cup_{T\in\tau} \Sigma_k(T) = \cup_{T\in\tau}\Phi_T(\hat{\Sigma}_k)
+		\Sigma_k(\tau) \coloneqq \bigcup_{T\in\tau} \Sigma_k(T) = \bigcup_{T\in\tau}\Phi_T(\hat{\Sigma}_k)
 	\]
-	die Menge der Knoten von $\tau$ bzgl. des Polynomgrades $k$ ($k$-ter Ordnung). Eine FE-Funktion $u_\varphi\in P^{k,0}(\tau)$ ist durch ihre Werte in $\Sigma_k(\tau)$ eindeutig bestimmt. 
+	die Menge der Knoten von $\tau$ bzgl.~des Polynomgrades $k$ ($k$-ter Ordnung). Eine FE-Funktion $u_\varphi\in P^{k,0}(\tau)$ ist durch ihre Werte in $\Sigma_k(\tau)$ eindeutig bestimmt. 
 \end{corollary}
-\begin{remark*}
+\begin{remarknonumb}
 	Wir haben folgende Äquivalenz: 
 	\[
-		P^{k,0}(\tau) \cong \R^{\vert\Sigma_k(\tau)\vert}
+		P^{k,0}(\tau) \cong \R^{|\Sigma_k(\tau)|}.
 	\]
-\end{remark*}
-\begin{definition}[Nodale Basis / Lagrange-Basis von $P^{k,0}$]\label{def:c2e3s11}
-	Das eindeutig bestimmte Element $b_z\in P^{k,0}(\tau)$ mit $b_z(y) = \delta{z,y}$ heißt \emph{nodale Basisfunktion} zum Knoten $z\in\Sigma_k(\tau)$. Die Menge $\{b_z\vert\,z\in\Sigma_k(\tau)\}$ ist eine Basis von $P^{k,0}(\tau)$, die so genannte \emph{nodale Basis}.
+\end{remarknonumb}
+\begin{definition}[Nodale Basis\slash{}Lagrange-Basis von $P^{k,0}$]\label{def:c2e3s11}
+	Das eindeutig \\ bestimmte Element $b_z\in P^{k,0}(\tau)$ mit $b_z(y) = \delta_{z,y}$ heißt \emph{nodale Basisfunktion} zum Knoten $z\in\Sigma_k(\tau)$. Die Menge $\{b_z \mid z\in\Sigma_k(\tau)\}$ ist eine Basis von $P^{k,0}(\tau)$, die so genannte \emph{nodale Basis}.
 \end{definition} 
 \begin{remark}\label{rem:c2e3s12}
-	\begin{enumerate}%[label=\alph*)]
-		\item Jedes $u\in P^{k,0}(\tau)$ hat eine eindeutige Basisdarstellung $u(x) = \sum_{z\in\Sigma_k(\tau)} u_z b_z$ wobei $u_z = u(z)$
-		\item Der Träger von $b_z$ ist lokal: $supp\,b_z\subseteq \cup\{T\in\tau\vert\,z\in T\}$
-		\item Die Wahl der Basis ist nicht eindeutig! Die richtige Wahl der Basis entscheidet(!) über Erfolg und Misserfolg der Methode.
+	\begin{enumerate}[(a)]
+		\item Jedes $u\in P^{k,0}(\tau)$ hat eine eindeutige Basisdarstellung $u(x) = \sum_{z\in\Sigma_k(\tau)} u_z b_z$ wobei $u_z = u(z)$.
+		\item Der Träger von $b_z$ ist lokal: $\supp b_z\subseteq \bigcup\{T\in\tau \mid z\in T\}$.
+		\item Die Wahl der Basis ist nicht eindeutig! Die richtige Wahl der Basis entscheidet (!) über Erfolg und Misserfolg der Methode.
 	\end{enumerate}
  \end{remark}
 
 
  \section{Galerkin-Finite-Elemente-Methode}\label{sec:c2e4}
-Gemäß Abschnitt \cref{sec:c1e6} lautet die Galerkin-FEM für die Approximation des Variationsproblems \cref{prb:c2e1s4} wie folgt:
-
+Gemäß \cref{sec:c1e6} lautet die Galerkin-FEM für die Approximation des Variationsproblems \cref{prb:P} wie folgt:
 \begin{problem}\label{prb:c2e4s1}
+	Finde $u_h\in P^{k,0}_D(\tau_h)$, sodass
 	\[
-		\text{Finde } u_h\in P^{k,0}_D(\tau_h):\\
-		\forall v_h\in P^{k,0}_D:\,a(u_h,v_h) = F(v_h)
+		\forall v_h\in P^{k,0}_D\;:\;a(u_h,v_h) = F(v_h),
 	\]
 	wobei
 	\begin{itemize}
-		\item $\Omega;\Gamma_N\subseteq\partial\Omega, \Gamma_D\subseteq\partial\Omega,\Gamma_D\cap\Gamma_N=\partial\Omega,\Gamma_D\cap\Gamma_N=\emptyset,\vert\Gamma_D\vert > 0$
-		\item $A,b,c,f,g$ wie in Abschnitt \cref{sec:c2.e1}
-		\item $\tau_h$ reguläre Triangulierung von $\Omega$, sodass $\Gamma_D$ eine Vereinigung von Kanten/Seiten von $\tau$ ist. 
-		\item $h$ ist die globale Gitterweiter
-		\item $P^{k,0}_D(\tau_h)$ ist der $H^1_D(\tau_h)$-konforme FE-Raum aus Definition \cref{def:c2e3s8}
+		\item $\Omega$ mit
+		\begin{IEEEeqnarray*}{rCl}
+			\Gamma_N &\subseteq& \partial \Omega, \\
+			\Gamma_D &\subseteq& \partial\Omega, \\
+			\Gamma_D \cup \Gamma_N &=& \partial\Omega, \\
+			\Gamma_D\cap\Gamma_N &=& \emptyset, \\
+			|\Gamma_D| &>& 0.
+		\end{IEEEeqnarray*}
+		\item $A,b,c,f,g$ wie in \cref{sec:c2e1} seien.
+		\item $\tau_h$ eine reguläre Triangulierung von $\Omega$ ist, sodass $\Gamma_D$ eine Vereinigung von Kanten\slash{}Seiten von $\tau_h$ ist. 
+		\item $h$ die globale Gitterweite ist.
+		\item $P^{k,0}_D(\tau_h)$ der $H^1_D(\tau_h)$-konforme FE-Raum aus \cref{def:c2e3s8} ist.
 	\end{itemize}
  \end{problem}
 
  \begin{theorem}[Stabilität und Quasi-Optimalität der Galerkin-FE]\label{thm:c2e4s1}
- 	Unter den generellen Annahmen von Abschnitt \cref{sec:c2e1} an die Daten und den Annahmen von Theorem \cref{thm:c2e2s7} hat Problem \cref{prb:c2e4s1} eine \emph{eindeutige} Lösung $u_h\in P^{k,0}_D(\tau_h)$ so dass
+ 	Unter den generellen Annahmen von \cref{sec:c2e1} an die Daten und den Annahmen von \cref{thm:c2e2s7} hat \cref{prb:c2e4s1} eine \emph{eindeutige} Lösung $u_h\in P^{k,0}_D(\tau_h)$, sodass
  	\[
- 		\forall v_h\in P^{k,0}_D(\mathcal{T}_h):\,a(u_h,v_h) = F(v_h) = a(u,v_h)
+ 		\forall v_h\in P^{k,0}_D(\mathcal{T}_h)\;:\;a(u_h,v_h) = F(v_h) = a(u,v_h)
  	\]
  	und es gilt
  	\[
@@ -147,11 +155,11 @@ Gemäß Abschnitt \cref{sec:c1e6} lautet die Galerkin-FEM für die Approximation
  	\]
  	mit 
  	\[
- 		C(A,b,c,\Omega) = \lambda^{-1}\left( 1+C_F\frac{diam\,\Omega}{\pi} \right) \left(\Lambda + \|b\|_{L^\infty(\Omega;\R^d)}+\|c\|_L^\infty\right)
+ 		C(A,b,c,\Omega) = \lambda^{-1}\left( 1+C_F\frac{\diam \Omega}{\pi} \right) \left(\Lambda + \|b\|_{L^\infty(\Omega;\R^d)}+\|c\|_L^\infty\right).
  	\]
  	Dann gilt die Fehlerabschätzung
  	\[
- 		\|u-u_h\|_{H^1}\leq C(A,b,c,\Omega)\min_{v_k\in P^{k,0}_D(\tau_h)}\|u-v_h\|_{H^1}
+ 		\|u-u_h\|_{H^1}\leq C(A,b,c,\Omega)\min_{v_k\in P^{k,0}_D(\tau_h)}\|u-v_h\|_{H^1}.
  	\]
 
  \end{theorem}

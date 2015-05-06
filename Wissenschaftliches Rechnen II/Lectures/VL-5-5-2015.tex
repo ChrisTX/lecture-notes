@@ -2,24 +2,25 @@
 \begin{document}
 
 \begin{proof} %Proof of theorem 2.4.1 ( Stability and quasi-optimality )
-	Koerzivität von $a$, Stetigkeit von $a$ und $F$ bleiben auch auf Unterräumen \newline\noindent $P^{k,0}_D(\mathcal{T}_h)\subseteq H^1_D(\Omega)$ erhalten. \emph{Lax-Milgram} liefert dann die Wohlgestelltheit des Problems. \emph{Céa's Lemma} gibt uns die Fehlerabschätzung.
+	Koerzivität von $a$, Stetigkeit von $a$ und $F$ bleiben auch auf Unterräumen $P^{k,0}_D(\mathcal{T}_h)\subseteq H^1_D(\Omega)$ erhalten. \emph{Lax-Milgram} liefert dann die Wohlgestelltheit des Problems. \emph{Céa's Lemma} gibt uns die Fehlerabschätzung.
 \end{proof}
 
 \section*{Überführung von \cref{prb:c2e4s1} in ein lineares Gleichungssystem}
 
 Wir erinnern uns
 \[
-	P^{k,0}_D(\mathcal{T}_k) \overset{\cref{def:c2e3s11}}= span\{b_z\vert\,z\in\Sigma_k(\mathcal{T}_k)\setminus\Gamma_D\}
+	P^{k,0}_D(\mathcal{T}_k) \overset{\text{\cref{def:c2e3s11}}}{=} \spn\{b_z \mid z\in\Sigma_k(\mathcal{T}_k)\setminus\Gamma_D\},
 \]
-wobei $\Sigma_k(\mathcal{T}_k)$ die Menge der Knoten (siehe \cref{cor:c2e3s10}), und $b_j$ die nodalen Basisfunktionen sind. Nummeriere die Knoten $z_1,...,z_N$ wobei $N \coloneqq\vert\Sigma_k(\mathcal{T}_k)\setminus\Gamma_D\vert = dim\,P^{k,0}_D(\mathcal{T}_k)$. Jedes $u_h\in P^{k,0}_D(\mathcal{T}_k)$ ist eine Linearkombination der $b_j$:
+wobei $\Sigma_k(\mathcal{T}_k)$ die Menge der Knoten (siehe \cref{cor:c2e3s10}), und $b_j$ die nodalen Basisfunktionen sind. Nummeriere die Knoten $z_1,\ldots,z_N$, wobei $N \coloneqq |\Sigma_k(\mathcal{T}_k)\setminus\Gamma_D| = \dim P^{k,0}_D(\mathcal{T}_k)$. Jedes $u_h\in P^{k,0}_D(\mathcal{T}_k)$ ist eine Linearkombination der $b_j$:
 \[
-	u_h(x) = \sum_{j=1}^k u_h(z_j)b_j(x),\quad x\in\bar{\Omega}
+	u_h(x) = \sum_{j=1}^k u_h(z_j)b_j(x),\quad x\in\bar{\Omega}.
 \]
+\pagebreak
 Somit ist \cref{prb:c2e4s1} äquivalent zu folgendem linearen Gleichungssystem:
 \begin{problem}
 	Finde $c\in\R^N$, sodass 
 	\[
-		Sc = r
+		Sc = r,
 	\]
 	wobei die \emph{Systemmatrix} $S\in\R^{N\times N}$ durch
 	\[
@@ -30,111 +31,113 @@ Somit ist \cref{prb:c2e4s1} äquivalent zu folgendem linearen Gleichungssystem:
 		f_i\coloneqq F(b_i),\quad 1\leq i\leq N
 	\]
 	gegeben sind.
-	\begin{equation*}
-		\left[ 
-			\begin{aligned}
-				\forall b_j:\,a\left(\sum_{i=1}^N u_h(z_i)b_i,b_j\right) &=& F(b_j)\\
-				\sum_{i=1}^N u_h(z_i) a(b_i,b_j) &=& F(b_j)
-			\end{aligned}
-		\right]
-	\end{equation*}
+	Das ergibt das Gleichungssystem
+	\[
+		\left[\begin{IEEEeqnarraybox}[][c]{r'rCl}
+				\forall b_j & a\left(\sum_{i=1}^N u_h(z_i)b_i,b_j\right) &=& F(b_j)\\
+				& \sum_{i=1}^N u_h(z_i) a(b_i,b_j) &=& F(b_j)
+			\end{IEEEeqnarraybox}\right]
+	\]
 \end{problem}
 
 \begin{remark}\label{rem:c2e4s2}
 	Die Matrix $S$ ist positiv definit (insbesondere regulär), also invertierbar. $S$ ist dünn besetzt, d.h.
 	\[
-		\vert \{ S_{i,j} \not=0\vert\, 1\leq i,j\leq N\}\vert \approx N
+		 | \{ S_{i,j} \not=0 \mid 1\leq i,j\leq N\} | \sim N
 	\]
-	(`$\approx$' heißt `proportional zu').
+	(``$\sim$'' heißt ``proportional zu'').
 \end{remark}
 
 
 
 \section{Approximationseigenschaften finiter Elemente}\label{sec:c2e5}
-
 Erinnerung: Die allgemeinen Lösungen der in diesem Kapitel betrachteten Probleme liegen in $H^1_D(\Omega)$. Es gibt jedoch Funktionen aus $H^1_D(\Omega)$ die \emph{nicht} stetig sind.
-
 \begin{definition}[Nodale Interpolation]\label{def:c2e5s1}
 	Sei $\mathcal{T}_h$ eine reguläre Triangulierung von $\Omega\subseteq\R^d$ und $k\in\mathbb{N}$. Sei $\Sigma_k(\mathcal{T}_h)$ die zugehörige Knotenmenge. Definiere den \emph{nodalen Interpolationsoperator} $I_h^k:C^0(\bar{\Omega})\to P^{k,0}(\mathcal{T}_k)$ durch 
 	\[
-		\underbrace{(I_h^k v)}_{\text{Interpolierende von} v}(x) \coloneqq \sum_{z\in \Sigma_k(\mathcal{T}_h)} v(z)b_z(x),\quad x\in\bar{\Omega}
+		\underbrace{(I_h^k v)}_{\mathclap{\substack{\text{Interpolierende} \\ \text{von } v}}}(x) \coloneqq \sum_{z\in \Sigma_k(\mathcal{T}_h)} \hspace*{-10pt} v(z)b_z(x),\quad x\in\bar{\Omega}.
 	\]  
-	Wegen $H^2(\Omega)\hookrightarrow C^0(\Omega)$, ist $I_h^k$ auch für hinreichend glatte Lösungen $u\in H^2(\Omega)\cap H^1_0(\Omega)$ wohldefiniert. Abschnitt\cref{sec:c2e6} wird sich mit hinreichenden Bedingungen für $u\in H^2(\Omega)\cap H^1_D(\Omega)$ beschäftigen.
+	Wegen $H^2(\Omega)\hookrightarrow C^0(\Omega)$, ist $I_h^k$ auch für hinreichend glatte Lösungen $u\in H^2(\Omega)\cap H^1_0(\Omega)$ wohldefiniert. \cref{sec:c2e6} wird sich mit hinreichenden Bedingungen für $u\in H^2(\Omega)\cap H^1_D(\Omega)$ beschäftigen.
 \end{definition}
-Wir nehmen jetzt zunächst an, dass $d=2$ und $k=1$, d.h. wir betrachten die $P1$-FE in $2D$.
+Wir nehmen jetzt zunächst an, dass $d=2$ und $k=1$, d.h.~wir betrachten die $P1$-FE in $2D$.
 \begin{theorem}[Interpolationsfehlerabschätzung]\label{thm:c2e5s2}
 	Sei $T$ ein Dreieck mit Durchmesser $h_T$ (Länge der längsten Seite) und größtem Innenwinkel $0 < \omega < \pi$. Dann existieren Konstanten 
 	\[
-		c_0,\,c_1(\omega)\coloneqq\frac{\sqrt{{1}{4}+\frac{2}{\pi^2}}}{\sqrt{1-\vert\cos{\omega}\vert}},\, c_2(\omega) = 1
+		c_0,\;c_1(\omega)\coloneqq\frac{\sqrt{{1}{4}+\frac{2}{\pi^2}}}{\sqrt{1-|\cos{\omega}|}},\; c_2(\omega) = 1,
 	\]
-	so dass für alle $v\in H^2(\Omega)$ gilt
+	sodass für alle $v\in H^2(\Omega)$ gilt
 	\[
-		\| D^m(v-I_h^1 v)\|_L^2(\Omega) \leq c_m(\omega)h_T^{2-m}\| D^2 v\|_{L^2(T)},\quad m=0,1,2
+		\| D^m(v-I_h^1 v)\|_L^2(\Omega) \leq c_m(\omega)h_T^{2-m}\| D^2 v\|_{L^2(T)},\quad m=0,1,2.
 	\]
 \end{theorem}
 
 \begin{proof}
-	\underline{$m=2$: } $D^2 I^1_v = 0 \Rightarrow \| D^2(v-I_h^1 v)\| = \|D^2 v\|$.\newline\newline\noindent
-	\underline{$m=1$: } Sei $T \coloneqq conv(\{z_1,z_2,z_3\})$, $\tau_j$ die Einheitstangentialvektoren der Kanten $E_j$ von $T$ (orientiert gegen den Uhrzeigersinn), sodass $E_j$ die Knoten $z_i$ und $z_k$ verbindet, mit $j\not\in\{i,k\}$, und sei $\omega$ o.B.d.A der Winkel bei $z_3$. Für $a\in\R^2$ gilt mit der euklidischen Norm $\vert\cdot\vert$ und einer Basis $(\mu_1,\mu_2)$ des $\R^2$ aus linear unabhängigen Einheitsvektoren:
+	\underline{$m=2$:} $D^2 I^1_v = 0 \implies \| D^2(v-I_h^1 v)\| = \|D^2 v\|$.
+
+	\underline{$m=1$:} Sei $T \coloneqq \conv(\{z_1,z_2,z_3\})$, $\tau_j$ die Einheitstangentialvektoren der Kanten $E_j$ von $T$ (orientiert gegen den Uhrzeigersinn), sodass $E_j$ die Knoten $z_i$ und $z_k$ verbindet, mit $j\not\in\{i,k\}$, und sei $\omega$ \ac{obda}\ der Winkel bei $z_3$. Für $a\in\R^2$ gilt mit der euklidischen Norm $|\cdot|$ und einer Basis $(\mu_1,\mu_2)$ des $\R^2$ aus linear unabhängigen Einheitsvektoren:
 	\[
-		\vert a\vert^2 \leq \frac{(a\cdot\nu_1)^2 + (a\cdot\mu_2)^2}{1-\vert \mu_1\cdot\mu_2}
+		| a|^2 \leq \frac{(a\cdot\mu_1)^2 + (a\cdot\mu_2)^2}{1- |\mu_1\cdot\mu_2|}
 	\]
-	(Übung: nachrechnen!)\newline\noindent 
+	(Übung: Nachrechnen!). 
 	Für $a = \nabla(v-I_h^1 v)(x)$ und $\mu_i = \tau_i$ gilt dann
 	\[
-		\vert\nabla(v-I_h^1 v)(x)\vert^2\leq (\vert 1-\underbrace{(\tau_1\cdot\tau_2)}_{\cos{\omega}}\vert )^{-1}\left( ( \underbrace{(\nabla(v-I_h^1 v)(x))\cdot\tau_1 )}_{\eqqcolon f_1(x)}^2 + ( \underbrace{(\nabla(v-I_h^1 v))(x)\cdot\tau_2)}_{\eqqcolon f_2(x)}^2 \right)
+		|\nabla(v-I_h^1 v)(x)|^2\leq (| 1-\underbrace{(\tau_1\cdot\tau_2)}_{\cos{\omega}}| )^{-1}\big( \underbrace{((\nabla(v-I_h^1 v))(x)\cdot\tau_1 )^2}_{\eqqcolon f_1(x)} + \underbrace{( (\nabla(v-I_h^1 v))(x)\cdot\tau_2 )^2}_{\eqqcolon f_2(x)} \big).
 	\] 
 	Es gilt
 	\[
-		\int_{E_j} f_j\,ds = \int_{E_j}\frac{\partial}{\partial_s}(v-I_h^1 v)\,ds = 0,\quad j=1,2 
+		\int_{E_j} f_j \ds = \int_{E_j}\frac{\partial}{\partial_s}(v-I_h^1 v) \ds = 0,\quad j=1,2,
 	\]
-	da $E_j$ $z_{j-1}$ und $z_{j+1}$ verbindet.\newline\newline\noindent
-	\emph{Erinnerung:} Aufgabe 2 auf Übungsblatt 1 hat gezeigt: \newline Für $f\in W^{1,1}(T)$ mit $T=conv(\{P\}\cup E)$ (wobei $E$ eine Kante und $P$ der Punkt gegenüber von $E$ ist), gilt
+	da $E_j$ $z_{j-1}$ und $z_{j+1}$ verbindet.
+
+	\emph{Erinnerung:} Aufgabe 2 auf Übungsblatt 1 hat gezeigt: \\
+	Für $f\in W^{1,1}(T)$ mit $T=\conv(\{P\}\cup E)$ (wobei $E$ eine Kante und $P$ der Punkt gegenüber von $E$ ist), gilt
 	\[
-		\strokedint_E f(s)\,ds = \strokedint_T f(x)\,dx + \frac{1}{2}\strokedint_T\nabla f(x)\cdot(x-P)\,dx
+		\fint_E f(s) \ds = \fint_T f(x) \dx  + \frac{1}{2}\fint_T\nabla f(x)\cdot(x-P)\dx.
 	\]
 	Zusammen mit der Spurgleichung folgt
-	\begin{eqnarray*}
-		\int f_j(x)\,dx &\leq& \frac{1}{2}\left\vert \int_T\nabla f_j(x)\cdot(x-z_j)\,dx \right\vert\\  &\leq& \frac{1}{2}\|\nabla f_j\|_{L^2(T)}\|\cdot-z_j\|_{L^2(T)}
-	\end{eqnarray*}
+	\begin{IEEEeqnarray*}{rCl}
+		\int_T f_j(x) \dx  &\leq& \frac{1}{2}\left\vert \int_T\nabla f_j(x)\cdot(x-z_j) \dx  \right\vert\\  &\leq& \frac{1}{2}\|\nabla f_j\|_{L^2(T)}\|\cdot-z_j\|_{L^2(T)}.
+	\end{IEEEeqnarray*}
 	Eine einfache Rechnung (mittels Polarkoordinaten) ergibt:
 	\[
 		\| \cdot - z_j\|_{L^2(T)}\leq\frac{\sqrt{\pi}h_T}{\sqrt{2}}
 	\]
-	Die \emph{Poincaré-Ungleichung} zeigt dann wegen
+	Die \emph{Poincaré-Ungleichung} zeigt dann, wegen
 	\[
-		\int_\Omega \left(f_j - \strokedint f_j\, dx\right)\left( \strokedint f_j\,dx \right)\,dx = 0
+		\int_\Omega \left(f_j - \fint f_j\dx\right)\left( \fint f_j \dx  \right) \dx  = 0
 	\]
 	und
-	\[
-		\left\| \strokedint\Omega f_j\,dx\right\|_{L^2(T)}^2 = \left\vert \frac{1}{\vert T\vert}\int_T f_j\,dx\right\vert^2 \|1\|_{L^2(T)}^2 = \frac{\vert T\vert}{\vert T\vert^2}\left\vert\int_T f_j\,dx\right\vert^2 \leq \frac{1}{2}h_T^2
-	\]
-	\begin{eqnarray*}
+	\begin{IEEEeqnarray*}{rCl}
+		\left\| \fint_\Omega f_j \dx \right\|_{L^2(T)}^2 &=& \left| \frac{1}{| T|}\int_T f_j \dx \right|^2 \|1\|_{L^2(T)}^2 \\
+		&=& \frac{| T|}{| T|^2}\left|\int_T f_j \dx \right|^2 \\
+		&\leq& \frac{1}{2}h_T^2,
+	\end{IEEEeqnarray*}
+	dass
+	\begin{IEEEeqnarray*}{rCl}
 			\| f_j\|_{L^2(T)}^2 
 		&=& 
-			\left\| f_j - \strokedint_T f_j\,dx \right\|_{L^2(T)}^2 + \left\|\strokedint_T f_j\,dx\right\|_{L^2(T)}^2\\
-		&\le q& 
-			\frac{h_T^2}{\pi^2} \|\nabla f_j\|_{L^2(T)}^2 + \frac{1}{4}\|\nabla f_j\|_{L^2(T)}^2 \frac{h_T^2}{2}
-		\leq
-			\left( \frac{1}{\pi^2}+\frac{1}{8} \right)h_T^2 \|\nabla f_j\|_{L^2(T)}^2
-	\end{eqnarray*}
-	\emph{Zusammenfassung:} Haben gezeigt
-	\begin{eqnarray*}
+			\left\| f_j - \fint_T f_j \dx  \right\|_{L^2(T)}^2 + \left\|\fint_T f_j \dx \right\|_{L^2(T)}^2\\
+		&\leq&
+			\frac{h_T^2}{\pi^2} \|\nabla f_j\|_{L^2(T)}^2 + \frac{1}{4}\|\nabla f_j\|_{L^2(T)}^2 \frac{h_T^2}{2} \\
+		&\leq&
+			\left( \frac{1}{\pi^2}+\frac{1}{8} \right)h_T^2 \|\nabla f_j\|_{L^2(T)}^2.
+	\end{IEEEeqnarray*}
+	\emph{Zusammenfassung:} Wir haben gezeigt
+	\begin{IEEEeqnarray*}{rCl}
 			\|\nabla (v-I_h^1 v)\|_{L^2}^2 
 		&\leq& 
-			\frac{1}{\vert 1-\cos{\omega}\vert}\left( \|f_1\|_{L^2(T)}^2 + \| f_2\|_{L^2(T)}^2 \right)\\
+			\frac{1}{| 1-\cos{\omega}|}\left( \|f_1\|_{L^2(T)}^2 + \| f_2\|_{L^2(T)}^2 \right)\\
 		&\leq& 
-			\frac{1}{\vert 1-\cos{\omega}\vert}\underbrace{\left(\frac{2}{\pi^2} + \frac{1}{4}\right)}_{c_1(\omega)} \frac{1}{2} h_T^2 \underbrace{\left( \|\nabla f_1\|_{L^2(T)}^2 + \|\nabla f_2\|_{L^2(T)}^2 \right)}_{\leq 2\|D^2v\|_{L^2(T)}^2}
-	\end{eqnarray*}
-	Die Abschätzung für die $L^2$-Norm von $f_1$ und $f_2$ folgt, da die partiellen Ableitungen zweiter Ordnung des Interpolators $I_h^1$ in alle Richtungen verschwinden.\newline\newline\noindent
-	\underline{$m=0$: } Übung.
-\end{proof}
-\ \\
+			\frac{1}{| 1-\cos{\omega}|}\underbrace{\left(\frac{2}{\pi^2} + \frac{1}{4}\right)}_{c_1(\omega)} \frac{1}{2} h_T^2 \underbrace{\left( \|\nabla f_1\|_{L^2(T)}^2 + \|\nabla f_2\|_{L^2(T)}^2 \right)}_{\leq 2\|D^2v\|_{L^2(T)}^2}
+	\end{IEEEeqnarray*}
+	Die Abschätzung für die $L^2$-Norm von $f_1$ und $f_2$ folgt, da die partiellen Ableitungen zweiter Ordnung des Interpolators $I_h^1$ in alle Richtungen verschwinden.
 
-\begin{remark*}
+	\underline{$m=0$:} Übung.
+\end{proof}
+\begin{remarknonumb}
 	Poincaré: Sei $\Omega$ einfach zusammenhängend, beschränkt, Lipschitz, und sei $f\in H^1(\Omega)$. Dann gilt
 	\[
-		\left\| f-\strokedint_\Omega f\,dx\right\|_{L^2(\Omega)}\leq\frac{dia\,\Omega}{\pi}\|\nabla f\|_{L^2(\Omega)}
+		\left\| f-\fint_\Omega f \dx \right\|_{L^2(\Omega)}\leq\frac{\diam \Omega}{\pi}\|\nabla f\|_{L^2(\Omega)}.
 	\]
-\end{remark*}
+\end{remarknonumb}
 \end{document}

@@ -42,6 +42,9 @@
 \crefname{remark}{Bemerkung}{Bemerkungen}
 \newtheorem{example}[dummythm]{Beispiel}
 \crefname{example}{Beispiel}{Beispiele}
+\theoremstyle{nonumberplain}
+\newtheorem{remarknonumb}{Bemerkung}
+\crefname{remarknonumb}{Bemerkung}{Bemerkungen}
 
 \theoremstyle{break}
 \theorembodyfont{\normalfont}
@@ -52,15 +55,6 @@
 \theoremstyle{break}
 \newmdtheoremenv[backgroundcolor=problemcolor,style=theoremframing]{problem}{Problem}
 \crefname{problem}{Problem}{Probleme}
-
-\theoremstyle{nonumberplain}
-\theoremheaderfont{\itshape}
-\theorembodyfont{\normalfont}
-\theoremseparator{.}
-\newtheorem{remarkstar}{Bemerkung}
-\crefname{remarkstar}{Bemerkung}{Bemerkungen}
-\newmdtheoremenv[backgroundcolor=addendumcolor,style=theoremframing]{addendum}{Addendum}
-\crefname{addendum}{Addendum}{Addenda}
 
 \theoremstyle{nonumberplain}
 \theoremheaderfont{\sc}
