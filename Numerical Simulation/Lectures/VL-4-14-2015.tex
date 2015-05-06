@@ -60,13 +60,13 @@ for all $(u_n) \subset C$ with $u_n \rightharpoonup u$.
 If $C$ is weakly sequentially compact and $f$ is weakly sequentially lower \\ semi-continuous, then \cref{prb:c1e1} has at least one solution.
 \end{theorem}
 \subsection*{Separation of convex sets}
-\begin{remark*}[Sublinear functional]
+\begin{remarknonumb}[Sublinear functional]
 	Let $p\in X^*$, so $p:X\to\R$. $p$ is called a \emph{sublinear functional}, if
 	\begin{IEEEeqnarray*}{rCl}
 		p(\xi + \eta) & \leq & p(\xi) + p(\eta),\quad  \forall \xi,\eta\in X\\
 		p(\alpha\xi) &=& \alpha p(\xi), \quad \text{for some }\alpha \geq 0 
 	\end{IEEEeqnarray*}
-\end{remark*}
+\end{remarknonumb}
 \begin{theoremnonumb}[Hahn-Banach-Theorem] % unnumbered
 Let $X$ be a real linear space, $p : X \to \R$ be a sublinear functional and $X_0\subseteq X$ a linear subspace. If $\ell_0$ is a linear functional on $X_0$ such that 
 \[
@@ -88,9 +88,9 @@ with
 \]
 is sublinear functional and is called \emph{Minkowski functional}.
 \end{definitionnonumb}
-\begin{remark*}
+\begin{remarknonumb}
 	The Minkowski functional can be seen as a generalization to the norm on the space. In general, it can be built for each \emph{absorbing subset} $A$ of $X$ (that is: $\forall x\in X\exists r\geq 0:\,\alpha x\in A,\,\forall\|\alpha\|\leq r$).
-\end{remark*}
+\end{remarknonumb}
 \begin{definition} % Definition 1.6
 \label{def:c1e6}
 A linear functional $\ell$ on a real linear space $X$ \emph{separates the sets $A, B \subseteq X$}, if it holds that
@@ -237,12 +237,12 @@ for large enough $n$.
 This set is closed and convex.
 By \cref{thm:c1e9}, $u \in \mathcal{L}$, which is a contradiction.
 \end{proof}
-\begin{definition}[coercive function]
+\begin{definitionnonumb}[coercive function]
 	Let $X$ normed space, $f:X\to\R$. $f$ is called \emph{coercive}, if for all sequences $\{x_n\}_n\subset X$ with $\lim_{n\to\infty}\|x_n\| = \infty$ it holds that  
 	\[
 		\lim_{n\to\infty} f(x_n) = \infty
 	\]
-\end{definition}
+\end{definitionnonumb}
 \begin{theorem} % Theorem 1.14
 \label{thm:c1e14}
 Let $U$ be a reflexive Banach space, $C \subseteq U$ be closed and convex, and $f : C \to \R$ be convex and continuous. Assume one of the following holds:

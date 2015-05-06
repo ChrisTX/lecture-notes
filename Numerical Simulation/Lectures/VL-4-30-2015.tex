@@ -48,7 +48,8 @@ This set $\Gamma$ is convex. Define the \emph{primal function}
 \omega(z) &=& \inf \{  f(u) \; : \; u \in C, G(u) \leq_K z \}.
 \end{IEEEeqnarray*}
 We are interested in $\omega(0)$.
-\begin{proposition}
+\begin{proposition} % Prop 1.43
+\label{prop:c1e43}
 The function $\omega$ is convex and decreasing, that is $z_1, z_2 \in \Gamma$ with $z_1 \geq_K z_2$, then $\omega(z_1) \leq \omega(z_2)$.
 \end{proposition}
 \begin{proof}
@@ -73,6 +74,7 @@ In the following, $Z$ is a normed space. \\
 \[
 	G(u_1) <_K 0 \; \Leftrightarrow \; -G(u_1) \in \Int K.
 \]
+\addtocounter{dummythm}{1} % Another numeration error
 \begin{theorem}[Generalized KKT] % Thm 1.45
 \label{thm:c1e45}
 Let $U$ be a linear space, $Z$ a normed space, $C \subseteq U$ convex, and $K \subseteq Z$ a nonnegative cone.
