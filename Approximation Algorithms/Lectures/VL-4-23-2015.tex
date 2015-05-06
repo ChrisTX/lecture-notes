@@ -3,14 +3,16 @@
 \begin{document}
 The \emph{complement} of a decision problem $P \subseteq \{ 0, 1\}^*$ is the decision problem $\{ 0, 1\}^* \setminus P$.
 The class \coNP is the class of all decision problems, \ac{st} their complement is in \NP.
-Famous example: \emph{Prime?} \\
-\begin{tabular}{ll}
+A famous example is the following problem:
+\begin{problem}[Prime]
+\begin{tabular}{@{}ll}
 \textit{Input:} & $n \in \N$ \\
 \textit{Question:} & Is $n$ prime?
-\end{tabular} \par
-Prime? is in \NP{} [Pratl, 1975].
+\end{tabular}
+\end{problem}
+\textsc{Prime} is in \NP{} [Pratl, 1975].
 A problem in $\NP \cap \coNP$ is said to have a \emph{good characterization}.
-Prime? is also in $P$ [Agrawal, Kayal, Saxena, 2004].
+\textsc{Prime} is also in $P$ [Agrawal, Kayal, Saxena, 2004].
 
 A \emph{discrete optimization problem} is a four-tuple $(X, S, c, \goal)$ with
 \begin{itemize}
