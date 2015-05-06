@@ -126,11 +126,12 @@ Furthermore: $|X| = n \cdot k + k (n - 1) \cdot k = 2nk = |Y| = |Z|$.
 \textsc{Subset Sum} is obviously in \NP.
 Reduce \textsc{3DM} to \textsc{Subset Sum}: Let $X \times Y \times Z$, $|X| = |Y| = |Z| = n$.
 Let $T \subseteq X \times Y \times Z$ be an instance of \textsc{3DM}, $|T| = m$,
+\noindent\vspace*{-15pt}
 \[
-	t = \begin{pmatrix}
-	X & Y & Z \\
+	t = \Bigg(\begin{IEEEeqnarraybox*}[][c]{;c;c;c;}
+	X & Y & Z \vphantom{\overbrace{(0 \ldots 1 \ldots 0)}^n} \\
 	\underbrace{(0 \ldots 1 \ldots 0)}_{n} & \underbrace{(0 \ldots 1 \ldots 0)}_{n} & \underbrace{(0 \ldots 1 \ldots 0)}_{n}
-	\end{pmatrix}
+	\end{IEEEeqnarraybox*}\Bigg)
 \]
 Each $t \in T$ can be viewed as a 0-1-vector of length $3n$.
 View it as a number with base $(m + 1)$.
