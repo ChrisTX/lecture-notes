@@ -4,32 +4,32 @@
 \begin{algorithmbox}[Set Cover via Randomized Rounding]
 \begin{tabular}{@{}ll}
 \textit{Input:} & $U = \{ 1, \ldots, n \}$, $S_1, \ldots, S_m \subseteq U$, $c : \{ S_1, \ldots, S_m \} \to \R_+$. \\
-\textit{Output:} & A family $\mathcal{S} \subset \{ S_1, \ldots, S_m \}$ \ac{st}~$\bigcup_{S \in \mathcal{S}} S = U$.
+\textit{Output:} & A family $\mathscr{S} \subset \{ S_1, \ldots, S_m \}$ \ac{st}~$\bigcup_{S \in \mathscr{S}} S = U$.
 \end{tabular}
 \end{algorithmbox}
 \vspace{-7pt}
 \begin{algorithm}[H]
 Compute an optimum solution $x \in \R^m$ of the \textsc{Set Cover}-LP.\;
 \For{$i \coloneqq 1$ \KwTo $2 \log n$}{
-	Select each $S_j$ with probability $x_j$ to obtain a family $\mathcal{S}_i$\;
+	Select each $S_j$ with probability $x_j$ to obtain a family $\mathscr{S}_i$\;
 }
-\Return $\mathcal{S} \coloneqq \bigcup_{i=1}^{2 \log n} \mathcal{S}_i$\;
+\Return $\mathscr{S} \coloneqq \bigcup_{i=1}^{2 \log n} \mathscr{S}_i$\;
 \end{algorithm}
 \vspace{-7pt}
 \EndAlgorithmLine
 \begin{theorem} % Thm 31
-The randomized rounding algorithm for \textsc{Set Cover} returns with probability $\geq \sfrac{1}{2}$ a solution with approximation ratio $\mathcal{O}(\log n)$.
+The randomized rounding algorithm for \textsc{Set Cover} returns with probability greater or equal to \sfrac{1}{2} a solution with approximation ratio $\mathcal{O}(\log n)$.
 \end{theorem}
 \begin{proof}
 It holds that
 \[
-\mathbb{E}[c(\mathcal{S}_i)] = \sum_{j=1}^m c(S_j) \cdot x_j = \OPT_{LP}.
+\mathbb{E}[c(\mathscr{S}_i)] = \sum_{j=1}^m c(S_j) \cdot x_j = \OPT_{LP}.
 \]
 Then,
 \[
-\mathbb{E}[c(\mathcal{S})] \leq 2 \log n \cdot \OPT_{LP}.
+\mathbb{E}[c(\mathscr{S})] \leq 2 \log n \cdot \OPT_{LP}.
 \]
-What is the probability that $\mathcal{S}_i$ covers element $j$?
+What is the probability that $\mathscr{S}_i$ covers element $j$?
 
 Assume \ac{wlog}~that element $j$ is contained in $S_1, \ldots, S_k$.
 Then,
@@ -38,37 +38,37 @@ Then,
 \]
 Thus:
 \begin{IEEEeqnarray*}{rCl}
-\Pr [ j \text{ is covered by } \mathcal{S}_i] &=& 1 - \Pr [j \text{ is covered by } \mathcal{S}_i] \\
+\Pr [ j \text{ is covered by } \mathscr{S}_i] &=& 1 - \Pr [j \text{ is covered by } \mathscr{S}_i] \\
 &=& 1 - \prod_{i=1}^k (1-x_i) \\
 &\geq& 1- \left( 1 - \frac{1}{k} \right)^k \\
 &\geq& 1 - \frac{1}{e}.
 \end{IEEEeqnarray*}
 This yields
 \[
-	\Pr[j \text{ is not covered by } \mathcal{S}]  \leq \left( \frac{1}{e} \right)^{2 \log n} = \frac{1}{n^2}.
+	\Pr[j \text{ is not covered by } \mathscr{S}]  \leq \left( \frac{1}{e} \right)^{2 \log n} = \frac{1}{n^2}.
 \]
 By considering all elements:
 \[
-	\Pr[ \exists j \text{ that is not covered by } \mathcal{S}] \leq n \cdot \frac{1}{n^2} = \frac{1}{n}.
+	\Pr[ \exists j \text{ that is not covered by } \mathscr{S}] \leq n \cdot \frac{1}{n^2} = \frac{1}{n}.
 \]
 Therefore, by using Markov's inequality, we obtain:
 \[
-	\Pr\left[c(\mathcal{S}) \geq 8 \cdot \log n \cdot \OPT_{LP}\right] \leq \frac{2 \cdot \log n \cdot \OPT_{LP}}{8 \cdot \log n \cdot \OPT_{LP}} = \frac{1}{4},
+	\Pr\left[c(\mathscr{S}) \geq 8 \cdot \log n \cdot \OPT_{LP}\right] \leq \frac{2 \cdot \log n \cdot \OPT_{LP}}{8 \cdot \log n \cdot \OPT_{LP}} = \frac{1}{4},
 \]
 implying
 \[
-	\Pr\left[ c(\mathcal{S}) \leq 8 \cdot \log n \cdot \OPT_{LP} \text{ and } \mathcal{S} \text{ is a set cover} \right] \geq \frac{1}{2}.
+	\Pr\left[ c(\mathscr{S}) \leq 8 \cdot \log n \cdot \OPT_{LP} \text{ and } \mathscr{S} \text{ is a set cover} \right] \geq \frac{1}{2}.
 \]
 \end{proof}
 Let $G = (V, E)$, $f : V(G) \to \{ 1, \ldots, k\}$, \ac{st}~$f(x) \neq f(y)$ if $x \neq y$ and $\{ x, y \} \in E(G)$. Then $\chi(G)$ is defined as $\chi(G) : \min k$, \ac{st}~$f$ exists. This is known to be \NP-hard and we already know about an $\mathcal{O}(n)$-approximation.
 \begin{proposition} % Prop 32
 \label{prop:32}
-For arbitrarily large $c \in \N$ there exists a linear time approximation algorithm for $\chi$ with approximation ratio $\sfrac{n}{c}$.
+For arbitrarily large $c \in \N$ there exists a linear time approximation algorithm for $\chi$ with approximation ratio $\frac{n}{c}$.
 \end{proposition}
 \begin{proof}
-Partition the graph into $\sfrac{n}{c}$ pieces of size $c$. We can color constant size graphs in constant time. Therefore, we have a $\sfrac{n}{c} \cdot \chi(G)$-approximation.
+Partition the graph into $\frac{n}{c}$ pieces of size $c$. We can color constant size graphs in constant time. Therefore, we have a $\frac{n}{c} \cdot \chi(G)$-approximation.
 \end{proof}
-Consider an algorithm that colors in a runtime of $\alpha^n$, $n \coloneqq V(G)$, $\alpha \in \R$. Such algorithms exists with $\alpha = 2 + \varepsilon$, $\varepsilon > 0$ (Koivisto, 2006). Hence, we obtain a $\sfrac{n}{\log n}$-approximation for $\chi$. In 1976, Lawler proved the existence of an algorithm with constant $\alpha \approx 2.44\ldots$.
+Consider an algorithm that colors in a runtime of $\alpha^n$, $n \coloneqq V(G)$, $\alpha \in \R$. Such algorithms exists with $\alpha = 2 + \varepsilon$, $\varepsilon > 0$ (Koivisto, 2006). Hence, we obtain a $\frac{n}{\log n}$-approximation for $\chi$. In 1976, Lawler proved the existence of an algorithm with constant $\alpha \approx 2.44\ldots$.
 \begin{algorithmbox}[Greedy-Coloring]
 \end{algorithmbox}
 \vspace{-7pt}
@@ -212,7 +212,7 @@ An approximation algorithm $A$ for an optimization problem $P$ has an \emph{asym
 \end{IEEEeqnarray*}
 \begin{theorem} % Thm 37
 \label{thm:37}
-If $P \neq \NP$, then no approximation algorithm for $\chi$ having an approximation ratio $< \sfrac{5}{3}$ exists.
+If $P \neq \NP$, then no approximation algorithm for $\chi$ having an approximation ratio smaller than \sfrac{5}{3} exists.
 \end{theorem}
 For the proof, we use the composition $G_1[G_2]$ of two graphs $G_1, G_2$, in which we replace each vertex of $G_1$ by a copy of $G_2$ and connect two vertices between different copies if the vertices in $G_1$ are connected. Formally:
 \[

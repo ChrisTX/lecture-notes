@@ -3,13 +3,13 @@
 \begin{document}
 \begin{algorithmbox}[Johnson's Algorithm (Reformulation)]
 \begin{tabular}{@{}ll}
-\textit{Input:} & Set $\mathcal{C}$ of clauses with variables $X = \{ x_1, \ldots, x_n \}$, $w \; : \; \mathcal{C} \to \R_+$. \\
+\textit{Input:} & Set $\mathscr{C}$ of clauses with variables $X = \{ x_1, \ldots, x_n \}$, $w \; : \; \mathscr{C} \to \R_+$. \\
 \textit{Output:} & A truth assignment for $X$.
 \end{tabular}
 \end{algorithmbox}
 \vspace{-7pt}
 \begin{algorithm}[H]
-Set $w_0(C) \coloneqq \frac{w(C)}{2^{|\mathcal{C}|}}$ for $C \in \mathcal{C}$.\;
+Set $w_0(C) \coloneqq w(C)/2^{|C|}$ for $C \in \mathscr{C}$.\;
 $T_0 \coloneqq \emptyset$\;
 \For{$i \coloneqq 1$ \KwTo $n$}{
 	\leIf{$\sum_{x_i \in C} w_{i-1}(C) > \sum_{\overline{x_i} \in C} w_{i-1}(C)$}{$y \coloneqq x_i$}{$y \coloneqq \overline{x_i}$}
@@ -19,7 +19,7 @@ $T_0 \coloneqq \emptyset$\;
 	2 \cdot w_{i-1}(C), & \text{if } \bar{y} \in C \\
 	w_{i-1}(C), & \text{else}
 	\end{cases}$.\;
-	$T_i \coloneqq T_{i-1} \cup \{ C \in \mathcal{C} \mid y \in C\}$.\;
+	$T_i \coloneqq T_{i-1} \cup \{ C \in \mathscr{C} \mid y \in C\}$.\;
 }
 \end{algorithm}
 \vspace{-7pt}
@@ -46,13 +46,13 @@ The algorithm with scaling finds a solution of weight 2. Thus, we have a \\ \sfr
 We define:
 \begin{IEEEeqnarray*}{rCl}
 T_i &\coloneqq& \text{ set of all clauses that are \textit{true} after iteration } i \\
-F_i &\coloneqq& \mathcal{C}\setminus T_i \text{ is the set of all clauses that are possibly \textit{false}} \\
+F_i &\coloneqq& \mathscr{C}\setminus T_i \text{ is the set of all clauses that are possibly \textit{false}} \\
 && \text{at the end of the algorithm.} \\
 w_i(F_i) &\leq& w_{i-1}(F_{i-1}) \; \Leftrightarrow \; w_i(F_i) - w_{i-1}(F_{i-1}) \leq 0
 \end{IEEEeqnarray*}
 \begin{lemma} % Lemma 28
 \label{thm:28}
-Let $\mathcal{C}$ be a set of clauses with variables $\{ x_1, \ldots, x_n \}$ and weights $w : \mathcal{C} \to \R_+$. Let $\pi : \{ x_1, \ldots, x_n\} \to \{ \textit{true}, \textit{false} \}$ be an arbitrary truth assignment.
+Let $\mathscr{C}$ be a set of clauses with variables $\{ x_1, \ldots, x_n \}$ and weights $w : \mathscr{C} \to \R_+$. Let $\pi : \{ x_1, \ldots, x_n\} \to \{ \textit{true}, \textit{false} \}$ be an arbitrary truth assignment.
 After each iteration ($i = 1, \ldots, n$) of \textsc{Johnson's Algorithm} we have
 \[
 	w_i\left( F_i^\pi \right) - w_{i-1} \left( F_{i-1}^\pi \right) \leq \frac{1}{2} \left( w(T_i) - w(T_{i-1}) \right),
@@ -64,9 +64,9 @@ where $F_i^\pi \subseteq F_i$ is the set of all clauses in $F_i$ that are \texti
 \textsc{Johnson's Algorithm} for \textsc{Max-Sat} has approximation ratio \sfrac{2}{3}. 
 \end{theorem}
 \begin{proof}
-Let $\mathcal{C}$, $w : \mathcal{C} \to \R_+$ be an instance of \textsc{Max-Sat} with variables $\{ x_1, \ldots, x_n \}$. Let $\pi : \{ x_1, \ldots, x_n\} \to \{ \textit{true}, \textit{false} \}$ be an optimum assignment and $\OPT$ its value.
+Let $\mathscr{C}$, $w : \mathscr{C} \to \R_+$ be an instance of \textsc{Max-Sat} with variables $\{ x_1, \ldots, x_n \}$. Let $\pi : \{ x_1, \ldots, x_n\} \to \{ \textit{true}, \textit{false} \}$ be an optimum assignment and $\OPT$ its value.
 
-\underline{Claim:} $w(T_n) \geq \frac{1}{3} \left( w(\mathcal{C}) + \OPT \right)$.
+\underline{Claim:} $w(T_n) \geq \frac{1}{3} \left( w(\mathscr{C}) + \OPT \right)$.
 \[
 \sum_{i=1}^n \left( w_i \left(F_i^\pi \right) - w_{i-1} \left( F_{i-1}^\pi \right) \right) \leq \frac{1}{2} \sum_{i=1}^n \left( w(T_i) - w(T_i-1) \right)
 \]
@@ -76,19 +76,19 @@ Thus,
 \]
 Then, $w(T_0) = 0$ and $F_n^\pi = F_n$. Hence,
 \[
-	w_n \left( F_n^\pi \right) = w(F_n) = w(\mathcal{C}) - w(T_n).
+	w_n \left( F_n^\pi \right) = w(F_n) = w(\mathscr{C}) - w(T_n).
 \]
 Lastly,
 \[
-	w_0 \left( F_0^\pi \right) \leq \frac{1}{2} w \left( F_0^\pi \right) = \frac{1}{2} (w(\mathcal{C}) - \OPT).
+	w_0 \left( F_0^\pi \right) \leq \frac{1}{2} w \left( F_0^\pi \right) = \frac{1}{2} (w(\mathscr{C}) - \OPT).
 \]
 By inserting these equalities into above equation:
 \[
-	w(\mathcal{C}) - w(T_n) \leq \frac{3}{2} w(T_n) + \frac{1}{2} w(\mathcal{C}) - \frac{1}{2} \OPT. 
+	w(\mathscr{C}) - w(T_n) \leq \frac{3}{2} w(T_n) + \frac{1}{2} w(\mathscr{C}) - \frac{1}{2} \OPT. 
 \]
 This gives
 \[
-	\frac{1}{2} ( w(\mathcal{C}) + \OPT ) \leq \frac{3}{2} w(T_n). 
+	\frac{1}{2} ( w(\mathscr{C}) + \OPT ) \leq \frac{3}{2} w(T_n). 
 \]
 \end{proof}
 \begin{proof}[\cref{thm:28}]
@@ -175,13 +175,13 @@ as the maximal occurrence of an element.
 \begin{algorithmbox}[LP-Based Algorithm for Set Cover]
 \begin{tabular}{@{}ll}
 \textit{Input:} & $U = \{ 1, \ldots, n \}$, $S_1, \ldots, S_m \subseteq U$, $c : \{ S_1, \ldots, S_m \} \to \R_+$. \\
-\textit{Output:} & A family $\mathcal{F} \subset \{ S_1, \ldots, S_m \}$ \ac{st}~$\bigcup_{S \in \mathcal{F}} S = U$.
+\textit{Output:} & A family $\mathscr{F} \subset \{ S_1, \ldots, S_m \}$ \ac{st}~$\bigcup_{S \in \mathscr{F}} S = U$.
 \end{tabular}
 \end{algorithmbox}
 \vspace{-7pt}
 \begin{algorithm}[H]
 Compute an optimum solution $x \in \R^m$ of the \textsc{Set Cover}-LP.\;
-$\mathcal{F} \coloneqq \left\{ S_i \mid x_i \geq \frac{1}{f} \right\}$.\;
+$\mathscr{F} \coloneqq \left\{ S_i \mid x_i \geq \frac{1}{f} \right\}$.\;
 \end{algorithm}
 \vspace{-7pt}
 \EndAlgorithmLine

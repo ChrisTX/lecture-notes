@@ -128,7 +128,7 @@ Let $F = C_1 \wedge \ldots \wedge C_k$. Construct a graph $G = (V, E)$
 For each clause $C_i$ construct a clique with vertices corresponding to its 3 literals.
 Add an edge between each $x$, $\bar{x}$.
 
-\underline{Claim:} $F$ has a truth assignment \ac{iff} $G$ contains a \textsc{Vertex Cover} with $\leq 2k$ vertices.
+\underline{Claim:} $F$ has a truth assignment \ac{iff} $G$ contains a \textsc{Vertex Cover} with at most $2k$ vertices.
 \begin{itemize}
 \item[$(\Rightarrow)$] Choose one true literal in each clause. Set $S$ as the set of all other vertices.
 \item[$(\Leftarrow)$] Let $S$ be a vertex cover, $S \leq 2k$. Each clique needs to contain 2 vertices from $S$. Thus, there are exactly 2 vertices per clique in $S$.

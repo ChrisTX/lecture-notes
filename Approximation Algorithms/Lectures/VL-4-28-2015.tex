@@ -126,10 +126,10 @@ A $(2-\varepsilon)$-approximation algorithm for the \textsc{$k$-Center} can dist
 \end{remark}
 \begin{problem}[Maximum Satisfiability (Max-Sat)]
 \begin{tabular}{@{}ll}
-\textit{Input:} & A set $\mathcal{C}$ of clauses with variables $X = \{ x_1, \ldots, x_n \}$ and \\
-& weights $c : \mathcal{C} \to \R_+$ \\
+\textit{Input:} & A set $\mathscr{C}$ of clauses with variables $X = \{ x_1, \ldots, x_n \}$ and \\
+& weights $c : \mathscr{C} \to \R_+$ \\
 \textit{Output:} & A truth assignment to the $x_i$ \ac{st} the total weight of all \\
-& satisfied clauses of $\mathcal{C}$ is maximal.
+& satisfied clauses of $\mathscr{C}$ is maximal.
 \end{tabular}
 \end{problem}
 A simple randomized \sfrac{1}{2}-approximation algorithm: Assign randomly the value ``\textit{true}'' or ``\textit{false}'' to each variable.
@@ -167,13 +167,13 @@ This algorithm can be derandomized by the method of conditional probabilities.
 \end{remark}
 \begin{algorithmbox}[Johnson's Algorithm]
 \begin{tabular}{@{}ll}
-\textit{Input:} & Set $\mathcal{C}$ of clauses with variables $X = \{ x_1, \ldots, x_n \}$, $w \; : \; \mathcal{C} \to \R_+$. \\
+\textit{Input:} & Set $\mathscr{C}$ of clauses with variables $X = \{ x_1, \ldots, x_n \}$, $w \; : \; \mathscr{C} \to \R_+$. \\
 \textit{Output:} & A truth assignment for $X$.
 \end{tabular}
 \end{algorithmbox}
 \vspace{-7pt}
 \begin{algorithm}[H]
-Set $\tilde{w}(C) \coloneqq \frac{w(C)}{2^{|\mathcal{C}|}}$ for $C \in \mathcal{C}$.\;
+Set $\tilde{w}(C) \coloneqq w(C)/2^{|C|}$ for $C \in \mathscr{C}$.\;
 \For{$i \coloneqq 1$ \KwTo $n$}{
 	\leIf{$\sum_{x_i \in C} \tilde{w}(C) > \sum_{\overline{x_i} \in C} \tilde{w}(C)$}{$y \coloneqq x_i$}{$y \coloneqq \overline{x_i}$}
 	Assign \textit{true} to $y$.\;
@@ -188,26 +188,26 @@ Set $\tilde{w}(C) \coloneqq \frac{w(C)}{2^{|\mathcal{C}|}}$ for $C \in \mathcal{
 \EndAlgorithmLine
 \begin{theorem} % Thm 27
 \label{thm:27}
-\textsc{Johnson's Algorithm} for \textsc{Max-Sat} has approximation ratio $1 - 2^{-p}$ with $p \coloneqq \min_{C \in \mathcal{C}} |C|$.
+\textsc{Johnson's Algorithm} for \textsc{Max-Sat} has approximation ratio $1 - 2^{-p}$ with $p \coloneqq \min_{C \in \mathscr{C}} |C|$.
 \end{theorem}
 \begin{proof}
 \begin{itemize}
-\item $\sum_{C \in \mathcal{C}} \tilde{w}(C)$ will never increase during the algorithm.
+\item $\sum_{C \in \mathscr{C}} \tilde{w}(C)$ will never increase during the algorithm.
 \item at the start we have
 \[
-	\sum_{C \in \mathcal{C}} \tilde{w}(C) = \sum_{C \in \mathcal{C}} \frac{w(C)}{2^{|C|}}
+	\sum_{C \in \mathscr{C}} \tilde{w}(C) = \sum_{C \in \mathscr{C}} \frac{w(C)}{2^{|C|}}
 \]
 \end{itemize}
-Let $F \subseteq \mathcal{C}$ be the set of clauses not satisfied by the algorithm at termination. Then
+Let $F \subseteq \mathscr{C}$ be the set of clauses not satisfied by the algorithm at termination. Then
 \begin{IEEEeqnarray*}{rCl}
-\sum_{C \in \mathcal{C}} \tilde{w}(C) &=& \sum_{F \subseteq \mathcal{C}} \tilde{w}(C) \\
-&=& \sum_{F \subseteq \mathcal{C}} w(C) \\
-&\leq& \sum_{C \in \mathcal{C}} \frac{w(C)}{2^{|C|}} \\
-&\leq& 2^{-p} \sum_{C \in \mathcal{C}} w(C).
+\sum_{C \in \mathscr{C}} \tilde{w}(C) &=& \sum_{F \subseteq \mathscr{C}} \tilde{w}(C) \\
+&=& \sum_{F \subseteq \mathscr{C}} w(C) \\
+&\leq& \sum_{C \in \mathscr{C}} \frac{w(C)}{2^{|C|}} \\
+&\leq& 2^{-p} \sum_{C \in \mathscr{C}} w(C).
 \end{IEEEeqnarray*}
 Hence, the total weight of satisfied clauses is greater or equal to
 \[
-	\left(1 - 2^{-p} \right) \sum_{C \in \mathcal{C}} w(C).
+	\left(1 - 2^{-p} \right) \sum_{C \in \mathscr{C}} w(C).
 \]
 \end{proof}
 \begin{example}
@@ -217,7 +217,7 @@ Is the analysis tight?
 \begin{tabular}{cc}
 $x_1$ & $\overline{x_1} \vee x_2$ \\
 $w = 1$ & $w = 2$ \\
-$\tilde{w} = \sfrac{1}{2}$ & $\tilde{w} = \sfrac{1}{2}$
+$\tilde{w} = \frac{1}{2}$ & $\tilde{w} = \frac{1}{2}$
 \end{tabular}
 \end{center}
 
