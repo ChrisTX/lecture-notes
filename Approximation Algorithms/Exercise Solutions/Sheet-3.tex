@@ -1,0 +1,138 @@
+\documentclass[oneside,a4paper]{amsart}
+
+\usepackage{geometry}
+\usepackage{parskip}
+\usepackage{mathtools}
+\usepackage{enumerate}
+\usepackage{IEEEtrantools}
+\usepackage{relsize}
+\usepackage{multirow}
+
+\newcommand{\NP}{\ensuremath{N \! P}}
+\newcommand{\tp}{\ensuremath{\mathsmaller T}}
+
+\begin{document}
+\title{Approximation Algorithms - Exercise Sheet 3 solutions}
+\maketitle{}
+\section*{Exercise 3.1}
+\subsection*{Reduction from \textnormal{\textsc{3Sat}}}
+For each clause $C = \{ x \vee y \vee z \}$, add $w_C$ write $10$ clauses in \textsc{Max-2-Sat}:
+\begin{IEEEeqnarray*}{c}
+(x), \; (y), \; (z), \; (w_C), \\
+(\bar{x} \vee \bar{y}), \; (\bar{y} \vee \bar{z}), \; (\bar{z} \vee \bar{x}), \\
+x \vee \bar{w}_C, \; y \vee \bar{w}_C, z \vee \bar{w}_C.
+\end{IEEEeqnarray*}
+Notice for $x$, $y$ and $z$ being \textit{false}, at most six of the above clauses will be satisfied. Otherwise at most seven of the above clauses will be satisfied.
+Thus, if \textsc{Max-2-Sat} returns a solution satisfying $7 \cdot \# \text{clauses in \textsc{3Sat}}$, the \textsc{3Sat} instance is satisfiable, else not.
+To verify this, consider the following table:
+\begin{center}
+\begin{tabular}{c|c|c|c|c|c|c}
+\multirow{2}{*}{$x$} & \multirow{2}{*}{$y$} & \multirow{2}{*}{$z$} & \multirow{2}{*}{\textsc{3Sat}} & \multicolumn{3}{c}{\textsc{Max-2-Sat}} \\ \cline{5-7}
+&&&& $w_C = 0$ & $w_C = 1$ & $\max$ \\ \hline
+0 & 0 & 0 & 0 & 6 & 4 & 6 \\
+1 & 0 & 0 & 1 & 7 & 6 & 7 \\
+1 & 1 & 0 & 1 & 7 & 7 & 7 \\
+1 & 1 & 1 & 1 & 6 & 7 & 7
+\end{tabular}
+\end{center}
+\subsection*{Reduction from \textnormal{\textsc{Vertex Cover}}}
+Let $G = (V, E)$, $n = |V(G)|$, $m = |E(G)|$.
+Add the variables $V(G) \cup \{ z \}$.
+\begin{itemize}
+\item For each $\{ v, w \} \in E(G)$ add $2n + 1$ copies
+\[
+	(v \vee w)
+\]
+\item For each $v \in V(G)$, add
+\[
+	(\bar{v} \vee z), \; (\bar{v} \vee \bar{z}).
+\]
+\end{itemize}
+\underline{Claim:} There exists a vertex cover of size $k$ if and only if $m (2n + 1) + 2n -k$ clauses can be satisfied.
+\begin{itemize}
+\item[``$\Rightarrow$''] $C \subseteq V(G)$ vertex cover, $|C| = k$. Set $v = \textit{true}$ if and only if $v \in C$, $z = \textit{true}$. This gives
+\[
+	m(2n + 1) + 2n -k
+\]
+satisfied clauses.
+\item[``$\Leftarrow$''] We have $2n$ clauses which are not ``edge-clauses''. We can have at most
+\[
+	(m - 1)(2n + 1) + 2n < m (2n + 1) + 2n - k
+\]
+satisfied clauses. Thus, all edge clauses are \textit{true}. Hence, we obtain a \textsc{vertex cover} by choosing the \textit{true} variables.
+\end{itemize}
+\section*{Exercise 3.2}
+\begin{enumerate}
+\item DFS is linear time, thus polynomial.
+\item Let $C$ be in the set of vertices output by the algorithm. $C$ is a vertex cover. Assume an edge connects two leaves of $T$. Due to the course of DFS, this edge would be in T, which is a contradiction.
+\item To show: $|C| \leq 2 \cdot |C^*|$, if $C^*$ is a minimum vertex cover.
+We want to define a function $f \, : \, C \to C^*$, s.t.\ each $c^* \in C^*$ is hit at most twice:
+\begin{IEEEeqnarray*}{rCl}
+f \, : \, C &\longrightarrow& C^* \\
+c &\longrightarrow& \begin{cases}
+c, & \text{if } c \in C^* \\
+\operatorname{succ}(c), & \text{if } c \notin C^*
+\end{cases}
+\end{IEEEeqnarray*}
+\begin{itemize}
+\item $f$ is well-defined: In the second case, if $c \in C$, $c$ does have successors.\footnote{$\operatorname{succ}(c)$ returns any direct successor of $c$ in the DFS tour.} If $c \notin C^*$ and each outgoing edge has to be covered by $C^*$, each successor is in $C^*$.
+\item Let $c^* \in C^*$. If $c^* = \operatorname{succ}(c)$ for some $c \in C$: Since $c^*$ has only one predecessor in the DFS-tree, $c^*$ cannot be successor of any other $c' \in C$. Thus, it can only be hit by $f$ during the first case.
+\end{itemize}
+\end{enumerate}
+\section*{Exercise 3.3}
+The LP is bounded from below by $0$, and there are feasible solutions, e.g.\ $x = (1, \ldots, 1)^\tp$.
+Show that if $x$ is feasible and not half-integral, then there are feasible $x^+$, $x^-$ with
+\[
+	x = \frac{1}{2} x^+ + \frac{1}{2} x^-.
+\]
+Define 
+\begin{IEEEeqnarray*}{rCl}
+	x_i^+ &=& \begin{cases}
+		x_i + \varepsilon, & \text{if } \frac{1}{2} < x_i < 1, \\
+		x_i - \varepsilon, & \text{if } 0 < x_i < \frac{1}{2}, \\
+		x_i, & \text{if } x \in \{ 0, \frac{1}{2}, 1 \}
+	\end{cases} \\
+	x_i^- &=& \begin{cases}
+		x_i - \varepsilon, & \text{if } \frac{1}{2} < x_i < 1, \\
+		x_i + \varepsilon, & \text{if } 0 < x_i < \frac{1}{2}, \\
+		x_i, & \text{if } x \in \{ 0, \frac{1}{2}, 1 \}
+	\end{cases}
+\end{IEEEeqnarray*}
+Check $x^+$ is feasible
+Certainly, $x_i^+ \geq 0$ for $i = 1, \ldots, n$.
+Assume $\{ i, j \} \in E(G)$, and $x_i^+ + x_j^+ < 1$.
+W.l.o.g.\ $x_i^+ < \frac{1}{2}$. Then, $x_i < \frac{1}{2}$ and $x_i + x_j \geq 1$, thus $x_j > \frac{1}{2}$, implying $x_j^+ > \frac{1}{2}$.
+Therefore $x_j^+ \in \left( \frac{1}{2}, 1 \right)$ and $x_j^+ = x_j + \varepsilon$ as well as $x_i^+ = x_i - \varepsilon$.
+\section*{Exercise 3.4}
+\subsection*{(i)} The runtime is polynomial.
+
+Let $C = \{ x_1, \ldots, x_k\}$ be constructed from the algorithm (in this order).
+If $C = X$, then $C$ is optimum. Assume: $X \setminus C \neq \emptyset$. Let $x_{k+1} \in X \setminus C$ be s.t.\ $R \coloneqq \min_{c \in C} \operatorname{dist}(x, c)$ is maximal.
+\underline{Observation:} $\forall j < i \leq n \, : \,  \operatorname{dist}(x_i, x_j) \geq R$. \\
+Otherwise, we have $\operatorname{dist}(x_i, x_j) < R \leq \min_{l \leq i - 1} \operatorname{dist}(x_l, x_{k+1})$ and the algorithm would have chosen $x_{k+1}$ instead of $x_i$.
+
+Then, $\forall i \neq j \in \{ 1, \ldots, k + 1 \} \, : \, \operatorname{dist}(x_i, x_j) \geq R$.
+Let now $\tilde{C} = \{ y_1, \ldots, y_k \}$ be an optimum solution.
+Then for all $i \in \{ 1, \ldots, k + 1 \}$, there is a $j \in \{ 1, \ldots, k \}$, s.t.
+\[
+	\operatorname{dist}(x_i, y_j) \leq \operatorname{OPT}.
+\]
+Hence, there exists $i_1 \neq i_2 \in \{ 1, \ldots, k + 1\}$, $j \in \{1, \ldots, k\}$, s.t.
+\[
+	\operatorname{dist}(x_{i_1}, y_j) \leq \operatorname{OPT} \cdot \operatorname{dist}(x_2, y_j) \leq \operatorname{OPT.}
+\]
+By the triangle inequality:
+\[
+	\underbrace{ \operatorname{dist}(x_{i_1}, x_{i_2}) }_{\geq R} \leq \operatorname{OPT} + \operatorname{OPT} = 2 \cdot \operatorname{OPT}.
+\]
+Overall, we have a 2-approximation algorithm.
+\subsection*{(ii)}
+Consider the following reduction from \textsc{Vertex Cover}: Remove all isolates vertices and set
+\[
+	\operatorname{dist}(v, w) = \begin{cases}
+	1 & \{v, w\} \in E \\
+	\alpha + 1 & \text{else}
+	\end{cases}
+\]
+Any $\alpha$-approximation algorithm will return a solution for the \textsc{Vertex Cover} problem.
+\end{document}

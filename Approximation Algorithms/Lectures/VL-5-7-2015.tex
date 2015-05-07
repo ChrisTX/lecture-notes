@@ -1,0 +1,217 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+\chapter{Knapsack Problem}
+\begin{problem}[Knapsack]
+\begin{tabular}{@{}ll}
+\textit{Input:} & $w_1, \ldots, w_n$, $c_1, \ldots, c_n$, $W \in \Z_+$. \\
+\textit{Output:} & $S \subseteq \{ 1, \ldots, n \}$ \ac{st}\ $\sum_{j \in S} w_j \leq W$, and $\sum_{j \in S} c_j$ is maximized. 
+\end{tabular}
+\end{problem}
+\begin{theorem} % Thm 38
+\label{thm:38}
+\textsc{Knapsack} is \NP-hard.
+\end{theorem}
+\begin{proof}
+We reduce \textsc{Subset Sum} to \textsc{Knapsack}. Let $a_1, \ldots, a_n$, $K \in \N$ be a \textsc{Subset Sum} instance.
+For this, we set
+\[
+	w_i \coloneqq c_i \coloneqq a_i, \quad W \coloneqq K.
+\]
+The optimum solution to this \textsc{Knapsack} problem allows to solve the \textsc{Subset Sum} problem.
+\end{proof}
+\underline{IP formulation of \textsc{Knapsack}:}
+\begin{IEEEeqnarray*}{l"rCl}
+\max \sum_{j=1}^n c_j x_j, \\
+\text{\ac{st}} & \sum_{j=1}^n w_j x_j &\leq& W, \\
+& x_j &\in& \{ 0, 1 \}
+\end{IEEEeqnarray*}
+\begin{problem}[Fractional Knapsack]
+\begin{tabular}{@{}ll}
+\textit{Input:} & $w_1, \ldots, w_n$, $c_1, \ldots, c_n$, $W \in \Z_+$. \\
+\textit{Output:} & numbers $x_1, \ldots, x_n \in [0, 1]$, \ac{st}\ $\sum_{j=1}^n w_j x_j \leq W$ \\
+& and $\sum_{j \in S} c_j$ is maximized. 
+\end{tabular}
+\end{problem}
+\begin{theorem} % Thm 39
+\label{thm:39}
+Let $w_1, \ldots, w_n$, $c_1, \ldots, c_n$, $W \in \R_+$, \ac{st}
+\[
+	\sum_{i=1}^n w_i \geq w \quad \text{and} \quad \frac{c_1}{w_1} \geq \frac{c_2}{w_2} \geq \ldots \geq \frac{c_n}{w_n}
+\]
+and define
+\[
+	k \coloneqq \min \left\{ j \mid \sum_{i=1}^j w_i > W \right\}.
+\]
+Then the following is an optimum solution of the \textsc{Fractional Knapsack} problem:
+\[
+	x_j \coloneqq \begin{cases}
+	1, & j = 1, \ldots, k - 1 \\
+	0, & j \geq k + 1 \\
+	\frac{w - \sum_{i = 1}^{k - 1} w_i}{w_k}, & \text{if } j = k
+	\end{cases}
+\]
+\end{theorem}
+\begin{proof}
+Suppose there exists an optimum solution $x^*$ to the \textsc{Fractional Knapsack} problem and indices $j < l$, \ac{st}\ $x_j^* < 1$, $x_l^* > 0$.
+Then, replace $x_j^*$ by $x_j^* + \varepsilon$, and $x_l^*$ by $x_l^* - \varepsilon \cdot \frac{w_j}{w_l}$ with
+\[
+	\varepsilon \coloneqq \min \left\{ 1-x_j^*, x_l^* \cdot \frac{w_l}{w_j} \right\}.
+\]
+With this choice, we have
+\[
+	(x_j^* + \varepsilon) \cdot w_j + \left(x_l^* - \varepsilon \cdot \frac{w_l}{w_j}\right) \cdot w_l = x_j^* \cdot w_j + x_l^* \cdot w_l.
+\]
+This gives a cost increase greater or equal to zero:
+\[
+	\varepsilon \cdot c_j - \varepsilon \cdot \frac{w_j}{w_l} \cdot c_l \geq \varepsilon \left( c_j - w_j \cdot \frac{c_j}{w_j} \right) = 0.
+\]
+Furthermore, this can be done in $\mathcal{O}(n \log n)$.
+\end{proof}
+\begin{problem}[Selection]
+\begin{tabular}{@{}ll}
+\textit{Input:} & $a_1, \ldots, a_n \in \R$, $k \in \{ 1, \ldots, n \}$. \\
+\textit{Output:} & $j \in \{ 1, \ldots, n \}$, \ac{st}\ $|\{ a_i \mid a_j \leq a_i \}| = k$.
+\end{tabular}
+\end{problem}
+The \textsc{Median} problem is the special case $k \coloneqq \left\lfloor \frac{n}{2} \right\rfloor$.
+We assume in the following that we have a total ordering.
+\pagebreak
+\begin{algorithmbox}[Selection Algorithm]
+\begin{tabular}{@{}ll}
+\textit{Input:} & $a_1, \ldots, a_n \in \R$, $k \in \{ 1, \ldots, n \}$ \\
+\textit{Output:} & $j \in \{ 1, \ldots, n \}$.
+\end{tabular}
+\end{algorithmbox}
+\vspace{-7pt}
+\begin{algorithm}[H]
+partition the elements into sets of 5 elements each\;
+compute the median within each set\;
+recursively compute the median $a_l$ of these medians\;
+define $A \coloneqq \{ a_i \mid a_i \geq a_l \}$ and $B \coloneqq \{ a_i \mid a_i < a_l \}$\;
+$j \coloneqq \begin{cases}
+l, & \text{if } |A| = k, \\
+\textsc{Selection Algorithm}(A, k), & \text{if } |A| > k, \\
+\textsc{Selection Algorithm}(B, k - |A|), & \text{if } |A| < k.
+\end{cases}$\;
+\end{algorithm}
+\vspace{-7pt}
+\EndAlgorithmLine
+\begin{proof}
+Correctness is obvious.
+
+\underline{Runtime:} It holds that
+\[
+	|A| \geq 3 \cdot \left( \left\lfloor \frac{1}{2} \cdot \frac{n}{5} \right\rfloor \cdot 2 \right) \geq \frac{n}{4}.
+\]
+The same holds for $|B|$.
+Let $T(n)$ denote the runtime of the algorithm:
+\[
+	T(n) \leq 5 \cdot n + T \left( \left\lceil \frac{n}{5} \right\rceil \right) + T \left( \frac{3}{4} \cdot n \right).
+\]
+Thus, $T(n) = \mathcal{O}(n)$. By induction, one can prove that $T(n) < 101 \cdot n$.
+\end{proof}
+Let $z_1, \ldots, z_n \in \R$, $w_1, \ldots, w_n, W \in \R_+$ with $0 < W < \sum_{i=1}^n w_i$.
+Then the \linebreak \emph{$(w_1, \ldots, w_n, W)$-weighted median} \ac{wrt}\ $(z_1, \ldots, z_n)$ is defined as the unique number $z^*$, \ac{st}
+\[
+	\sum_{i \,:\, z_i < z^*} w_i < W < \sum_{i \,:\, z_i \leq z^*} w_i.
+\]
+The \textsc{Selection} problem is the special case $w_i = 1$, $W = k$.
+For the \textsc{Fractional Knapsack} problem, set $z_i \coloneqq - \frac{c_i}{w_i}$.
+\begin{algorithmbox}[Weighted Median Algorithm (WMA)]
+\begin{tabular}{@{}ll}
+\textit{Input:} & $z_1, \ldots, z_n \in \R$, $w_1, \ldots, w_n \in \R_+$ with $0 < W < \sum_{i=1}^n w_i$. \\
+\textit{Output:} & $z^*$ being the $(w_1, \ldots, w_n, W)$-weighted median \ac{wrt}\ $(z_1, \ldots, z_n)$.
+\end{tabular}
+\end{algorithmbox}
+\vspace{-7pt}
+\begin{algorithm}[H]
+paritition the elements $z_i$ into sets of 5 elements each\;
+compute the median within each set\;
+recursively compute the median $z_m$ of these medians\;
+define $A \coloneq \{ z_i \mid z_i \geq z_m \}$ and $B \coloneqq \{ z_i \mid z_i < z_m \}$.\;
+$z_i^* \coloneqq \begin{cases}
+\textsc{WMA}(B, \{ w_i \mid z_i \in B \}, W - \sum_{i \,:\, z_i \leq z_m w_i}), & \text{if } \sum_{i \,:\, z_i \leq z_m} w_i < W \\
+z_m, & \text{else} \\
+\textsc{WMA}(A, \{ w_i \mid z_i \in A \}, W), & \text{if } \sum_{i \,:\, z_i \leq z_m} w_i > W
+\end{cases}$\;
+\end{algorithm}
+\vspace{-7pt}
+\EndAlgorithmLine
+\addtocounter{dummythm}{1} % Thm 40 was the proof above, apparently. Not formulated in the lecture.
+\begin{theorem} % Thm 41
+\label{thm:41}
+The \textsc{Weighted Matching Algorithm} computes the weighted median in linear time.
+\end{theorem}
+\begin{theorem} % Thm 42
+\label{thm:42}
+The \textsc{Fractional Knapsack} problem can be solved in linear time.
+\end{theorem}
+\begin{proof}
+Set $z_i \coloneqq - \frac{c_i}{w_i}$ and apply \cref{thm:41}.
+\end{proof}
+\begin{theorem} % Thm 43
+\label{thm:43}
+There exists a \sfrac{1}{2}-approximation algorithm for the \textsc{Knapsack} problem with linear runtime.
+\end{theorem}
+\begin{proof}
+Let $c_1, \ldots, c_n$, $w_1, \ldots, w_n$, $W \in \R_+$, with
+\[
+	w_i \leq W \;\; i = 1, \ldots, n \quad \text{and} \quad \sum_{i=1}^n w_i > W.
+\]
+\ac{wlog}
+\[
+	\frac{c_1}{w_1} \geq \frac{c_2}{w_2} \geq \ldots \geq \frac{c_n}{w_n}.
+\]
+Define
+\[
+	k \coloneqq \min \left\{ j \in \{ 1, \ldots, n \} \mid \sum_{i=1}^j w_i > W \right\}.
+\]
+Thus, $\{ 1, \ldots, k - 1 \}$ or $\{ k \}$ is a \sfrac{1}{2}-approximation to the \textsc{Knapsack} problem, because $\sum_{i=1}^k c_i$ is an upper bound on the optimum solution.
+Hence,
+\[
+	\sum_{i=1}^{k-1} c_i \geq \frac{1}{2} \OPT \quad \text{or} \quad c_k  \geq \frac{1}{2} \OPT.
+\]
+\end{proof}
+Next, we consider exact algorithms to the \textsc{Knapsack} problem: Let $c_1, \ldots, c_n \in \R$, $w_1, \ldots, w_n, W \in \Z_+$.
+\begin{IEEEeqnarray*}{rCl}
+f(i, X) &\coloneqq& \text{optimum solution, if only the first $i$ items are allowed} \\
+&& \quad \text{and the total weight is $X$}. \\
+f(n, W) &=& \OPT. \\
+f(i+1, X) &=& \begin{cases}
+f(i, X), & \text{if } w_{i+1} > X \\
+\max{f(i, X), f(i, X - w_{i+1}) + c_{i+1}}, & \text{else}
+\end{cases}.
+\end{IEEEeqnarray*}
+\begin{theorem} % Thm 44
+\label{thm:44}
+The \textsc{Knapsack} problem (with costs in $\R$) can be solved in $\mathcal{O}(n \cdot W)$.
+\end{theorem}
+Second exact algorithm:
+\begin{IEEEeqnarray*}{rCl}
+f(i, t) &\coloneqq& \text{smallest possible weight of a solution $S$ of the \textsc{Knapsack} problem,} \\
+&& \quad \text{using only the first $i$ items, \ac{st}} \sum_{j \in S} c_j \geq t. \\
+f(i, t) &\coloneqq& \infty, \quad \text{if such a solution does not exist.} \\
+f(0, t) &\coloneqq& \infty, \quad t = 1, 2, \ldots \\
+\noalign{\noindent Find the largest $t$, \ac{st}\ $f(n, t) \leq W$. We can compute $f(i, t)$ recursively as follows:\vspace{\jot}}
+f(i, t) &=& \begin{cases}
+\min\{ f(i-1, t), f(i-1, t-c_i) + w_i \}, & \text{if } c_i < t \\
+\min\{ f(i-1, t), w_i \}, & \text{if } c_i \geq t
+\end{cases}
+\end{IEEEeqnarray*}
+\begin{theorem} % Thm 45
+\label{thm:45}
+The \textsc{Knapsack} problem can be solved in $\mathcal{O}(n \cdot C)$, where $C\coloneqq \sum_{i=1}^n c_i$.
+\end{theorem}
+An \emph{\ac{PTAS}} $A$ (or just approximation scheme) is an approximation algorithm that for each instance $I$ of a problem $P$ and each fixed $\varepsilon > 0$ is a $(1 \pm \varepsilon)$-approximation algorithm for $P$.
+If the runtime of $A$ is polynomial in $|I|$, $\frac{1}{\varepsilon}$, and $|\varepsilon|$, then $A$ is called a \emph{\ac{FPTAS}}.
+For example,
+\[
+	\mathcal{O}\left(n^{\frac{1}{\varepsilon}}\right) \; \text{(PTAS)} \quad \text{vs.} \quad \mathcal{O}\left(\frac{1}{\varepsilon^2} \cdot n^3\right) \; \text{(PTAS)}.
+\]
+Our aim is now to find a \ac{FPTAS} for \textsc{Knapsack}.
+
+\underline{Idea:} Scaling and Exact Algorithms. \\
+\underline{First Step:} \ac{PTAS}. \\
+\underline{Idea:} Enumerate all \textit{sufficiently large} subsets of $\{ 1, \ldots, n \}$.
+\end{document}
