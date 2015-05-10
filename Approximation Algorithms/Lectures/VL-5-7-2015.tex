@@ -141,7 +141,7 @@ z_m, & \text{else} \\
 \addtocounter{dummythm}{1} % Thm 40 was the proof above, apparently. Not formulated in the lecture.
 \begin{theorem} % Thm 41
 \label{thm:41}
-The \textsc{Weighted Matching Algorithm} computes the weighted median in linear time.
+The \textsc{Weighted Median Algorithm} computes the weighted median in linear time.
 \end{theorem}
 \begin{theorem} % Thm 42
 \label{thm:42}
@@ -207,7 +207,7 @@ An \emph{\ac{PTAS}} $A$ (or just approximation scheme) is an approximation algor
 If the runtime of $A$ is polynomial in $|I|$, $\frac{1}{\varepsilon}$, and $|\varepsilon|$, then $A$ is called a \emph{\ac{FPTAS}}.
 For example,
 \[
-	\mathcal{O}\left(n^{\frac{1}{\varepsilon}}\right) \; \text{(PTAS)} \quad \text{vs.} \quad \mathcal{O}\left(\frac{1}{\varepsilon^2} \cdot n^3\right) \; \text{(PTAS)}.
+	\mathcal{O}\left(n^{\frac{1}{\varepsilon}}\right) \; \text{(PTAS)} \quad \text{vs.} \quad \mathcal{O}\left(\frac{1}{\varepsilon^2} \cdot n^3\right) \; \text{(FPTAS)}.
 \]
 Our aim is now to find a \ac{FPTAS} for \textsc{Knapsack}.
 
