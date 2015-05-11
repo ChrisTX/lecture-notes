@@ -1,0 +1,103 @@
+\documentclass[oneside,a4paper]{amsart}
+
+\usepackage{geometry}
+\usepackage{parskip}
+\usepackage{mathtools}
+\usepackage{enumerate}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{IEEEtrantools}
+
+\DeclareMathOperator{\dive}{div}
+
+\begin{document}
+\title{Wissenschaftliches Rechnen II - Exercise Sheet 2 solutions}
+\maketitle{}
+\section*{Exercise 18}
+\subsection*{(a)}
+Let
+\[
+	E(u) \coloneqq \int_\Omega |\nabla u|^2 + \int_{\partial \Omega} |u|^2 - 2  \int_\Omega f u.
+\]
+Obviously:
+\[
+	E(u) \geq \| u \| - F(u),
+\]
+thus, we're coercive. Furthermore, $E(u)$ is strictly convex, giving us the uniqueness of solutions.
+By Lax-Milgram, we have
+\[
+	\| u \| \leq \underbrace{ \frac{1}{\alpha} }_{= 1} \| f \|.
+\]
+\section*{Exercise 19}
+\subsection*{(a)}
+Fix $\varphi \in C_C^\infty(T^+ \cup T^-, \mathbb{R}^d)$.
+\[
+	\int_{T^+\cup T^-} \varphi \cdot \nabla u + \dive(\varphi) u = \int_{T^+ \cup T^-} \dive (pu) = \int_{\partial T^+ \cup T^-} (\varphi \cdot \nu) u = 0, \quad \text{(because $\varphi \in C_C^\infty$)}.
+\]
+Furthermore,
+\[
+\int_{T^+ \cup T^-} \varphi \cdot \nabla u = -\int_{T^+ \cup T^-} \dive(\varphi) u.
+\]
+However,
+\[
+\int_{T^+ \cup T^-} \dive (pu) = \int_{T^+} \dive (pu) + \int_{T^-} \dive (pu) = \int_{\partial T^+} (\varphi \cdot \nu) u_+ - u_-.
+\]
+If we pick $\varphi = \eta \nu$ (if $\eta \in C_c^\infty(T^+ \cup T^-)$) we get
+\[
+\int_{\partial T^+} (\varphi \cdot \nu) u_+ - u_- = \int_F \eta(u_+ - u_-),
+\]
+implying
+\[
+	u_+ = u_- \quad \text{in } F.
+\]
+
+See also Ern/Di Pietro, Lemma 1.23.
+\subsection*{(b)}
+Ern/Di Pietro, Lemma 1.24.
+\section*{Exercise 20}
+Let
+\[
+	x = \sum_{i=1}^m x_i \xi_i, \quad y = \sum_{k = 1}^n y_k \eta_k
+\]
+Then,
+\begin{IEEEeqnarray*}{rCl}
+b(x, y) &=& b\left(\sum x_i \xi_i, \sum y_k \eta_k\right) \\
+&=& \sum x_i y_i b(\xi_i, \eta_k).
+\end{IEEEeqnarray*}
+We have $B \in \mathbb{R}^m \otimes \mathbb{R}^n$ by the exercise. Furthermore there exists (singular value decomposition) $U \in O(n)$, $V \in O(n)$, and $\Sigma$ is diagonal, s.t.
+\[
+	B = U \Sigma V.
+\]
+Observation:
+\begin{IEEEeqnarray*}{rCl}
+\beta &\coloneqq& \inf_{X^*} \sup_{Y^*} \frac{\overbrace{ b(x, y) }^{= x \cdot B \cdot y}}{\underbrace{\| x \|}_{= Vx} \underbrace{\| y \|}_{= Uy}}.
+\end{IEEEeqnarray*}
+W.l.o.g.: $m \leq n$, $\lambda_1 \leq \lambda_2 \leq \ldots \leq \lambda_n$.
+Then, any $y$ attaining a supremum will be also attained by $y = (y_1, \ldots, y_n, 0, \ldots, 0)$.
+Let
+\[
+	y = \left( \frac{\lambda x}{|\lambda x|}, 0 \right).
+\]
+Taking $\sup$: $|\lambda \cdot x$, $x > l_1$, $\beta = \lambda_1$.
+\section*{Exercise 17}
+Let $H = (H, (\cdot, \cdot))$, $P \in \mathcal{L}(H, H)$ with $P^2 = P$, $\ker P \neq \{ 0\}$, $\operatorname{im} P \neq H$.
+
+Both $P$ and $1 - P$ are oblique projections. Furthermore, $\| P \|$, $\| 1 - P \| \geq 1$, as
+\begin{IEEEeqnarray*}{rCl}
+	\| P \| &=& \sup_{\| v \|_H \leq 1} \frac{\| P v \|_H}{\| v \|} \\
+	&=& \sup_{\| v \|_H = 1} \| P^2 v \| \\
+	&\leq& \sup_{\| v \|_H = 1} \|P \| \|Pv \|. 
+\end{IEEEeqnarray*}
+Thus, $1 \leq \|P \|$.
+Define
+\[
+	T \coloneqq 1 - P.
+\]
+Then, $T + P = \operatorname{id}$, thus $T(H) + P(H) = H$, implying $\ker (P) + \ker(T) = H$.
+This is because $T(H) \subseteq \ker(P)$, as $P(1 - P) = 0$ and $(1 - P)(P) = 0$. Furthermore, the sum is direct:
+\begin{IEEEeqnarray*}{r"rCl}
+	& 0 &=& \overbrace{ T(a) }^{= (1-P)} + P(b) \\
+	\Longrightarrow & P(a) &=& a + P(b) \\
+	& P(a) &=& P(a) + P(b) \\
+	& P(b) &=& 0
+\end{IEEEeqnarray*}
+\end{document}
