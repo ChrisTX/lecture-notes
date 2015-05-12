@@ -1,0 +1,191 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+\begin{theorem} % Thm 46
+\label{thm:46}
+The \textsc{Knapsack} problem can be solved in $\mathcal{O}(2^\frac{n}{2})$.
+\end{theorem}
+\begin{proof}
+Partition input into two sets $A$ and $B$ of size smaller or equal to $\left\lceil \frac{n}{2} \right\rceil$. Enumerate all possible solutions for each partition class ordered by increasing weight. We may assume: also ordering by increasing cost. Combine solutions of $A$ and $B$ by scanning solutions of $A$ from left to right and solutions of $B$ from right to left.
+\end{proof}
+\begin{theorem} % Thm 47
+\label{thm:47}
+If $P \neq \NP$, then no \NP-hard optimization problem with integer cost function can have a \ac{PTAS} with runtime polynomial in $|I|$ and $|\varepsilon|$.
+\end{theorem}
+\begin{proof}
+\ac{wlog}\ let $P$ be a minimization problem. Assume $A_\varepsilon$ is a \ac{PTAS} for $P$ with runtime polynomially bounded in $|I|$ and $|\varepsilon|$. Set $\varepsilon' \coloneqq \frac{1}{1+A_1(I)}$. Then,
+\[
+	\varepsilon' \cdot \OPT(I) < 1.
+\]
+On the other hand
+\begin{IEEEeqnarray*}{rCl}
+A_{\varepsilon'}(I) &\leq& (1 + \varepsilon') \cdot \OPT(I) \\
+&<& \OPT(I) + 1
+\end{IEEEeqnarray*}
+Because the cost function is integral by assumption, $A_{\varepsilon'}(I) = \OPT(I)$. $|\varepsilon'|$ is polynomial in $|I|$ and $|1|$.
+\end{proof}
+\begin{algorithmbox}[Algorithm $A_k$]
+\begin{tabular}{@{}ll}
+\textit{Input:} & $w_1, \ldots, w_n$, $c_1, \ldots, c_n$, $W \in \R_+$, $k \in \N$. \\
+\textit{Output:} & $S \subseteq \{ 1, \ldots, n\}$, \ac{st}\ $\sum_{j \in S} w_j \leq W$.
+\end{tabular}
+\end{algorithmbox}
+\vspace{-7pt}
+\begin{algorithm}[H]
+\label{alg:Ak_step1} Assume $\frac{c_1}{w_1} \geq \frac{c_2}{w_2} \geq \ldots \geq \frac{c_n}{w_n}$\;
+ \For{$X \subseteq \{ 1, \ldots, n \}, |X| \leq k, \sum_{j \in X} w_j \leq W$}{ \label{alg:Ak_step2}
+	\For{$i \coloneqq 1$ \KwTo $n$}{ \label{alg:Ak_step3}
+		\If{$i \notin X$ \KwSty{and} $w_i + \sum_{j \in X} w_j \leq W$}{ \label{alg:Ak_step4}
+			$X \coloneqq X \cup \{ i \}$\label{alg:Ak_step5}\;
+		}
+	}
+}
+\Return $X$ with largest $c(X)$ seen during the algorithm\label{alg:Ak_step6}\;
+\end{algorithm}
+\vspace{-7pt}
+\EndAlgorithmLine
+\begin{theorem}[Sahni 1975] % Thm 48
+\textsc{Algorithm $A_k$} has runtime $\mathcal{O}(n^{k+1})$ and approximation ratio $1 -\frac{1}{k}$ ($\varepsilon \coloneqq \frac{1}{k}$).
+\end{theorem}
+\begin{proof}
+Runtime: $k$ is fixes implies
+\[
+	\sum_{i=1}^k \begin{pmatrix}
+		n \\ i
+	\end{pmatrix} = \mathcal{O}(n^k)
+\]
+subsets in \cref{alg:Ak_step2}. This gives us a $\mathcal{O}(n \cdot n^k) = \mathcal{O}(n^{1+k})$ total entries.
+
+Let $X^*$ be an optimum solution to the \textsc{Knapsack} problem.
+If $|X^*| \leq k$, the algorithm finds and optimum. For $|X^*| > k$: Assume $X^* = \{ a_1, a_2, \ldots, a_t \}$ with
+\[
+	c_{a_1} \geq c_{a_2} \geq \ldots \geq c_{a_k} \geq c_{a_j}
+\]
+ for $j \geq k$ and
+\[
+	\frac{c_{a_{k+1}}}{w_{a_{k+1}}} \geq \frac{c_{a_{k+2}}}{w_{a_{k+2}}} \geq \ldots \geq \frac{c_{a_{t}}}{w_{a_{t}}}.
+\]
+Then the set $\{ a_1, \ldots, a_k \}$ will be selected in \cref{alg:Ak_step2} of the algorithm. Some more elements will be added to this in \crefrange{alg:Ak_step3}{alg:Ak_step5} of the algorithm, call it $X$.
+Let $a_m$ be the smallest element in $X^*$ not in $X$.
+We define
+\[
+	X' \coloneqq X \cap \left( \{ j \mid j < a_m \} \cup \{ a_1, \ldots, a_k \} \right).
+\]
+Thus the solution of algorithm up to $i = a_m - 1$ in \cref{alg:Ak_step3}. $a_m \notin X$ implies
+\begin{IEEEeqnarray*}{r"rCl}
+& w_{a_m} + \sum_{i \in X'} w_i &>& W \\
+\Longrightarrow& W - \sum_{i \in X'} w_i &<& w_{a_m} \IEEEyesnumber \label{eq:thm48-1}
+\end{IEEEeqnarray*}
+Thus:
+\begin{IEEEeqnarray*}{rCl}
+\sum_{i=m}^t c_{a_i} &=& \sum_{i=m}^t w_{a_i} \cdot \frac{c_{a_i}}{w_{a_i}} \\
+&\leq& \frac{c_{a_m}}{w_{a_m}} \sum_{i=m}^t w_{a_i}
+\end{IEEEeqnarray*}
+Furthermore,
+\begin{IEEEeqnarray*}{rCl}
+\sum_{i \in X'} c_i &=& \sum_{i=1}^k c_{a_i} + \sum_{i=k+1}^{m-1} c_{a_i} + \sum_{i \in X' \setminus X^*} w_i \cdot \frac{c_i}{w_i} \\
+&\geq& \sum_{i=1}^k c_{a_i} + \sum_{i=k+1}^{m-1} c_{a_i} + \frac{c_{a_m}}{w_{a_m}} \sum_{i \in X' \setminus X^*} w_i
+\end{IEEEeqnarray*}
+Combining these, we get
+\begin{IEEEeqnarray*}{rCl}
+\sum_{i \in X^*} c_i &=& \sum_{i=1}^k c_{a_i} + \sum_{i=k+1}^{m-1} c_{a_i} + \sum_{i=m}^t c_{a_i} \\
+&\leq& \sum_{i \in X'} c_i - \frac{c_{a_m}}{w_{a_m}} \cdot \sum_{i \in X' \setminus X^*} w_i + \frac{c_{a_m}}{w_{a_m}} \cdot \sum_{i=m}^t w_{a_i} \\
+&\leq& \sum_{i \in X'} c_i + \frac{c_{a_m}}{w_{a_m}} \cdot \underbrace{ \left( W - \sum_{i=1}^{m-1} w_{a_i} - \sum_{i \in X' \setminus X^*} w_i \right) }_{\leq w_{a_m}, \; \text{by \cref{eq:thm48-1}}}
+\end{IEEEeqnarray*}
+This again gives us:
+\begin{IEEEeqnarray*}{r"rCl}
+& \sum_{i \in X'} w_i &=& \sum_{i=1}^{m-1} w_{a_i} + \sum_{i \in X' \setminus X^*} w_i \\
+\Longrightarrow & \sum_{i \in X^*} c_i \leq \sum_{i \in X'} c_i + c_{a_m}.
+\end{IEEEeqnarray*}
+We have $c_{a_1} \geq c_{a_2} \geq \ldots \geq c_{a_k} \geq c_{a_m}$ and therefore
+\[
+	c_{a_m} \leq \frac{1}{k} \sum_{i=1}^k c_{a_i}.
+\]
+Plugging this into the previous equation:
+\begin{IEEEeqnarray*}{r"rCl}
+& \sum_{i \in X^*} c_i &\leq& \sum_{i \in X'} c_i + \frac{1}{k} \sum_{i \in X^*} c_i \\
+\Longrightarrow&\sum_{i \in X'} c_i &\geq& \left( 1 - \frac{1}{k} \right) \cdot \sum_{i \in X^*} c_i.
+\end{IEEEeqnarray*}
+Hence, we have proved that we have a $1 - \frac{1}{k}$-approximation algorithm.
+\end{proof}
+\begin{algorithmbox}[Knapsack Approximation Scheme]
+\begin{tabular}{@{}ll}
+\textit{Input:} & $w_1, \ldots, w_n$, $c_1, \ldots, c_n$, $W \in \R_+$, $\varepsilon > 0$. \\
+\textit{Output:} & $S \subseteq \{ 1, \ldots, n\}$, \ac{st}\ $\sum_{j \in S} w_j \leq W$.
+\end{tabular}
+\end{algorithmbox}
+\vspace{-7pt}
+\begin{algorithm}[H]
+$S_1 \coloneqq$ \sfrac{1}{2}-approximation from \cref{thm:43}.\;
+\lIf{$c(S_1) = 0$}{\Return $\emptyset$}
+$t \coloneqq \varepsilon \cdot \frac{c(S_1)}{n}, \quad \tilde{c}_j \coloneqq \lfloor \frac{c_j}{t} \rfloor, j = 1, \ldots, n.$\;
+$S_2 \coloneqq$ exact algorithm on $(\tilde{c}_1, \ldots, \tilde{c}_n, w_1, \ldots, w_n, W)$ from \cref{thm:45}.\;
+\eIf{$c(S_1)$ > $c(S_2)$}{\Return $S_1$}{\Return $S_2$}
+\end{algorithm}
+\vspace{-7pt}
+\EndAlgorithmLine
+\begin{theorem}[Ibarra, Kim (1975)] % Thm 49
+The \textsc{Knapsack Approximation Scheme} is an \ac{FPTAS} for the \textsc{Knapsack} problem and has runtime $\mathcal{O}\left(n^2 \cdot \frac{1}{\varepsilon} \right)$.
+\end{theorem}
+\begin{proof}
+Let $S^*$ be an optimum solution. If $c(S^*) = 0$, the statement is trivial.
+We may assume $c(S_1) > 0$. We have $c(S_1) \geq \frac{1}{2} \cdot c(S^*)$ and $c_j \geq t \cdot \tilde{c}_j$. Thus $2 \cdot \frac{c(S_1)}{t}$ is an upper bound for the cost of an optimum solution to $(\tilde{c}_1, \ldots, \tilde{c}_n, w_1, \ldots, w_n, W)$.
+$S_2$ is an optimum solution to $(\tilde{c}_1, \ldots, \tilde{c}_n, w_1, \ldots, w_n, W)$.
+As $\frac{c_j}{t} -1 < \tilde{c}_j \leq \frac{c_j}{t}$, we have
+\begin{IEEEeqnarray*}{rCl}
+c(S_2) &=& \sum_{j \in S_2} c_j \\
+&\geq& \sum_{j \in S_2} t \cdot \tilde{c}_j \\
+&\geq& \sum_{j \in S^*} t \cdot \tilde{c}_j \\
+&>& \sum_{j \in S^*} (c_j - t) \\
+&\geq& c(S^*) - n \cdot t \\
+&=& c(S^*) - \varepsilon \cdot c(S_1).
+\end{IEEEeqnarray*}
+Let $S$ denote the solution returned by the algorithm.
+\[
+	(1 + \varepsilon) \cdot c(S) \geq c(S_2) + \varepsilon \cdot c(S_1) \geq c(S^*),
+\]
+and equivalently
+\[
+	c(S) \geq \frac{1}{1+\varepsilon} \cdot c(S^*) \geq (1-\varepsilon) \cdot c(S^*).
+\]
+
+\underline{Runtime:}
+\begin{IEEEeqnarray*}{rCl}
+\mathcal{O}(n) + \mathcal{O}(n \cdot C) &=& \mathcal{O} \left( n \cdot \frac{2 \cdot c(S_1) \cdot n}{\varepsilon \cdot c(S_1)} \right) \\
+&=& \mathcal{O}\left(n^2 \cdot \frac{1}{\varepsilon} \right)
+\end{IEEEeqnarray*}
+Thus the claims have been proven.
+\end{proof}
+The best known result for this problem (due to Kellerer and Pferschy (2004)) is
+\[
+	\mathcal{O} \left( n \cdot \log \frac{1}{\varepsilon} + \frac{1}{\varepsilon^3} \cdot \log^2 \left( \frac{1}{\varepsilon} \right) \right).
+\]
+\chapter{Bin Packing} % 4
+\begin{problem}[Bin Packing Problem]
+\begin{tabular}{@{}ll}
+\textit{Input:} & $0 \leq a_1, \ldots, a_n \leq 1$. \\
+\textit{Output:} & $k \in \N$ and $f : \{ 1, \ldots, n \} \to \{ 1, \ldots, k \}$, \ac{st} \\
+& $\sum_{f(i) = j} a_i \leq 1$ for all $j = 1, \ldots, k$, $k$ minimal.
+\end{tabular}
+\end{problem}
+\begin{theorem} % Thm 50
+\label{thm:50}
+\textsc{Bin Packing} is \NP-hard.
+\end{theorem}
+\begin{proof}
+Reduce \textsc{Partition} to it. Scale an instance $a_1, \ldots, a_n$ of \textsc{Partition}:
+\[
+	a_i' \coloneqq \frac{2 \cdot a_i}{\sum_{i=1}^n a_i}.
+\]
+Then we have a solution to \textsc{Partition} \ac{iff} two bins suffice.
+\end{proof}
+\begin{theorem} % Thm 51
+\label{thm:51}
+If $P \neq \NP$ there exists no $\frac{3}{2} - \varepsilon$ approximation algorithm for the \textsc{Bin Packing Problem}, $\varepsilon > 0$.
+\end{theorem}
+\begin{proof}
+See proof of \cref{thm:50}: Such an approximation algorithm can decide whether two bins suffice. This would solve the \textsc{Partition} problem.
+\end{proof}
+Let $0 \leq a_1, \ldots, a_n \leq 1$ with $\sum_{i=1}^n a_i = 2$. \\
+\underline{$k = 3$:} Pack as many elements as possible in the first and the second bin. Let $R_1$ and $R_2$ be the amount of space left in the first and second bin, respectively. However, by the choice of the instance, $R_1 + R_2 \leq 1$ follows and thus we can fit the remaining items in the third bin.
+\end{document}
