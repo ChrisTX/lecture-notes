@@ -48,7 +48,12 @@ Das \cref{prb:c2e7s1} erfüllt die Voraussetzungen von \cref{thm:c2e2s7} und ist
 \begin{equation}\label{eqn:c2e7s2}
 	\| u_\varepsilon\|_{H^1(\Omega)} \leq \frac{1+C_F^2\frac{\meas{\Omega}^2}{\pi^2}}{\varepsilon}\|f\|_{L^2(\Omega)}
 \end{equation}
-%Bild der Heuristik
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.3\textwidth]{Images/heuristik.pdf}
+	\caption{Wir erwarten Funktionen, die stark abfallen. Der Erwartung nach findet der Abfall dabei lediglich in einem kleinen Intervall der Länge $\varepsilon$ statt}
+	\label{figure_heuristik}
+\end{figure}
 \begin{example}\label{ex:c2e7s1}
 	Betrachte \cref{prb:c2e7s1} im Einheitsintervall $\Omega=(0,1)$ mit $f=1$, $b=1$. Die Lösung lautet dann
 	\[
@@ -56,7 +61,12 @@ Das \cref{prb:c2e7s1} erfüllt die Voraussetzungen von \cref{thm:c2e2s7} und ist
 	\]
 	für jedes $\varepsilon > 0$.\par
 	Wir beobachten, dass $u_\varepsilon$ steile Gradienten in der NÄhe von $x=1$ besitzt (eine so genannte \emph{Randschicht}).
-	%Bild ergebnis
+	\begin{figure}[ht]
+	\centering
+		\includegraphics[width=0.3\textwidth]{Images/ergebnis.pdf}
+		\caption{Die exakte Lösung. Im Intervall $[0,1-\varepsilon]$ verhält sich die Funktion wie $x\mapsto x$, in $[1-\varepsilon,1]$ wird der Linearteil der Lösung dann dominiert und es kommt zum steilen Abfall der Funktion}
+		\label{figure_loesung}
+	\end{figure}
 	Daraus folgt, dass die Stabilitätskonstante des Problems mindestens wie $\frac{1}{\sqrt{\varepsilon}}$ wächst. Die Stabilitätskonstante ist dabei die Konstante auf der rechten Seite von \cref{eqn:c2e7s2}.
 \end{example}
 Wir betrachten die Galerkin-FEM erster Ordnung (P1-FEM) für \cref{prb:c2e7s1}. Sei $\mathcal{T}_h$ eine reguläre Triangulierung von $\Omega$ (polyhedral berandet). Wir suchen $u_{\varepsilon,h}\in P^1,0_0(\mathcal{T}_h)$, so dass 
@@ -71,7 +81,12 @@ Falls $\Omega$ konvex ist, dann gilt $u_\varepsilon\in H^2(\Omega)\cap H^1_0(\Om
 mit einer Konstante $C_\varepsilon$, die kritisch von $\varepsilon$ abhängt (d.h. die Konstante wächst wenn $\varepsilon$ gegen 0 geht). Es kann gezeigt werden, dass $C_\varepsilon \equiv \varepsilon^{-3}$. Damit müsste für $\varepsilon = 10^{-6}$ die Gitterweite bspw. als $h = 10^{-18}$ gewählt werden. Diese Abschätzung ist möglicherweise pessimistisch, jedoch zeigen viele Anwendungen, dass die bisher verwendete FEM nicht anwendbar ist:
 \begin{example}\label{ex:c2e7s2}
 	betrachte das 1d-Problem aus \cref{ex:c2e7s1} und FEM auf uniformem Gitter $\mathcal{T}_h$, $h=2^{-\ell}$, $\ell\in\N$. Wähle $\varepsilon = 2^{-8}$. Dann beobachten wir unphysikalische Oszillation in der numerischen Approximation $u_{\varepsilon,h}$, falls $h > \varepsilon$ ($\ell < 8$).
-	%Image Oszillation
+	\begin{figure}[ht]
+	\centering
+		\includegraphics[width=0.3\textwidth]{Images/oszillation.pdf}
+		\caption{Das Ergebnis einer Standard-FEM: Die Lösungsfunktion (rot) oszilliert stark, dort wo sie es eigentlich nicht sollte}
+		\label{figure_oszillation}
+	\end{figure}
 \end{example}
  Gibt es für $h>>\varepsilon$ eine ``vernünftige'' Methode?\\
  Idee zur Verbesserung dern umerischen Approximation in 1d:\par
@@ -82,6 +97,11 @@ mit einer Konstante $C_\varepsilon$, die kritisch von $\varepsilon$ abhängt (d.
  		\forall v_h\in P^{1,0}_0(\mathcal{T}_h):\quad \underbrace{a_{\varepsilon+\delta}(u_{\varepsilon,h,\delta}, v_h)}_{(\varepsilon+\delta)\int_\Omega\nabla u_{\varepsilon,h,\delta} \cdot\nabla v_h\dx + \int_\Omega b\nabla u_{\varepsilon,h,\delta}v_h\dx} = F(v_h)
  	\] 
  	Bei korrekter Wahl von $\delta$ ergibt eine FEM-Lösung, die nah an $u$ liegt.
- 	%Bild: Stabilisiert
+ 	\begin{figure}[ht]
+ 	\centering
+ 		\includegraphics[width=0.3\textwidth]{Images/stabilisiert.pdf}
+ 		\caption{Die Lösung des stabilisierten Problems ähnelt der analytischen Lösung, fällt jedoch früher ab. Offensichtlich ist die Wahl des Relaxationsparameters $\delta$ essentiell}
+ 		\label{figure_stabilisiert}
+ 	\end{figure}
  \end{example}
 \end{document}
