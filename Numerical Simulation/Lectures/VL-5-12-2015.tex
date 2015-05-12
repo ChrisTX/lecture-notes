@@ -1,0 +1,201 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+\chapter{Linear-quadratic elliptic control problems} % 2
+\label{sec:c2}
+\section{Sobolev spaces} % 2.3
+\label{sec:c2e1}
+In the following $\Omega \subseteq \R^N$ will be a \emph{domain} (i.e.\ open and connected), and $\Gamma = \partial \Omega$.
+\begin{definition}[spaces of continuous functions] % Def 2.1
+\label{def:c2e1}
+Let $\Omega$ be a bounded domain. The space $C(\bar{\Omega})$ consists out of all continuous functions $y : \bar{\Omega} \to \R$. The space $C^k(\bar{\Omega})$ consists out of all functions$y \in C^k(\Omega)$ such that $D^\alpha y$ can be continuously extended to $\bar{\Omega}$ for all multi-indices $|\alpha| \leq k$. We identify $D^\alpha y$ with its extension.
+These spaces are Banach spaces under the norms
+\[
+	\| y \|_{C(\bar{\Omega})} = \max_{x \in \bar{\Omega}} |y(x)|, \quad \| y \|_{C^k(\bar{\Omega})} = \sum_{|\alpha|\leq k} \| D^\alpha y \|_{C(\bar{\Omega})}.
+\]
+The \emph{set $C_0^\infty(\Omega)$} encompasses all infinitely continuously differentiable functions with compact support.
+\end{definition}
+\pagebreak
+\paragraph{Regular domains}
+\begin{definition} % Def 2.2
+\label{def:c2e2}
+A bounded domain $\Omega \subseteq \R^N$, $N \geq 2$, with boundary $\Gamma$ is said to be of class $C^{k, 1}$, $k \in \N \cap \{ \infty \}$ if there exist finitely many local coordinate systems $S_1, \ldots, S_M$, functions $h_1, \ldots, h_M$, and constants $a, b > 0$ such that
+\begin{enumerate}[(i)]
+\item $h_i \in C^k(\bar{Q}_{N-1})$, where 
+\[
+	\bar{Q}_{N-1} = \{ \eta = (y_1, \ldots, y_{N-1}) \mid |y_i| \leq a, i = 1, \ldots, N-1 \}
+\]
+and all $D^\alpha h_i$ are Lipschitz-continuous.
+\item For $P \in \Gamma$ there exists a coordinate system $S_i$ such that
+\[
+	P = (\eta, h_i(\eta)), \quad \eta \in Q_{N-1} = \Int \bar{Q}_{N-1}
+\]
+\item In the coordinate system $S_i$ it holds
+\begin{IEEEeqnarray*}{rCl"C"rCl'rClCl}
+(\eta, y_N) &\in& \Omega & \Longleftrightarrow & \eta &\in& \bar{Q}_{N-1}, & h_i(\eta) &<& y_N &<& h_i(\eta) + b, \\
+(\eta, y_N) &\notin& \Omega & \Longleftrightarrow & \eta &\in& \bar{Q}_{N-1}, & h_i(\eta) -b &<& y_N &<& h_i(\eta).
+\end{IEEEeqnarray*}
+\end{enumerate}
+A domain of class $C^{0, 1}$ is called \emph{Lipschitz domain}. The \emph{Lebesgue measure} on $\Gamma$ will be denotes by $\mathrm{d}s$.
+\end{definition}
+\paragraph{Sobolev spaces}
+If $\Omega$ is a bounded Lipschitz domain, and $y, v \in C^1(\bar{\Omega})$, then the \emph{partial integration formula}
+\[
+	\int_\Omega v(x) D_i y(x) \dx = \int_\Gamma v(x) y(x) \nu_i(x) \ds - \int_\Omega y(x) D_i v(x) \dx
+\]
+holds for every $i = 1, \ldots, n$ ($\nu_i$ is the outer normal vector of $\Omega$). If $v \in C_0^\infty(\Omega)$, and $y \in C^k(\bar{\Omega})$, then
+\[
+	\int_\Omega v(x) D^\alpha y(x) \dx = (-1)^{|\alpha|} \int_\Omega y(x) D^\alpha v(x) \dx \quad \forall |\alpha| \leq k.
+\]
+\begin{definition}[weak derivatives] % Def 2.3
+\label{def:c2e3}
+Let $y \in L_{1, \loc}(\Omega)$ (i.e.\ the restrictions to compact sets are integrable), and $\alpha$ a multi-index. A function $w \in L_{1, \loc}$ is called \emph{weak derivative of $y$ of order $\alpha$} if
+\[
+	\int_\Omega v(x) \cdot w(x) \dx = (-1)^{|\alpha|} \int_\Omega y(x) D^\alpha v(x) \dx \quad \forall v \in C_0^\infty(\Omega).
+\]
+We write $D^\alpha y = w$.
+\end{definition}
+\begin{definition}[Sobolev spaces] % Def 2.4
+\label{def:c2e4}
+Let $1 \leq p \leq \infty$ and $k \in \N$. The \emph{Sobolev space $W^{k,p}(\Omega)$} consists out of all functions $y \in L_p(\Omega)$ possessing weak derivatives $D^\alpha y$ with $D^\alpha y \in L_p(\Omega)$ for all $|\alpha| \leq k$. It is a Banach space under the norm
+\begin{IEEEeqnarray*}{u'rCl"l}
+	& \| y \|_{W^{k,p}(\Omega)} &=& \left( \sum_{|\alpha| \leq k} \int_\Omega |D^\alpha y(x)|^p \dx \right)^\frac{1}{p} & \text{if } p < \infty, \\
+	or & \| y \|_{W^{k, \infty}(\Omega)} &=& \max_{|\alpha| \leq k} \|D^\alpha y \|_{L^\infty(\Omega)} & \text{if } p = \infty.
+\end{IEEEeqnarray*}
+If $p = 2$, we write $H^k(\Omega) \coloneqq W^{k, 2}(\Omega)$. The spaces $H^k$ are Hilbert spaces. For instance, the inner product in $H^1(\Omega)$ is
+\[
+	\langle y, v \rangle_{H^1(\Omega)} = \int_\Omega y \cdot v \dx + \int_\Omega \nabla y \nabla v \dx.
+\]
+\end{definition}
+\paragraph{Embedding theorems}
+\begin{theorem}[Sobolev embedding theorem] % Thm 2.5
+\label{thm:c2e5}
+Let $\Omega \subseteq \R^N$ be a bounded Lipschitz domain, $1 < p < \infty$, and $m \in \N \cup \{ \infty \}$. Then the following embeddings are continuous:
+\begin{IEEEeqnarray*}{r"rCl"l}
+mp < N: & W^{m,p}(\Omega) &\hookrightarrow& L^q(\Omega), & \text{if  } 1 \leq q \leq \frac{Np}{N - mp} \\ 
+mp = N: & W^{m,p}(\Omega) &\hookrightarrow& L^q(\Omega), & \text{for all  } 1 \leq q \leq \infty \\ 
+mp > N: & W^{m,p}(\Omega) &\hookrightarrow& C(\bar{\Omega}). \\ 
+\end{IEEEeqnarray*}
+\end{theorem}
+\begin{example}
+By the theorem, the following embeddings hold:
+\begin{IEEEeqnarray*}{r"rCl}
+\Omega \subseteq \R^2: & H^1(\Omega) = W^{1,2}(\Omega) &\hookrightarrow& L^q \quad \text{for all } 1 \leq q < \infty \\
+\Omega \subseteq \R^3: & H^1(\Omega) &\hookrightarrow& L^6
+\end{IEEEeqnarray*}
+\end{example}
+\begin{theorem}[Rellich] % Thm 2.6 
+\label{thm:c2e6}
+Let $\Omega \subseteq \R^N$ be a bounded Lipschitz domain, $1 \leq p < \infty$, and $m \geq 1$. Then bounded sets in $W^{m,p}(\Omega)$ are precompact in $W^{m-1,p}(\Omega)$.
+\end{theorem}
+\paragraph{Trace operator}
+\begin{definition} % Def 2.7
+\label{def:c2e7}
+The \emph{space $W_0^{k,p}(\Omega)$} is the closure of $C_0^\infty(\Omega)$ in $W^{k,p}(\Omega)$. As such it is a closed subspace of $W^{k,p}(\Omega)$.
+For $p = 2$, we write $H_0^k(\Omega) \coloneqq W_0^{k,2}(\Omega)$.
+The functions $y \in W_0^{k,p}(\Omega)$ are considered to be zero on the boundary $\Gamma = \partial \Omega$.
+\end{definition}
+For inhomogeneous boundary conditions one uses the trace operator.
+\begin{theorem}[trace operator] % Thm 2.8
+\label{thm:c2e8}
+Let $\Omega \subseteq \R^N$ be a bounded Lipschitz domain, and $1 \leq p \leq \infty$. There exists a bounded and linear operator $\tau : W^{1, p}(\Omega) \to L^p(\Gamma)$, called the \emph{trace operator}, such that for all $y \in W^{1,p}(\Omega) \cap C(\bar{\Omega})$ it holds
+\[
+	\tau y = y|_\Gamma.
+\]
+We always write $\tau y \eqqcolon y|_\Gamma$ and call it the \emph{trace of $y$ on $\Gamma$}.
+One can show $H_0^1(\Omega) = \{ y \in H^1(\Omega) \mid y|_\Gamma = 0 \}$.
+\end{theorem}
+\paragraph{Generalized Friedrich inequality}
+\begin{theorem} % Thm 2.9
+\label{thm:c2e9}
+Let $\Omega \subseteq \R^N$ be a bounded Lipschitz domain and $\Gamma_1 \subseteq \Gamma$ be measurable with positive measure in $\Gamma$. There exists a constant $c_{\Gamma_1} > 0$ such that
+\[
+	\| y \|_{H^1(\Omega)}^2 \leq c_{\Gamma_1} \left( \int_\Omega \| \nabla y \|^2 \dx + \left( \int_{\Gamma_1} y \ds \right)^2 \right) \quad \forall y \in H^1(\Omega).
+\]
+\end{theorem}
+\section{Weak solution of elliptic PDEs} % 2.2
+\label{sec:c2e2}
+\paragraph{The Lax-Milgram Lemma}
+Consider a \emph{variational equation}:
+\begin{equation}
+\label{eq:c2e2-star}
+	\boxed{a(y, v) = F(v) \quad \forall v \in V}
+	\tag{$\star$}
+\end{equation}
+Here $a : V \times V \to \R$ is a bilinear form on a real Hilbert space $V$, and $F \in V^*$.
+\begin{theorem}[Lax-Milgram] % Thm 2.10
+\label{thm:c2e10}
+Assume there exists constants $\alpha_0, \beta_0 > 0$, \ac{st}
+\begin{enumerate}[(i)]
+\item $|a(y, v)| \leq \alpha_0 \| y \|_V \cdot \| v \|_V \quad \forall y, v \in V$ (``\emph{Boundedness}'')
+\item $a(y,y) \geq \beta_0 \| y \|_V^2 \quad \forall y \in V$ (``\emph{coercivity}'')
+\end{enumerate}
+Then \cref{eq:c2e2-star} admits a unique solution for every $F \in V^*$, and there exists $c > 0$ (independent of $F$), \ac{st}
+\[
+	\| y \|_V \leq c \| F \|_{V^*} \quad \text{(``\emph{continuous dependence on data}'')}.
+\]
+\end{theorem}
+\begin{remark} % Rem 2.11
+\label{rem:c2e11}
+If $a$ is symmetric, the results follow instantly from the results in \cref{sec:c1e2}, since \cref{eq:c2e2-star} is equivalent to
+\[
+	\nabla f(y) = 0, \quad \text{where } f(y) = \frac{1}{2} a(y, y) - F(y).
+\]
+The function $J$ is strictly convex and coercive, and hence possesses a unique critical point, its minimizer on V, existing by \cref{thm:c1e14}.
+The ``nontrivial'' assertion is that a $a$ does not bee to be symmetric.
+However, in many cases, e.g.\ the Poisson equation considered next, we have a symmetric and bilinear $a$, and thus weak solutions have an interpretation as ``minimization of energy''. 
+\end{remark}
+\paragraph{Model problem: Poisson equation}
+\begin{equation}
+\label{eq:c2e2-star-Poisson}
+\tag{$\star$}
+\begin{IEEEeqnarraybox}[][c]{rCl"l}
+-\lapl y &=& f & \text{in } \Omega \\
+y &=& 0 \text{on } \Gamma
+\end{IEEEeqnarraybox}
+\end{equation}
+Here, $f \in L^2(\Omega)$.\\
+\underline{Weak formulation:} multiply by $v \in C_0^\infty(\Omega)$ and integrate by parts:
+\[
+	\int_\Omega \nabla y \nabla v \dx = \int_\Omega fv \dx.
+\]
+By density, this transfers to $v \in H_0^1(\Omega)$. Also the formula makes sense if $y \in H_0^1(\Omega)$. Then the boundary condition is ``naturally'' satisfied.
+\paragraph{Weak\slash{}variational formulation}
+Find $y \in H_0^1(\Omega)$ such that
+\begin{equation}
+\label{eq:c2e2-starstar}
+\tag{$\star\star$}
+\boxed{\underbrace{ \int_\Omega \nabla y \nabla v \dx }_{a(y, v)} = \underbrace{\int_\Omega fv \dx}_{= F(v)} \quad \forall v \in H_0^1(\Omega)}
+\end{equation}
+This is equivalent to
+\[
+	\min \frac{1}{2} \int_\Omega \| \nabla y \|^2 \dx - \int_\Omega f \cdot y \dx.
+\]
+\begin{definition} % Def 2.12
+\label{def:c2e12}
+A solution $y$ of \cref{eq:c2e2-starstar} is called weak solution of \cref{eq:c2e2-star-Poisson}.
+\end{definition}
+\begin{theorem} % Def 2.13
+\label{def:c2e13}
+For every $f \in L^2(\Omega)$ there exists a unique weak solution $y \in H_0^1(\Omega)$ and
+\[
+\| y \|_{H^1(\Omega)} \leq c_p \| f \|_{L^2(\Omega)} \quad \text{($c_p > 0$ independent of $f$)}
+\]
+\end{theorem}
+\begin{proof}
+Apply Lax-Milgram for $V = H_0^1(\Omega)$, $a(y, v) = \int_\Omega \nabla y \nabla v \dx$, $F(v) = \int f v \dx$.
+\begin{enumerate}[(i)]
+\item $|a(y, v)| \leq \| \nabla y \|_{L_2} \cdot \| \nabla v \|_{L_2} \leq \| y \|_{H^1} \cdot \| v \|_{H^1}$ \checkmark
+\item For coercivity, we have
+\begin{IEEEeqnarray*}{rCl}
+a(y, y) &=& \frac{1}{2} \| \nabla y \|_{L_2}^2 + \frac{1}{2} \| \nabla y \|_{L_2}^2 \\
+&\overset{\text{\cref{thm:c2e9}}, y \in H_0^1}{\geq}& \frac{1}{2} \| \nabla y \|_{L_2}^2 + \frac{1}{2c} \| y \|_{L_2}^2 \\
+&\geq& \min \left( \frac{1}{2}, \frac{1}{2c} \right) \| y \|_{H^1}^2.
+\end{IEEEeqnarray*}
+Also $F \in V^*$, since
+\[
+|F(v)| \leq \| f \|_{L^2} \cdot \| v \|_{L^2} \leq \| f\|_{L^2} \cdot \| v \|_{H^1}.
+\]
+\end{enumerate}
+\end{proof}
+\end{document}
