@@ -1,0 +1,48 @@
+\documentclass[oneside,a4paper,USenglish]{amsart}
+
+\usepackage[utf8]{inputenc}
+\usepackage{babel}
+\usepackage{lmodern}
+\usepackage{mathtools}
+\usepackage{IEEEtrantools}
+\usepackage{geometry}
+\usepackage{parskip}
+\usepackage{mathtools}
+\usepackage{enumerate}
+\usepackage{mdframed}
+\usepackage{relsize}
+\newcommand{\smallo}{\ensuremath{\mathit{o}}}
+
+\begin{document}
+\title{Numerical Simulation - Exercise Sheet 4 solutions}
+\maketitle{}
+\section*{Theoretical Exercise 1}
+Not discussed in the tutorial.
+\section*{Theoretical Exercise 2}
+\subsection*{(a)}
+To show: $\forall z^* \in K^+$, $G : C \to K$
+\[
+	\inf_{x \in C} f(x) + \langle z^*, G(u) \rangle = \inf_{z \in \Gamma} \inf_{\substack{G(u) \leq_K z \\ u \in C}} f(u) + z^*(z).
+\]
+
+We have
+\begin{IEEEeqnarray*}{rCl}
+f(u) + \langle z^*, G(u) \rangle &\overset{z = G(u)}{\geq}& f(u) + \langle z^*, z\rangle \\
+&\geq& \inf_{z \in \Gamma} \inf_{\substack{G(u) \leq_K z \\ u \in C}} f(u) + z^*(z).
+\end{IEEEeqnarray*}
+For $u, z$ with $G(u) \leq_K z$, we have $z - G(u) \in K$ and thus
+\begin{IEEEeqnarray*}{rCl}
+\langle z^*, z - G(u) \rangle &\geq& 0 \\
+\langle z^*, z \rangle \geq \langle z^*, G(u) \rangle.
+\end{IEEEeqnarray*}
+This in turn yields
+\begin{IEEEeqnarray*}{rCl}
+f(u) + \langle z^*, z \rangle \geq f(u) + \langle z^*, G(u) \rangle \geq \inf_{z \in \Gamma} \inf_{\substack{G(u) \leq_K z \\ u \in C}} f(u) + z^*(z).
+\end{IEEEeqnarray*}
+\subsection*{(b)}
+$\exists \bar{u}, z^*$, s.t.
+\begin{IEEEeqnarray*}{rCl}
+	L(\bar{u}, z) &\leq& L(\bar{u}, z^*) \leq L(u, z^*) \quad \forall u, z. \\
+	\langle G(\bar{u}), z^* \rangle &=& 0.
+\end{IEEEeqnarray*}
+\end{document}

@@ -1,0 +1,110 @@
+\documentclass[oneside,a4paper,USenglish]{amsart}
+
+\usepackage[utf8]{inputenc}
+\usepackage{babel}
+\usepackage{lmodern}
+\usepackage{mathtools}
+\usepackage{IEEEtrantools}
+\usepackage{geometry}
+\usepackage{parskip}
+\usepackage{mathtools}
+\usepackage{enumerate}
+\usepackage{mdframed}
+\usepackage{relsize}
+\newcommand{\smallo}{\ensuremath{\mathit{o}}}
+
+\begin{document}
+\title{Numerical Simulation - Exercise Sheet 3 solutions}
+\maketitle{}
+\section*{Theoretical Exercise 1}
+The set of tangential vectors (here denoted as $T_{x_0} M$) is obviously a cone. It remains to show closeness:
+Given $(h_n)_{n=1}^\infty \subseteq T_{x_0} M$, s.t.\ $h_n \xrightarrow{n \to \infty} h$ for some $h \in U$.
+Now choose
+\begin{IEEEeqnarray*}{rCl}
+\gamma_n : [0, \varepsilon_n) &\to& U \\
+\gamma_n(t) &\coloneqq& u_0 + t h_n + a_n(t), \quad a_n(t) \in \smallo(t)
+\end{IEEEeqnarray*}
+w.l.o.g.\ $\varepsilon_1 \geq \varepsilon_2 \geq \ldots$.
+Then there exists $0 < t_n < \varepsilon_n$, s.t.\ 
+\[
+	|a_n(t)| \leq t \frac{1}{n} \quad \forall t \in [0, t_n].
+\]
+Assume w.l.o.g.\ $t_{n+1} < t_n$ for all $n$.
+Now define
+\begin{IEEEeqnarray*}{rCl}
+	\gamma(t) : [0, t_1) &\to& U \\
+	\gamma(t) &\coloneqq& \gamma_n(t) \quad \text{for } t \in [t_{n+1}, t_n) \\
+	\gamma(0) &\coloneqq& u_0.
+\end{IEEEeqnarray*}
+Thus, it holds for $t \in [t_{n+1}, t_n)$:
+\begin{IEEEeqnarray*}{rCl}
+	\frac{1}{t} |\gamma(t) - (u_0 - th)| &=& \frac{1}{t} |t(h_n - h) + a_n(t)| \\
+	&\leq& |h_n - h| + \frac{1}{n} \\
+	&\xrightarrow{n \to \infty}& 0
+\end{IEEEeqnarray*}
+This shows that $h \in T_{x_0} M$.
+\section*{Theoretical Exercise 2}
+Let
+\[
+	L_u \coloneqq u + L \coloneqq \{ u + w \mid w \in L\}.
+\]
+Define 
+\begin{IEEEeqnarray*}{rCl}
+p(u) &\coloneqq& \inf_{v \in L_u \cap K} \| u - v \|.
+\end{IEEEeqnarray*}
+To show: $p$ is sublinear:
+For $\lambda > 0$:
+\begin{IEEEeqnarray*}{rCl"l}
+p(\lambda u) &=& \inf_{v \in L_{\lambda u} \cap K} \| \lambda u - v\| \\
+&=& \inf_{v \in L_u \cap K} \| \lambda u - \lambda v \| \\
+&=& \lambda \cdot p(u). & \checkmark \\
+p(u + w) &=& \inf_{v \in L_{u + w} \cap K} \| u + w - v \| \\
+&\leq& \| u - v_1 \| + \| w - v_2 \| & \forall v_1 \in L_u \cap K, v_2 \in L_w \cap K\\
+\noalign{This implies \vspace{\jot}} p(u + w) &\leq& p(u) + p(w).
+\end{IEEEeqnarray*}
+\begin{mdframed}
+$L \cap \operatorname{int}K \neq \emptyset$: $\exists v_0 \in L \cap \operatorname{int} K$
+\[
+	u \in U : \exists t > 0 : v_0 - tu \in K \; \implies \; \frac{1}{t} v_0 + u \in K.
+\]
+\end{mdframed}
+Now it holds
+\[
+	\forall u \in L, \forall v \in L \cap K = L_u \cap K.
+\]
+Then,
+\begin{IEEEeqnarray*}{rCl}
+-f(u) &=& -f(u - v) - f(v) \\
+&\leq& - f(u - v) \\
+&\leq& \underbrace{ \| - f \| }_{{} \eqqcolon c} \| u - v \|
+\end{IEEEeqnarray*}
+Thus, $-f \leq c \cdot p$ on $L$. By Hahn-Banach, there is a $\bar{f} : U \to \mathbb{R}$ with $- \bar{f} \leq p$ on $U$.
+For $v \in K$, we have
+\[
+	\bar{f}(v) \geq - p(v) = 0.
+\]
+\section*{Theoretical Exercise 3}
+Here, $B(f) : C^1 \to \mathbb{R}$. This implies $\mathcal{R}(B(f)')$ is closed.
+The Lagrange function is
+\begin{IEEEeqnarray*}{rCl}
+\mathcal{L}(f, \lambda_1, \lambda_2, \lambda_3) &=& A(f) + \lambda_1 \left( B(f) - \frac{\pi}{2} \right) + \lambda_2 f(-1) + \lambda_3 f(1).\\
+\noalign{The derivatives are \vspace{\jot}} A'(f) h &=& \int_{-1}^1 \frac{f'h'}{\sqrt{1 + (f')^2}} \\
+B'(f) h &=& \int_{-1}^1 h \: \mathrm{d} x \\
+f(\pm 1) h &=& h(\pm 1) = 0
+\end{IEEEeqnarray*}
+Then,
+\[
+	(f^*) = \frac{-x}{\sqrt{1-x^2}},
+\]
+giving
+\begin{IEEEeqnarray*}{rCl}
+A(f^*) h &=& \int_{-1}^1 - x h' \: \mathrm{d} x. \\
+\frac{\partial}{\partial x}\frac{f'(x)}{\sqrt{1 + f'(x)^2}} &=& - \lambda -1 \\
+\frac{ - \frac{x}{\sqrt{1 - x^2}} }{ \sqrt{ 1 + \left( \frac{x^2}{1 + x^2} \right )}} &=& - \lambda_1 x.
+\end{IEEEeqnarray*}
+This is equivalent to
+\begin{IEEEeqnarray*}{rCl}
+-x &=& -\lambda_1 x \\
+\lambda_1 &=& 1.
+\end{IEEEeqnarray*}
+\end{document}

@@ -74,7 +74,7 @@ We define
 Thus the solution of algorithm up to $i = a_m - 1$ in \cref{alg:Ak_step3}. $a_m \notin X$ implies
 \begin{IEEEeqnarray*}{r"rCl}
 & w_{a_m} + \sum_{i \in X'} w_i &>& W \\
-\Longrightarrow& W - \sum_{i \in X'} w_i &<& w_{a_m} \IEEEyesnumber \label{eq:thm48-1}
+\IEEEyesnumber\label[equation]{eq:thm48-1} \Longrightarrow& W - \sum_{i \in X'} w_i &<& w_{a_m}
 \end{IEEEeqnarray*}
 Thus:
 \begin{IEEEeqnarray*}{rCl}
@@ -95,7 +95,7 @@ Combining these, we get
 This again gives us:
 \begin{IEEEeqnarray*}{r"rCl}
 & \sum_{i \in X'} w_i &=& \sum_{i=1}^{m-1} w_{a_i} + \sum_{i \in X' \setminus X^*} w_i \\
-\Longrightarrow & \sum_{i \in X^*} c_i \leq \sum_{i \in X'} c_i + c_{a_m}.
+\Longrightarrow & \sum_{i \in X^*} c_i &\leq& \sum_{i \in X'} c_i + c_{a_m}.
 \end{IEEEeqnarray*}
 We have $c_{a_1} \geq c_{a_2} \geq \ldots \geq c_{a_k} \geq c_{a_m}$ and therefore
 \[
