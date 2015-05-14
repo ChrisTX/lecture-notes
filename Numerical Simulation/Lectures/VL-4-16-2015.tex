@@ -114,8 +114,8 @@ The identification of $f'(u)$ as an element of $U$ is called the \emph{gradient 
 \begin{examplenumb} % Example 1.21
 \label{ex:c1e21}
 \begin{enumerate}[(i)]
-\item Let $A : U \to V$ be bounded and linear. Then $A$ is Fréchet-differentiable, and $A'(u) = A \quad \forall u \in U$.
-\item \underline{Quadratic function on a Hilbert space:} \\
+\item\label{ex:c1e21-i} Let $A : U \to V$ be bounded and linear. Then $A$ is Fréchet-differentiable, and $A'(u) = A \quad \forall u \in U$.
+\item\label{ex:c1e21-ii} \underline{Quadratic function on a Hilbert space:} \\
 Let $U$ be a Hilbert space, $A \in \mathcal{L}(U, U)$ self-adjoint and $b \in U$. Then,
 \[
 	f(u) = \frac{1}{2} \langle u, A u \rangle - \langle b, u \rangle + f(0)
@@ -124,7 +124,7 @@ is Fréchet-differentiable, and
 \[
 	\nabla f(u) = Au - b.
 \]
-\item Let $U = C[0, 1]$ and $f(u) = \sin(u(1))$.
+\item\label{ex:c1e21-iii} Let $U = C[0, 1]$ and $f(u) = \sin(u(1))$.
 \begin{IEEEeqnarray*}{rCl}
 f(u + h) &=& \sin(u(1) + h(1)) \\
 &=& \sin(u(1)) + \cos(u(1)) - h(1) - \underbrace{ \frac{1}{2} \sin(u(1)) [h(1)]^2 }_{\| \cdot \| \leq \frac{1}{2} \| h \|_\infty^2}
@@ -220,7 +220,7 @@ Write
 \[
 	f(u) = \frac{1}{2} \langle u, (S^* S + \lambda) u \rangle - \langle S^* y_d, u \rangle_U + \frac{1}{2} \| y_d \|_H^2.
 \]
-By \cref{ex:c1e21}, ii) it holds
+By \cref{ex:c1e21}, \labelcref{ex:c1e21-ii} it holds
 \[
 	\nabla f(u) = (S^* S + \lambda) u - S^* y_d.
 \]

@@ -56,9 +56,9 @@ The function $\omega$ is convex and decreasing, that is $z_1, z_2 \in \Gamma$ wi
 \begin{IEEEeqnarray*}{rCl}
 \omega(tz_1 + (1-t) z_2) &=& \inf \{ f (u) \; : \; u \in C, G(u) \leq_K tz_1 + (1-t) z_2\} \\
 &\leq& \inf \{ f(u) \; : \; u = tu_1 + (1-t) u_2;\; u_1, u_2 \in C, \\
-&& G(u_1) \leq_K z_1, G(u_2) \leq_K z_2 \} \\
+&& \;\; G(u_1) \leq_K z_1, G(u_2) \leq_K z_2 \} \\
 &\leq& \inf \{ f(u_1) \; : \; u_1 \in C, G(u_1) \leq_K z_1 \} \\
-&& {} + (1-t) \inf \{ f(u_2) \; : \; u_2 \in C, G(u_2) \leq_K z_2 \} \\
+&& \;\; {} + (1-t) \inf \{ f(u_2) \; : \; u_2 \in C, G(u_2) \leq_K z_2 \} \\
 &=& t\omega(z_1) + (1-t) \omega(z_2).
 \end{IEEEeqnarray*}
 If $z_2 \leq_K z_1$, then $G(u) \leq_K z_2$ implies
@@ -81,7 +81,7 @@ Let $U$ be a linear space, $Z$ a normed space, $C \subseteq U$ convex, and $K \s
 Let $f : C \to \R$ and $G : U \to Z$ be convex, and assume the Slater condition holds:
 Let
 \[
-	\mu_0 = \inf f(u) \quad \text{\ac{st}} \; u \in C, G(u) \leq_K 0
+	\mu_0 = \inf_{\substack{u \in C \\ G(u) \leq_K 0}} f(u)
 \]
 and assume $\mu_0 > -\infty$.
 Then there exists $z_0^* \in K^+$ such that
@@ -95,7 +95,7 @@ If $u_0 \in C$, $G(u_0) \leq_K 0$ solves the convex program \cref{prob:c1e5-star
 holds.
 \end{theorem}
 \begin{proof}
-In $W = Z \times R$, we define
+In $W = Z \times \R$, we define
 \begin{IEEEeqnarray*}{rCl}
 A &=& \{ (z, r) \; : \; r \geq f(u), G(u) \leq_K z \text{ for some } u \in C \}, \\
 B &=& \{ (z, r) \; : \; r \leq \mu_0, z \leq_K 0 \}.
@@ -128,15 +128,17 @@ As $G(u_1)$ is an interior point of $-K$, this implies $\langle z_0^*, z \rangle
 Now we use that $(0, \mu_0) \in \partial A$. Therefore, using $r_0 = 1$ in \cref{eq:thm-c1e45-plus}:
 \begin{IEEEeqnarray*}{rCl}
 	\mu_0 &\overset{\text{\cref{eq:thm-c1e45-plus}}}{=}& \inf_{(z, r) \in A} \left[r + \langle z_0^*, z \rangle \right] \\
-	&\overset{\text{restricting to } (f(u),G(u)) \cap A}{\leq}& \inf_{u \in C} \left[ f(u) + \langle z_0^*, G(u) \rangle \right] \\
+	&\overset{\substack{\text{restricting to} \\ (f(u),G(u)) \cap A}}{\leq}& \inf_{u \in C} \left[ f(u) + \langle z_0^*, G(u) \rangle \right] \\
 	&\leq& \inf_{\substack{u \in C \\ G(u) \leq_K 0}} [ f(u) + \underbrace{ \langle z_0^*, G(u) \rangle }_{\leq 0}] \\
-	&\leq& \inf_{\substack{u \in C \\ G(u) \leq_K 0}} f(u) = \mu_0.
+	&\leq& \inf_{\substack{u \in C \\ G(u) \leq_K 0}} f(u) \\
+	&=& \mu_0.
 \end{IEEEeqnarray*}
 
 \underline{Slack condition:} Given $u_0 \in C$, $G(u_0) \leq_K 0$ \ac{st} $f(u_0) = \mu_0$, then
 \begin{IEEEeqnarray*}{rCl}
 \mu_0 &\leq& f(u_0) + \underbrace{ \langle z_0^*, G(u_0) \rangle }_{\leq 0} \\
-&\leq& f(u_0) = \mu_0.
+&\leq& f(u_0) \\
+&=& \mu_0.
 \end{IEEEeqnarray*}
 Thus,
 \[
@@ -203,7 +205,7 @@ Thus,
 \[
 	\langle z_1^*, G(u_0) \rangle \leq 0 \quad \forall z_1 \in K^+.
 \]
-This implies $-G(u_0) \in K^{++} = K$ (Exercise) ($K^{++} = \{ z \in Z : z^*(z) \geq 0 \; \forall z \in K\}$),
+This implies $-G(u_0) \in K^{++} = K$ (Exercise) ($K^{++} = \{ z \in Z : z^*(z) \geq 0 \;\; \forall z^* \in K^+\}$),
 that is $G(u_0) \leq_K 0$. Now \cref{eq:thm-c1e48-plusplus} implies
 \[
 	\langle z_0^*, G(u_0) \rangle = 0.

@@ -11,7 +11,7 @@ Then
 \[
 	\mathcal{L}(u, \lambda_0, \lambda_1^*) = \lambda_0 f(u) + \lambda_1^* (g(u))
 \]
-is the Lagrange function and $\lambda_0 \in \R, \lambda_1^* \in V*$ are the ``\emph{Lagrange multipliers}''.
+is the Lagrange function and $\lambda_0 \in \R, \lambda_1^* \in V^*$ are the ``\emph{Lagrange multipliers}''.
 \begin{theorem}[Lagrange multiplier rule] % Theorem 1.32 
 \label{thm:c1e32}
 Let $u_0$ be a local minimum of \cref{prob:c1e3-star} such that
@@ -19,28 +19,26 @@ Let $u_0$ be a local minimum of \cref{prob:c1e3-star} such that
 \item $f$ and $g$ are Fréchet-differentiable in a neighborhood of $u_0$,
 \item $\mathcal{R}(g'(u_0))$ is closed.
 \end{enumerate}
-Then there exists $\lambda_0 \in \R$ and $\lambda_1^* \in V^*$ which do not vanish simultaneously \ac{st}
-\[
-\mathcal{L}_u(u_0, \lambda_0, \lambda_1^*) = \lambda_0 f'(u) + g'(u_0)^* \lambda_1^* = 0 \in U^*,
-\]
-($g'(u_0)^* \, : \, V^* \to U^*$ is the adjoint operator) that is
-\[
-\lambda_0 f'(u) h + \lambda_1^* (g'(u_0)h) = 0 \quad h \in U.
-\]
-If $g$ is in $C^1$ and $u_0$ is a regular point of $g$, then $\lambda_0 \neq 0$, so that \ac{wlog} $\lambda_0 = 1$.
+Then there exists $\lambda_0 \in \R$ and $\lambda_1^* \in V^*$ which do not vanish simultaneously, \ac{st}
+\begin{IEEEeqnarray*}{rCl"l}
+\mathcal{L}_u(u_0, \lambda_0, \lambda_1^*) = \lambda_0 f'(u) + g'(u_0)^* \lambda_1^* &=& 0 & \text{in } U^*, \\
+\noalign{that is \vspace{\jot}} \lambda_0 f'(u) h + \lambda_1^* (g'(u_0)h) &=& 0 & \forall h \in U.
+\end{IEEEeqnarray*}
+($g'(u_0)^* \, : \, V^* \to U^*$ is denoting the adjoint operator).
+If $g$ is in $C^1$ and $u_0$ is a regular point of $g$, then $\lambda_0 \neq 0$, so that \ac{wlog}\ $\lambda_0 = 1$.
 \end{theorem}
 \begin{proof}
-We first consider the case that $u_0$ is a regular point, then $\mathcal{R}(g'(n_0)) = V$. In this case it holds with $M = \{ u \in U \, : \, g(u) = 0\}$ that $T_{u_0} M = \mathcal{N}(g'(n_0))$ by \cref{thm:c1e31}. Let $h \in \mathcal{N}(g'(u_0))$. Since $T_{u_0} M$ is a linear space, there exists an admissible curve $\gamma : (- \varepsilon, \varepsilon) \to M$ \ac{st} $\dot\gamma(0) = h$. Then the function $t \mapsto f(\gamma(t))$ takes a local minimal at $t=0$. By the chain rule,
+We first consider the case that $u_0$ is a regular point, then $\mathcal{R}(g'(n_0)) = V$. In this case it holds with $M = \{ u \in U \, : \, g(u) = 0\}$ that $T_{u_0} M = \mathcal{N}(g'(n_0))$ by \cref{thm:c1e31}. Let $h \in \mathcal{N}(g'(u_0))$. Since $T_{u_0} M$ is a linear space, there exists an admissible curve $\gamma : (- \varepsilon, \varepsilon) \to M$ \ac{st} $\dot\gamma(0) = h$. Then the function $t \mapsto f(\gamma(t))$ attains a local minimum at $t=0$. By the chain rule,
 \[
 	f(u_0) \dot\gamma(0) = f'(u_0) h = 0.
 \]
 Since this holds for every $h \in \mathcal{N}(g'(u_0))$, this means that
 \[
-	f'(u_0) \in (\mathcal{N}(g'(u_0)))^\perp,
+	f'(u_0) \in \left(\mathcal{N}(g'(u_0))\right)^\perp,
 \]
 (with $(\cdot)^\perp$ denoting the annihilator). By the closed range theorem,
 \[
-	(\mathcal{N}(g'(u_0)))^\perp = \mathcal{R}((g'(u_0))^*).
+	\left(\mathcal{N}(g'(u_0))\right)^\perp = \mathcal{R}\left((g'(u_0))^*\right).
 \]
 In summary,
 \[

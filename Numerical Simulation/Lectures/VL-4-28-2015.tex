@@ -87,7 +87,7 @@ The necessary condition condition (existence of the $\ell_i$) is sufficient for 
 	\]
 	In other words:
 	\[
-		\gamma(t)\in N_1,\ldots,N_n,M\;\text{ and }\;f(\gamma(t)) - f(u_0) \leq -t\delta < 0,\text{ for small anough }t.
+		\gamma(t)\in N_1,\ldots,N_n,M\;\text{ and }\;f(\gamma(t)) - f(u_0) \leq -t\delta < 0,\text{ for small enough }t.
 	\]
 	As $\gamma(t)\to u_0,$ for $t\to 0$ this contradicts the local optimality of $u_0$.\par
 	To prove the claim about $\ell_k\not=0$, assume, say, $\ell_0 = 0$, but $\bigcap_{i=1}^{n+1}K_i\not=\emptyset$. Then by assumption not all $\ell_1,\ldots,\ell_{n+1}$ vanish, so one can conclude from \cref{thm:c1e37} that $\bigcap_{i=1}^{n+1}K_i = \emptyset$, which is again a contradiction.\par
@@ -107,18 +107,15 @@ The necessary condition condition (existence of the $\ell_i$) is sufficient for 
 	\[
 		\underbrace{u_0 + t(u_s-u_0)}_{\gamma(t)}\in M,\quad\forall t\in(0,1).
 	\]
-	By definition, $u_s-u_0 \in K_{n+1}$. If we show that $u_s-u_0\in K_0$, so $u_s-u_0$ is also a descent direction, for some $s$, then we obtain a contradiction to \cref{thm:c1e37}. To show that $u_s-u_0\in K:0$, we choose $s\in(0,1)$ in a specific way, \ac{st}
+	By definition, $u_s-u_0 \in K_{n+1}$. If we show that $u_s-u_0\in K_0$, so $u_s-u_0$ is also a descent direction, for some $s$, then we obtain a contradiction to \cref{thm:c1e37}. To show that $u_s-u_0\in K_0$, we choose $s\in(0,1)$ in a specific way, \ac{st}
 	\[
-		f(u_s+v) < f(u_0),\quad\text{ for small enough }\|v\|
+		f(u_s+v) < f(u_0)\quad\text{ for small enough }\|v\|,
 	\]
 	which is possible by the continuity of $f$ and $f(u_s)\to f(u_1)$, for $s\to 1$. Since $f$ is assumed to be convex, so we get for these $v$ that
-	\[
-		f(u_0+t(u_s+v-u_0)) \leq t f(u_s+v) + (1-t) f(u_0).
-	\]
-	This yields
-	\[
-		\frac{f(u_0+t(u_s-u_0+v))-f(u_0)}{t}\leq f(u_s+v)-f(u_0) < 0
-	\]
+	\begin{IEEEeqnarray*}{rCl}
+		f(u_0+t(u_s+v-u_0)) &\leq& t f(u_s+v) + (1-t) f(u_0), \\
+		\noalign{or equivalently: \vspace{\jot}}	\frac{f(u_0+t(u_s-u_0+v))-f(u_0)}{t}&\leq& f(u_s+v)-f(u_0) < 0.
+	\end{IEEEeqnarray*}
 	Therefore $u_s-u_0$ is a regular descent direction, i.e.\ $u_s-u_0\in K_0$.
 \end{proof}
 The main difficulty is that the result is not applicable to point-wise constraints in $L_p$ spaces.
@@ -144,10 +141,9 @@ On the other hand, if we pose the problem in $C[0,1]$:
 minimize & \| u - u_* \|_\infty, \; u_* \in C[0,1] \text{ given} \\
 subject to & 0 \leq u(x) \leq 1 \quad \forall x \in [0, 1]
 \end{IEEEeqnarray*}
-then $N = \{u\in C[0,1]\,:\, 0\leq u\leq 1\}$ \emph{does} contain an interior point and the \cref{thm:c1e39} is applicable. However, 
-\textbf{Exercise:}
+then $N = \{u\in C[0,1]\,:\, 0\leq u\leq 1\}$ \emph{does} contain an interior point and the \cref{thm:c1e39} is applicable. However, (\textbf{Exercise}):
 \begin{enumerate}
-\item Prove or disprove, that the problem in $C[0,1]$ always has a solution.
+\item Prove or disprove that the problem in $C[0,1]$ always has a solution.
 \item Formulate the necessary conditions from \cref{thm:c1e39} (what is $C[0,1]^*$?).
 \end{enumerate}
 \end{examplenumb}

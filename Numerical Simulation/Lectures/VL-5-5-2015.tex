@@ -6,7 +6,7 @@ The point in \cref{thm:c1e48} is that it is only assumed $u_0 \in C$. If we assu
 \label{thm:c1e49}
 Let the cone $K$ in the convex program be closed. If there exists $u_0 \in C$ satisfying $G(u_0) \leq_K 0$, and a $z_0^* \in K^+$ such that
 \[
-	L(u_0, z_0^*) \leq L(u, z_0^*) \; \forall u \in C \quad \text{and} \quad \langle z_0^*, G(u_0) \rangle = 0.
+	L(u_0, z_0^*) \leq L(u, z_0^*) \;\; \forall u \in C \quad \text{and} \quad \langle z_0^*, G(u_0) \rangle = 0.
 \]
 Then $u_0$ solves the convex program and $(u_0, z_0^*)$ is a saddle point.
 \end{theorem}
@@ -14,7 +14,7 @@ Then $u_0$ solves the convex program and $(u_0, z_0^*)$ is a saddle point.
 These statements remain true if $f$ is nonconvex.
 \end{remarknonumb}
 \begin{proof}
-Let $u_1 \in C$, $G(u_1 \leq_K 0)$ and $z^* \in K^+$, then
+Let $u_1 \in C$, $G(u_1) \leq_K 0$ and $z^* \in K^+$, then
 \begin{IEEEeqnarray*}{rCl}
 	L(u_0, z^*) &=& f(u_0) + \langle z^*, G(u_0) \rangle \\
 	&\leq& f(u_0) \\
@@ -27,14 +27,14 @@ This proves both statements.
 \end{proof}
 We arrive at the following sufficient condition for the convex program:
 \begin{mdframed}
+\vspace{-1.2\baselineskip}
 \begin{IEEEeqnarray*}{rLl"l}
 L(u_0, z_0^*) &\leq& L(u, z_0^*) & \forall u \in C \\
-u_0 \in C, \; G(u_0) &\leq_K& 0, & z_0^* = K^+ \\
+\IEEEeqnarraymulticol{3}{c}{u_0 \in C, \; G(u_0) \leq_K 0,} & z_0^* = K^+ \\
 \langle z_0^*, G(u_0) \rangle &=& 0
 \end{IEEEeqnarray*}
 \end{mdframed}
 So far we can only claim the condition to be necessary if the Slater condition holds.
-\pagebreak
 \subsection{Smooth problems}
 \begin{theorem} % Thm 1.50
 \label{thm:c1e50}
@@ -42,28 +42,28 @@ Let $U$, $Z$ be Banach spaces, and $f, G$ be convex and Fréchet-differentiable.
 sufficient conditions are equivalent to the \emph{KKT conditions:}
 \begin{IEEEeqnarray*}{rCl}
 f'(u_0)(u - u_0) + \langle z_0^*, G'(u_0)(u - u_0) \rangle &\geq& 0 \quad \forall u \in C \\
-u_0 \in C, \; G(u_0) &\leq_K& 0, z_0^* \in K^+ \\
-\langle z_0^*, G(u_0) \rangle = 0
+u_0 \in C, \; G(u_0) \leq_K 0, z_0^* \in K^+ \\
+\langle z_0^*, G(u_0) \rangle &=& 0
 \end{IEEEeqnarray*}
 Specifically, if $C = U$, then the first inequality becomes
 \[
 	f'(u_0) + z_0^* \circ G'(u_0)^* = 0 \quad \text{in } U^*.
 \]
-($f'(u_0) h + \langle z_0^*, G'(u_0) h \rangle = 0 \; \forall h \in U$).
+(which means $f'(u_0) h + \langle z_0^*, G'(u_0) h \rangle = 0 \quad \forall h \in U$).
 \end{theorem}
 \begin{proof}
 \cref{thm:c1e24}.
 \end{proof}
 \begin{remark} % Rem 1.51
 \label{rem:c1e51}
-In the case that $f$ is not convex (but $C$ and $G$ are), the KKT conditions are only necessary for \cref{eq:c1starstar}, and should be used to defined Lagrange multipliers (as only global solutions if existent, can be saddle points).
+In the case that $f$ is not convex (but $C$ and $G$ are), the KKT conditions are only necessary for \cref{eq:c1starstar}, and should be used to defined Lagrange multipliers (as only global solutions, if any exist, can be saddle points).
 \end{remark}
 \subsection{Construction for smooth problems}
 In the case $C = U$, a solution $(u_0, z_0^*)$ of the ``algebraic'' KKT conditions
 \begin{IEEEeqnarray*}{rCl}
-f'(u) + z^* G'(u) &\geq& 0 \\
-G(u) &\leq_K& 0, z^* \in K^+ \\
-\langle z^*, G(u) \rangle = 0
+f'(u) + \langle z^*, G'(u) \rangle &\geq& 0 \\
+\IEEEeqnarraymulticol{3}{c}{G(u) \leq_K 0, z^* \in K^+} \\
+\langle z^*, G(u) \rangle &=& 0
 \end{IEEEeqnarray*}
 is a saddle point of the Lagrange function, that is
 \begin{enumerate}[(i)]
@@ -94,7 +94,7 @@ Setting $U = Z = C = L_2(0, 1)$, $G = I$ (identity), and
 	K = L_2(0, 1)_+ = \{ u \in L_2(0, 1) \mid u(x) \geq 0 \quad \text{a.e.} \},
 \]
 then the task can be written as
-\begin{IEEEeqnarray*}{u"l}
+\begin{IEEEeqnarray*}{u"c}
 minimize & f(u) \\
 subject to & G(u) \leq_K 0
 \end{IEEEeqnarray*}
@@ -134,10 +134,10 @@ Hence $\mu_0 \in K^+$. The complementary slack condition holds, since
 	\langle \mu_0, G(u_0) \rangle = \int_0^1 (u_d(x) - u_0(x)) u(x) \dx = 0.
 \]
 Hence, $\mu_0$ is a Lagrange multiplier. By the considerations of \cref{sec:c1e5}, we could retrieve $(u_0, \mu_0)$ by solving
-\begin{IEEEeqnarray*}{l}
-u - u_d + \mu = 0 \\
-u \leq 0 \; \text{ a.e.}, \; \mu \geq 0 \; \text{a.e.} \\
-\langle \mu, u \rangle_{L_2} = 0
+\begin{IEEEeqnarray*}{rCl}
+u - u_d + \mu &=& 0 \\
+\IEEEeqnarraymulticol{3}{c}{u \leq 0 \;\; \text{a.e.}, \;\; \mu \geq 0 \;\; \text{a.e.}} \\
+\langle \mu, u \rangle_{L_2} &=& 0
 \end{IEEEeqnarray*}
 \begin{lemmanonumb} % Lemma No numb
 For $u \leq 0$ and $\mu \geq 0$, the condition
@@ -150,10 +150,10 @@ is equivalent to
 \]
 \end{lemmanonumb}
 \underline{Result:}
-\begin{IEEEeqnarray*}{l}
-u - u_d + \mu = 0 \\
-u \leq 0 \; \text{ a.e.}, \; \mu \geq 0 \; \text{a.e.} \\
-\mu \cdot u = 0 \; \text{a.e.}
+\begin{IEEEeqnarray*}{rCl}
+u - u_d + \mu &=& 0 \\
+\IEEEeqnarraymulticol{3}{c}{u \leq 0 \;\; \text{a.e.}, \;\; \mu \geq 0 \;\; \text{a.e.}} \\
+\mu \cdot u &=& 0 \;\; \text{a.e.}
 \end{IEEEeqnarray*}
 This is called ``formal'' Lagrange technique.
 \subsection{Two-sided box constraints in \texorpdfstring{$L_2(0, 1)$}{L2(0,1)}} % (b)
@@ -161,7 +161,7 @@ This is called ``formal'' Lagrange technique.
 Some $f$ as before, but now
 \begin{IEEEeqnarray*}{u"l}
 minimize & f(u) \\
-subject to & -1 \leq u(x) \leq 1 \; \Leftrightarrow \; u(x) - 1 \leq 0, \, u(x) - 1 \leq 0 \; \text{ a.e.}
+subject to & -1 \leq u(x) \leq 1 \; \Leftrightarrow \; u(x) - 1 \leq 0, \; - u(x) - 1 \leq 0 \;\; \text{ a.e.}
 \end{IEEEeqnarray*}
 This time $C = U = L_2(0, 1)$, $Z = L_2(0, 1) \times L_2(0, 1)$, $K = L_2(0, 1)_+ \times L_2(0, 1)_+$ and
 \[
@@ -170,7 +170,7 @@ This time $C = U = L_2(0, 1)$, $Z = L_2(0, 1) \times L_2(0, 1)$, $K = L_2(0, 1)_
 	\end{pmatrix}.
 \]
 Then $G$ is convex, and the problems reads
-\begin{IEEEeqnarray*}{u"l}
+\begin{IEEEeqnarray*}{u"c}
 minimize & f(u) \\
 subject to & G(u) \leq_K 0.
 \end{IEEEeqnarray*}
@@ -193,8 +193,8 @@ As before, one verifies
 	\langle \mu_0^a, u_0 - 1 \rangle + \langle \mu_0^b, u_0 - 1 \rangle = 0.
 \]
 Altogether, this shows that $\mu_0^a$ and $\mu_0^b$ are Lagrange multipliers.
-\emph{KKT:}
-\begin{IEEEeqnarray*}{l}
+The associated \emph{KKT} system is:
+\begin{IEEEeqnarray*}{c}
 u - u_d + \mu^a + \mu^b = 0 \\
 -1 \leq u \leq 1 \; \text{ a.e.}, \; \mu^a \geq 0, \; \mu^b \geq 0 \\
 \mu^a(-u - 1) = 0, \; \mu^b(u-1) = 0 \; \text{ a.e.}
@@ -202,7 +202,7 @@ u - u_d + \mu^a + \mu^b = 0 \\
 Note that if $u_d \in L_\infty(0, 1)$, our considerations revealed that $\mu^a, \mu^b \in L_\infty(0, 1)$, which would be not obvious, if we used the following ``a-priori'' trick.
 \subsection{Two-sided box constraints in \texorpdfstring{$L_\infty(0, 1)$}{L∞(0, 1)}} % (c)
 \label{sec:c1e6-c}
-We consider the same task as in \cref{sec:c1e6-b}, but now $U = L_\infty(0, 1)$, $Z = L_\infty(0, 1) \times L_\infty(0, 1)$, $K = L_\infty(0, 1)_+ \times L_\infty(0, 1))+$.
+We consider the same task as in \cref{sec:c1e6-b}, but now $U = L_\infty(0, 1)$, $Z = L_\infty(0, 1) \times L_\infty(0, 1)$, $K = L_\infty(0, 1)_+ \times L_\infty(0, 1)_+$.
 This is no restriction after convincing oneself that the solution in \cref{sec:c1e6-b} must be bounded almost everywhere.
 In particular, a solution exists in $L_\infty(0, 1)$!
 This time, we \emph{can} use \cref{thm:c1e47} to prove existence of Lagrange multipliers, since
