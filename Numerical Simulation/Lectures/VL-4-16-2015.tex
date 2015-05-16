@@ -171,7 +171,7 @@ then $f'(\bar{u}) = 0$. If $f$ is convex, $f'(\bar{u}) = 0$ implies that $\bar{u
 \label{thm:c1e24}
 Consider the same situation as in \cref{thm:c1e23}, but assume that $C$ is closed and convex. Then, if $\bar{u} \in C$ (!) solves \labelcref{eq:thm-c1e23-star}, it holds
 \[
-	f'(u)[u - \bar{u}] \geq 0 \quad \forall u \in C \; \text{``\emph{varational inequality}''}.
+	f'(\bar{u})[u - \bar{u}] \geq 0 \quad \forall u \in C \; \text{``\emph{varational inequality}''}.
 \]
 The converse is true, if $f$ is convex.
 \end{theorem}
@@ -194,7 +194,7 @@ Thus,
 \]
 The converse follows from
 \[
-	f(u) - f(\bar{u}) \geq f'(u) [u - \bar{u}],
+	f(u) - f(\bar{u}) \geq f'(\bar{u}) [u - \bar{u}],
 \]
 which holds for convex $f$.
 \end{proof}
@@ -212,13 +212,13 @@ subect to & u \in U_{ad}
 \label{thm:c1e25}
 Let $U$, $H$ be real Hilbert spaces, $S : U \to H$ be bounded, and $U_{ad} \subseteq U$ convex, $U_{ad} \neq \emptyset$. Then $\bar{u} \in U_{ad}$ solves \labelcref{eq:c1starstar} \ac{iff}
 \[
-\langle (S^* S + \lambda) u - S^* y_d, u - \bar{u} \rangle_U \geq 0 \quad \forall u \in U_{ad}.
+\langle (S^* S + \lambda) \bar{u} - S^* y_d, u - \bar{u} \rangle_U \geq 0 \quad \forall u \in U_{ad}.
 \]
 \end{theorem}
 \begin{proof}
 Write
 \[
-	f(u) = \frac{1}{2} \langle u, (S^* S + \lambda) u \rangle - \langle S^* y_d, u \rangle_U + \frac{1}{2} \| y_d \|_H^2.
+	f(u) = \frac{1}{2} \| S u - y_d \|_H^2 + \frac{\lambda}{2} \| u \|_U^2
 \]
 By \cref{ex:c1e21}, \labelcref{ex:c1e21-ii} it holds
 \[
