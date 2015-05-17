@@ -128,13 +128,13 @@ subject to & 0 \leq u(x) \leq 1 \text{ a.e.}
 \end{IEEEeqnarray*}
 This problem has a solution by \cref{thm:c1e14}, since the set $N = \{u\,:\,0\leq u(x)\leq 1\}$ is bounded and convex in $L_2[0,1]$. But $N$ has no interior point: Let
 \[
-	\varphi_N = \sqrt{n}\mathds{1}_{\left[0,\frac{1}{n^2}\right]},
+	\varphi_n = \sqrt{n}\mathds{1}_{\left[0,\frac{1}{n^2}\right]},
 \]
 then 
 \[
 	\| u-(u+\varphi_n) \|_{L_2}^2 = \|\varphi_n\|_{L_2}^2 =\frac{1}{n},
 \]
-but $u+\varphi_n\not= N$. Therefore, the Lagrange-multiplier rule is not applicable. 
+but $u+\varphi_n\notin N$. Therefore, the Lagrange-multiplier rule is not applicable. 
 
 On the other hand, if we pose the problem in $C[0,1]$:
 \begin{IEEEeqnarray*}{u"l}

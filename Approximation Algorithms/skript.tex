@@ -22,7 +22,7 @@
 \usepackage{mathrsfs}
 
 \usepackage{tikz}
-
+\usepackage{chngcntr}
 
 \ifpdf
 	\pdfminorversion=7
@@ -78,8 +78,7 @@
 \tableofcontents
 
 \mainmatter
-\numberwithin{equation}{chapter}
-
+\counterwithout{equation}{chapter}
 \subfile{Lectures/VL-4-14-2015}
 \subfile{Lectures/VL-4-16-2015}
 \subfile{Lectures/VL-4-21-2015}

@@ -37,19 +37,19 @@ The optimum solution to this \textsc{Knapsack} problem allows to solve the \text
 \label{thm:39}
 Let $w_1, \ldots, w_n$, $c_1, \ldots, c_n$, $W \in \R_+$, \ac{st}
 \[
-	\sum_{i=1}^n w_i \geq w \quad \text{and} \quad \frac{c_1}{w_1} \geq \frac{c_2}{w_2} \geq \ldots \geq \frac{c_n}{w_n}
+	\sum_{i=1}^n w_i \geq W \quad \text{and} \quad \frac{c_1}{w_1} \geq \frac{c_2}{w_2} \geq \ldots \geq \frac{c_n}{w_n}
 \]
 and define
 \[
-	k \coloneqq \min \left\{ j \mid \sum_{i=1}^j w_i > W \right\}.
+	k \coloneqq \min \left\{ j \gmid \sum_{i=1}^j w_i > W \right\}.
 \]
 Then the following is an optimum solution of the \textsc{Fractional Knapsack} problem:
 \[
 	x_j \coloneqq \begin{cases}
 	1, & j = 1, \ldots, k - 1 \\
 	0, & j \geq k + 1 \\
-	\frac{w - \sum_{i = 1}^{k - 1} w_i}{w_k}, & \text{if } j = k
-	\end{cases}
+	\frac{W - \sum_{i = 1}^{k - 1} w_i}{w_k}, & \text{if } j = k
+	\end{cases}.
 \]
 \end{theorem}
 \begin{proof}
@@ -97,6 +97,9 @@ l, & \text{if } |A| = k, \\
 \end{algorithm}
 \vspace{-7pt}
 \EndAlgorithmLine
+\begin{theorem} % prob Thm 40
+The \textsc{Selection Algorithm} computes a solution to \textsc{Selection} in linear time.
+\end{theorem}
 \begin{proof}
 Correctness is obvious.
 
@@ -111,34 +114,36 @@ Let $T(n)$ denote the runtime of the algorithm:
 \]
 Thus, $T(n) = \mathcal{O}(n)$. By induction, one can prove that $T(n) < 101 \cdot n$.
 \end{proof}
-Let $z_1, \ldots, z_n \in \R$, $w_1, \ldots, w_n, W \in \R_+$ with $0 < W < \sum_{i=1}^n w_i$.
-Then the \linebreak \emph{$(w_1, \ldots, w_n, W)$-weighted median} \ac{wrt}\ $(z_1, \ldots, z_n)$ is defined as the unique number $z^*$, \ac{st}
+Let $z_1, \ldots, z_n \in \R$, $w_1, \ldots, w_n, W \in \R_+$ with $0 < W \leq \sum_{i=1}^n w_i$. \\
+Then the \emph{$(w_1, \ldots, w_n, W)$-weighted median} \ac{wrt}\ $(z_1, \ldots, z_n)$ is defined as the unique number $z^*$, \ac{st}
 \[
-	\sum_{i \,:\, z_i < z^*} w_i < W < \sum_{i \,:\, z_i \leq z^*} w_i.
+	\sum_{i \,:\, z_i < z^*} w_i < W \leq \sum_{i \,:\, z_i \leq z^*} w_i.
 \]
 The \textsc{Selection} problem is the special case $w_i = 1$, $W = k$.
 For the \textsc{Fractional Knapsack} problem, set $z_i \coloneqq - \frac{c_i}{w_i}$.
+\begin{samepage}
 \begin{algorithmbox}[Weighted Median Algorithm (WMA)]
 \begin{tabular}{@{}ll}
-\textit{Input:} & $z_1, \ldots, z_n \in \R$, $w_1, \ldots, w_n \in \R_+$ with $0 < W < \sum_{i=1}^n w_i$. \\
+\textit{Input:} & $z_1, \ldots, z_n \in \R$, $w_1, \ldots, w_n \in \R_+$ with $0 < W \leq \sum_{i=1}^n w_i$. \\
 \textit{Output:} & $z^*$ being the $(w_1, \ldots, w_n, W)$-weighted median \ac{wrt}\ $(z_1, \ldots, z_n)$.
 \end{tabular}
 \end{algorithmbox}
 \vspace{-7pt}
 \begin{algorithm}[H]
-paritition the elements $z_i$ into sets of 5 elements each\;
+partition the elements $z_i$ into sets of 5 elements each\;
 compute the median within each set\;
 recursively compute the median $z_m$ of these medians\;
-define $A \coloneq \{ z_i \mid z_i \geq z_m \}$ and $B \coloneqq \{ z_i \mid z_i < z_m \}$.\;
+define $A \coloneqq \{ z_i \mid z_i \geq z_m \}$ and $B \coloneqq \{ z_i \mid z_i < z_m \}$.\;
 $z_i^* \coloneqq \begin{cases}
 \textsc{WMA}(B, \{ w_i \mid z_i \in B \}, W - \sum_{i \,:\, z_i \leq z_m w_i}), & \text{if } \sum_{i \,:\, z_i \leq z_m} w_i < W \\
 z_m, & \text{else} \\
-\textsc{WMA}(A, \{ w_i \mid z_i \in A \}, W), & \text{if } \sum_{i \,:\, z_i \leq z_m} w_i > W
+\textsc{WMA}(A, \{ w_i \mid z_i \in A \}, W), & \text{if } \sum_{i \,:\, z_i < z_m} w_i \geq W
 \end{cases}$\;
 \end{algorithm}
 \vspace{-7pt}
 \EndAlgorithmLine
-\addtocounter{dummythm}{1} % Thm 40 was the proof above, apparently. Not formulated in the lecture.
+\end{samepage}
+% \addtocounter{dummythm}{1} % Thm 40 was the proof above, apparently. Not formulated in the lecture.
 \begin{theorem} % Thm 41
 \label{thm:41}
 The \textsc{Weighted Median Algorithm} computes the weighted median in linear time.
@@ -157,7 +162,7 @@ There exists a \sfrac{1}{2}-approximation algorithm for the \textsc{Knapsack} pr
 \begin{proof}
 Let $c_1, \ldots, c_n$, $w_1, \ldots, w_n$, $W \in \R_+$, with
 \[
-	w_i \leq W \;\; i = 1, \ldots, n \quad \text{and} \quad \sum_{i=1}^n w_i > W.
+	w_i \leq W \;\; i = 1, \ldots, n \quad \text{and} \quad \sum_{i=1}^n w_i \geq W.
 \]
 \ac{wlog}
 \[
@@ -165,7 +170,7 @@ Let $c_1, \ldots, c_n$, $w_1, \ldots, w_n$, $W \in \R_+$, with
 \]
 Define
 \[
-	k \coloneqq \min \left\{ j \in \{ 1, \ldots, n \} \mid \sum_{i=1}^j w_i > W \right\}.
+	k \coloneqq \min \left\{ j \in \{ 1, \ldots, n \} \gmid \sum_{i=1}^j w_i \geq W \right\}.
 \]
 Thus, $\{ 1, \ldots, k - 1 \}$ or $\{ k \}$ is a \sfrac{1}{2}-approximation to the \textsc{Knapsack} problem, because $\sum_{i=1}^k c_i$ is an upper bound on the optimum solution.
 Hence,
