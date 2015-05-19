@@ -1,0 +1,127 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+
+\begin{example}\label{ex:c2e7s4}
+	Betrachte das Eigenwert-Problem
+	\begin{IEEEeqnarray*}{rcl}
+		-\varepsilon\Delta u - b\cdot\nabla u &=& \lambda u,\quad\text{in }\Omega\coloneqq(0,1)^2 \\
+		u &=& 0,\quad\text{auf }\partial\Omega
+	\end{IEEEeqnarray*}
+	mit $b = (1,0)^T$ (es gilt also $b\cdot\nabla u = \partial_x u$). Separation der Variablen $u(x,y) = v(x)w(y)$ führt auf ein System gewöhnlicher DGL
+	\begin{IEEEeqnarray*}{rcl}
+		-\varepsilon v'' + v' - \delta^2 v &=&0\\
+		-\varepsilon w'' - (\delta^2+\lambda)w &=&0,
+	\end{IEEEeqnarray*}
+	für ein $\delta\in\R$. Die Lösungen sind gegeben durch
+	\[
+		u(x,y) \coloneqq e^{\frac{x}{2\varepsilon}}\left( e^{\frac{x}{2\varepsilon}\sqrt{1-r\delta^2\varepsilon}} - e^{-\frac{x}{2\varepsilon}\sqrt{1-4\delta^2\varepsilon}} \right)\left( C_1e^{iy\sqrt{\frac{\lambda+\delta^2}{\varepsilon}}} + C_2 e^{-iy\sqrt{\frac{\lambda+\delta^2}{\varepsilon}}} \right).
+	\]
+	Die Randbedingung ergibt dann
+	\[
+		u(x,y) \coloneqq e^{\frac{2}{2\varepsilon}} \sin{(k_1\pi x)}\sin{(k_2\pi y)},\quad k_1,k_2\in\N
+	\]
+	zum Eigenwert
+	\[
+		\lambda = \frac{1}{4\varepsilon} + \varepsilon(k_1^2+k_2^2)\pi^2.
+	\]
+	Für moderate $k_1,k_2$ ist die Ableitung von $u$ in $x$-Richtung um ungefähr Faktor $\frac{1}{2\varepsilon}$ größer als in $y$-Richtung. Es scheint also, dass die Probleme in der Numerik nur in Stromrichtung ($x$) Auftreten, und orthogonal dazu alles in Ordnung ist.  
+\end{example}
+\textbf{Idee: Stabilisiere FEM in Stromrichtung (in Richtung von $b$) wie im 1d-Modell.}
+\begin{definition}[Stromlinien-Diffusions-FEM (SDFEM)]\label{def:c2e7s5}
+	Sei $\mathcal{T}_h$ eine reguläre Triangulierung von $\Omega$. Definiere die Gitterabhängige Bilinearform $a_{\varepsilon,\delta}:P^{1,0}_0(\mathcal{T}_h)\to\R$ und Linearform $F_\delta:P^{1,0}_0(\mathcal{T}_h)\to\R$ durch
+	\begin{IEEEeqnarray*}{rcl}
+		a_{\varepsilon,\delta}(u_h,v_h) &\coloneqq& a_\varepsilon(u_h,v_h) + \sum_{T\in\mathcal{T}_h} \delta_T\int_T b\cdot\nabla u_h b\cdot\nabla v_h\,dx\\
+		F_\delta(v_h) &\coloneqq& F(v_h) + \sum_{T\in\mathcal{T}_h} \delta_T\int_T f(b\cdot\nabla v_h)
+	\end{IEEEeqnarray*}
+	für gegebene ($=$ wählbare) Parameter $\delta_T\geq 0, T\in\mathcal{T}_h$.
+	Wir korrigieren also sowohl die Bilinearform $a_\varepsilon$ als auch die rechte seite $F$. Oftmals genügt jedoch eine Korrektur ausschließlich der Bilinearform.\par
+	Dann sucht die SDFEM ein $u_h\in P^{1,0}_0(\mathcal{T}_h)$, so dass
+	\begin{equation}\label{eq:c2e7s4}
+		a_{\varepsilon,\delta}(u_h,v_h) = F_\delta(v_h),\quad\forall v_h\in P^{1,0}_0(\mathcal{T}_h)
+	\end{equation}
+	gilt. Die Methode wird auch als \emph{Streamline-Upwind-Petrov-Galerkin} Methode (SUPG) bezeichnet.\par
+	Hintergrund: (\ref{eq:c2e7s4}) kann auch als \emph{Petrov-Galerkin} Methode mit Ansatzratum $P^{1,0}_0(\mathcal{T}_h)$ und Testfunktionen
+	\[
+		\{v_h + \sum_{T\in\mathcal{T}_h} b\cdot\nabla v_h |\, v_h\in P^{1,0}_0(\mathcal{T}_h)\}
+	\]
+	betrachtet werden. 
+\end{definition}
+
+Die Wohlgestelltheit von (\ref{eq:c2e7s4}) wird mittels der Gitter-abhängigen Norm $|\cdot|_{1,\varepsilon,\delta}$ definiert durch
+\[
+	|v|_{1,\varepsilon,\delta} \coloneqq \sqrt{ \varepsilon\|\nabla v\|_{L^2(\Omega)}^2 + \sum_{T\in\mathcal{T}_h} \delta_T \underbrace{\int_T b\cdot\nabla v\,b\cdot\nabla v\,dx}{\|b\nabla v\|_{L^2(T)}^2}}
+\]
+ausgedrückt. Offensichtlich ist $|\cdot|_{1,\varepsilon,\delta}$ wohldefiniert in $H^1_0(\Omega)$.
+\begin{theorem}[Koerzivität von $a_{\varepsilon,\delta}$]\label{thm:c2e7s6}
+	Für alle $v_h\in P^{1,0}_0(\mathcal{T}_h)$ gilt $a_{\varepsilon,\delta}(v_h,v_h)\geq |v_h|_{1,\varepsilon,\delta}^2$.
+\end{theorem} 
+\begin{proof}
+	Benutzt, dass 
+	\[
+		\int b\cdot\nabla v_h\,v_h\,dx = 0.
+	\]
+\end{proof}
+\begin{remark}\label{rem:c2e7s7}
+	\begin{enumerate}
+		\item \cref{thm:c2e7s6} liefert zusammen mit Lax-Milgram die Wohlgestelltheit von SDFEM.
+		\item Die Wohlgestelltheit gilt für alle $\delta_T\geq 0$.
+	\end{enumerate}
+\end{remark}
+\begin{theorem}[Fehler der SDFEM]\label{thm:c2e7s8}
+	Sei $u_\varepsilon\in H^1_0(\Omega)$ die Lösung des Modellproblems $(\ref{prb:c2e7s3})$ und $u_{\varepsilon,h,\delta}$ ($\delta$ repräsentiert den Vektor der $\delta_T$) die SDFEM-Lösung von (\ref{eq:c2e7s4}). Falls $u_\varepsilon\in H^2(\Omega)$ (gilt z.B. wenn $\Omega$ konvex und $f\in L^2(\Omega)$), dann gilt 
+	\[
+		|u_\varepsilon-u_{\varepsilon,h,\delta}|_{1,\varepsilon,\delta} \leq C\left( \sum_{T\in\mathcal{T}_h} (\varepsilon^2\delta_T + \varepsilon h_T^2+\delta_T h_T^2 + \delta_T^{-1}h_T^4 ) \|D^2u\|_{L^2(\Omega)}^2\right)^{\frac{1}{2}},
+	\]
+	wobei $C$ nur von der Formregularität des Gitters abhängt. 
+\end{theorem}
+\begin{proof}
+	Sei $I_h \coloneqq I_h^1$ der nodale Inteprolationsoperator aus \ref{def:c2e5s1}. Die Dreiecksungleichung zeigt
+	\[
+		|u_\varepsilon-u_{\varepsilon,h,\delta}|_{1,\varepsilon,\delta} \leq |u_\varepsilon-I_h u_\varepsilon|_{1,\varepsilon,\delta} + |I_h u_\varepsilon - u_{\varepsilon,h,\delta}|_{1,\varepsilon,\delta}.
+	\]
+	\cref{thm:c2e5s2} (bzw. \ref{thm:c2e5s8}) zeigt
+	\begin{IEEEeqnarray*}{rcl}
+		|u_\varepsilon-I_hu_\varepsilon|_{1,\varepsilon,\delta}^2 &=& \varepsilon\|\nabla(u_\varepsilon-I_h u_\varepsilon)\|_{L^2(\Omega)}^2 + \sum_{T\in\mathcal{T}_h}\delta_T\|b\cdot\nabla(u_\varepsilon-I_h u_\varepsilon)\|_{L^2(T)}^2 \\
+		&\leq& \sum_{T\in\mathcal{T}_h} (\varepsilon+\delta_T)C_{int}^2\delta_T^{-2}h_T^2\|D^2u_\varepsilon\|_{L^2(T)}^2\\
+		&\leq& C_{int}^2\delta_{\mathcal{T}_h}^{-2}\sum_{T\in\mathcal{T}_h} (\varepsilon+\delta_T)h_T^2\|D^2u\|_{L^2(T)}.
+	\end{IEEEeqnarray*}
+	Betrachte nun 
+	\[
+		|\underbrace{I_hu_\varepsilon - u_{\varepsilon,h,\delta}}_{\eqqcolon v_h}|_{1,\varepsilon,\delta}
+	\]
+	\cref{thm:c2e7s6} impliziert
+	\[
+		|v_h|_{1,\varepsilon,\delta}\leq a_{\varepsilon,\delta}(v_h,v_h) = a_{\varepsilon,\delta}(I_hu_\varepsilon-u_\varepsilon,v_h) + a_{\varepsilon,\delta}(u_\varepsilon-u_{\varepsilon,h,\delta},v_h).
+	\]
+	Da $u\in H^2(\Omega)$ angenommen wurde, gilt
+	\begin{IEEEeqnarray*}{rcl}
+		\underbrace{a_{\varepsilon,\delta}(u_\varepsilon-u_{\varepsilon,h,\delta},v_h)}_{(*)}
+			&=& \underbrace{a_{\varepsilon}(u_\varepsilon,v_h)}_{=\int_\Omega f v_h} + \sum_{T\in\mathcal{T}_h}\delta_T\int_T b\cdot\nabla u_\varepsilon\,b\cdot\nabla v_h\,dx - \int_\Omega fv_h\,dx - \sum_{T\in\mathcal{T}_h}\delta_T \int_T f\,b\cdot\nabla v_h\,dx
+		\\
+		&=& \sum_{T\in\mathcal{T}_h}\delta_T\int_T\varepsilon\Delta u_\varepsilon b\cdot\nabla v_h\,dx\\
+		&\leq& \sum_{T\in\mathcal{T}_h}\left(\sqrt{\delta_T}\varepsilon\|\delta u_\varepsilon\|_{L^2(T)}\right)\left(\|b\cdot\nabla v_h\|_{L^2(T)}\sqrt{\delta_T}\right) \\
+		&\overset{C.S.}\leq& \left(\sum_{T\in\mathcal{T}_h}\delta_T\varepsilon^2\underbrace{\|\Delta u\|_{L^2(T)}^2}_{\leq\|D^2u\|_{L^2(T)}^2}\right)^{\frac{1}{2}}\underbrace{\left( \sum_{T\in\mathcal{T}_h}\delta_T\|b\cdot\nabla v_h\|_{L^2(T)}^2 \right)^{\frac{1}{2}}}_{\leq|v_h|_{1,\varepsilon,\delta}}.
+	\end{IEEEeqnarray*}
+	$(*)$ war im klassischen Galerkin Verfahren die \emph{Galerkin-Orthogonalität}, also $0$, was in diesem Fall jedoch nicht gilt. Ferner gilt aber
+	\begin{IEEEeqnarray*}{rcl}
+		a_{\varepsilon,\delta}(I_hu_\varepsilon -u_\varepsilon,v_h) &=& \varepsilon\int_\Omega\nabla(I_hu_\varepsilon-u_\varepsilon)\cdot\nabla v_h\,dx + \underbrace{\int_\Omega b\cdot\nabla(I_hu_\varepsilon-u_\varepsilon)v_h}_{= -\int_\Omega b\cdot\nabla v_h(I_hu_\varepsilon-u_\varepsilon)\,dx} + ...\\ && +\sum_{T\in\mathcal{T}_h}\delta_T\int_T b\cdot\nabla (I_hu_\varepsilon-u_\varepsilon)b\cdot\nabla v_h\\
+		&\overset{(**)}\leq&
+		...\\
+		&\leq& 2|v_h|_{1,\varepsilon,\delta} C(\delta_{\mathcal{T}_h})\left( \sum_{T\in\mathcal{T}_h} h_T^2(\varepsilon+\delta_T+\delta_T^{-1}h_T^2)\|D^2u\|_{L^2(T)}^2 \right)^{\frac{1}{2}}.
+	\end{IEEEeqnarray*}
+	(**): Interpolationsfehlerabschätzung und Cauchy-Schwarz Ungleichung.\par
+	Mit Hilfe der gemachten Abschätzungen ergibt sich die Aussage des Theorems durch deren Kombination.
+\end{proof}
+\begin{remark}[Wahl von $\delta_T$]\label{rem:c2e7s9}
+	Die Wahl 
+	\[
+		\delta_T\coloneqq\frac{h_T^2}{\sqrt{\varepsilon^2+h_T^2}}
+	\]
+	minimiert die Fehlerschranke in \cref{thm:c2e7s8}. Im Regime $\varepsilon\ll h$ heißt das $\delta_T\equiv h_T$ und \cref{thm:c2e7s8} führt zu 
+	\[
+		\|b\cdot\nabla(u_\varepsilon-u_{\varepsilon,h,\delta})_{L^2(\Omega)}\leq Ch\|D^2u_\varepsilon\|_{L^2(\Omega)}.
+	\]
+	Die hintere Schranke ist jedoch nicht unbedingt absolut klein, eher relativ klein. Sie verhält sich etwa $nh\varepsilon^{-1}$.
+\end{remark}
+\end{document}
