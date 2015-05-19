@@ -1,0 +1,205 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+\begin{samepage}
+\begin{algorithmbox}[Next Fit]
+\begin{tabular}{@{}ll}
+\textit{Input:} & $0 \leq a_1, \ldots, a_n \leq 1$. \\
+\textit{Output:} & $k \in \N$, $f : \{ 1, \ldots, n\} \to \{ 1, \ldots, k\}$, \ac{st}\ $\sum_{f(i) = j} a_i \leq 1 \;\; \forall j$.
+\end{tabular}
+\end{algorithmbox}
+\vspace{-7pt}
+\begin{algorithm}[H]
+$k \coloneqq 1$, $S \coloneqq 0$\;
+\For{$i \coloneqq 1$ \KwTo $n$}{
+	\lIf{$S + a_i > 1$}{
+		$k \coloneqq k + 1$, $S \coloneqq 0$
+	}
+	$f(i) \coloneqq k$, $S \coloneqq S + a_i$.
+}
+\end{algorithm}
+\vspace{-7pt}
+\EndAlgorithmLine
+\end{samepage}
+For an instance $I = 0 \leq a_1, \ldots, a_n \leq 1$, we use the notation $\NF(I)$ to denote the number of bins \textsc{Next Fit} returns.
+\begin{theorem} % Thm 52
+\label{thm:52}
+\textsc{Next Fit} computes in linear time a solution with
+\[
+	\NF(I) \leq 2 \cdot \left\lceil \sum_{i=1}^n a_i \right\rceil - 1 \leq 2 \cdot \OPT - 1.
+\]
+\end{theorem}
+\begin{proof}
+The runtime is obvious. Set $k \coloneqq \NF(I)$. For $j = 1, \ldots, \left\lfloor \frac{k}{2} \right\rfloor$, we have:
+\[
+	\sum_{f(i) \in \{ 2j, 2j - 1 \}} a_i > 1.
+\]
+Therefore:
+\[
+	\sum_{i=1}^n a_i \geq \sum_{j=1}^{\left\lfloor \frac{k}{2} \right\rfloor} \sum_{f(i) \in \{ 2j, 2j-1 \}} a_i > \left\lfloor \frac{k}{2} \right\rfloor. 
+\]
+The right hand side is integral and thus we have
+\[
+	\left\lceil \sum_{i=1}^n a_i \right\rceil - 1 \geq \left\lfloor \frac{k}{2} \right\rfloor \geq \frac{k-1}{2}.
+\]
+\end{proof}
+\begin{remark}
+The analysis is best possible: For the instance $a_1, \ldots, a_{2n}$ where
+\begin{IEEEeqnarray*}{rClClClCl}
+a_1 &=& a_3 &=& a_5 &=& \ldots &=& \frac{1}{n} \\
+a_2 &=& a_4 &=& a_6 &=& \ldots &=& 1-\frac{1}{2n}
+\end{IEEEeqnarray*}
+Then $\NF(I) = 2n$, but $\OPT = n + 1$.
+\end{remark}
+\textsc{Next Fit} is ``better'' if all items are small:
+\begin{theorem} % Thm 53
+\label{thm:53}
+Let $0 < \gamma < 1$ and $I = a_1, \ldots, a_n$ be an instance with $a_1 \leq \gamma$ for all $i$.
+Then
+\[
+	\NF(I) \leq \left\lceil \frac{\sum_{i=1}^n a_i}{1 - \gamma} \right\rceil \leq \left\lceil \frac{\OPT(I)}{1-\gamma} \right\rceil.
+\]
+\end{theorem}
+\begin{proof}\tabularnewline
+We have
+\[
+	\sum_{i \midcolon f(i) = j} a_i > 1-\gamma \quad \text{for } j = 1, \ldots, \NF(I) -1,
+\]
+and thus
+\[
+	\sum_{i=1}^n a_i > (\NF(I) - 1)(1-\gamma),
+\]
+and thus
+\[
+	\NF(I) - 1 < \left\lceil \frac{\sum_{i=1}^n a_i}{1-\gamma} \right\rceil.
+\]
+\end{proof}
+Is \textsc{Bin Packing} hard if $a_i < \gamma$ for all $i$, $\gamma$ fixed? No, it remains \NP-hard\footnote{This can be easily seen by scaling the $a_i$ and adding several larger items such that each bin's total size is effectively scaled, too}, however:
+\underline{Exercise:} \textsc{Bin Packing} is in $P$ if $a_i \geq \frac{1}{3}$. For $a_i > \frac{1}{2}$ it is obviously solvable in linear time.
+\begin{samepage}
+\begin{algorithmbox}[First Fit]
+\begin{tabular}{@{}ll}
+\textit{Input:} & $0 \leq a_1, \ldots, a_n \leq 1$. \\
+\textit{Output:} & $k \in \N$, $f : \{ 1, \ldots, n\} \to \{ 1, \ldots, k\}$, \ac{st}\ $\sum_{f(i) = j} a_i \leq 1 \;\; \forall j$.
+\end{tabular}
+\end{algorithmbox}
+\vspace{-7pt}
+\begin{algorithm}[H]
+\For{$i \coloneqq 1$ \KwTo $n$}{
+	$f(i) \coloneqq \min \left\{ j \in \N \midcolon a_i + \sum_{\substack{f(l) = j \\ l < i}} a_l \leq 1 \right\}$.\;
+}
+\end{algorithm}
+\vspace{-7pt}
+\EndAlgorithmLine
+\end{samepage}
+We use $\FF(I)$ to denote the number of bins \textsc{First Fit} requires. Obviously, $\FF(I) \leq \NF(I)$.
+It can be shown that
+\[
+	\FF(I) \leq \left\lceil \frac{17}{10} \cdot \OPT(I) \right\rceil.
+\]
+Furthermore, one can construct instances such that
+\[
+	\FF(I) \geq \frac{17}{10} (\OPT(I) - 1).
+\]
+\begin{samepage}
+\begin{algorithmbox}[First Fit Decreasing]
+\begin{tabular}{@{}ll}
+\textit{Input:} & $0 \leq a_1, \ldots, a_n \leq 1$. \\
+\textit{Output:} & $k \in \N$, $f : \{ 1, \ldots, n\} \to \{ 1, \ldots, k\}$, \ac{st}\ $\sum_{f(i) = j} a_i \leq 1 \;\; \forall j$.
+\end{tabular}
+\end{algorithmbox}
+\vspace{-7pt}
+\begin{algorithm}[H]
+Sort the $a_i$ \ac{st}\ $a_1 \geq a_2 \geq \ldots \geq a_n$.\;
+Apply \textsc{First Fit}.
+\end{algorithm}
+\vspace{-7pt}
+\EndAlgorithmLine
+\end{samepage}
+For this algorithm, we use $\FFD(I)$ to denote its number of bins used.
+\begin{theorem} % Thm 54
+\label{thm:54}
+\textsc{First Fit Decreasing} has an approximation ratio of \sfrac{3}{2}.
+\end{theorem}
+\begin{proof}
+Let $I$ be a \textsc{Bin Packing} instance and $k \coloneqq \FFD(I)$.
+Consider the $j$-th bin used by the algorithm $j \coloneqq \left\lceil \frac{2}{3} k \right\rceil$.
+
+\underline{Case 1:} The $j$-th bin contains an item of size greater than $\frac{1}{2}$. Because of the sorting we can conclude that there was not enough space in any of the earlier bins $1, \ldots, j -1$, which have to contain at least one item of size greater than $\frac{1}{2}$. Thus, $\OPT(I) \geq j \geq \frac{2}{3} k$.
+
+\underline{Case 2:} The $j$-th bin does \textit{not} contain an item of size greater than $\frac{1}{2}$.
+Again we can conclude due to the sorting step that the bins $j, j+1, \ldots, k$ do not contain such an item, either.
+Hence, the bins $j, j + 1, \ldots, k$ have to contain at least $2(k-j) + 1$ items. We observe that
+\[
+	2 \left( k - \left\lceil \frac{2}{3} k \right\rceil \right) + 1 \geq \left\lceil \frac{2}{3} k \right\rceil -1.
+\]
+Hence
+\[
+	\OPT(I) \geq \sum_{i=1}^n a_i > j - 1 \left\lceil \frac{2}{3} k \right\rceil - 1,
+\]
+giving us,
+\[
+	\OPT(I) \geq \left\lceil \frac{2}{3} k \right\rceil \geq \frac{2}{3} k.
+\]
+\end{proof}
+There exists a linear time approximation algorithm for \textsc{Bin Packing} with ratio \sfrac{3}{2} (Berghammer, Reuter [2003]). One can show (Dósa [2007])
+\[
+	\FFD(I) \leq \frac{11}{9} \cdot \OPT(I) + \frac{2}{3}.
+\]
+Moreover, one can show that
+\[
+	\FFD(I) \geq \frac{11}{9} \cdot \OPT(I),
+\]
+consider the following example: Let $I = \{ a_1, \ldots, a_{30m} \}$, $\varepsilon > 0$ and set
+\begin{IEEEeqnarray*}{rCl}
+a_1, \ldots, a_{6m} &=& \frac{1}{2} + \varepsilon \\
+a_{6m+1}, \ldots, a_{12m} &=& \frac{1}{4} + 2 \varepsilon \\
+a_{12m+1}, \ldots, a_{18m} &=& \frac{1}{4} + \varepsilon \\
+a_{18m+1}, \ldots, a_{30m} &=& \frac{1}{4} - 2 \varepsilon
+\end{IEEEeqnarray*}
+We can pack these optimally using $9m = 6m + 3m$ many bins:
+\begin{IEEEeqnarray*}{u"l}
+$6m$ bins containing & \frac{1}{2} + \varepsilon, \frac{1}{4} + \varepsilon, \frac{1}{4} - 2 \varepsilon \\
+$3m$ bins containing & \frac{1}{4} + 2 \varepsilon, \frac{1}{4} + 2 \varepsilon, \frac{1}{4} - 2 \varepsilon, \frac{1}{4} - 2 \varepsilon
+\end{IEEEeqnarray*}
+However, $\FFD(I) = 11m$:
+\begin{IEEEeqnarray*}{u"l}
+$6m$ bins containing & \frac{1}{2} + \varepsilon, \frac{1}{4} + 2 \varepsilon\\
+$2m$ bins containing & \frac{1}{4} + \varepsilon, \frac{1}{4} + \varepsilon, \frac{1}{4} + \varepsilon\\
+$3m$ bins containing & \frac{1}{4} - 2 \varepsilon, \frac{1}{4} - 2 \varepsilon, \frac{1}{4} - 2 \varepsilon, \frac{1}{4} - 2 \varepsilon
+\end{IEEEeqnarray*}
+Note that \textsc{Next Fit} and \textsc{First Fit} are \emph{online algorithms}, whereas \textsc{First Fit Decreasing} is not due to the sorting step. The best rate for an online algorithm is $1.59$ and one can prove a lower bound of $1.54$ for online algorithms.
+
+An \emph{\ac{APTAS}} (or \emph{asymptotic approximation scheme}) is a family of approximation algorithms $A_\varepsilon$, $\varepsilon > 0$, \ac{st}
+\begin{IEEEeqnarray*}{rCl"u}
+A_\varepsilon(I) &\leq& (1 + \varepsilon) \cdot \OPT(I) + c_\varepsilon & (for minimization problems) \\
+A_\varepsilon(I) &\geq& (1 - \varepsilon) \cdot \OPT(I) - c_\varepsilon & (for maximization problems)
+\end{IEEEeqnarray*}
+for all instances $I$ where $c_\varepsilon$ may only depend of $\varepsilon$.
+
+Our goal is now to find a $(1 + \varepsilon) \cdot \OPT(I) + 1$ approximation for \textsc{Bin Packing}. Let
+\begin{IEEEeqnarray*}{r"s}
+\BP_\delta & \textsc{Bin Packing} problem where all items have size greater or equal to $\delta$. \\
+\BP_{\delta, m} & \textsc{Bin Packing} problem where all items have size greater or equal to $\delta$ \\ 
+& and at most $m$ different item sizes appear.
+\end{IEEEeqnarray*}
+\begin{theorem} % Thm 55
+For fixed $\delta$ and $m$ there exists a polynomial time algorithm for $\BP_{\delta, m}$.
+\end{theorem}
+\begin{proof}
+All items are greater or equal to $\delta$ and therefore each bin contains at most $\frac{1}{\delta}$ items and at most $m$ different values appear.
+Thus, there are at most $(m+1)^\frac{1}{\delta}$ many possibilities to pad a bin.
+An optimum solution can be interpreted as a vector of length $(m+1)^\frac{1}{\delta}$ with entries between $0$ and $n$. This gives us
+\[
+\mathcal{O} \left( (n+1)^{\left( (m+1)^\frac{1}{\delta} \right)} \right)
+\]
+possibilities. This requires a runtime of
+\[
+\mathcal{O} \left( n^{\mathcal{O}\left( m^\frac{1}{\delta} \right)} \right).
+\]
+\end{proof}
+\begin{theorem} % Thm 56
+\label{thm:56}
+There exists an \ac{APTAS} $A_\varepsilon^\delta$ for $\BP_\delta$ with $A_\varepsilon^\delta(I) \leq (1+ \varepsilon) \cdot \OPT(I) + 1$. 
+\end{theorem}
+\end{document}
