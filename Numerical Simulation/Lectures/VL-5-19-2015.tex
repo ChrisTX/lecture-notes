@@ -1,0 +1,196 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+\begin{problem}[general elliptic problem for divergence operators]
+\begin{IEEEeqnarray*}{rCl"l}
+A y + c_0 y &=& f & \text{in } \Omega, \\
+\partial_{\nu_A} y + \alpha y &=& g & \text{on } \Gamma_1 \;\; \text{(Robin b.c.)}, \\
+y &=& 0 & \text{on } \Gamma_0 \;\; \text{(homogeneous Dirichlet b.c.)}.
+\end{IEEEeqnarray*}
+We make the following assumptions:
+\begin{itemize}
+\item $(Ay)(x) = \dive (A(x) \cdot \nabla y(x))$, where $A \in (L^\infty(\Omega))^{N \times N}$ is symmetric and satisfies for some $\gamma_0 > 0$ that
+\[
+	\xi^\tp A(x) \xi \geq \gamma_0 \| \xi \|^2 \forall \xi \in \R^N \quad \text{``\emph{uniform ellipticity}''}.
+\]
+\item The vector $\nu_A(x) = A \cdot \nu$, where $\nu$ is the outer normal vector, is called the \emph{conormal vector}, and $\partial_{\nu_A}$ is called the \emph{conormal derivative}.
+\item $c_0 \in L^\infty(\Omega)$ and $\alpha \in L^\infty(\Gamma_1)$ are \emph{nonnegative} \ac{ae}.
+\item $f \in L^2(\Omega)$, $g \in L^2(\Gamma_1)$.
+\end{itemize}
+\end{problem}
+With the solution space
+\[
+	V = \{ y \in H^1(\Omega) \midcolon y|_{\Gamma_0} \coloneqq (\tau y)|_{\Gamma_0} = 0\},
+\]
+we obtain the following weak formulation: Find $y \in V$ \ac{st}
+\[
+	\underbrace{ \int_\Omega \nabla y^\tp A \nabla v \dx + \int_\Omega c_0 y v \dx + \int_{\Gamma_1} \alpha y v \ds }_{\eqqcolon a(y, v)} = \underbrace{ \int_\Omega f v \dx + \int_{\Gamma_1} g v \ds }_{\eqqcolon F(v)} \quad \forall v \in V.
+\]
+\begin{theorem} % Thm 2.14
+\label{thm:c2e14}
+Let $\Omega$ be a bounded Lipschitz domain. Under the conditions above, assume one of the following:
+\begin{enumerate}[(i)]
+\item $\Gamma_0$ has positive measure in $\Gamma$,
+\item $\Gamma_1 = \Gamma$ and $\int_\Omega c_0^2 \dx + \int_\Gamma \alpha^2 \ds > 0$,
+\end{enumerate}
+then there exists exactly one weak solution $y$ and
+\[
+	\| y \|_{H^1} \leq c_{A} (\| f \|_{L^2(\Omega)} + \| g \|_{L^2(\Gamma_1)}).
+\]
+\end{theorem}
+\begin{proof}
+Exercise!
+\end{proof}
+\begin{remark} % Rem 2.15
+\label{rem:c2e15}
+We will only consider homogeneous Dirichlet boundary conditions. For inhomogeneous boundary conditions some technical difficulties arise. Being ``essential'' boundary conditions, they have to be incorporated into the function class:
+\[
+	V_{\Gamma_0} = \{ y \in H^1(\Omega) \midcolon y|_{\Gamma_0} = g_{\Gamma_0}\}.
+\]
+Yet, this is not a linear space unless $g_{\Gamma_0} \equiv 0$.
+A possibility for obtaining a weak formulation is \emph{homogenization}:
+Let $y_0 \in V_{\Gamma_0}$, then any $y \in V_{\Gamma_0}$ can be written as
+\[
+	y = y_0 + \hat{y} \quad \text{with } \hat{y}|_{\Gamma_0} \in V = \{ y \in H^1(\Omega) \midcolon y|_{\Gamma_0} = 0\}.
+\]
+Using $V$ as a test space, we get
+\begin{IEEEeqnarray*}{r"rCl"l}
+& a(y, v) = a(y_0 + \hat{y}, v) &=& F(v) & \forall v \in V, \\
+\Longleftrightarrow & a(\hat{y}, v) &=& \underbrace{F(v) - a(y_0, v)}_{\hat{F}(v)} & \forall v \in V.
+\end{IEEEeqnarray*}
+\end{remark}
+\paragraph{$L^p$-data} Consider the general elliptic problem without Dirichlet data:
+\begin{IEEEeqnarray*}{rCl"l}
+Ay + c_0 y &=& f & \text{on } \Omega, \\
+\partial_{\nu_A} y + \alpha y &=& g & \text{on } \Gamma.
+\end{IEEEeqnarray*}
+What about $f \in L^r(\Omega)$, $g \in L^s(\Gamma)$ for $r, s < 2$?
+In order to be prove this akin to \cref{thm:c2e14}, we need that the linear functionals
+\[
+	F_1(v) = \int_\Omega f v \dx, \quad F_2 = \int_\Gamma g v \ds
+\]
+are bounded on $H^1(\Omega)$. By Hölder's inequality
+\[
+	|F_1(v)| \leq \| f \|_{L^r(\Omega)} \| v \|_{L^q(\Omega)}, \quad \frac{1}{r} + \frac{1}{q} = 1.
+\]
+By \cref{thm:c2e5}, we have $\| v \|_{L^q(\Omega)} \leq C \| v \|_{H^1(\Omega)}$ for
+\begin{IEEEeqnarray*}{rClCl"l}
+1 &\leq& q &<& \infty & \text{if } N = 2 \\ 
+1 &\leq& q &<& \frac{2N}{N - 2} & \text{if } N > 2
+\end{IEEEeqnarray*}.
+Hence, for $N = 2$, we can choose $r = \frac{q}{q-1} > 1$ arbitrarily, in order to obtain $F_1 \in (H^1(\Omega))^*$.
+For $N \geq 3$, we need $r \geq \frac{2N}{N + 2}$.
+For the boundary data, one uses
+\begin{theorem}
+Let $\Omega$ be of class $C^{m-1,1}$. Then, for $mp < N$ th trace operator $\tau$ is continuous from $W^{m,p}(\Omega) \to L^r(\Gamma)$, if $1 \leq  r \leq \frac{(N-1)p}{N - mp}$. For $mp = N$, $\tau$ is continuous for every $1 \leq r < \infty$.
+\end{theorem}
+\begin{proof}
+See Adams ``Sobolev spaces''.
+\end{proof}
+\underline{Conclusion:} If $N = 2$ we can ensure for any $s > 1$ with $g \in L^s(\Gamma)$ that $F_2 \in (H^1(\Omega))^*$. If $N \geq 3$, we need $s \geq 2 - \frac{2}{N}$.
+\section{Existence of optimal controls} % Sec 2.3
+\label{sec:c2e3}
+In the following, elliptic PDE's are governed by a parameter $u$ called control (Russian: upravlenie).
+The task is to find an \emph{optimal control} \ac{wrt}\ some cost function.
+\begin{problem}[Optimal stationary heating]
+\textit{Given:}
+\begin{itemize}
+\item $\Omega$ a bounded Lipschitz domain,
+\item $y_\Omega \in L^2(\Omega)$ ``desired temperature'',
+\item $\beta \in L^\infty(\Omega)$, $\lambda \geq 0$, 
+\item $u_a \leq u_b \in L^2(\Omega)$.
+\end{itemize}
+\textit{Task:}
+\begin{IEEEeqnarray*}{u"rCl"l}
+minimize & J(y, u) &=& \IEEEeqnarraymulticol{2}{c}{ \frac{1}{2} \| y - y_\Omega \|_{L^2(\Omega)}^2 + \frac{\lambda}{2} \| u \|_{L^2(\Omega)}^2 } \\
+subject to & - \nabla y &=& \beta u & \text{in } \Omega \\
+& y &=& 0 & \text{on } \Gamma \\
+and & u_a(x) &\leq& u(x) \leq u_b(x) & \text{\ac{ae} in } \Omega.
+\end{IEEEeqnarray*}
+\end{problem}
+The set
+\[
+	U_{ad} = \{ u \in L^2(\Omega) \midcolon u_a(x) \leq u(x) \leq u_b(x) \;\; \text{\ac{ae} in } \Omega \}
+\]
+is called the set of \emph{admissible controls}.
+By \cref{def:c2e13}, there exists a continuous, linear operator
+\begin{IEEEeqnarray*}{rCl}
+G : L^2(\Omega) &\to& H_0^1(\Omega), \\
+u &\mapsto& Gu,
+\end{IEEEeqnarray*}
+such that $y = Gu$ is the unique weak solution of the state equation with data $u$. $G$ is called the \emph{control-to-state} operator. As $H_0^1(\Omega)$ is continuously embedded in $L^2(\Omega)$, we can consider instead
+\begin{IEEEeqnarray*}{rCl}
+S : L^2(\Omega) &\to& L^2(\Omega), \\
+S(u) &\mapsto& E_{\overline{\underline{Y}}} G u,
+\end{IEEEeqnarray*}
+where $E_{\overline{\underline{Y}}}$ is the embedding $H^1 \hookrightarrow L^2(\Omega)$.
+
+\emph{Reduced formulation} in $L^2(\Omega)$:
+\begin{IEEEeqnarray*}{u"l}
+minimize & f(u) = J(Su, u) = \frac{1}{2} \| Su - y_\Omega \|^2_{L^2(\Omega)} + \frac{\lambda}{2} \| u \|_{L^2(\Omega)}^2 \\
+subject to & u \in U_{ad}.
+\end{IEEEeqnarray*}
+\begin{proposition} % Prop 2.16
+\label{prop:c2e16}
+The set $U_{ad}$ is convex, bounded and closed in $L^2(\Omega)$.
+\end{proposition}
+\begin{proof}
+Exercise.
+\end{proof}
+\begin{theorem} % Thm 2.17
+\label{thm:c2e17}
+Under the given assumptions, there exists at least one optimal control $u_0$ for the stationary heating problem. If $\lambda > 0$ or $\beta(x) \neq 0$ \ac{ae}, the $u_b$ is unique.
+\end{theorem}
+\begin{proof}
+In case $\beta(x) \neq 0$ \ac{ae}, the operator $S$ is injective, because $y = Su = 0$ implies $\beta u = 0$ \ac{ae}\ in the Poisson equation, and hence $u = 0$ in $L^2(\Omega)$. Therefore, the theorem is a special case of \cref{thm:c1e18}.
+\end{proof}
+\begin{remarknonumb}
+If $\lambda > 0$, then there exist unique optimal controls under unbounded constraints, e.g.\ $-\infty < u(x) \leq u_b(x)$ \ac{ae}\ or $u_a(x) \leq u(x) < \infty$ \ac{ae}, also by \cref{thm:c1e18}.
+\end{remarknonumb}
+\begin{problem}[general elliptic problem]
+\begin{IEEEeqnarray*}{u"rCl"l}
+minimize & J(y, u, v) &\coloneqq&  \IEEEeqnarraymulticol{2}{l}{ \frac{\lambda_\Omega}{2} \| y - y_\Omega \|_{L^2(\Omega)}^2 + \frac{\lambda_\Gamma}{2} \| y - y_\Gamma \|_{L^2}^2 } \\
+&&& \IEEEeqnarraymulticol{2}{l}{\;\; {} + \frac{\lambda u}{2} \| u \|_{L^2(\Omega)} + \frac{\lambda v}{2} \| v \|_{L^2(\Omega)}^2 } \\
+subject to & Ay + c_0 y &=& \beta_\Omega u & \text{in $\Omega$}, \\
+& \partial_{\nu_A} y + \alpha y &=& \beta_\Gamma u & \text{on $\Gamma_1$}, \\
+&  y &=& 0 & \text{on $\Gamma_0$}, \\
+and & u_a(x) &\leq& u(x) \leq u_b(x) & \text{\ac{ae}\ in $\Omega$}, \\
+& v_a(x) &\leq& v(x) \leq v_b(x) & \text{\ac{ae}\ on $\Gamma_1$}.
+\end{IEEEeqnarray*}
+Here, let $A, c_0, \alpha$ be as before, $\beta_\Omega \in L^\infty(\Omega)$, $\beta_\Gamma \in L^\infty(\Gamma_1)$, $u_a, u_b \in L^2(\Omega)$, $v_a, v_b \in L^2(\Gamma)$.
+Assume (i) or (ii) hold in \cref{thm:c2e14}.
+\end{problem}
+The reduced formulation is:
+\begin{IEEEeqnarray*}{u"rCl}
+minimize & f(u) &=& \frac{\lambda_\Omega}{2} \| S(u, v) - y_\Omega \|_{L^2}^2 + \frac{\lambda_\Gamma}{2} \| S_\Gamma(u, v) - y_\Gamma \|_{L^2} \\
+&&& \;\; {} + \frac{\lambda u}{2} \| u \|^2 + \frac{\lambda v}{2} \| v \|_{L^2}^2 \\
+subject to & (u, v) &\in& U_{ad} \times V_{ad}.
+\end{IEEEeqnarray*}
+Here
+\begin{IEEEeqnarray*}{rCl}
+S : L^2(\Omega) \times L^2(\Gamma_1) &\to& L^2(\Omega), \\
+S(u, v) &=& E_{\overline{\underline{Y}}} G(u, v).
+\end{IEEEeqnarray*}
+is continuous, since $S_\Gamma = \tau \circ G, \; (u, v) \mapsto y|_\Gamma$ is continuous by \cref{thm:c2e8}.
+Now apply \cref{thm:c1e18} to prove the existence of optimal control $(u_0, v_0)$, which is unique if $\lambda_u > 0$ and $\lambda_v > 0$.
+
+\underline{Special cases:} \\
+\textit{Optimal stationary heating with prescribed boundary temperature:} \\
+State equation:
+\begin{IEEEeqnarray*}{rCl"l}
+- \nabla y &=& \beta u & \text{in } \Omega \\
+\partial_{\nu} y &=& \alpha(y_a - a) & \text{on } \Gamma. 
+\end{IEEEeqnarray*}
+Here, $\alpha \in (L^\infty(\Gamma))_+$, $\int_\Gamma \alpha^2 \ds > 0$.
+It is obtained as a special case by using
+\[
+	v_a = v_b = y_a, \quad \beta_\Gamma = \alpha.
+\]
+\textit{Optimal stationary boundary heating:} \\
+State equation:
+\begin{IEEEeqnarray*}{rCl"l}
+- \nabla y &=& 0 & \text{in } \Omega \\
+\partial_{\nu} y &=& \alpha(v - a) & \text{on } \Gamma. 
+\end{IEEEeqnarray*}
+Again, $\alpha \in (L^\infty(\Gamma))_+$, $\int_\Gamma \alpha^2 \ds > 0$. This is obtained as a special case $u_a = u_b = 0$.
+\end{document}
