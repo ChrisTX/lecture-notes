@@ -1,0 +1,202 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+\begin{proof}
+Let $k \coloneqq \lceil \varepsilon \cdot \delta \cdot n \rceil$ and
+\[
+	m \coloneqq \left\lfloor \frac{n}{k} \right\rfloor \leq \left\lfloor \frac{n}{\varepsilon \cdot \delta \cdot n} \right\rfloor = \left\lfloor \frac{1}{\varepsilon \cdot \delta} \right\rfloor.
+\]
+Let $I = a_1, a_2, \ldots, a_n$ be an instance of $\BP_\delta$ such that $a_1 \geq a_2 \geq \ldots \geq a_n \geq \delta$.
+For $i = 1, \ldots, m$ we group the elements $a_{(i-1) \cdot k + 1}, \ldots, a_{i \cdot k}$ into a block called $B_i$ and the elements $a_{m\cdot k + 1}, \ldots, a_n$ into a block $B_{m+1}$.
+Define $\tilde{B}_i$ for $i = 1, \ldots, m+1$ to contain $|B_i|$ copies of the largest element in $B_i$.\footnote{Which is the element with the smallest index due to the ordering.} Let $\tilde{A}$ be an exact algorithm for $\BP_{\delta, m}$ (\cref{thm:55}).
+Apply $\tilde{A}$ to the items in $\bigcup_{i=2}^{m+1} \tilde{B}_i$.
+This is a solution for $\bigcup_{i=2}^{m+1} B_i$. Add the elements of $B_1$ to this solution by using a new bin for each element in $B_1$. We have $|B_1| = k$.
+Then, due to number the copies we inserted combined with the order, we have
+\begin{IEEEeqnarray*}{rCl}
+A(I) &=& \OPT \left( \bigcup_{i=2}^{m+1} \tilde{B}_i \right) + k \\
+&\leq& \OPT (I) + k
+\end{IEEEeqnarray*}
+As $a_i \geq \delta$, $\OPT(I) \geq n \cdot \delta$. Therefore,
+\begin{IEEEeqnarray*}{rCl}
+A(I) &\leq& \OPT(I) + k \\
+&\leq& \OPT(I) + \varepsilon \cdot \delta \cdot n + 1 \\
+&\leq& (1 + \varepsilon) \cdot \OPT(I) + 1.
+\end{IEEEeqnarray*}
+This is the desired result. As for the runtime, with our choices of $m$, we obtain
+\[
+	\mathcal{O}\left( n^{m^{\mathcal{O}(1/\delta)}} \right) = \mathcal{O}\left( n^{\left( \frac{1}{\varepsilon \cdot \delta} \right)^{\mathcal{O}(1/\delta)}} \right).
+\]
+\end{proof}
+\begin{theorem} % Thm 57
+\label{thm:57}
+There exists an \ac{APTAS} $A_\varepsilon$ for \textsc{Bin Packing} with $A_\varepsilon(I) \leq (1 + \varepsilon) \cdot \OPT(I) + 1$.
+\end{theorem}
+\begin{proof}
+Let $I = \{ a_1, \ldots, a_n \}$. Define $I' \coloneqq \{ a_i \in I \mid a_i > \delta \}$.
+By \cref{thm:56} we have a polynomial time algorithm to find a solution for $I'$ using at most $\left( 1 + \frac{\varepsilon}{2} \right) \cdot \OPT(I') + 1$ many bins.
+Now use \textsc{First Fit} for the elements in $I \setminus I'$.
+\begin{itemize}
+\item If all these items fit into existing bins, we used
+\[
+	\left( 1 + \frac{\varepsilon}{2} \right) \cdot \OPT(I') + 1 \leq \left( 1 + \frac{\varepsilon}{2} \right) \cdot \OPT(I) + 1
+\]
+many bins.
+\item Otherwise let $k$ denote the total number of bins used. Hence,
+\[
+	\OPT(I) \geq \sum_{i=1}^n a_i \geq (k-1)(1-\delta).
+\]
+Thus:
+\[
+	k \leq \frac{\OPT(I)}{1-\delta} + 1 \leq (1 + 2 \delta) \cdot \OPT(I) + 1 \quad \left( \delta \leq \frac{1}{2} \right).
+\]
+By setting $\delta \coloneqq \frac{\varepsilon}{2}$, we obtain
+\[
+	k \leq (1+\varepsilon) \cdot \OPT(I) + 1.
+\]
+\end{itemize}
+For the runtime, we obtain the following runtime from \cref{thm:56}:
+\[
+	\mathcal{O} \left( n^{\left( \frac{1}{\varepsilon^2} \right)^{\mathcal{O}(1/\varepsilon)}} \right).
+\]
+\end{proof}
+The algorithm uses $\OPT(I) + \smallo(\OPT(I))$ many bins.
+\begin{theorem} % Thm 58
+\label{thm:58}
+$\BP_{\delta, m}$ can be solved in $\mathcal{O}\left((n+1)^{m+1} \cdot (m+1)^\frac{1}{\delta}\right)$.
+\end{theorem}
+\begin{proof}
+Apply dynamic programming.
+An instance of $\BP_{\delta, m}$ can be seen as $(n_1, \ldots, n_m)$ with $n_i$ denoting the multiplicity of item $i$. Then,
+\[
+	\sum_{i=1}^m n_i = n.
+\]
+There are at most $(m+1)^\frac{1}{\delta}$ possibilities to pack a single bin.
+Let
+\[
+	\mathcal{P}_k \coloneqq \left\{ I = (n_1, \ldots, n_m) \midcolon \sum_{i=1}^m n_i \leq n \text{ and } \OPT(I) \leq k \right\}.
+\]
+Then we have
+\begin{IEEEeqnarray*}{rCl}
+|\mathcal{P}_1| &\leq& (m+1)^\frac{1}{\delta} \\
+|\mathcal{P}_k| &\leq& (n+1)^m
+\end{IEEEeqnarray*}
+Therefore, $\mathcal{P}_{k+1}$ can be computed in
+\[
+	\mathcal{O} \left( (n+1)^m \cdot (m+1)^\frac{1}{\delta} \right)
+\]
+and hence $\mathcal{P}_1, \ldots, \mathcal{P}_n$ can be computed in
+\[
+	\mathcal{O} \left( n \cdot (n+1)^m \cdot (m+1)^\frac{1}{\delta} \right).
+\]
+\end{proof}
+\begin{theorem} % Thm 59
+\label{thm:59}
+$\BP_{\delta, m}$ can be solved in $\mathcal{O}\left(n + q^\mathcal{O}(q) \right)$ with $q = (m+1)^\frac{1}{\delta}$.
+\end{theorem}
+\begin{proof}
+Let $\mathcal{P}_1 = \{ P_1, \ldots, P_q \}$, $q = (m+1)^\frac{1}{\delta}$.
+A solution to $\BP_{\delta, m}$ can be denoted by a vector $(c_1, \ldots, c_q)$, $c_i \in \N_0$, with $c_i$ being the number of packings of type $P_i$ used in the solution.
+\begin{IEEEeqnarray*}{u"l}
+\IEEEeqnarraymulticol{2}{l}{ \min \sum_{i=1}^q c_i } \\
+such that & c_i \in \N_0 \\
+and & \sum_{i=1}^q c_i P_i \geq I
+\end{IEEEeqnarray*}
+This is an \ac{ILP} with $q \leq (m+1)^\frac{1}{\delta}$ variables and $m + q \leq 2 q $ constraints.
+Lenstra [1983]: This can be solved in $\mathcal{O}(q^{\mathcal{O}(q)})$.
+
+(best result: $\mathcal{O}\left( 8^n \cdot n \cdot m + n^{2.6 n} \cdot s \cdot \log n \right)$ with
+\begin{itemize}
+	\item $n$ the number of variables
+	\item $m$ the number of constraints
+	\item $S$ the maximal encoding length of a constraint\slash{}objective function.)
+\end{itemize}
+\end{proof}
+\begin{corollary} % Cor 60
+\label{thm:60}
+There exists an approximation algorithm for \textsc{Bin Packing} that needs at most than
+\[
+	\OPT(I) + \frac{\OPT(I) \cdot \log \log \log \OPT(I)}{\log \log \OPT(I)}
+\]
+many bins.
+\end{corollary}
+\begin{proof}
+Choose
+\[
+	\varepsilon \coloneqq \mathcal{O} \left( \frac{\log \log \log n}{\log \log n} \right).
+\]
+\end{proof}
+With a slightly better analysis, it is possible to attain
+\[
+	\OPT(I) + \mathcal{O} \left( \OPT(I) \cdot \frac{\log \log n}{\log n} \right).
+\]
+Further results:
+\begin{itemize}
+\item Karmarkar, Karp [1982]: $\OPT(I) + \mathcal{O}\left(\log^2 (\OPT(I))\right)$.
+\item Rothvoß [2013]: $\OPT(I) + \mathcal{O}(\log(\OPT(I)) \cdot \log \log(\OPT(I)))$.
+\item Hoberg, Rothvoß [2015]: $\OPT(I) + \mathcal{O}(\log (\OPT(I)))$.
+\end{itemize}
+However, it is unknown if there is a polynomial time algorithm with $\OPT(I) + k$ for any constant $k$ (even the case $k = 1$ is still open).
+\chapter{Steiner Trees} % Ch 5
+\label{sec:c5}
+\begin{problem}[Steiner Tree Problem (in graphs)]
+\begin{tabular}{@{}ll}
+\textit{Input:} & $G = (V, E)$, $c : E(G) \to \R_+$, $R \subseteq V$ \\
+\textit{Output:} & A Hamiltonian cycle (\emph{TSP-tour}) $T$, \ac{st}\ $R \subseteq V(T)$ and \\
+& $c(T) \coloneqq \sum_{e \in E(T)} c(e)$ is minimum.
+\end{tabular}
+\end{problem}
+$R$ us called the set of \emph{terminals} and the vertices in $V(T) \setminus R$ are the \emph{Steiner vertices}. An optimum solution is called \ac{SMT}. \\
+\underline{Observation:} We may assume that in an optimum Steiner tree $T$, all leaves are in $R$.
+\begin{theorem} % Thm 61
+\label{thm:61}
+The \textsc{Steiner Tree Problem} is \NP-hard.
+\end{theorem}
+\begin{proof}
+We reduce \textsc{3-Sat} to \textsc{Steiner Tree}:
+For a \textsc{3-Sat} formula $F = C_1 \wedge C_2 \wedge \ldots \wedge C_m$ with variables $x_1, \ldots, x_n$.
+We construct a graph $G$ as follows: Add $n+1$ terminals $y_1, \ldots, y_{n+1}$ and connect them using two arcs, one containing a vertex for $x_i$ and one for $\overline{x_i}$. Finally, we add $m$ terminals for the clauses and connect them with the vertices corresponding to their literals. Thus, $R = \{ y_1, \ldots, y_n, C_1, \ldots, C_m\}$. Lastly, we set $c = 1$ for all arcs between the $y_i$ and $c = 3$ for the edges connecting the clauses with their literals.
+
+Then, $F$ is satisfiable \ac{iff} $G$ contains a Steiner tree of length at most $2n + 3m$.
+\begin{itemize}
+\item[``$\Rightarrow$''] ``go'' from $y_1$ to $y_n$ through \textit{true} literals ($2n$) and select one \textit{true} literals in each clause ($3m$).
+\item[``$\Leftarrow$''] Observation: An \ac{SMT} can be always assumed having the above structure. If not, we can find two adjacent vertices of the $y_i$ not connected by an arc in the Steiner tree.
+\end{itemize}
+\end{proof}
+\begin{theorem} % Thm 62
+\label{thm:62}
+The \textsc{Steiner Tree Problem} remains \NP-hard if it restricted to unweighted, bipartite graphs.
+\end{theorem}
+\begin{proof}
+Use the same construction as in \cref{thm:61}, but replace the edges of cost $3$ with paths of length $3$.
+\end{proof}
+\begin{proposition} % Prop 63
+\label{prop:63}
+A tree with $k$ leaves contains at most $k-2$ vertices of degree at least 3.
+\end{proposition}
+\begin{proof}
+VL ``Einführung Diskrete Mathematik''.
+\end{proof}
+\begin{theorem} % Thm 64
+\label{thm:64}
+A \acl{SMT} in a graph $G = (V, E)$ with terminals $R \subseteq V(G)$ can be computed in
+\[
+	\mathcal{O} \left( |V| \cdot (|V| \cdot \log |V| + |E|) + |R|^2 \cdot \min \left( 2^{|V\setminus R|}, |V|^{|R| - 2} \right) \right).
+\]
+\end{theorem}
+\begin{proof}
+Let $S$ denote the set of all Steiner vertices of degree at least 3 in an optimum tree. First, compute the distance of each pair of vertices in $S \cup R$. Then, construct a new graph on $S \cup R$ with edge cost defined by a shortest path in $G$ and compute a minimum spanning tree. This yields an \ac{SMT} in $G$.
+
+As we do not know $S$ beforehand, we enumerate all possible sets; there are
+\[
+	\sum_{i=0}^{|R| - 2} \begin{pmatrix}
+		|V\setminus R| \\ i
+	\end{pmatrix} \leq \min \left( 2^{|V\setminus R|}, |V|^{|R|-2} \right)
+\]
+many candidates.
+This gives us a runtime of
+\[
+	\mathcal{O} (|V| \cdot (|V| \cdot \log |V| + |E|)).
+\]
+to compute all distances and $\mathcal{O}(|R|^2)$ to compute a minimum spanning tree in $S \cup R$.
+\end{proof}
+\end{document}

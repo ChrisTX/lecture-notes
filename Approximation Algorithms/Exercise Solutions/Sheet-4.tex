@@ -1,0 +1,127 @@
+\documentclass[oneside,a4paper]{amsart}
+
+\usepackage{geometry}
+\usepackage{parskip}
+\usepackage{mathtools}
+\usepackage{enumerate}
+\usepackage{IEEEtrantools}
+\usepackage{relsize}
+\usepackage{multirow}
+
+\newcommand{\NP}{\ensuremath{N \! P}}
+\newcommand{\tp}{\ensuremath{\mathsmaller T}}
+
+\usepackage{algorithm2e}
+\usepackage{tikz}
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{\node[shape=circle,draw,inner sep=1pt] (char) {#1};}}
+
+% Algorithm2e specific
+\IncMargin{2.5em}
+\SetNlSty{circled}{}{}
+\SetNlSkip{1em}
+\DontPrintSemicolon
+\newcommand{\EndAlgorithmLine}{\vskip\medskipamount % or other desired dimension
+\leaders\vrule width \textwidth\vskip0.4pt % or other desired thickness
+\vskip\smallskipamount % ditto
+\nointerlineskip}
+
+\begin{document}
+\title{Approximation Algorithms - Exercise Sheet 4 solutions}
+\maketitle{}
+\section*{Exercise 4.1}
+Not discussed in the tutorial session.
+\section*{Exercise 4.2}
+Define
+\[
+	a = \frac{\sqrt{5} - 1}{2}.
+\]
+Let $I$ be a \textsc{Sat} instance with variables $x_1, \ldots, x_n$ and clauses $C_1, \ldots, C_m$.
+Set literal $\alpha$ to \textit{true} with probability
+\[
+	\begin{cases}
+	a, & \text{if $\alpha$ appears as in a one-elemental clause} \\
+	\frac{1}{2}, & \text{otherwise}.
+	\end{cases}
+\]
+Now, a clause $C$ is satisfied with probability
+\begin{itemize}
+\item $a$ if $C$ is a one-elemental clause.
+\item \underline{Claim:} greater or equal to $a$: For a clause $C = \{a_1 \vee \ldots \vee a_l \}$, we have
+\[
+\mathbb{P}[C \text{ is satisfied}] = 1 - \prod_{i=1}^l \mathbb{P}[a_i = \textit{false}].
+\]
+Additionally:
+\[
+	\mathbb{P}[a_i = \textit{false}] = \begin{cases}
+	\frac{1}{2} \\
+	a \\
+	1 - a
+	\end{cases} \overset{\frac{1}{2} < a < 1}{\leq} a.
+\]
+(Here $a$ and $1-a$ are due to (negated) one-element clauses).
+Then:
+\begin{IEEEeqnarray*}{rCl}
+\mathbb{P}[C \text{ is satisfied}] &=& 1 - \prod_{i=1}^l \mathbb{P}[a_i = \textit{false}] \\
+&\geq& 1 - a^l \\
+&\geq& 1 - a^2 \\
+&=& 1 - \left( \frac{\sqrt{5} - 1}{2} \right)^2 \\
+&=& \frac{4 - 5 - 2 \sqrt{5} - 1}{4} \\
+&=& \frac{-2 +2 \sqrt{5}}{4} \\
+&=& \frac{\sqrt{5} - 1}{2}.
+\end{IEEEeqnarray*}
+This gives us
+\[
+	\mathbb{E}[\text{\# satisfied clauses}] \geq m \cdot a.
+\]
+\end{itemize}
+\underline{Method of conditional expectation:} \\
+Consider
+\begin{IEEEeqnarray*}{l"ll}
+	\IEEEeqnarraymulticol{3}{l}{ \mathbb{E}[\text{\# satisfied clauses} \mid x_1, \ldots, x_{k-1} \text{ already set}] = } \\
+	&& \mathbb{E}[\text{\# satisfied clauses} \mid x_1, \ldots, x_{k-1}, x_i = \textit{true}] \cdot P[x_i = \textit{true}] \\
+	& {} + {} & \mathbb{E}[\text{\# satisfied clauses} \mid x_1, \ldots, x_{k-1}, x_i = \textit{false}] \cdot P[x_i = \textit{false}]
+\end{IEEEeqnarray*}
+\EndAlgorithmLine
+\begin{algorithm}[H]
+\For{$i \coloneqq 1$ \KwTo $m$}{
+	Set $x_i$ to $\begin{cases}
+		\textit{true} \\
+		\textit{false}
+	\end{cases}$\;
+	Compute expectation values for the number of clauses in both cases, take the assignment with better expectation value\;
+}
+\end{algorithm}
+\EndAlgorithmLine
+\section*{Exercise 4.3}
+We can partition the set of vertices into 2 disjoint sets $S$, $V \setminus S$, then for each such enumerate we check if the 2 partitions are 2-colorable. If we can find a partition $S$ where $S$ and $V \setminus S$ are each 2-colorable, then we conclude that $G$ is 4-colorable, otherwise it is not 4-colorable.
+Deciding if the graph is 2-colorable is equivalent to determining whether it is bipartite (does not contain odd cycles). This can be done in $\mathcal{O}(|V| + |E|)$. Enumeration complexity: $2^{|V|}$. Thus, we attain a runtime $\mathcal{O}(2^{|V|} \cdot |E|)$.
+\section*{Exercise 4.4}
+As long as there is a vertex $v_i$ with degree greater or equal to $n^\frac{2}{3}$, we color
+\[
+	H_i = G[\Gamma(v_i)],
+\]
+which is 3-colorable with $\mathcal{\sqrt{n_i}}$ colors, where $n_i = |\Gamma(v_i)|$. Afterwards, we remove $H_i$ and $v_i$ from the graph and iterate.
+When all vertices have degree smaller than $n^\frac{2}{3}$, we color the rest by the \textsc{Greedy-Coloring} with $\mathcal{O}(n^\frac{2}{3})$ many colors.
+
+Let $k$ be the number of $H_i$'s we color. We need $\mathcal{O}(\sqrt{n_i})$ colors each time. In total this gives us
+\[
+	\mathcal{O} \left( \sum_{i=1}^k \sqrt{n_i} \right)
+\] 
+many colors.
+However, by Jensen's inequality
+\[
+	\sum_{i=1}^k \sqrt{n_i} = k \cdot \frac{\sum_{i=1}^k \sqrt{n_i}}{k} \leq k \cdot \left( \frac{\sum_{i=1}^k n_i}{k} \right)^\frac{1}{2}.
+\]
+Thus,
+\[
+	\sum_{i=1}^k \sqrt{n_i} \leq k \left( \frac{n}{k} \right)^\frac{1}{2} = k^\frac{1}{2} n^\frac{1}{2} \leq \left( n^\frac{1}{3} \right)^\frac{1}{2} \cdot n^\frac{1}{2},
+\]
+where $k \leq n^\frac{1}{3}$ because we remove at least $n^\frac{2}{3}$ many vertices in each iteration and thus
+\[
+	k \leq \frac{n}{n^\frac{2}{3}} = n^\frac{1}{3}.
+\]
+Hence, in total we need $\mathcal{O}(n^\frac{2}{3})$ many colors.
+The running time is obviously polynomial.
+\section*{Exercise 4.5}
+Not discussed in the tutorial session. The second part has been proven in the lecture.
+\end{document}

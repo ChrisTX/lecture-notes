@@ -74,7 +74,7 @@ and thus
 	\NF(I) - 1 < \left\lceil \frac{\sum_{i=1}^n a_i}{1-\gamma} \right\rceil.
 \]
 \end{proof}
-Is \textsc{Bin Packing} hard if $a_i < \gamma$ for all $i$, $\gamma$ fixed? No, it remains \NP-hard\footnote{This can be easily seen by scaling the $a_i$ and adding several larger items such that each bin's total size is effectively scaled, too}, however:
+Is \textsc{Bin Packing} hard if $a_i < \gamma$ for all $i$, $\gamma$ fixed? No, it remains \NP-hard,\footnote{This can be easily seen by scaling the $a_i$ and adding several larger items such that each bin's total size is effectively scaled, too} however:
 \underline{Exercise:} \textsc{Bin Packing} is in $P$ if $a_i \geq \frac{1}{3}$. For $a_i > \frac{1}{2}$ it is obviously solvable in linear time.
 \begin{samepage}
 \begin{algorithmbox}[First Fit]
@@ -184,11 +184,12 @@ Our goal is now to find a $(1 + \varepsilon) \cdot \OPT(I) + 1$ approximation fo
 & and at most $m$ different item sizes appear.
 \end{IEEEeqnarray*}
 \begin{theorem} % Thm 55
+\label{thm:55}
 For fixed $\delta$ and $m$ there exists a polynomial time algorithm for $\BP_{\delta, m}$.
 \end{theorem}
 \begin{proof}
 All items are greater or equal to $\delta$ and therefore each bin contains at most $\frac{1}{\delta}$ items and at most $m$ different values appear.
-Thus, there are at most $(m+1)^\frac{1}{\delta}$ many possibilities to pad a bin.
+Thus, there are at most $(m+1)^\frac{1}{\delta}$ many possibilities to pack a bin.
 An optimum solution can be interpreted as a vector of length $(m+1)^\frac{1}{\delta}$ with entries between $0$ and $n$. This gives us
 \[
 \mathcal{O} \left( (n+1)^{\left( (m+1)^\frac{1}{\delta} \right)} \right)

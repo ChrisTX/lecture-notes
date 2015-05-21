@@ -1,0 +1,122 @@
+\documentclass[oneside,a4paper]{amsart}
+
+\usepackage{geometry}
+\usepackage{parskip}
+\usepackage{mathtools}
+\usepackage{enumerate}
+\usepackage{IEEEtrantools}
+\usepackage{relsize}
+\usepackage{multirow}
+\usepackage{xfrac}
+
+\newcommand{\NP}{\ensuremath{N \! P}}
+\newcommand{\tp}{\ensuremath{\mathsmaller T}}
+\newcommand{\gmid}{\mathrel{}\middle|\mathrel{}}
+\newcommand{\midcolon}{\mathrel{}:\mathrel{}}
+\newcommand{\smallo}{\ensuremath{\mathit{o}}}
+
+\usepackage{algorithm2e}
+\usepackage{tikz}
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{\node[shape=circle,draw,inner sep=1pt] (char) {#1};}}
+
+\DeclareMathOperator{\OPT}{OPT}
+
+% Algorithm2e specific
+\IncMargin{2.5em}
+\SetNlSty{circled}{}{}
+\SetNlSkip{1em}
+\DontPrintSemicolon
+\newcommand{\EndAlgorithmLine}{\vskip\medskipamount % or other desired dimension
+\leaders\vrule width \textwidth\vskip0.4pt % or other desired thickness
+\vskip\smallskipamount % ditto
+\nointerlineskip}
+
+\begin{document}
+\title{Approximation Algorithms - Exercise Sheet 5 solutions}
+\maketitle{}
+\section*{Exercise 5.1}
+Let $W = 1$, $n = 2$ and
+\begin{IEEEeqnarray*}{rCl"rCl}
+c_1 &=& k, & w_1 &=& 2 \\
+c_2 &=& 1, & w_2 &=& 1
+\end{IEEEeqnarray*}
+Then $\OPT(I_k) = 1$, but $LP(I_k) = k \cdot \frac{1}{2} + 0 \cdot 1 = \frac{k}{2}$. Thus
+\[
+	\sup_I \left\{ \frac{LP(I)}{\OPT(I)} \midcolon \OPT(I) \neq 0 \right\} \geq \sup_k \left\{ \frac{LP(I_k)}{\OPT(I_k)} \midcolon k \geq 2 \right\} = \infty.
+\]
+
+Now $w_1 \leq W$, $W$ arbitrary. Let $\frac{c_1}{w_1} \geq \ldots \geq \frac{c_n}{w_n}$ and $\sum_{i} w_i \geq W$.
+By Theorem 39 we have
+\[
+	x_j = \begin{cases}
+	1, & j < k \\
+	0, & j > k \\
+	\frac{W - \sum_{i=1}^{k-1} w_i}{w_k}, & j = k
+	\end{cases},
+\]
+with $k \coloneqq \min \{ \ldots \}$.
+Then,
+\[
+LP(I) = \underbrace{ \sum_{i=1}^{k-1} c_j }_{\leq \OPT(I)} + \underbrace{ \left( \frac{W - \sum_{i=1}^{k-1} w_i}{w_k} \right) \cdot c_k }_{\leq \OPT(I)}.
+\]
+Thus:
+\begin{IEEEeqnarray*}{rCl}
+2 &\geq& \sup \left\{ \frac{LP(I)}{\OPT(I)} \midcolon \OPT(I) \neq 0 \right\} \\
+&\geq& \sup \left\{ \frac{LP(I_\varepsilon)}{\OPT(I_\varepsilon)} \right\}.
+\end{IEEEeqnarray*}
+For the instance $c_1 = c_2 = 1$ and
+\[
+	w_1 = \frac{1}{2}, \;\; w_2 = \left( \frac{1}{2} + \varepsilon \right), \;\; W = 1
+\]
+we have
+\[
+	LP(I_\varepsilon) = 1 + \frac{\frac{1}{2}}{\frac{1}{2} + \varepsilon}.
+\]
+Hence,
+\begin{IEEEeqnarray*}{rCl}
+\sup \left\{ \frac{LP(I_\varepsilon)}{\OPT(I_\varepsilon)} \right\} &=& \lim_{\varepsilon \to 0} \left\{ \frac{LP(I_\varepsilon)}{\OPT(I_\varepsilon)} \right\} \\
+&=& \lim_{\varepsilon \to 0} 1 + \frac{\frac{1}{2}}{\frac{1}{2} + \varepsilon} \\
+&\geq& 2.
+\end{IEEEeqnarray*}
+\section*{Exercise 5.2}
+\EndAlgorithmLine
+\begin{algorithm}[H]
+Set $c \coloneqq \max\{ c_i \mid w_i \leq W\}$ (value of the best solution with only one chosen item)\;
+\ForAll{pairs $(i, j) \in \{ 1, \ldots, n \}^2$, $i \neq j$}{
+	\label{alg:3}\If{$w_i + w_j \leq W$}{
+		Apply the \sfrac{1}{2}-approximation algorithm on $\{ k \mid c_k \leq \min \{ c_i, c_j\}, k \neq i, j\}$ with $W - (w_i + w_j)$ with cost $c'$.\;
+		\If{$c_i + c_j + c' > c$}{
+			$c = c_i + c_j + c'$ (this is the best solution so far).\;
+		}
+	}
+}
+\end{algorithm}
+\EndAlgorithmLine
+\underline{Claim:} This is a \sfrac{3}{4}-approximation. \\
+\underline{Proof:} Let $c$ be the solution from the algorithm and $c^*$ be an optimum solution.
+We can assume that there is no optimum solution with only one item.
+Let $i^*, j^* \in \{ 1, \ldots, n \}$ in an optimum solution with $c_{i^*} + c_{j^*}$ is maximum.
+An optimum for instance in \ref{alg:3} is $c^{'*} = c^* - c_{i^*} - c_{j^*}$.
+
+\underline{Case 1:} $c_{i^*} + c_{j^*} \geq \frac{1}{2} c^*$.
+Then
+\[
+	c \geq c_{i^*} + c_{j^*} \geq c_{i^*} + c_{j^*} + \frac{c'^*}{2} \geq \frac{1}{2} c_{i^*} + \frac{1}{2} c_{j^*} + \frac{1}{2} c^* \geq \frac{3}{4} c^*.
+\]
+
+\underline{Case 2:} $c_{i^*} + c_{j^*} < \frac{1}{2} c^*$.
+By \ref{alg:3} in the solution corresponding to $c'^*$ only the cost smaller or equal to $\frac{1}{4} c^*$ can be chosen.
+Let $S$ be the solution for the \sfrac{1}{2} approximation in \ref{alg:3}.
+Hence,
+\[
+	c'^* \leq c' + c_S \leq c' + \frac{1}{4} c^*
+\]
+and thus
+\begin{IEEEeqnarray*}{rCl}
+c^* &=& c_{i^*} + c_{j^*} + c'^* \\
+&\leq& c_{i^*} + c_{j^*} + c' + \frac{1}{4} c^* \\
+&\leq& \frac{1}{2} c^* + \frac{1}{4} c^* \\
+&\leq& \frac{3}{4} c^*
+\end{IEEEeqnarray*}
+Runtime $\mathcal{O}(n^3)$.
+\end{document}
