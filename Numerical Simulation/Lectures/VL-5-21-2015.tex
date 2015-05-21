@@ -1,0 +1,229 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+\pagebreak
+\section{Necessary and sufficient optimality conditions} % Sec 2.4
+\label{sec:c2e4}
+\begin{problem}[Abstract setting]
+\label{prb:c2e4-star}
+Let $U$, $V$ be Hilbert spaces.
+\begin{IEEEeqnarray*}{u"l}
+minimize & J(y, u) = \frac{1}{2} \| y - y_\Omega \|_{V}^2 + \frac{\lambda}{2} \| u \|_U^2 \\
+subject to & y \in V \quad a(y, v) = F_u(v) \quad \forall v \in V \\
+and & u \in U_{ad} \;\; \text{convex, closed}.
+\end{IEEEeqnarray*}
+Under the assumption that $(u, v) \mapsto F_u(v)$ is bilinear and bounded, there exists $\tilde{F} : V \to U$ \ac{st}\ $F_u(v) = \langle u, \tilde{F} v \rangle_U$.
+
+\underline{Control-to-solution:} $S : U \to V$ bounded \ac{st}\ $a(Su, v) = F_u(v) \quad \forall v \in V$.
+
+\underline{Reduced problem:}
+\begin{IEEEeqnarray*}{u"l}
+minimize & f(u) \coloneqq \frac{1}{2} \| Su - y_\Omega \|_V^2 + \frac{\lambda}{2} \| u \|_U^2 \\
+subject to & u \in U_{ad}.
+\end{IEEEeqnarray*}
+\end{problem}
+Recall \cref{thm:c1e25}:
+\begin{theoremnonumb}[Variational inequality] % Theorem 1.25
+$u_0$ solves the problem if and only if
+\[
+	\langle \nabla f(u), u - u_0 \rangle_U = \langle S^*(Su_0 - y_\Omega) + \lambda u, u - u_0 \rangle_{U} \geq 0 \quad \forall u \in U_{ad}.
+\]
+The solution is unique if $\lambda > 0$ or $S$ is injective.
+\end{theoremnonumb}
+\underline{Lagrange function and adjoint state}
+\[
+	\mathcal{L}(y, u, p) \coloneqq J(y, u) - [a(y, p) + F_u(p)], \quad y, p \in V, u \in U
+\]
+This functions eliminates the equality constraint.
+The function $\mathcal{L}$ is Fréchet-differentiable with partial derivatives:
+\begin{IEEEeqnarray*}{rCl"l}
+	\langle \mathcal{L}_y(y, u, p), \psi \rangle &=& \langle y - y_\Omega, \psi \rangle - a(\psi, p) & \forall \psi \in V, \\
+	\langle \mathcal{L}_p(y, u, p), \xi \rangle &=& a(y, \xi) - F_u(\xi) & \forall \xi \in V, \\
+	\langle \mathcal{L}_u(y, u, p), \varphi \rangle &=& \lambda \langle u, \varphi \rangle + F_\varphi(p) & \forall \varphi \in U.
+\end{IEEEeqnarray*}
+\begin{theorem} % Thm 2.19
+\label{thm:c2e19}
+A pair $(y_0, u_0) \in V \times U_{ad}$ solves \cref{prb:c2e4-star} if and only if there exists a $p_0 \in V$ such that
+\begin{IEEEeqnarray*}{rCl"l}
+	\langle \mathcal{L}_y(y_0, u_0, p_0), v \rangle &=& 0 & \forall v \in V, \\
+	\langle \mathcal{L}_p(y_0, u_0, p_0), v \rangle &=& 0 & \forall v \in V, \\
+	\langle \mathcal{L}_u(y_0, u_0, p_0), u - u_0 \rangle &\geq& 0 & \forall u \in U_{ad}.
+\end{IEEEeqnarray*}
+\end{theorem}
+\begin{proof}
+We show that the three conditions are equivalent to the variational inequality using $\tilde{F} p_0 = S^*(S u_0 - y_\Omega)$.
+
+Assume the conditions hold at some point $(u_0, y_0, p_0)$. The second one means $y_0 = S u_0$. From the first one it follows 
+\[
+	\langle S u_0- y_\Omega, v \rangle = a(v, p_0) \quad \forall v \in V.
+\]
+Choosing $v = Sq$ with $q \in U$ arbitrary, then by definition of $S$
+\begin{IEEEeqnarray*}{rCl"l}
+	\langle S u_0 - y_\Omega, S q \rangle = a(S q, p_0) &=& F_q(p_0) & \forall q \in U. \\
+	&=& \langle q, \tilde{F} p_0 \rangle.
+\end{IEEEeqnarray*}
+Therefore,
+\[
+	S^*(S u_0 - y_\Omega) = \tilde{F} p_0.
+\]
+Now the last inequality shows
+\[
+	0 \leq \lambda \langle u, u - u_0 \rangle + F_{u - u_0}(p_0) = \langle \lambda u + S^*(S u_0 - y_\Omega), u - u_0 \rangle \quad \forall u \in U_{ad}.
+\]
+So $u_0$ solves the problem by \cref{thm:c1e25}.
+The converse direction is similar.
+\end{proof}
+\begin{remark} % Rem 2.20
+\label{rem:c2e20}
+The proof shows that
+\[
+	\nabla f(u) = S^*(S u - y_\Omega) + \lambda u = \tilde{F} p + \lambda u,
+\]
+where $p \in V$ is found by solving
+\begin{IEEEeqnarray*}{rCl"l}
+a(y, v) &=& F_u(v) & \forall v \in V, \\
+a(v, p) &=& \langle y - y_\Omega, v \rangle & \forall v \in V.
+\end{IEEEeqnarray*}
+By Lax-Milgram, the second problem always has a solution $p$.
+\end{remark}
+\begin{definition}[Adjoint state] % Def 2.21
+\label{def:c2e21}
+The second variational equality in \cref{rem:c2e20} is called \emph{adjoint equation} and the solution $p$ is called the \emph{adjoint state} for $y$.
+If $a$ is self-adjoint, the adjoint equation is ``of the same form'' as the state equation.
+\end{definition}
+\underline{Optimal stationary heating}
+\begin{IEEEeqnarray*}{u"rCl"l}
+minimize & \IEEEeqnarraymulticol{4}{l}{ \frac{1}{2} \| y - y_\Omega \|_{L^2(\Omega)}^2 + \frac{\lambda}{2} \| u \|_{L^2(\Omega)}^2 } \\
+subject to & - \lapl y &=& \beta \cdot u & \text{in } \Omega \\
+& y &=& 0 & \text{on } \Gamma \\
+and & u_a(x) &\leq& u(x) \leq u_b(x) & \text{\ac{ae}} 
+\end{IEEEeqnarray*}
+Here,
+\[
+	F_u(v) = \int_\Omega \beta(x) u(x) v(x) \dx \quad  \text{and thus} \quad \tilde{F} v = \beta \cdot v.
+\]
+From \cref{thm:c2e19,rem:c2e20} we obtain: \\
+\underline{Necessary and sufficient optimality}
+\begin{IEEEeqnarray*}{c}
+\begin{IEEEeqnarraybox}{rCl"rCl}
+- \lapl y &=& \beta \cdot u & - \lapl p &=& y - y_\Omega \\
+y|_\Gamma &=& 0 & p|_\Gamma &=& 0
+\end{IEEEeqnarraybox} \\
+u \in U_{ad} \\
+\langle \beta \cdot p + \lambda u, \varphi - u \rangle_{L^2(\Omega)} \geq 0 \quad \forall \varphi \in U_{ad}
+\end{IEEEeqnarray*}
+\paragraph{Point-wise discussion}
+\begin{lemma} % Lemma 2.22
+\label{thm:c2e22}
+The variational inequality
+\[
+	\langle \beta p + \lambda u, \varphi - u \rangle \geq \quad \forall \varphi \in U_{ad}
+\]
+is satisfied if any only if for almost every $x \in \Omega$ it holds
+\[
+	\left( \beta(x) p(x) + \lambda u(x) \right) \cdot \left( w - u(x) \right) \geq 0 \quad \forall w \in [u_a(x), u_b(x)].
+\]
+\end{lemma}
+\begin{proof}
+Fix representatives of all functions.
+The assertion is equivalent to
+\[
+	u(x) = \begin{cases}
+	u_a(x) & \text{if } \beta(x) p(x) + \lambda u(x) > 0 \\
+	\in [u_a(x), u_b(x)] & \text{if } \beta(x) p(x) + \lambda u(x) = 0 \\
+	u_b(x) & \text{if } \beta(x) p(x) + \lambda u(x) < 0
+	\end{cases}.
+\]
+Assume this was not true. \ac{wlog}\ the measurable set
+\[
+	A_+(u) = \{ x \in \Omega \midcolon \beta(x) p(x) + \lambda u(x) > 0 \}
+\]
+then contains a set $E_+ \subseteq A_+(u)$ of positive measure such that 
+\[
+	u(x) > u_a(x) \quad \forall x \in E_+.
+\]
+For the function
+\[
+	\varphi(x) = \begin{cases}
+	u_a(x) & \text{if } x \in E_+ \\
+	u(x) & \text{if } x \notin E_+
+	\end{cases} \in U_{ad}
+\]
+it follows
+\[
+	\int_\Omega (\beta p + \lambda u ) (\varphi -u ) \dx = \int_{E_+} (\beta p + \lambda u )\underbrace{(\varphi - u)}_{< 0} < 0.
+\]
+The reverse direction can be shown similarly.
+\end{proof}
+\begin{theorem} % Thm 2.23
+\label{thm:c2e23}
+$u_0 \in U_{ad}$ is an optimal control for the stationary heating problem if and only if it satisfies one of the following minimum principles for almost all $x \in \Omega$.
+\begin{itemize}
+\item \emph{weak minimum principle}
+\[
+	\inf_{w \in [u_a(x), u_b(x)]} \left( \beta(x) p_0(x) + \lambda u_0(x) \right) w = \left( \beta(x) p_0(x) + \lambda u_0(x) \right) u_0(x).
+\]
+\item \emph{minimum principle}
+\[
+	\inf_{w \in [u_a(x), u_b(x)]} \beta(x) p_0(x) w + \frac{\lambda}{2} w^2 = \beta(x) p_0(x) u_0(x) + \frac{\lambda}{2} u_0(x)^2
+\]
+\end{itemize}
+\end{theorem}
+\begin{proof}
+The weak minimum principle is stated in \cref{thm:c2e22}.
+The necessary and sufficient condition for the minimum principle is
+\[
+	\left( \beta(x) p(x) + \lambda w_0 \right) \cdot (w - w_0) \geq 0 \quad \forall w \in [u_a(x), u_b(x)].
+\]
+Therefore, we can apply \cref{thm:c2e22} once again.
+\end{proof}
+\paragraph{Bang-bang control}
+If $\lambda = 0$ and $\beta(x) p_0(x) \neq 0$ \ac{ae}, then \cref{thm:c2e22} states that \ac{ae}\ we have $u_0(x) = u_a(x)$ or $u_0(x) = u_b(x)$.
+This is called a \emph{bang-bang control} and is likely \underline{discontinuous}.
+
+\underline{Regularized case:}
+\begin{theorem} % Thm 2.24
+\label{thm:c2e24}
+If $\lambda > 0$, then $u_0$ is an optimal control if and only if
+\[
+	u_0(x) = \mathbb{P}_{[u_a(x), u_b(x)]} \left\{ - \frac{1}{\lambda} \beta(x) p_0(x) \right\},
+\]
+where $\mathbb{P}_{[u_a(x), u_b(x)]}$ is the standard metric projection.
+\end{theorem}
+\begin{proof}
+The theorem follows from \cref{thm:c2e23}.
+\end{proof}
+\underline{KKT conditions}
+By \cref{thm:c1e50} and the conclusion afterwards, a solution of the KKT conditions for convex programs solves the program.
+The KKT condition for $u_a(x) \leq u(x) \leq u_b(x)$ \ac{ae}\ reads (c.f.\ \cref{sec:c1e6} for $G$ and $K^+$):
+\begin{IEEEeqnarray*}{rCl}
+\nabla f(u) - \mu^a + \mu^b &=& 0 \\
+\IEEEeqnarraymulticol{3}{c}{ u_a(x) \leq u(x) \leq u_b(x) \; \text{\ac{ae}}, \; \mu^a(x) \geq 0, \; \mu^b(x) \geq 0 \; \text{a.e.} } \\
+\langle -u - u_a, \mu^a \rangle_{L^2} + \langle u - u_b, \mu^b \rangle_{L^2(\Omega)} &=& 0 \quad \text{(slack condition)}
+\end{IEEEeqnarray*}
+We have also seen that the slack conditions is equivalent to the point-wise conditions
+\[
+	(-u(x) - u_a(x)) \mu^a(x) = 0, \;\; (u(x) - u_b(x)) \mu^b(x) = 0 \quad \text{\ac{ae}}.
+\]
+The existence of multipliers is not implied by any results we have, but given $u_0$, the choices
+\[
+	\mu_0^a = [\nabla f(u_0)]_+, \quad \mu_0^b = - [\nabla f(u_0)]_-
+\]
+work. Finally, since
+\[
+	\nabla f(u) = \beta \cdot p + \lambda u
+\]
+(\cref{rem:c2e20}).
+\begin{theorem}[Necessary and sufficient KKT conditions] % Thm 2.25
+\label{thm:c2e25}
+\begin{IEEEeqnarray*}{c}
+\begin{IEEEeqnarraybox}{rCl"rCl}
+- \lapl y &=& \beta u & -\lapl p &=& y - y_\Omega \\
+y|_\Gamma &=& 0 & p|_\Gamma &=& 0
+\end{IEEEeqnarraybox} \\
+\beta p + \lambda u - \mu^a + \mu^b = 0\\
+u_a \leq u \leq u_b, \;\; \mu^a \geq 0, \;\; \mu^b \geq 0 \quad \text{\ac{ae}} \\
+\mu^a(u_a - u) = \mu^b(u - u_b) = 0 \quad \text{\ac{ae}}
+\end{IEEEeqnarray*}
+\end{theorem}
+\end{document}
