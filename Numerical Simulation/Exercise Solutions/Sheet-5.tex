@@ -1,0 +1,83 @@
+\documentclass[a4paper, oneside, USenglish]{amsart}
+
+\usepackage{babel}
+\usepackage{mathtools}
+\usepackage{IEEEtrantools}
+\usepackage{mdframed}
+\usepackage{geometry}
+\usepackage{dsfont}
+
+\usepackage{parskip}
+
+\begin{document}
+\title{Numerical Simulation - Exercise Sheet 5 Solutions}
+\maketitle{}
+\section*{Theoretical Exercise 1}
+Since the integrand is greater or equal to zero, the minimum will be greater or equal to zero as well. Now observe that any function for which $u^2(x) = 1$ a.e.\ holds is a minimizer as it attains the value zero. In other words, $u(x) = \pm 1$ a.e.\ has to hold for any minimizer. The space $L_\infty([0, 1])$ is then sufficient: For two solutions $u_1(x)$ and $u_2(x)$ consider the sets $\{ x \mid u_1(x) = 1 \wedge u_2(x) = -1 \text{ a.e.}\}$, $\{ x \mid u_1(x) = -1 \wedge u_2(x) = 1 \text{ a.e.}\}$, $\{ x \mid u_1(x) = u_2(x) \text{ a.e.}\}$. These three sets united make up $[0,1]$, possibly without a set of measure zero, as any solution has to fulfill $u(x) = \pm 1$ a.e. If any of the first two sets has positive measure, then the difference between $u_1$ and $u_2$ is $2$ - otherwise it is zero and they are not different a.e.
+\section*{Theoretical Exercise 2}
+\underline{Idea:} Apply Theorem 1.25 from the lecture. In order to do this, we have to reformulate our control problem and determine $S^*$. Let's make some preliminary observations:
+\begin{itemize}
+\item There exists a linear and continuous operator $S : L^2(\Omega) \to L^2(\Omega), \; u \mapsto y$. By Lax-Milgram, there is a linear and continuous operator $T : L^2(\Omega) \to H_0^1(\Omega), \; u \mapsto y$ such that
+\begin{IEEEeqnarray*}{rCl}
+\| T u \|_{H^1} &=& \| y \|_{H^1} \\
+&\overset{\text{Lax-Milgram}}{\leq}& c \| \beta u \|_{L^2} \\
+&\overset{\text{C.S.}}{\leq}& c \| \beta \|_{L^2} \| u \|_{L^2}. 
+\end{IEEEeqnarray*}
+Furthermore, $E : H_0^1(\Omega) \hookrightarrow L^2(\Omega)$ is a linear and continuous embedding. Hence $S \coloneqq E T$ is suitable.
+
+Conclusively, our control problem is equivalent to (by the uniqueness guaranteed by Lax-Milgram):
+\[
+	\min_{u \in U_{ad}} f(u) \coloneqq \frac{1}{2} \| S u - y_\Omega \|_{L^2}^2 + \frac{\lambda}{2} \| u \|_{L^2}^2.
+\]
+Note that $U_{ad}$ and $f$ are convex ($\lambda > 0$).
+\item Let $z \in L^2(\Omega)$ and let $y \in H_0^1(\Omega)$ and $p \in H_0^1(\Omega)$ be the solutions to
+\begin{IEEEeqnarray*}{rCl"l}
+\int_\Omega \nabla y \nabla v \: \mathrm{d}x &=& \int_\Omega \beta u v \: \mathrm{d}x & \forall v \in H_0^1(\Omega), \\
+\int_\Omega \nabla p \nabla w \: \mathrm{d}x &=& \int_\Omega z w \: \mathrm{d}x & \forall w \in H_0^1(\Omega),
+\end{IEEEeqnarray*}
+respectively.
+Then it holds (since $y, p \in H_0^1(\Omega)$)
+\begin{equation}
+\label{eq:1}
+	\int_\Omega \beta u p \: \mathrm{d} x = \int_\Omega \nabla y \nabla p \: \mathrm{d} x = \int_\Omega z w \: \mathrm{d} x.
+\end{equation}
+\item $S^* : L^2(\Omega) \to L^2(\Omega)$ is given by $S^* z \coloneqq \beta p$, where $p \in H_0^1(\Omega)$ is the unique weak solution of
+\begin{IEEEeqnarray*}{rCl"l}
+-\Delta p &=& z, & z \in L^2(\Omega) \;\; \text{in } \Omega \\
+p &=& 0 & \text{on } \partial \Omega.
+\end{IEEEeqnarray*}
+Let $z, u \in L^2(\Omega)$ be arbitrary. Then we obtain
+\[
+	\langle S^* z, u \rangle \overset{\text{def}}{=} \langle z, Su \rangle = \langle z, y \rangle \overset{\eqref{eq:1}}{=} \langle \beta p, u \rangle
+\]
+and thus $S^* z = \beta p$.
+\item It remains to compute
+\[
+	\langle (S^* S + \lambda) u - S^* y_\Omega, v - u \rangle \quad \text{for } u - v \in U_{ad}
+\]
+and $z = y - y_\Omega \in L^2(\Omega)$.
+We have
+\[
+	S^* (S u - y_\Omega) = S^* (y - y_\Omega) = \beta p.
+\]
+\end{itemize}
+The statement follows then by Theorem 1.25
+\section*{Theoretical Exercise 3}
+Assume there was an interior point $u^*$. Consider the function
+\[
+	u_n = u^* + (\| b \|_\infty + \| a \|_\infty + 1) \mathds{1}_{\left[ 0, \frac{1}{n^p} \right]}.
+\]
+Then
+\begin{IEEEeqnarray*}{rCl}
+	\| u^* - u_n \|_{L_p([0,1])} &=& \left\| u^* - u^* + (\| b \|_\infty + \| a \|_\infty + 1) \mathds{1}_{\left[ 0, \frac{1}{n^p} \right]} \right\|_{L_p([0,1])} \\
+	&=& \left\| (\| b \|_\infty + \| a \|_\infty + 1) \mathds{1}_{\left[ 0, \frac{1}{n^p} \right]} \right\|_{L_p([0, 1])} \\
+	&=& \sqrt[p]{\int_0^1 \left( (\| b \|_\infty + \| a \|_\infty + 1) \mathds{1}_{\left[ 0, \frac{1}{n^p} \right]} \right)^p} \\
+	&=& \sqrt[p]{\int_0^\frac{1}{n^p} \left( \| b \|_\infty + \| a \|_\infty + 1 \right)^p} \\
+	&=& \frac{1}{n} \cdot (\| b \|_\infty + \| a \|_\infty + 1)
+\end{IEEEeqnarray*}
+As $(\| b \|_\infty + \| a \|_\infty + 1) < \infty$, this is bounded and converging to zero for $n \to \infty$. Using the triangle inequality, we can bound 
+\[
+	\| u_n \|_{L_p([0,1])} \leq \| u^* \|_{L_p([0, 1])} + \frac{1}{n} \cdot (\| b \|_\infty + \| a \|_\infty + 1)
+\]
+and thus $u_n \in L_p([0, 1])$. Lastly, note that because $a(x) + \| b \|_\infty + \| a \|_\infty + 1 > b(x)$, no $u_n$ can be in the set, as they do not fulfill $a(x) \leq u_n(x) \leq b(x)$ on the set $\left[ 0, \frac{1}{n^p} \right]$, which has non-zero measure. Now, $u_n \to u^*$ in $L_p([0, 1])$ and thus no neighborhood of $u^*$ can be contained in the set - contradicting $u^*$ being an interior point.
+\end{document}
