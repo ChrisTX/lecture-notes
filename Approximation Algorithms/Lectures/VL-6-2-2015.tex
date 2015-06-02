@@ -1,0 +1,189 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+\underline{Observation:} We can assume $|\delta(v)| \geq 2 \quad \forall v \in V(G)$. For isolated vertices this is clear, for vertices of degree one, we can replace them by their neighbor, as that neighbor has to be part of any solution.
+
+For $K \subseteq V(G)$ we denote by
+\begin{itemize}
+\item $\SMT(K)$: an optimum Steiner tree for the terminal set $K$.
+\item $\smt(K)$: length of $\SMT(K)$.
+\item $\smt_v(K)$, $v \in V(G)$: shortest possible length of a Steiner tree for $K$, where vertex $v$ has degree at least 2. Obviously, $\smt_v(K) \geq \smt(K)$.
+\end{itemize}
+\begin{lemma} % Lemma 65
+\label{thm:65}
+Let $G = (V, E)$ be a graph with edge weights, $R \subseteq V$ a terminal set, $\emptyset \neq K \subseteq R$ and $v \in V \setminus K$. Then:
+\begin{IEEEeqnarray*}{rCl}
+	\smt_v(K + v) &=& \min_{\emptyset \neq K' \subset K} \{ \smt(K' + v) + \smt(K \setminus K' + v )\} \\
+	\smt(K + v) &=& \min \left\{ \min_{w \in K} \left\{ \dist(v, w) + \smt(K) \right\}, \min_{w \notin K} \left\{ \dist(v, w) + \smt_w(K+w) \right\} \right\}
+\end{IEEEeqnarray*}
+(here, $K + v \coloneqq K \cup \{ v \}$).
+\end{lemma}
+\begin{proof}
+Consider a Steiner tree for $K + v$, where $v$ has degree at least 2. Then we can decompose this tree into 2 subtrees on terminal sets $K_1 + v$ and $K_2 + v$ such that $K_1 \cup K_2 = K$, $K_1 \cap K_2 = \emptyset$. Then,
+\[
+	\smt_v(K + v) = \smt(K_1 + v) + \smt(K_2 + v).
+\]
+
+Now consider a \ac{SMT} $T$ for $K + v$. Trivially, the left hand side is smaller or equal to the right hand side, as those are the sizes of special Steiner tree.
+If vertex $v$ has degree at least 2 in this tree, then
+\[
+	\smt(K + v) = \smt_v(K + v) \quad \text{(choose $w = v$ in the second expression)}.
+\]
+If vertex $v$ has degree 1: choose a longest parth starting in $v$ in $T$ such that all interior vertices of this path are Steiner vertices of degree 2.
+Let $w$ be the other end vertex of this path.
+If $|\delta_T(w)| \geq 3$, $w \notin K$, then
+\[
+	\smt(K + v) = \dist(v, w) + \smt_w(K + w).
+\]
+If $w \in K$, then
+\[
+	\smt(K + v) = \dist(v, w) + \smt(K).
+\]
+\end{proof}
+\begin{algorithmbox}[Dreyfus-Wagner Algorithm (1971)]
+\begin{tabular}{@{}ll}
+\textit{Input:} & $G = (V, E)$, $R \subseteq V(G)$, $c : E(G) \to \R_+$\\
+\textit{Output:} & $\SMT(R)$
+\end{tabular}
+\end{algorithmbox}
+\vspace{-7pt}
+\begin{algorithm}[H]
+Compute $\dist(v, w)$ for all $v, w \in V(G)$\label{alg:DWA-1}\;
+\For{$i = 2$ \KwTo $|R| - 1|$}{
+	\ForAll{$K \subset R$ with $|K| = i$ and all $v \in V \setminus K$}{
+		$\smt_v(K+v) \coloneqq \min_{\emptyset \neq K' \subset K} \left\{ \smt(K' + v) + \smt(K \setminus K' + v) \right\}$\label{alg:DWA-4}\;
+	}
+	\ForAll{$K \subset R$ with $|K| = i$ and all $v \in V \setminus K$\label{alg:DWA-5}}{
+		$\begin{IEEEeqnarraybox}[][c]{rCll} \smt(K + v) &\coloneqq& \min \left\{ \vphantom{\min_{w \notin K}} \right. & \min_{w \in K} \left\{ \dist(v, w) + \smt(K) \right\}, \\ &&& \min_{w \notin K} \left\{ \dist(v, w) + \smt_w(K + w) \right\} \left. \vphantom{\min_{w \notin K}} \right\} \end{IEEEeqnarraybox}$\;
+	}
+}
+\end{algorithm}
+\vspace{-7pt}
+\EndAlgorithmLine
+\begin{theorem} % Thm 66
+\label{thm:66}
+The \textsc{Dreyfus-Wagner Algorithm} is correct and has runtime
+\[
+	\mathcal{O} \left( 3^{|R|} \cdot |V| + 2^{|R|} \cdot |V|^2 + |V|^2 \log |V| + |V||E| \right).
+\]
+\end{theorem}
+\begin{proof}
+Correctness follows immediately from the previous \cref{thm:65}.
+\begin{itemize}
+\item \cref{alg:DWA-1}: All pairs shortest paths: $|V| \times \text{Dijkstra}$.
+\item \cref{alg:DWA-4}: $\smt(K' + v) + \smt(K \setminus K' + v)$. Here, we have $\emptyset \subset K' \subset K \subset R$ and thus at most $3^{|R|}$ possibilities for each $v \in V \setminus K$, for which we have at most $|V|$ possibilities.
+\item \cref{alg:DWA-5}: $K \subset R$, $v \in V \setminus K$, $w \in V$.
+\end{itemize}
+\end{proof}
+In theory it is possible for $\varepsilon > 0$ to improve $3^{|R|}$ to $(2+\varepsilon)^{|R|}$.
+
+A Steiner tree is \emph{full} if all terminals are leaves. If a Steiner tree is not full, it can be decomposed into its \emph{full components}: maximal subtrees which are full Steiner trees. If all full components of a Steiner tree contain at most $k$ terminals, then the three is called \emph{$k$-Steiner tree}.
+\begin{lemma} % Lemma 67
+\label{thm:67}
+Let $T$ be a Steiner tree with $k$ terminals and $\varepsilon > 0$. Then there exists a subset of at most $1/\varepsilon$ Steiner vertices in $T$ such that by transforming these Steiner vertices into terminals, $T$ becomes a $\lceil \varepsilon k + 1 \rceil$-Steiner tree.
+\end{lemma}
+\begin{proof}
+Let $T$ be a $k$-Steiner tree that is \ac{wlog}\ full. The case $k = 2$ is trivial, so let $k \geq 3$.
+For a Steiner vertex $x \in V(T)$, we denote by $k_x$ the smallest number such that after transforming $x$ into a terminal we get  $k_x$-Steiner tree.
+
+\underline{Claim:} There exists a Steiner vertex $y \in V(T)$ such that $ky \leq \frac{k}{2} + 1$.
+\begin{proof}
+Choose $y$ arbitrarily. Assume $ky  > \frac{k}{2} + 1$. By moving $y$ into a subtree that has more than $\frac{k}{2}$ terminals, then the rest will have less than $\frac{k}{2}$ terminals.
+\end{proof}
+$k_y$ is an integer, thus
+\[
+	k_y \leq \left\lfloor \frac{k}{2 + 1} \right\rfloor.
+\]
+For $\varepsilon > \frac{1}{2} - \frac{1}{k}$ we have
+\[
+	\varepsilon k + 1 > \left( \frac{1}{2} - \frac{1}{k} \right) k + 1 = \frac{k}{2}.
+\]
+So assume $\varepsilon \leq \frac{1}{2} - \frac{1}{k}$. We perform ``induction'' on $\varepsilon$ to prove the statement.
+Assume the statement was not true. Choose the ``largest'' $\varepsilon$ for which the statement is false, but is true for $\frac{\varepsilon}{1-\varepsilon} > \varepsilon$.
+As $\varepsilon \leq \frac{1}{2} - \frac{1}{k}$, we have
+\[
+	(1-\varepsilon) \cdot k \geq \frac{k}{2} + 1.
+\]
+Choose a Steiner vertex $x^*$ in $V(T)$ such that $k_{x^*} \leq (1-\varepsilon) k$ and $k_{x^*}$ is largest possible. Transform $x^*$ into a terminal. This way, we obtain some full component $K$ with $k_{x^*}$ terminals. All other full components have to contain at most $\varepsilon \cdot k + 1$ terminals. By the same argument as in the proof of the claim, we can see that otherwise we could find a better $x^*$ in regard to $k_{x^*}$.
+Apply the Lemma to $K$: $\varepsilon' \coloneqq \frac{\varepsilon}{1- \varepsilon}$ (we know the statement holds for $\varepsilon'$ by the choice of $\varepsilon$).
+Then there exists a set of at most 
+\[
+	1/\varepsilon' = \frac{1 - \varepsilon}{\varepsilon} = \frac{1}{\varepsilon} - 1
+\]
+Steiner vertices in $K$, such that each full component contains at most
+\begin{IEEEeqnarray*}{rCl}
+\left\lceil \varepsilon' \cdot k_{x^*} + 1 \right\rceil &\leq& \left\lceil \frac{\varepsilon}{1-\varepsilon} (1-\varepsilon) \cdot k + 1 \right\rceil \\
+&=& \left\lceil \varepsilon \cdot k + 1 \right\rceil
+\end{IEEEeqnarray*}
+many terminals. In total we have used $\frac{1}{\varepsilon} - 1 + 1 = \frac{1}{\varepsilon}$ Steiner vertices.
+\end{proof}
+\begin{algorithmbox}[Attach Small Components-Algorithm (Fuchs et al. 2007)]
+\begin{tabular}{@{}ll}
+\textit{Input:} & $G = (V, E)$, $R \subseteq V(G)$, $c : E(G) \to \R_+$, $\varepsilon > 0$\\
+\textit{Output:} & $\SMT(R)$
+\end{tabular}
+\end{algorithmbox}
+\vspace{-7pt}
+\begin{algorithm}[H]
+\For{$R \subset \tilde{R} \subseteq V$, $|\tilde{R}| = |R| + \left\lfloor \frac{1}{\varepsilon} \right\rfloor$}{
+	\For{$K \subseteq \tilde{R}$, $|K| \leq \varepsilon \cdot |R|+1$}{
+		Compute $\SMT(K)$.\label{alg:ASC-3}\;
+	}
+	\For{$K \subseteq \tilde{R}$, $|K| > \varepsilon \cdot |R| + 1$}{
+		$\SMT(K) \coloneqq \min_{\substack{v \in K \\ K' \subset K \setminus \{ v \} \\ 0 < |K'| \leq \varepsilon \cdot |R| }} \left\{ \SMT(K' + v) \cup \SMT(K \setminus K') \right\}$\;
+	}
+}
+\end{algorithm}
+\vspace{-7pt}
+\EndAlgorithmLine
+\begin{theorem} % Thm 68
+\label{thm:68}
+The \textsc{Attach Small Components Algorithm} correctly computes $\SMT(R)$ and has runtime
+\[
+\mathcal{O} \left( n^\frac{1}{\varepsilon} \cdot |R| \cdot \left( \left( \frac{e}{\varepsilon} \right)^\varepsilon \cdot 2  \right)^{|R|} \right).
+\]
+\end{theorem}
+\begin{proof}
+Correctness: Let $T \coloneqq \SMT(R)$ and $A \subseteq V(T) \setminus R$ with $|A| \leq \frac{1}{\varepsilon}$ such that after transforming $A$ into terminals, the tree $T$ becomes a $\lceil \varepsilon \cdot |R| + 1 \rceil$-Steiner tree.
+Let $\tilde{R} \coloneqq R \cup A$, then $\SMT(R) = \SMT(\tilde{R})$.
+
+We have $\mathcal{O}\left( n^\frac{1}{\varepsilon} \right)$ possible choices for $\tilde{R}$ and at most
+\[
+	|R| \begin{pmatrix}
+	|\tilde{R}| \\ \varepsilon \cdot |R| + 1
+	\end{pmatrix}
+\]
+possibles choices for $K$ in \cref{alg:ASC-3}. Using the \textsc{Dreyfus-Wagner Algorithm} to compute $\SMT(K)$, we get $3^{\varepsilon \cdot |R|} \cdot n^3$. Overall we get $\mathcal{O} \left( 2^{|R|} \cdot \operatorname{poly}(n) \right)$.
+
+On the other hand, we have $\mathcal{O}\left( n^\frac{1}{\varepsilon} \right)$ possible choices for $\tilde{R}$. As $K \subset \tilde{R}$, we have $2^{|\tilde{R}|}$ possibilities for $K$.
+For $K' \subset \tilde{R}$, we have
+\[
+	|K'| \leq \varepsilon \cdot |R|
+\]
+and thus, have
+\[
+	\varepsilon \cdot |R| \cdot \begin{pmatrix}
+	|\tilde{R}| \\ \varepsilon \cdot |R|
+	\end{pmatrix}
+\]
+many possibilities.
+Hence, we have
+\[
+	\mathcal{O} \left( n^\frac{1}{\varepsilon} \cdot 2^{|\tilde{R}|} \cdot \varepsilon \cdot |R| \cdot \begin{pmatrix}
+	|\tilde{R}| \\ \varepsilon \cdot |R|
+	\end{pmatrix} \right) = \mathcal{O} \left( n^\frac{1}{\varepsilon} \cdot 2^{|R|} \cdot \varepsilon \cdot |R| \cdot \begin{pmatrix}
+	|R| \\ \varepsilon \cdot |R|
+	\end{pmatrix} \right)
+\]
+Using Sterling's formula,
+\[
+	\begin{pmatrix}
+		k \\ \varepsilon k
+	\end{pmatrix} \leq \left( \frac{e}{\varepsilon} \right)^{\varepsilon k}
+\]
+this yields
+\[
+	\mathcal{O} \left( n^\frac{1}{\varepsilon} \cdot 2^{|R|} \cdot \varepsilon \cdot |R| \cdot \left( \frac{e}{\varepsilon} \right)^{\varepsilon \cdot |R|} \right).
+\]
+\end{proof}
+\end{document}
