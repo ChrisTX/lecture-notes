@@ -3,11 +3,11 @@
 \begin{document}
 \underline{Observation:} We can assume $|\delta(v)| \geq 2 \quad \forall v \in V(G)$. For isolated vertices this is clear, for vertices of degree one, we can replace them by their neighbor, as that neighbor has to be part of any solution.
 
-For $K \subseteq V(G)$ we denote by
+In the following we assume we have a \emph{metric Steiner tree instance:} the shortest path between the two endpoints of an edge is greater or equal to the edge length. For $K \subseteq V(G)$ we denote by
 \begin{itemize}
 \item $\SMT(K)$: an optimum Steiner tree for the terminal set $K$.
 \item $\smt(K)$: length of $\SMT(K)$.
-\item $\smt_v(K)$, $v \in V(G)$: shortest possible length of a Steiner tree for $K$, where vertex $v$ has degree at least 2. Obviously, $\smt_v(K) \geq \smt(K)$.
+\item $\smt_v(K)$, $v \in V(G)$: shortest possible length of a Steiner tree for $K$, where all leaves are in $K$ and vertex $v$ has degree at least 2. Obviously, $\smt_v(K) \geq \smt(K)$.
 \end{itemize}
 \begin{lemma} % Lemma 65
 \label{thm:65}
@@ -49,7 +49,7 @@ If $w \in K$, then
 \vspace{-7pt}
 \begin{algorithm}[H]
 Compute $\dist(v, w)$ for all $v, w \in V(G)$\label{alg:DWA-1}\;
-\For{$i = 2$ \KwTo $|R| - 1|$}{
+\For{$i = 2$ \KwTo $|R| - 1$}{
 	\ForAll{$K \subset R$ with $|K| = i$ and all $v \in V \setminus K$}{
 		$\smt_v(K+v) \coloneqq \min_{\emptyset \neq K' \subset K} \left\{ \smt(K' + v) + \smt(K \setminus K' + v) \right\}$\label{alg:DWA-4}\;
 	}
@@ -86,9 +86,9 @@ Let $T$ be a Steiner tree with $k$ terminals and $\varepsilon > 0$. Then there e
 Let $T$ be a $k$-Steiner tree that is \ac{wlog}\ full. The case $k = 2$ is trivial, so let $k \geq 3$.
 For a Steiner vertex $x \in V(T)$, we denote by $k_x$ the smallest number such that after transforming $x$ into a terminal we get  $k_x$-Steiner tree.
 
-\underline{Claim:} There exists a Steiner vertex $y \in V(T)$ such that $ky \leq \frac{k}{2} + 1$.
+\underline{Claim:} There exists a Steiner vertex $y \in V(T)$ such that $k_y \leq \frac{k}{2} + 1$.
 \begin{proof}
-Choose $y$ arbitrarily. Assume $ky  > \frac{k}{2} + 1$. By moving $y$ into a subtree that has more than $\frac{k}{2}$ terminals, then the rest will have less than $\frac{k}{2}$ terminals.
+Choose $y$ arbitrarily. Assume $k_y  > \frac{k}{2} + 1$. By moving $y$ into a subtree that has more than $\frac{k}{2}$ terminals, then the rest will have less than $\frac{k}{2}$ terminals.
 \end{proof}
 $k_y$ is an integer, thus
 \[

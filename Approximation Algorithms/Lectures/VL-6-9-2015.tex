@@ -1,0 +1,110 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+Next, we discuss a 2-approximation due to Moore (1968).
+Let $G = (V, E)$, $c : E \to \R_+$, $R \subset V(G)$. We define the terminal distance graph $G_D(R)$ as a complete graph on $R$, with edge lengths representing the length of shortest path in $G$.
+\begin{algorithmbox}[Kou-Markowsky-Berman Algorithm]
+\begin{tabular}{@{}ll}
+\textit{Input:} & $G = (V, E)$, $R \subseteq V(G)$, $c : E(G) \to \R_+$\\
+\textit{Output:} & A Steiner tree for $R$ in $G$
+\end{tabular}
+\end{algorithmbox}
+\vspace{-7pt}
+\begin{algorithm}[H]
+compute $G_D(R)$\label{alg:KMB-step1}\;
+compute a minimum spanning tree $T_D$ in $G_D(R)$\;
+replace each edge of $T_D$ by a corresponding shortest path in $G$\;
+removes superfluous edges and return the result\;
+\end{algorithm}
+\vspace{-7pt}
+\EndAlgorithmLine
+\begin{theorem}[Kou, Markowsky, Berman \lbrack{}1981\rbrack{}] % Thm 69
+\label{thm:69}
+The \textsc{Kou-Markowsky-\\Berman Algorithm} has an approximation ratio of 2 and runtime $\mathcal{O}(n^2 \log n + nm)$.
+\end{theorem}
+\begin{proof}
+Take an \ac{SMT} and call the solution of the algorithm $T_{KMB}$.
+Double all edges in the \ac{SMT}, then there exists an Eulerian trail. By ordering the terminals as they appear in this trail, we obtain a path through these terminals in this order with length at most $2 \cdot \smt$. Thus
+\[
+c(E(T_{KMB})) \leq 2 \cdot \smt.
+\]
+
+Runtime: We have to run Dijkstra $n$ times for \cref{alg:KMB-step1}.
+\end{proof}
+\begin{remark}
+The analysis is tight: By considering a wheel (one vertex surrounded by terminals) with edges of length 1 and additional edges between all neighboring terminals but one with weight $2 - \varepsilon$, we obtain $\smt = n$, but $c(T_{KMB}) = (n-1)(2-\varepsilon)$. 
+\end{remark}
+Let $G = (V, E)$, $c : E \to \R_+$, $R \subseteq V$.
+For $x \in R$, we define the Voronoi region $\phi(x)$ as the set of all $y \in V(G)$ that have $x$ as the nearest vertex in $R$.
+If $y \in V(G)$ has several terminals in $R$ at minimum distance, then ``arbitrarily'' choose one such that a shortest path from $x$ to this terminal is completely contained in the Voronoi region of this terminal.
+
+Moreover, we define the modified terminal distance graph $G_D^*(R)$ as a graph on the vertex set $R$, where two vertices $x$ and $y$ of $R$ are connected in $G_D^*(R)$ if there exists $a \in \phi(x)$, $b \in \phi(y)$ such that $\{ a, b \} \in E(G)$.
+The length of an edge $\{ x, y \}$ in $G_D^*(R)$ is defined as
+\[
+	\min \left\{ \dist(a, x) + c(\{ a, b\}) + \dist(b, y) \gmid a \in \phi(x), b \in \phi(y) \vphantom{\Big\}} \right\}.
+\]
+It can occur that an edge $\{x, y\}$ is longer than a shortest path in the original graph, if that shortest path traversed other Voronoi regions.
+\begin{lemma} % Lemma 70
+\label{thm:70}
+Each minimum spanning tree in $G_D^*(R)$ is a minimum spanning tree in $G_D(R)$ as well.
+\end{lemma}
+\begin{proof}
+Prove there exists minimum spanning trees in $G_D$ that are also minimum spanning trees in $G_D^*$ and they have the same length.
+Let $T$ be a minimum spanning tree in $G_D$ that minimizes the number of edges not in $E(G_D^*)$. From all such possibilities for $T$, select one that minimizes the total length of all edges in $E(G_D^*)$.
+
+\underline{Claim:} $T$ is a minimum spanning tree in $G_D^*$ and has the same length as in $G_D$.
+\begin{proof}
+\NoEndMark
+Suppose not: There exists $s, t \in R$ such that $\{s, t\} \in E(T)$, but
+\begin{enumerate}[(i)]
+\item $\{s, t\} \in E(T) \setminus E(G_D^*)$ or
+\item $\| \{ s, t \} \|_{G_D^*} > \| \{ s, t \} \|_{G_D}$ (where $\| e \|_{G_D}$ denotes the edge length of $e$ in $G_D$)
+\end{enumerate}
+Let $\phi^{-1} : V \to R$ denote the closest terminal to each vertex and let $s = v_0, v_1, \ldots, v_r = t$ be the set of vertices of a shortest $s$-$t$-path in $G$. Then $T - \{ s, t\}$ has exactly 2 components. We know $\phi^{-1}(v_0) \neq \phi^{-1}(v_r)$ and therefore, there has to be a smallest $i$ such that $\phi^{-1}(v_{i-1}) \neq \phi^{-1}(v_i)$ and $\phi^{-1}(v_{i-1})$ and $\phi^{-1}(v_i)$ belong to different components of $T - \{ s, t \}$.
+
+Hence,
+\begin{IEEEeqnarray*}{rCl}
+	\| \{ \phi^{-1}(v_{i-1}), \phi^{-1}(v_i \} \|_{G_D} &\leq& \| \{ \phi^{-1}(v_{i-1}), \phi^{-1}(v_i) \}_{G_D^*} \\
+	&\leq& \dist(\phi^{-1}(v_{i-1}), v_{i-1}) + c(\{ v_{i-1}, v_i \}) + \dist(v_i, \phi^{-1}(v_i)) \\
+	&\leq& \dist(s, v_{i-1}) + c(\{ v_{i-1}, v_i \}) + \dist(v_i, t) \\
+	&=& \| \{ s, t\} \|_{G_D}. 
+\end{IEEEeqnarray*}
+Replace $\{s, t\}$ in $T$ by the edge $\{ \phi^{-1}(v_{i-1}), \phi^{-1}(v_i)\}$. Therefore, equality must hold in the above inequalities.
+Call the new tree $\tilde{T}$, $\tilde{T}$ contradicts the choice of $T$: Depending on which of the above cases hold, we get:
+\begin{enumerate}[(i)]
+\item $\tilde{T}$ has less edges not in $E(G_D^*)$,
+\item the total sum of edges in $\tilde{T}$ in $E(G_D^*)$ is smaller than in $T$.
+\end{enumerate}
+\end{proof}
+\end{proof}
+This immediately gives us a new algorithm derived from the \textsc{Kou-Markowsky-\\Berman Algorithm}, where we replace $G_D(R)$ by $G_D^*(R)$:
+\begin{algorithmbox}[Mehlhorn's Algorithm]
+\begin{tabular}{@{}ll}
+\textit{Input:} & $G = (V, E)$, $R \subseteq V(G)$, $c : E(G) \to \R_+$\\
+\textit{Output:} & A Steiner tree for $R$ in $G$
+\end{tabular}
+\end{algorithmbox}
+\vspace{-7pt}
+\begin{algorithm}[H]
+compute $G_D^*(R)$\;
+compute a minimum spanning tree $T_D$ in $G_D^*(R)$\label{alg:Mehlh-step2}\;
+replace each edge of $T_D$ by a corresponding shortest path in $G$\;
+removes superfluous edges and return the result\label{alg:Mehlh-step4}\;
+\end{algorithm}
+\vspace{-7pt}
+\EndAlgorithmLine
+\begin{theorem}[Mehlhorn \lbrack{}1988\rbrack{}] % Thm 71
+\label{thm:71}
+\textsc{Mehlhorn's Algorithm} is correct (i.e.\ a 2-approximation) and has runtime $\mathcal{O}(n \log n + m)$.
+\end{theorem}
+\begin{proof}
+Correctness is a result of \cref{thm:70}.
+
+We can compute the modified distance by adding a new vertex connected to all terminals by edges of length $0$. Starting Dijkstra's Algorithm in this vertex permits computing $\phi$ and $\phi^{-1}$ in $\mathcal{O}(n \log n + m)$.
+Sorting all edges of $E(G)$ by the pairs of terminals of their Voronoi-regions (bucket sort).
+The \crefrange{alg:Mehlh-step2}{alg:Mehlh-step4} can be performed in $\mathcal{O}(n \log n + m)$, as $|E(G_D^*(R))| \leq |E(G)|$.
+\end{proof}
+\begin{remark}[Floren \lbrack{}1991\rbrack{}]
+\cref{alg:Mehlh-step4} is no longer needed.
+\end{remark}
+\end{document}
