@@ -1,0 +1,143 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+\begin{proof}
+The proof can be found for example in \cite[Theorem 7.61]{GrossmannRoos}.
+
+We first show that $\bar{u}_h$ is bounded in $L^2$ independently of $h$. The function $\hat{u}_h \equiv u_a$ is in $U_{ad,h}$ for every $h$.
+Therefore, $\bar{u}_h$ satisfies
+\begin{IEEEeqnarray*}{rCl}
+	\frac{\lambda}{2} \| \bar{u}_h \|_{L^2(\Omega)}^2 &\leq& f_h(\bar{u}_h) \\
+	&\leq& f_h(\hat{u}_h) \\
+	&=& \frac{1}{2} \| S_h \hat{u}_h - y_\Omega \|_{L^2}^2 + \frac{\lambda}{2} \| \hat{u}_h \|_{L^2}^2 \\
+	&=& \frac{1}{2} \| S_h \hat{u}_h - y_\Omega \|_{L^2}^2 + \frac{\lambda}{2} u_a^2 |\Omega| 
+\end{IEEEeqnarray*}
+One can bound this term independently of $h$ by using $S_h \hat{u}_h \to S \hat{u}_h$ (convergence of FEM).
+We next prove convergence: The variational inequalities are
+\begin{IEEEeqnarray*}{rCl"l's}
+\langle S^* (S u_0 - y_\Omega) + \lambda u_0, u - u_0 \rangle_{L^2} &\geq& 0 & \forall u \in U_{ad} & (continuous problem) \\
+\langle S^* (S_h \bar{u}_h - y_\Omega) + \lambda \bar{u}_h, u_h - \bar{u}_h \rangle_{L^2} &\geq& 0 & \forall u_h \in U_{ad,h} & (discrete problem)
+\end{IEEEeqnarray*}
+Choose $u = \bar{u}_h$ and $u_h = \Pi_h u_0$, respectively, then:
+\begin{IEEEeqnarray*}{rCl}
+\langle S^* (S u_0 - y_\Omega) + \lambda u_0, \bar{u}_h - u_0 \rangle &\geq& 0 \\
+\langle S_h^* (S_h \bar{u}_h - y_\Omega) - S^* (S \bar{u}_h - y_\Omega) + \lambda \bar{u}_h, \Pi_h (u_0 - \bar{u}_h) \rangle + \langle S^* (S \bar{u}_h - y_\Omega), \Pi_h u_0 - \bar{u}_h \rangle &\geq& 0
+\end{IEEEeqnarray*}
+We now add both inequalities and use that $S^* S$ is a positive semidefinite operator:
+\begin{equation}
+\label{eq:thm-c2e31-star}
+\tag{$\star$}
+\begin{IEEEeqnarraybox}[][c]{l}
+\langle (S^*_h S_h - S^* S) \bar{u}_h, \Pi_h u_0 - \bar{u}_h \rangle + \langle (S^* - S_h^*)y_\Omega, \Pi_h u_0 - \bar{u}_h \rangle \\
+ \quad {} + \langle S^* (S \bar{u}_h - y_\Omega) + \lambda \bar{u}_h, \Pi_h u_0 - u_0 \rangle \\
+\geq \langle S^* S(\bar{u}_h - u_0) + \lambda (\bar{u}_h - u_0), \bar{u}_h - u_0 \rangle \\
+\geq \lambda \| \bar{u}_h - u_0 \rangle_{L^2}^2.
+\end{IEEEeqnarraybox}
+\end{equation}
+By the properties of the FEM and the projector $\Pi_h$ it holds
+\[
+	S_h^* S_h \to S^* S, \;\; S_h^* \;\; \text{and} \;\; \Pi_h u_0 \to u_0 \quad \text{for } h \to 0.
+\]
+Since $\bar{u}_h$ is bounded independently of $h$, the left side of the inequality converges to 0.
+
+To estimate the convergence rate, we estimate the single contributions of the left side of the inequality. As $\Omega$ is convex, it is a classic result that
+\[
+	Su \in \underbrace{H_0^1(\Omega)}_{= V} \cap H^2(\Omega)
+\]
+and
+\[
+	\| (S_h - S) u \|_{L^2} \leq c_1 h^2 \| u \|_{L^2}, \;\; \| (S_h^* - S^*) u \|_{L^2} \leq c_2 h^2 \| u \|_{L^2} \quad \forall u \in L^2(\Omega).
+\]
+The boundedness of $\bar{u}_h$ implies
+\begin{IEEEeqnarray*}{rCl}
+\| (S_h^* S_h - S^* S) \bar{u}_h \| \leq c_3 h^2.
+\end{IEEEeqnarray*}
+Therefore, the first two terms on the left side of \cref{eq:thm-c2e31-star} can be estimated (in modulus) by $ch^2$. To estimate the third term we note
+\[
+	\Pi_h u_0 - u_0 \perp \Pi_h S^*(S \bar{u}_h - y_\Omega) + \lambda \bar{u}_h \in U_h.
+\]
+Hence,
+\begin{IEEEeqnarray*}{rCl}
+|\langle S^*(S\bar{u}_h - y_\Omega) + \lambda \bar{u}_h, \Pi_h u_0 - u_0 \rangle | &=& |\langle (I - \Pi_h) S^* (S \bar{u}_h - y_\Omega), (I - \Pi_h) u_0 \rangle | \\
+&\leq& \| (I - \Pi_h) S^* (S \bar{u}_h - y_\Omega) \|_{L^2} \cdot \underbrace{ \|(I - \Pi_h) u_0\|_{L^2}}_{\substack{ {} \leq c h \cdot \| u_0 \|_{H^1} \\ \text{(\cref{thm:c2e29,thm:c2e30})}}}.
+\end{IEEEeqnarray*}
+By convexity of $\Omega$, $\bar{p}_h = S^*(S \bar{u}_h - y_\Omega) \in H_0^1 \cap H^2$.
+Now using \cref{thm:c2e30} we have
+\[
+	\| (I - \Pi_h) S^* ( S \bar{u}_h - y_\Omega) \|_{L^2} \leq c h \| S^*( S \bar{u}_h - y_\Omega) \|_{H^2}.
+\]
+\end{proof}
+\chapter{Linear-quadratic parabolic problems} % Ch 3
+\label{sec:c3}
+\section{The Fourier method in the 1D-case} % 3.1
+\label{sec:c3e1}
+\begin{problem}[Model problem (in this section): boundary control]
+\begin{IEEEeqnarray*}{u"l}
+minimize & J(y, u) \coloneqq \frac{1}{2} \int_0^1 [y(x, T) - y_\Omega(x)]^2 \dx + \frac{\lambda}{2} \int_0^T |u(t)|^2 \dt \\
+subject to & \left\{ \begin{IEEEeqnarraybox}[][c]{rCl"l}
+y_t(x, t) &=& y_{xx} (x, t) & \text{in } (0, 1) \times (0, T) \\
+y_x(0, t) &=& 0 & \text{in } (0, T) \\
+y_x(1, t) &=& \beta u(t) - \alpha y(1, t) & \text{in } (0, T) \\
+y(x, 0) &=& 0 & \text{in } (0, 1)
+\end{IEEEeqnarraybox} \right. \\
+and & u_a(t) \leq u(t) \leq u_b(t) \quad \text{\ac{ae} in } (0, T). 
+\end{IEEEeqnarray*}
+Here, $J(y, u)$ models the desired temperature at time $T$.
+Assumptions:
+\begin{IEEEeqnarray*}{rCl"s}
+T &>& 0 & (heating time) \\
+\alpha &\geq& 0 & (heat transmission coefficient) \\
+\beta &\in& L^\infty(0, T)_+ & (meaningful: $\beta \equiv \alpha$) \\
+y_\Omega &\in& L^2(0, 1) & (desired temperature) \\
+u_a, u_b &\in& L^2(0, T) \\
+\lambda &\geq& 0 & (regularization, cost of heating)
+\end{IEEEeqnarray*}
+\end{problem}
+\begin{theorem}[Solution of the state equation] % Thm 3.1
+\label{thm:c3e1}
+Consider
+\begin{equation}
+\tag{$\star$}
+\label{eq:c3e1-star}
+\left\{ \begin{IEEEeqnarraybox}[][c]{rCl}
+y_t(x, t) - y_{xx}(x, t) &=& g(x, t) \\
+y_x(0, t) &=& 0 \\
+y_x(1, t) + \alpha y(1, t) &=& w(t) \\
+y(x, 0) = y_0(x)
+\end{IEEEeqnarraybox} \right\} \text{ in } Q = (0, 1) \times (0, T),
+\end{equation}
+with $g \in L^2(Q)$, $w \in L^2(0, T)$, $y_0 \in L^2(0, 1)$.
+If $g, y_0$ and $w$ are smooth enough there exists a classical solution
+\begin{equation}
+\tag{$\star\star$}
+\label{eq:c3e1-starstar}
+\begin{IEEEeqnarraybox}[][c]{rCl}
+	y(x, t) &=& \int_0^1 G(x, \xi, t) y_0(\xi) \dxi + \int_0^t \int_0^1 G(x, \xi, t - s) g(\xi, s) \dxi \ds \\
+	&& \quad {} + \int_0^t G(x, 1, t - s) w(s) \ds,
+\end{IEEEeqnarraybox}
+\end{equation}
+with the Green's function
+\[
+	G(x, \xi, t) = \left\{ \begin{IEEEeqnarraybox}[][c]{r"l}
+	1 + 2 \sum_{n=1}^\infty \cos( n \pi x) \cos (n \pi \xi) \exp(-n^2 \pi^2 t) & \text{for } \alpha = 0 \\
+	\sum_{n=1}^\infty \frac{1}{N_n} \cos(\mu_n x) \cos(\mu_n \xi) \exp(-\mu_n^2 t) & \text{for } \alpha > 0
+	\end{IEEEeqnarraybox} \right. .
+\]
+Here $\mu_n$ are the solutions of $\mu \cdot \tan \mu = \alpha$ in ascending order, and
+\[
+	N_n = \frac{1}{2} + \frac{\sin(2 \mu_n)}{4 \mu_n}.
+\]
+Conversely, if $y_0 \in L^2(0, 1)$, $g\in L^2(Q)$, $w \in L^2(0, T)$, then \cref{eq:c3e1-starstar} defines a function $y \in L^2(Q)$, which depends continuously on $y_0, y, w$.
+\end{theorem}
+\begin{proof}
+The functions  $\varphi_n = \cos(n \pi x)$ and respectively $\psi_n = \cos(\mu_n x)$ are the eigenfunctions of $-\frac{\partial^2}{\partial x^2}$ given the boundary conditions imposed by $\alpha$, while $n\pi$ and respectively $\mu_n$ are the corresponding eigenvalues. One makes the ansatz
+\[
+	y(x, t) = \sum_{n=1}^\infty \varphi_n(x) z_n(t)
+\]
+and has to determine $z_n(t)$ from the equation, see \cite[Section 3.8]{Troeltzsch}.
+\end{proof}
+\begin{definition} % Def 3.2
+\label{def:c3e2}
+The function $y$ given by \cref{eq:c3e1-starstar} with $g \in L^2(Q)$, $w \in L^2(0, T)$, $y_0 \in L^2(0, 1)$ is called \emph{weak solution of \cref{eq:c3e1-star}}.
+\end{definition}
+\end{document}

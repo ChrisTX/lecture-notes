@@ -197,7 +197,7 @@ Technically $U_h = U$ is possible, but we omit this case.
 minimize & f_h(u_h) \coloneqq \frac{1}{2} \| S_h u_h - y_{\Omega, h} \|_{L_2}^2 + \frac{\lambda}{2} \| u_h \|_{L_2}^2 \\
 subject to & u_h \in U_{ad, h} \coloneqq \{ u \in U_h \mid u_a \leq u \leq u_b \; \text{\ac{ae}}\}
 \end{IEEEeqnarray*}
-Here, $S_h u_h = y_h$ solves
+Let $\lambda > 0$. Here, $S_h u_h = y_h$ solves
 \[
 	a(y_h, v_h) = \langle \beta u_h, v_h \rangle_{L_2} \quad \forall v_h \in V_h.
 \]
@@ -206,17 +206,17 @@ The task is exactly the same as before and all analogies hold (variational inequ
 We now assume we can solve the discrete problem exactly for $\bar{u}_h$, e.g.\ by running the PGM.
 The question is whether $\bar{u}_h \to \bar{u}$ for $h \to 0$ (and at what rate?).
 \paragraph{Convergence for the stationary heat equation}
-For simplicity, let $\beta \equiv 1$.
+For simplicity, let $\beta \equiv 1$, $u_a \equiv \text{const}$ and $u_b \equiv \text{const}$.
 Here, $V = H_0^1(\Omega)$, $U = L_2(\Omega)$ and
 \[
 	a(y, v) = \int_\Omega \nabla y \nabla v \dx.
 \]
 Discretization by FEM on a triangulation $\tau_h$ with elements $\Omega_j$:
-\begin{IEEEeqnarray*}{rCl"s}
-	V_h &\coloneqq& \{ v_h \in C(\bar{\Omega}) \mid v_h|_{\Omega_j} \in P_1(\Omega_j) \;\; \forall \Omega_j \in \tau_h \} \\
-	U_h &\coloneqq& \{ u_h \in L_2(\Omega) \mid u_h|_{\Omega_j} \in P_0(\Omega_j) \;\; \forall \Omega_j \in \tau_h \}
+\begin{IEEEeqnarray*}{rClCl}
+	V_h &\coloneqq& \{ v_h \in C(\bar{\Omega}) &\mid& v_h|_{\Omega_j} \in P_1(\Omega_j) \;\; \forall \Omega_j \in \tau_h \} \\
+	U_h &\coloneqq& \{ u_h \in L_2(\Omega) &\mid& u_h|_{\Omega_j} \in P_0(\Omega_j) \;\; \forall \Omega_j \in \tau_h \}
 \end{IEEEeqnarray*}
-Thus, functions in $V_h$ are piecewise linear (Basis: Hat functions on $\Omega_j$) and $U_h$ contains piecewise constant functions (Basis: characteristic functions on $\Omega_j$).
+Thus, functions in $V_h$ are piecewise linear (basis: hat functions on $\Omega_j$) and $U_h$ contains piecewise constant functions (basis: characteristic functions on $\Omega_j$).
 The orthogonal projection $\Pi_h : U \to U_h$ is given by
 \[
 \left(\Pi_h u\right)(x) = \frac{1}{|\Omega_j|} \int_{\Omega_j} u(\xi) \dxi \quad \forall x \in \Omega_j.
@@ -234,18 +234,15 @@ and
 if $u \in H^r(\Omega)$ for arbitrary $r$.
 \end{lemma}
 \begin{proof}
-Definition of box constraints and Bramble-Hilbert.
+Definition of box constraints and the Bramble-Hilbert Lemma.
 \end{proof}
 \begin{theorem} % Thm 2.31
 \label{thm:c2e31}
-For $h \to 0$, $u_a, u_b \in H^1(\Omega)$, the solution $\bar{u}_h \in U_{ad, h}$ of the discrete optimal control heating problem converges to the solution $\bar{u} \in U_{ad}$ of the continuous one.
+For $h \to 0$, $u_a, u_b \in H^1(\Omega)$, the solution $\bar{u}_h \in U_{ad, h}$ of the discrete optimal control heating problem converges to the solution $u_0 \in U_{ad}$ of the continuous one.
 If $\Omega$ is convex:
 \[
 \exists c > 0 \; : \; \| \bar{u}_h - \bar{u} \|_{L_2} \leq c \cdot h,
 \]
 where $h$ is the mesh width of the triangulation.
 \end{theorem}
-\begin{proof}
-The proof can be found for example in \cite{GrossmanRoos}.
-\end{proof}
 \end{document}
