@@ -1,0 +1,250 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+Hierzu einige Bemerkungen:
+\begin{remark}
+	\begin{enumerate}
+		\item Man kann zeigen, dass die schwachere Bedingung $h\leq C\kappa^{-3/2}$ für die Wohlgestelltheit ausreicht. 
+		\item Wie in der Übung gesehen ist das Verhalten im Bereich $c\kappa^{-3/2} \leq h \leq C\kappa^{-1}$ unklar, bzw. problematisch. Das ist der so genannte \emph{'Pollution-Effekt'}.
+		\item \cref{thm:c1e6s5} liefert mit \cref{thm:c2e8s3} die Abschätzung
+		\[
+        	\|u-u_h\|_\mathcal{H} \leq \kappa C(\Omega) \inf_{v_h\in\mathcal{P}^{1,0}(\Omega)}\|u-v_h\|_\mathcal{H}
+		\]
+		Dies ist pessimistisch, wie der folgende Satz zeigt.
+	\end{enumerate}
+\end{remark}
+
+\begin{theorem}[Quasioptimalität der FEM]\label{thm:c2e8s4}
+	Es existiert eine Konstante $C_3=C_3(\Omega) > 0$ derart, dass die FEM-Approximation $u_h\in\mathcal{P}^{1,0}(\mathcal{T}_h)$ unter der Bedingung $\kappa^2h\leq C_3\leq 1$ erfüllt:
+	\[
+		\|u-u_h\|_\mathcal{H}\leq C_4\inf_{v_h\in\mathcal{P}^{1,0}(\mathcal{T}_h)}\|u-v_h\|_\mathcal{H}
+	\]
+	mit $C_4 = C_4(\Omega)$ unabhänging von $\kappa$.
+\end{theorem}
+\begin{proof}
+	Dualitätsargument: Definiere $e\coloneqq u-u_h$ und suche die Lösung $z\in\mathcal{H}^1(\Omega)$ des Problems
+	\[
+		a(z,w) = \kappa^2\int_\Omega e\:\overline{w}\:dx,\quad\forall w\in H^1(\Omega)
+	\]
+	(Dieses Problem ist eindeutig lösbar auf Grund der inf-sup Bedingung des Helmholtz-Operators)\newline\noindent
+	Dann gilt, wie in den vorherigen Beweisen
+	\[
+		\|D^2z\|+\kappa\|z\|_\mathcal{H} \leq C(\Omega)\kappa^3\|e\|_{L^2(\Omega)}
+	\]
+	für $C(\Omega)$ unabhänging von $\kappa$. Dann ist 
+	\begin{IEEEeqnarray*}{rCl}
+		\kappa^2\|e\|_{L^2(\Omega)} &=& a(z,e) = a(e,z) \\
+		&\overset{\text{Galerkin}}=& a(e,z-z_h)\\
+		&\leq& C(\Omega) \|e\|_\mathcal{H}\|z-z_h\|_\mathcal{H} \\
+		&\overset{\ref{eqn:c2e8s9}}\leq& \tilde{C}(\Omega) (\kappa^3h^2+h\kappa^2) \|e\|_\mathcal{H}^2
+	\end{IEEEeqnarray*}
+	Nochmalige Anwendung der Galerkin Eigenschaft für $v_h\in\mathcal{P}^{1,0}(\mathcal{T}_h)$ zeigt:
+	\begin{IEEEeqnarray*}{rCl}
+		\|e\|_\mathcal{H}^2 &=& \re a(e,e) + 2\kappa^2\|e\|_{L^2(\Omega)}^2\\
+		&=& \re a(e,u-v_h) + 2\kappa^2\|e\|_{L^2(\Omega)}^2\\
+		&\leq& C(\Omega) \|e\|_\mathcal{H} \|u-v_h\|_\mathcal{H} + \underbrace{2\tilde{C}(\Omega)(\kappa^3 h^2 + h\kappa^2)\|e\|_\mathcal{H}^2}_{\leq 4\tilde{C}(\Omega)C_3}
+	\end{IEEEeqnarray*}
+	Die Wahl $C_3\leq \frac{1}{8\tilde{C}(\Omega)}$ ergibt die Aussage mit $C_4 = 2 C(\Omega)$.
+\end{proof}
+
+Insgesamt wissen wir jetzt alsos, dass
+\[
+	\|u-u_h\|_\mathcal{H} \leq C(\Omega)\kappa h \left( \|f\|_{L^2(\Omega)} + \|g\|_{L^2(\partial\Omega)} + \kappa^{-1} \|g\|_{H^{1/2}(\partial\Omega)} \right)
+\]
+
+\chapter{Die Stokes-Gleichungen} %3
+Die Beschreibung von Strömungen führt in der einfachsten Form auf die Gleichung
+\begin{problem}
+	Suche $u\in H^1_0(\Omega)$ und $p\in L^2_0(\Omega)\coloneqq\{v\in L^2(\Omega)|\,\int_\Omega v\,dx = 0\}$ so, dass
+	\begin{IEEEeqnarray*}{rCll}
+		-\Delta u + \nabla p &=& f & \text{in }\Omega\\
+		div\:u &=& 0&\text{in}\Omega\\
+		u &=& 0&\text{auf }\partial\Omega
+	\end{IEEEeqnarray*}
+	für gegebenes $f\in L^2(\Omega)$. Hierbei ist $u$ das Geschwindigkeitsfeld, $p$ der Druck, und die Divergenzbedingung entspricht der Massenerhaltung
+\end{problem}
+Diese Art von Problem führt auf \emph{Sattelpunktprobleme}
+
+\section{Abstrakte Sattelpunktprobleme und Brezzi's Splitting Theorem}\label{sec:c3e1}
+Es seien $V,M$ Hilberträume. Definiere \emph{beschränkte Blinearformen}
+\begin{IEEEeqnarray*}{rCl}
+	a:V\times V &\to&\mathbb{R}\\
+	b:V\times M &\to&\mathbb{R}
+\end{IEEEeqnarray*}
+d.h. es eistieren $C_a,C_b>0$ so dass $\forall v,w\in V, \mu\in M$ gilt
+\begin{IEEEeqnarray*}{rCl}
+	a(v,w) &\leq & C_a\|v\|_V\|w\|_V;\\
+	b(v,\mu) &\leq& C_b\|v\|_V\|\mu\|_M.
+\end{IEEEeqnarray*}
+\begin{problem}\label{prb:c3e1_sp}
+	Zu $F\in V', G\in M'$ lautet das Sattelpunktproblem: Finde $u\in V$, $\lambda\in M$, so dass
+	\begin{IEEEeqnarray*}{rCl}
+		a(u,v) + b(v,\mu) &=& F(v)\\
+		b(u,\mu) &=& G(\mu)
+	\end{IEEEeqnarray*}
+	für alle $(v,\mu)\in V\times M$
+\end{problem}
+\begin{remark}
+	Addition beider Gleichung führt auf
+	\[
+		\mathcal{B}\left(  (u,\mu), (v,\lambda{mu}) \right) = F(v) + G(\mu)
+	\]
+	für
+	\[
+		\mathcal{B}\left( (u,\mu), (v,\mu) \right) \coloneqq a(u,v) + b(v,\lambda) + b(v,\mu)
+	\]
+	definiert auf $(V\times M)\times (V\times M)$. Dies lässt sich prinzipiell mit der BBN-THeorie behandeln.\newline\newline\noindent
+	Durch Ausnutzung der Sattelpunkt-Struktur des Problems kann man jedoch eine einfache Charakterisierung für Wohlgestelltheit angeben.
+\end{remark}
+
+Die Form $b:V\times M\to\mathbb{R}$ definiert die linearen Abbildungen
+\begin{IEEEeqnarray*}{rl}
+	B:V\to M',& v\mapsto b(v,\cdot)\in M'\\
+	B':M\to V',& \mu\mapsto b(\cdot,\mu)\in V'.
+\end{IEEEeqnarray*}
+Definiere den Kern von $B$ durch
+\[
+	Z \coloneqq ker(B) = \{v\in V:\,\forall \mu\in M\,b(v,\mu) = 0\}.
+\]
+Zentrale Bedingung:
+\begin{equation}\label{eqn:c3e1s1} %In Vorlesung: (1)
+	\inf_{v\in Z, \|v\|_V=1}\sup_{w\in Z,\|w\|_Z=1} a(v,w) > \alpha < \inf_{v\in Z,\|v\|=1}\sup_{u\in Z,\|u\|_V=1}a(w,v)
+\end{equation}
+\begin{equation}\label{eqn:c3e1s2} %In vorlesung: (2)
+	\beta \leq \inf_{\mu\in M,\|\mu\|_M=1}\sup_{v\in V,\|v\|_1} b(v,\mu)
+\end{equation}
+für $\alpha,\beta>0$.
+
+\begin{remark}
+	\cref{eqn:c3e1s2} wird auch LBB Bedingung (Ladyzkenskaya-Babuska Bedingung) genannt.
+\end{remark}
+Wir erinnern uns an die \emph{Polare} eines Unterraumes $W\subseteq V$, welche gegeben sind durch
+\[
+	W^0 \coloneqq \left\{ L\in V'|\,\forall w\in W: L(w) = 0 \right\} \subseteq V'.
+\]
+\begin{lemma}\label{thm:c3e1s1}
+	\begin{enumerate}
+		\item $B':M\to Z^0$ ist Isomorphismus mit $\|(B')^{-1}\|_{\mathcal{L}(Z_0,M)} \leq \frac{1}{\beta}$
+		\item $B:Z^\perp \to M$ ist Isomorphismus mit $\|B^{-1}\|_{\mathcal{L}(M,Z^\perp)}\leq\frac{1}{\beta}$
+	\end{enumerate}
+	Hierbei ist 
+	\[
+		Z^\perp \coloneqq \{ v\in V:\,\forall z\in Z\,v(z)_V=0 \}.
+	\]
+\end{lemma}
+\begin{proof}
+	Übung (Satz vom abgeschlossenen Bild).
+\end{proof}
+
+\begin{theorem}[Brezzi's Splitting Theorem]\label{thm:c3e1s2}
+	\cref{prb:c3e1_sp} hat eine eindeutige Lösung $(u,\lambda)\in V\times M$ genau dann, wenn
+	(\ref{eqn:c3e1s1}) und (\ref{eqn:c3e1s2}) erfüllt sind. Außerdem
+	\begin{IEEEeqnarray*}{rCl}
+		\|u\|_V &\leq& \alpha^{-1}\|F\|_{V'}+\beta^{-1}\left(1+\frac{C_\alpha}{\alpha}\right) \|G\|_{M'};\\
+		\|\lambda\|_M &\leq& \beta^{-1}\left( 1+\frac{C_\alpha}{\alpha} \right)\|F\|_{V'} + \beta^{-1}\left( 1+ \frac{C_\alpha}{\alpha} \right)\|G\|_{M'}.
+	\end{IEEEeqnarray*}
+\end{theorem}
+\begin{proof}
+	\cref{thm:c3e1s1}  besagt:
+	\[
+		\exists u_0\in Z^\perp:\,Bu_0=G
+	\]
+	und
+	\[
+		\|u_0\|_V \leq \beta^{-1}\|G\|_{M'}.
+	\]
+	Definiere $w\coloneqq u-u_0$ und damit kann \cref{prb:c3e1_sp} umgeformt werden zu
+	\begin{equation}\label{prb:c2e1sp'}
+		\left.
+			\begin{aligned}
+				\forall (v,\mu)\in V\times M:\,a(w,v)+ b(v,\lambda) &=& F(v)\\
+				b(w,\mu) &=& 0
+			\end{aligned}
+		\right\}
+	\end{equation}
+	Bedingung \ref{eqn:c3e1s1} $\Rightarrow \exists!w\in Z$ mit
+	\[
+		a(w,v) = F(v) - a(u_0,v)\quad\forall v\in Z
+	\]
+	und 
+	\[
+		\|w\|_V \leq \alpha^{-1}\left( \|F\|_{V'} + C_\alpha\|u_0\|_V \right) 
+	\]
+	(BNB-Theorie)\newline\noindent
+	Wegen $F(\cdot) - a(u_0+w,\cdot)\in Z^0$ liefert \cref{thm:c3e1s1} ein eindeutiges $\lambda\in M$ mit
+	\[
+		b(v,\lambda) = F(v)-a(u_0+w,v),\quad\forall v\in V
+	\]
+	und 
+	\[
+		\|\lambda\|_M\leq\beta^{-1}\left( \|F\|_{V'} + C_\alpha\|u_0+w\|_V \right).
+	\]
+	Daraus folgt, dass $u\coloneqq u_0+w$ und $\lambda$ \cref{prb:c3e1_sp} eindeutig lösen. Die Stabilitätsabschätzungen folgen aus obigen Ungleichungen.\newline\newline\noindent
+	Die Rückrichtung (d.h. die notwendige Bedingung) wird in der Übung besprochen. 
+\end{proof}
+
+\section{Schwache Formulierung der Stokes-Gleichungen}\label{sec:c3e2}
+Wie immer sei $\Omega\subset\mathbb{R}^d$ beschränkt, offen, zusammenhängend, Lipschitz-beranded. Die Schwache Form der Stokes-Gleichungen lautet:
+\begin{problem}\label{prb:c3e2_p}
+	Gegeben $f\in L^2(\Omega)^d$, finde $u\in H^1+0(\Omega)^d$ und $p\in L^2_0(\Omega)$ so dass
+	\begin{IEEEeqnarray*}{rCl}
+		\int_\Omega Du: Dv\,dx - \int_\Omega div\,v\:p\,dx &=& \int_\Omega f\:v\,dx\\
+		\int_\Omega div\,u\:q\,dx &=& 0
+	\end{IEEEeqnarray*}
+	für alle $v\in H^1_0(\Omega)$, $q\in L^2_0(\Omega)$.
+\end{problem}
+\begin{remark}
+	Für $A,B\in\mathbb{R}^{d\times d}$ ist $A:B$ definiert durch
+	\[
+		A:B \coloneqq \sum_{j,k=1}^d A_{j,k}B_{j,k}.
+	\]
+\end{remark}
+\underline{Ziel: } Wohlgestelltheit von \cref{prb:c3e2_p} analysieren mittells Brezzi Theorem aus \cref{sec:c3e1}. Definiere $V\coloneqq H^1_0(\Omega)$ und $M\coloneqq L^2_0(\Omega)$ und für alle $v,w\in V, q\in M$
+\begin{IEEEeqnarray*}{rCl}
+	a(v,w) &\coloneqq& \int_\Omega Dv: Dw\,dx;\\
+	b(v,q) &\coloneqq& -\int_\Omega div\:v\:q\,dx;\\
+	F(v) &\coloneqq& \int_\Omega f\:v\,dx;\\
+	G &\coloneqq& 0.
+\end{IEEEeqnarray*}
+Damit ist \cref{prb:c3e2_p} äquivalent zu \cref{prb:c3e1_sp}. Es ist klar, dass $a(\cdot,\cdot)$ Bedingung (\ref{eqn:c3e1s1}) erfüllt, denn $a(\cdot,\cdot)$ ist sogar Skalarprodukt auf $V$ (bzw. siehe Friedrichs-Ungleichung). Es muss (\ref{eqn:c3e1s2}) verifiziert werden, d.h.
+\[
+	\inf_{q\in L^2_0(\Omega),\|q\|_{L_2(\Omega)}=1} \sup_{v\in H^1_0{\Omega}^d, \|v\|_{H^1(\Omega)} = 1} \int_\Omega q\:div\: v\,dx \geq \beta > 0.
+\]
+
+
+\begin{theorem}[Ladyzkenskaya-Lemma]\label{thm:c3e2s1}
+	\[
+		\forall q\in L^2_0(\Omega)\:\exists v\in H^1_0(\Omega)^d
+	\]
+	derart, dass $div\:v = p$ und
+	\[
+		\|v\|_{H^1(\Omega)} \leq C(\Omega)\|q\|_{L^2(\Omega)},
+	\]
+	d.h. $div\:\cdot$ ist surjektiv auf $L^2_0(\Omega)$ und hat eine stetige Rechtsinverse.
+\end{theorem}
+\begin{proof}
+	Später.
+\end{proof}
+
+\begin{theorem}\label{thm:c3e2s2}
+	\cref{prb:c3e2_p} ist Wohlgestellt, d.h.
+	\[
+		\forall f\in L^2(\Omega)\:\exists! (u,p)\in V\times M
+	\]
+	so dass \cref{prb:c3e2_p} erfüllt ist, und
+	\[
+		\|u\|_{H^1(\Omega)} + \|p\|_{L^2(\Omega)} \leq \tilde{C}(\Omega) \|f\|_{L^2(\Omega)}.
+	\]
+\end{theorem}
+
+\begin{proof}
+	Brezzi-Theorem anwenden: (\ref{eqn:c3e1s1}) gilt offenbar, (\ref{eqn:c3e1s2}) folgt aus \cref{thm:c3e2s1}:\newline\noindent
+	Zu $q\in M$ existiert $v$ mit $div\:v = q$ und $\|v\|_V\leq C(\Omega)\|q\|_{L^2(\Omega)}$
+	\begin{IEEEeqnarray*}{rCl}
+		b(v,q) &=& \int_\Omega (div\:v)\:q\,dx = \|q\|_{L^2(\Omega)}^2\\
+		&\geq& \|q\|_{L^2(\Omega)}\frac{1}{C(\Omega)}\|v\|_{H^1(\Omega)}
+	\end{IEEEeqnarray*}
+	$\Rightarrow$ inf über $q$, sup über $v$ liefert (\ref{eqn:c3e1s2})
+\end{proof}
+
+\end{document}
