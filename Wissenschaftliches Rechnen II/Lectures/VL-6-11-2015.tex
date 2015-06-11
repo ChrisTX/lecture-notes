@@ -1,0 +1,245 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+
+\begin{proof}[\cref{thm:c3e2s1} (Ladyzhenskaya-Lemma)]
+  	
+	Resultat ist nicht-trivial. Hier wird eine Beweisskizze für glatt-berandete Gebiete in 2D gegeben.\newline\newline\noindent
+	Zu $q\in L^2_0(\Omega)$ löse das Neumann-Problem
+	\begin{IEEEeqnarray*}{rcll}
+		\Delta z &=& q,&\text{in } \Omega\\
+		\frac{\partial z}{\partial \nu} &=& 0,&\text{auf }\partial\Omega 
+	\end{IEEEeqnarray*}
+	mit $z\in H^1(\Omega)\cap L^2_0(\Omega)$.\newline\noindent
+	Da $\Omega$ glatt ist, besagt die elliptische Regularitätstheorie, dass $z$ sogar in $H^2(\Omega)$ ist, und dass gilt
+	\[
+		\|z\|_{H^2(\Omega)} \leq C_1(\Omega) \|q\|_{L^2(\Omega)}^2.
+	\]
+	Definiere eine divergenzfreie Korrektur: Sei $\xi\in H^2(\Omega)$ mit $\xi|_{\partial\Omega}=0$. Dann
+	\begin{IEEEeqnarray*}{rCll}
+		\frac{\partial\xi}{\partial\nu} &=& \nabla z\cdot\tau,&\text{ auf }\partial\Omega.
+	\end{IEEEeqnarray*}
+	Der Spursatz besagt
+	\[
+		\|\xi\|_{H^2(\Omega)} \leq C_2(\Omega)\|z\|_{H^2(\Omega)} \leq C_1(\Omega)\|q\|_{L^2(\Omega)}.
+	\]
+	Definiere
+	\[
+		curl\:\xi \coloneqq \begin{pmatrix}\frac{\partial\xi}{\partial x_2}\\\frac{-\partial\xi}{\partial x_1}\end{pmatrix}\in H^1(\Omega)^2.
+	\]
+	Es gilt, dass $curl\:\xi$ die Bedingung
+	\[
+		div\:curl\:\xi = 0
+	\]
+	erfüllt, d.h. $curl\:\xi$ ist eine divergenzfreie Korrektur. Definiere nun
+	\[
+	 	v \coloneqq \nabla z + \underbrace{curl\:\xi}_{\text{divergenzfreie Korrektur}},
+	\]
+	und dann gilt
+	\[
+		div\:v = q.
+	\]
+	Außerdem $v\cdot\nu|_{\partial\Omega} = v\cdot\tau|_{\partial\Omega} = 0$, denn
+	\[
+		curl\:\xi\cdot\tau = \frac{\partial\xi}{\partial}{nu}
+	\]
+	und daher
+	\[
+		v\cdot|_{\partial\Omega} = \underbrace{\frac{\partial z}{\partial\nu}}_{0}
+			 + 
+		\underbrace{curl\:\xi\cdot\nu|_{\partial\Omega}}_{\pm\frac{\partial}{\partial\tau}\xi = 0}
+	\]
+	und analog für $v\cdot\tau$. Die Stabilität folgt mit der Dreiecksungleichung.
+\end{proof}
+
+\section{Abstrakte Diskretisierung}\label{sec:c3e3}
+Seien $V_h\subseteq V, M_h\subseteq M$ endlichdimensionale Unterräume. Die diskrete Form von \cref{prb:c3e1_sp} lautet
+\begin{equation*}
+	\left.
+		\begin{aligned}
+			a(u_h,v_h) + b(v_h,\lambda_h) = F(v_h) \\
+			b(u_h,\mu_h) = G(\mu_h)
+		\end{aligned}
+		\right\}\tag{(SPh)}
+		\label{prb:c3e3_sp_h}
+\end{equation*}
+Definiere
+\[
+	Z_h \coloneqq \left\{ v_h\in V_h|\,\forall\mu_h\in M_h:\:b(v_h,\mu_h) = 0 \right\}.
+\]
+\cref{thm:c3e1s2} (Brezzi) ergibt die Wohlgestelltheit von \cref{prb:c3e3_sp_h} unter den Bedingungen
+\begin{equation*}
+	\inf_{v_h\in Z_h,\|v_h\|_V=1}\sup_{w_h\in Z_h,\|w_h\|_V=1} a(v_h,w_h) \geq\alpha\leq\inf_{v_h\in Z_h,\|v_h\|_V}\sup_{w_h\in Z_h,\|w_h\|_V=1} a(w_h,v_h)\tag{(1h)}\label{eqn:c3e3s_1h}  %NAME (1h)
+\end{equation*}
+\begin{equation*}
+	\inf{\mu_h\in M_h,\|\mu_h\|_M=1}\sup_{v_h\in V_h,\,v_h\|_V=1} b(v_h,\mu_h) \geq\beta_h\label{eqn:c3e3s_2h}\tag{(2h)} %name: (2h)
+\end{equation*}
+mit $\alpha_h,\beta_h > 0$.
+\begin{remark}
+	\begin{enumerate}
+		\item Im Allgemeinen gilt $Z_h\not\subseteq Z$
+		\item (\ref{eqn:c3e1s1}) und (\ref{eqn:c3e2s2}) implizieren \underline{nicht} (\ref{eqn:c3e3s_1h}) und (\ref{eqn:c3e3s_2h})
+		\item (\ref{eqn:c3e3s_2h}) heißt auch \emph{diskrete LBB-Bedingung}
+	\end{enumerate}
+\end{remark}
+
+\begin{theorem}\label{thm:c3e3s2}
+	Bedingungen (\ref{eqn:c3e3s_1h}) und (\ref{eqn:c3e3s_2h}) implizieren Wohlgestelltheit von \cref{prb:c3e3_sp_h}, wenn zudem 
+	\[
+		\inf_{h}\alpha_h > c < \inf_h\beta_h,\quad\text{für } c>0.
+	\]
+	Dann gilt
+	\[
+		\|u-u_h\|_{V} + \|\lambda-\lambda_h\|_M \leq C\left( \inf_{v_h\in V_h}\|u-v_h\|_V + \inf_{\mu_h\in M}\|\lambda-\lambda_h\|_M \right).
+	\]
+\end{theorem}
+\begin{proof}
+	Existenz, Eindeutigkeit und Stabilität (ggf. $h$-abhängig) folgen aus der \emph{Brezzi}-Theorie. Wenn $\alpha_h,\beta_h$ gleichmäßig nach unten beschänkt sind, dann zeigt \cref{thm:c1e3s4}, dass der Lösungsoperator
+	\[
+		(F,G)\mapsto (u_h,\lambda_h)
+	\]
+	stetig ist, unabhängig von $h$. Die Abschätzung folgt dann aus \cref{thm:c1e6s4} (Quasi-Optimalität der Galerkin Methode). 
+\end{proof}
+
+\begin{definition*}[Stabile Paarung]
+	$(V_h,M_h)$ heißt \emph{stabilie Paarung}, wenn
+	\[
+		\inf_h\alpha_h > c < \inf_h\beta_h.
+	\]
+\end{definition*}
+
+\begin{theorem}[FORTIN-Kriterium]\label{thm:c3e3s3}
+	Wenn das ursprüngliche Problem wohlgestellt ist (d.h. (\ref{eqn:c3e1s1}) und \ref{eqn:c3e1s2} sind erfüllt) und (\ref{eqn:c3e1s_1h}) gilt, dann ist $(V_h,M_h)$ eine stabile Paarung, genau dann wenn es einen linearen Operator $\Pi_h:V\to V_h$ gibt, mit
+	\begin{enumerate}
+		\item $\exists C>0$ so dass für alle $v\in V,\forall h>0$ gilt
+				\[
+					\|\Pi_h v\|_V\leq C\|v\|_V
+				\]
+		\item $\forall h>0,\forall u\in V,\forall\mu_h\in M_h$ gilt
+				\[
+					b(\Pi_h u,\mu_h) = b(u,\mu_h)
+				\]
+	\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+	\textbf{$\Rightarrow$  }
+	Es sei $u\in V$. Definiere die linearen Funktionale 
+	\begin{IEEEeqnarray*}{rCl}
+		F(w) &\coloneqq& a(u,w) \\
+		G(\mu) &\coloneqq& b(u,\mu)
+	\end{IEEEeqnarray*}
+	für alle $w\in V,\mu\in M$. Dann löst $(u,0)\in V\times M$ das \cref{prb:c3e1_sp} mit rechter Seite $(F,G)$. Wenn $(V_h,M_h)$ stabile Paarung ist, dann hat \cref{prb:c3e3_sp_h} eine eindeutige Lösung $(u_h,\lambda_h)\in V_h\times M_h$ mit
+	\[
+		\|u_h\|_{V} + \|\lambda_h\|_{M}\leq C\left( \|F\|_{V'} + \|G\|_{M'} \right) \leq \tilde{C}\|u\|_V.
+	\]
+	Definiere nun
+	$\pi_h u\coloneqq u_h$. Dann sind beide Vorrausetzungen aus der Behauptung erfüllt.\newline\newline\noindent
+	\textbf{$\Leftarrow$  } Aus der Wohlgestelltheit des Problems folgt wegen (\ref{eqn:c3e1s2}):
+	\[
+		\beta \leq \inf_{0\not=\mu_h\in M_h}\sup_{0\not=v\in V}\underbrace{\frac{b(v,\mu_h)}{\|v\|_V\|\mu\|_M}}_{=\frac{b(\Pi_hv,\mu_h)}{\|v\|_V\|\mu\|_M} \leq C\frac{b(\Pi_h v,\mu_h)}{\|\Pi_h v\|_V\|\mu_h\|_M}}
+		=  C\inf_{0\not=\mu_h\in M_h}\sup_{0\not=v_h\in V_h} \frac{b(v_h,\mu_h)}{\|v_h\|_V\|\mu_h\|_M}.
+	\]
+	Die Aussage des Satzes (die linke Seite) folgt mit der Wahl $\beta_h = \frac{\beta}{C}$.
+\end{proof}
+
+\section{Das Mini-Element}\label{sec:c3e4}
+Welche Wahl von $V_h\subseteq H^1_0(\Omega)^d$ und $M_h\subseteq L^2_0(\Omega)$ ergibt stabile Paarungen für Stokes?\newline\newline\noindent
+\begin{example}[Standardmethode scheitert]\label{ex:c3e4s1}
+	Wähle $V_h = \left[\mathcal{P}^{1,0}(\mathcal{T}_h)\right]^d$ und $M_h = \mathcal{P}^{0,-1}(\mathcal{T}_h)\cap L^2_0(\Omega)$
+	ist \emph{nicht stabil} ($\rightsquigarrow$ Übungen).
+\end{example}
+\begin{definition}[Mini-Element und Bubble-Funktionen]\label{def:c3e4s2}
+	Definiere den Raum der \emph{Bubble-Funktionen}
+	\[
+		B(\mathcal{T}_h) \coloneqq \left\{ v\in C(\Omega)\bigg|\,v|_T\in span\:\left\{ \prod_{j=1}^{d-1}\lambda_j \right\}\text{ für alle }T\in\mathcal{T}_h \right\}
+	\]
+	Dabei sind $\lambda_j$ baryzentrische Koordinaten / nodale Basisfunktionen.\newline\noindent
+	Das \emph{Mini-Element} besteht aus
+	\[
+		V_h \coloneqq \left[ \mathcal{P}^{1,0}(\mathcal{T}_h) \right]^d \oplus \left[ B(\mathcal{T}_h) \right]^d,\quad M_h\coloneqq \mathcal{P}^{1,0}(\mathcal{T}_h)\cap L^2_0(\Omega).
+	\]
+	Dieser Ansatz ist ein Beisipel für eine \emph{gemischte Methode}, da man verschiedene Ansatzräume wählt.
+\end{definition}
+
+\begin{theorem}[Stabilität des Mini-Elements]\label{thm:c3e4s3}
+	Das Mini-Element definiert eine stabile Paarung (ist stabil).
+\end{theorem}
+
+\begin{proof}
+	Weil $a(\cdot,\cdot)$ koerziv ist, also ein Skalarprodukt, genügt es das \emph{FORTIN-Kriterium} aus \cref{thm:c3e3s3} zu benutzen. \newline\noindent
+	Wir erinnern uns an den Clément-Quasi-Interpolations-Operator
+	\[
+		R_h:H^1_0(\Omega)\to\mathcal{P}^{1,0}_0(\mathcal{T}_h)
+	\]
+	welcher erfüllt
+	\[
+		\forall v\in H^1_0(\Omega),\forall T\in\mathcal{T}_h:\quad \diam (T)^{-1}\|v-R_hv\|_{L^2(T)} + \|\nabla R_h v\|_T \leq C\|\nabla v\|_{L^2(\omega_T)},
+	\]
+	wobei $\omega_T \coloneqq \{ k\in\mathcal{T}_h:\,T\cap K\not=\emptyset\}$ \emph{Element-Patch}.\newline\noindent
+	Es sei zu $T\in\mathcal{T}_h\quad b_T= \prod_{j=1}^{d+1}\lambda_j$. Definiere den FORTIN-Operator
+	\[
+		\Pi_h: H^1_0(\Omega)^d \to V_h
+	\] 
+	durch
+	\[
+		\Pi_h(u) = R_h(u) + \sum_{T\in\mathcal{T}_h} \frac{b_T}{\int_T b_T\,dx}\int_T u-R_h u\,dx,\quad\forall u\in V.
+	\]
+	Dann erfüllt $\Pi_hu$ nach Konstruktion
+	\[
+		\int_T \Pi_h u - u\,dx = 0,\quad\forall T\in\mathcal{T}_h
+	\]
+	und daher mit partieller Integration
+	\[
+		\int_\Omega div\,(\Pi_hu-u)\:q_h\,dx = -\int_\Omega (\Pi_hu - u)\cdot\underbrace{\nabla q_h}_{\text{stückweise konstant}}\,dx = 0
+	\]
+	und das ist genau die zweite Eigenschaft aus \cref{thm:c3e3s3}. Die Stabilität folgt aus der Stabilität von $R_h$:
+	\[
+		\|\nabla\Pi_h u\|_T\leq 
+		\underbrace
+		{
+			\|\nabla_h R_h u\|_T}_{\leq C\|\nabla u\|
+			_
+			{\omega_T}
+		} 
+		+
+		\underbrace
+		{ 
+			\left\| 
+				\frac
+				{
+					\overbrace
+					{
+						b_T
+					}
+						^
+					{
+						\text{pktw. }\approx1
+					}
+				}
+				{
+					\int_T b_T\,dx
+				} 
+				\overbrace
+				{
+					\int_T u-R_hu\,dx
+				}
+					^
+				{
+					\leq\|u-R_hu\|_T\sqrt{\meas T}
+				} 
+			\right\|
+		}
+			_
+		{
+			\approx \meas T\leq \|u-R_hu\|_{L^2(T)}\leq\diam T\|\nabla u\|_{L^2(\omega_T)}
+		}.
+	\]
+\end{proof}
+Für das Mini-Element gilt
+\[
+	Z_h\not\subseteq Z_h.
+\]
+
+\end{document}
+
