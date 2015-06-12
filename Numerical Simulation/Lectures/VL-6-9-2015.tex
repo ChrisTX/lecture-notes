@@ -103,7 +103,7 @@ Consider
 y_t(x, t) - y_{xx}(x, t) &=& g(x, t) \\
 y_x(0, t) &=& 0 \\
 y_x(1, t) + \alpha y(1, t) &=& w(t) \\
-y(x, 0) = y_0(x)
+y(x, 0) &=& y_0(x)
 \end{IEEEeqnarraybox} \right\} \text{ in } Q = (0, 1) \times (0, T),
 \end{equation}
 with $g \in L^2(Q)$, $w \in L^2(0, T)$, $y_0 \in L^2(0, 1)$.
@@ -118,7 +118,7 @@ If $g, y_0$ and $w$ are smooth enough there exists a classical solution
 \end{equation}
 with the Green's function
 \[
-	G(x, \xi, t) = \left\{ \begin{IEEEeqnarraybox}[][c]{r"l}
+	G(x, \xi, t) = \left\{ \begin{IEEEeqnarraybox}[][c]{l"l}
 	1 + 2 \sum_{n=1}^\infty \cos( n \pi x) \cos (n \pi \xi) \exp(-n^2 \pi^2 t) & \text{for } \alpha = 0 \\
 	\sum_{n=1}^\infty \frac{1}{N_n} \cos(\mu_n x) \cos(\mu_n \xi) \exp(-\mu_n^2 t) & \text{for } \alpha > 0
 	\end{IEEEeqnarraybox} \right. .

@@ -32,7 +32,7 @@ The solution is unique if $\lambda > 0$ or $S$ is injective.
 \end{theoremnonumb}
 \underline{Lagrange function and adjoint state}
 \[
-	\mathcal{L}(y, u, p) \coloneqq J(y, u) - [a(y, p) + F_u(p)], \quad y, p \in V, u \in U
+	\mathcal{L}(y, u, p) \coloneqq J(y, u) + a(y, p) - F_u(p), \quad y, p \in V, u \in U
 \]
 This functions eliminates the equality constraint.
 The function $\mathcal{L}$ is Fréchet-differentiable with partial derivatives:
@@ -92,11 +92,15 @@ The second variational equality in \cref{rem:c2e20} is called \emph{adjoint equa
 If $a$ is self-adjoint, the adjoint equation is ``of the same form'' as the state equation.
 \end{definition}
 \underline{Optimal stationary heating}
-\begin{IEEEeqnarray*}{u"rCl"l}
-minimize & \IEEEeqnarraymulticol{4}{l}{ \frac{1}{2} \| y - y_\Omega \|_{L^2(\Omega)}^2 + \frac{\lambda}{2} \| u \|_{L^2(\Omega)}^2 } \\
-subject to & - \lapl y &=& \beta \cdot u & \text{in } \Omega \\
-& y &=& 0 & \text{on } \Gamma \\
-and & u_a(x) &\leq& u(x) \leq u_b(x) & \text{\ac{ae}} 
+\begin{IEEEeqnarray*}{u"l}
+minimize & \frac{1}{2} \| y - y_\Omega \|_{L^2(\Omega)}^2 + \frac{\lambda}{2} \| u \|_{L^2(\Omega)}^2 \\
+subject to &
+\left\{ 
+\begin{IEEEeqnarraybox}[][c]{rCl"l}
+- \lapl y &=& \beta \cdot u & \text{in } \Omega \\
+y &=& 0 & \text{on } \Gamma
+\end{IEEEeqnarraybox} \right. \\
+and & u_a(x) \leq u(x) \leq u_b(x) \quad \text{\ac{ae}} 
 \end{IEEEeqnarray*}
 Here,
 \[
@@ -117,7 +121,7 @@ u \in U_{ad} \\
 \label{thm:c2e22}
 The variational inequality
 \[
-	\langle \beta p + \lambda u, \varphi - u \rangle \geq \quad \forall \varphi \in U_{ad}
+	\langle \beta p + \lambda u, \varphi - u \rangle \geq 0 \quad \forall \varphi \in U_{ad}
 \]
 is satisfied if any only if for almost every $x \in \Omega$ it holds
 \[
@@ -147,7 +151,7 @@ For the function
 	\varphi(x) = \begin{cases}
 	u_a(x) & \text{if } x \in E_+ \\
 	u(x) & \text{if } x \notin E_+
-	\end{cases} \in U_{ad}
+	\end{cases} \;\; \in U_{ad}
 \]
 it follows
 \[

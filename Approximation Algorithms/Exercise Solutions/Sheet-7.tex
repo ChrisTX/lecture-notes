@@ -1,0 +1,50 @@
+\documentclass[oneside,a4paper]{amsart}
+
+\usepackage{geometry}
+\usepackage{parskip}
+\usepackage{mathtools}
+\usepackage{enumerate}
+\usepackage{IEEEtrantools}
+\usepackage{relsize}
+\usepackage{multirow}
+\usepackage{xfrac}
+
+\newcommand{\NP}{\ensuremath{N \! P}}
+\newcommand{\tp}{\ensuremath{\mathsmaller T}}
+\newcommand{\gmid}{\mathrel{}\middle|\mathrel{}}
+\newcommand{\midcolon}{\mathrel{}:\mathrel{}}
+\newcommand{\smallo}{\ensuremath{\mathit{o}}}
+
+\usepackage[vlined,linesnumbered]{algorithm2e}
+\usepackage{cleveref}
+\usepackage{tikz}
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{\node[shape=circle,draw,inner sep=1pt] (char) {#1};}}
+
+\DeclareMathOperator{\OPT}{OPT}
+
+% Algorithm2e specific
+\IncMargin{2.5em}
+\SetNlSty{circled}{}{}
+\SetNlSkip{1em}
+\DontPrintSemicolon
+\newcommand{\EndAlgorithmLine}{\vskip\medskipamount % or other desired dimension
+\leaders\vrule width \textwidth\vskip0.4pt % or other desired thickness
+\vskip\smallskipamount % ditto
+\nointerlineskip}
+
+\DeclareMathOperator{\dist}{dist}
+
+\begin{document}
+\title{Approximation Algorithms - Exercise Sheet 7 solutions}
+\maketitle{}
+\section*{Exercise 7.2}
+Let's discuss the implementability first: Use Dijkstra (on the directed graph obtained by replacing each edge with a pair of opposing, directed edges) starting from $v_1, v_2$ and $v_3$ and store the result. This can be done in $\mathcal{O}(m + n \log n)$. Using that information, we can determine $P$ and $a$ in linear time. Afterwards, traverse all vertices and if they fulfill the conditions (which can be checked in constant time after this step) and compute $\sum_{i=1}^3 \operatorname{dist}(v_i, z)$ for each one. By sorting the list of vertices obtained this way ($\mathcal{O}(n \log n)$), we can determine a minimizer and use the shortest paths to it computed by Dijkstra earlier. Overall, that's $\mathcal{O}(m + n \log n)$.
+
+As for correctness, first note that the algorithm will always output a Steiner tree: For this, we just have to show that the union of the paths does not intersect. Let w.l.o.g. the $v_1$-$z$ and $v_2$-$z$ paths intersect, and let $y$ be their last common vertex. By taking $y$ and the segment of the $v_1$-$z$-path from $z$ to $y$ (which is as long as the segment of the $v_2$-$z$ path, since both were shortest paths), we obtain $\dist(v_3, y) \leq \dist(z, y) + \dist(z, v_3)$. Furthermore, $\dist(v_i, y) \leq \dist(v_i, z) - \dist(z, y)$ for $i \in \{ 1, 2\}$. Thus:
+\[
+	\sum_{i=1}^3 \dist(v_i, y) \leq \sum_{i=1}^3 \dist(v_i, z) + \dist(z, y) - 2 \cdot \dist(z, y) < \sum_{i=1}^3 \dist(v_i, z).
+\]
+Moreover, $\dist(v_i, y) < \dist(v_i, z) \leq \dist(v_1, v_2)$ for $i \in \{ 1, 2\}$. Assume $\dist(v_3, y) = \dist(v_3, z) + \dist(z, y) > a$. As the new shortest $v_1, y$ and $v_2, y$ paths concatenated yield a $v_1$-$v_2$ path, we have that $\dist(v_1, y) + \dist(v_2, y) \geq |P|$. Thus, $\dist(v_3, y) > a$ or else $z$ is not a minimum. Then, $P$ together with the $v_3$-$P$ path yields a solution smaller or equal to this and the endpoint of the $v_3$-$P$ path fulfills both conditions by definition. The shortests paths from that endpoint to the 3 vertices cannot intersect each other either, by definition. Hence, $z$ cannot be a minimizer.
+
+On the other hand, consider an optimum Steiner tree for these terminals in the graph: We can decompose it into a path $P'$ from $v_1$ to $v_2$ and a path $Q$ from $v_3$ to some vertex $v^*$ in $P$. The weight of the tree is then $\sum_{i=1}^3 \dist(v_i, v^*)$. Note that because $P'$ is a $v_1$-$v_2$-path, $\dist(v_1, v^*) + \dist(v_2, v^*) = |P'| \geq |P| = \dist(v_1, v_2)$. Therefore, $\dist(v_3, v^*) \leq a$, since otherwise the Steiner tree found by the algorithm would be of smaller weight. As of such, $v^*$ induces a Steiner tree for the algorithm.
+\end{document}

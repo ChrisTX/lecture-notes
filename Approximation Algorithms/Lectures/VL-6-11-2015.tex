@@ -1,0 +1,117 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+We define $\SMT_k$ and $\smt_k$ as an optimum $k$-Steiner tree and its length, respectively.
+It cannot be always guaranteed that a $3$-Steiner tree exists in a graph (consider a 4-wheel). Therefore, we make the assumption that we take enough ($\leq n$) copies of $G$ which we identify in the terminals.
+Moreover, we will view the \textsc{Steiner Tree Problem} as a problem on hypergraphs.
+
+As we've seen already, the following inequalities hold:
+\[
+	\smt_k \geq \smt = \smt_n, \quad \smt_2 \leq 2 \cdot \smt.
+\]
+The \emph{Steiner ratio $r_k$} is defined as
+\[
+	r_k \coloneqq \sup_{G, R, c} \frac{\smt_k(G, R, c)}{\smt(G, R, c)}.
+\]
+We can restate $\smt_2 \leq 2 \cdot \smt$ then as $r_2 = 2$. In fact, one can find an explicit formula for $r_k$, which will be \cref{thm:73}. Beforehand, we need the following statement:
+\begin{proposition} % Prop 72
+\label{thm:72}
+Let $T$ be a full binary tree. Then there is an injective mapping $f$ from the interior nodes of $T$ to the leaves of $T$ such that
+\begin{enumerate}[(i)]
+\item If $x$ is an interior node, then $f(x)$ is a descendant of $x$
+\item For any two interior nodes $x$ and $y$ the two paths $p(x)$ from $x$ to $f(x)$ and $p(y)$ from $y$ to $f(y)$ are edge-disjoint
+\item There is a leaf in $T$ such that the path from the root to this leaf is edge-disjoint to all paths $p(x)$.
+\end{enumerate}
+\end{proposition}
+\begin{proof}
+By induction: The beginning is trivial and the induction step can be easily verified.
+\end{proof}
+\begin{theorem}[Borchers, Du \lbrack{}1997\rbrack{}] % Thm 73
+\label{thm:73}
+Let $k = 2^r + s$ with $0 \leq s < 2^r$.
+Then,
+\[
+	r_k = \frac{(r+1) \cdot 2^r + s}{r \cdot 2^r + s} \approx 1 + \frac{1}{\log k}.
+\]
+\end{theorem}
+\begin{proof}
+We first prove
+\[
+r_k \geq \frac{(r+1) \cdot 2^r + s}{r \cdot 2^r + s}.
+\]
+Let $B_n$ be the following instance: We take $2^n$ terminals with a complete binary tree above them. The weights $c : E(B_n) \to \R_+$ are defined to be $1$ on the lowest and second-lowest level, and above that the edge weights are double the weight of the level below. This way, each level has a total weight of $2^n$.
+Then, an optimum Steiner tree has to contain all edges, i.e.
+\[
+	\smt = (n+1) 2^n.
+\]
+Let $T$ be a $k$-Steiner tree for $B_n$. Then, each full component $T_i$ of $T$ is a subtree of $B_n$ containing at most $k$ terminals. Each full component $T_i$ contains a root (``highest vertex'') and some Steiner vertices of degree 3.
+
+\underline{Claim 1:} There exists a minimum $k$-Steiner tree $T$ for $B_n$ such that each vertex of $B_n$ is used as root or a Steiner vertex of degree 3 in at most one full component of $T$.
+\begin{proof}[Claim 1]
+Suppose $T$ is a minimum $k$-Steiner tree but does not satisfy the claim. Let $v$ be the highest vertex in $B_n$ such that there exists two different full components $A$ and $B$ of $T$ such that $v$ is a root or Steiner vertex of degree 3 in $A$ and $B$. We call the subtrees of $A$ and $B$ in the left subtree of $v$ $A_1$ and $B_1$ and the ones in the right subtree $A_2$, $B_2$ respectively.
+At least one of $A_1 \cap B_1$ and $A_2 \cap B_2$ contains no terminal (otherwise there was a circuit and we could remove an edge to lower the weight).
+\ac{wlog} $A_2 \cap B_2$ contains no terminal.
+
+Informally, we have to remove the edge going to $v$ to $B_2$ and connect $A_2$ to $B_2$ using the path in tree. The choice of weights means this won't change the weight.
+\end{proof}
+\underline{Claim 2:} There exists a minimum $k$-Steiner tree $T$ for $B_n$ such that each vertex of $B_n$ which is not a leaf and has no leaf as a neighbor is used as the root or a Steiner vertex of degree 3 in exactly one full component of T.
+\begin{proof}[Claim 2]
+$2^n -1$ vertices of $B_n$ are not leaves or a neighbor thereof. We need $2^n - 1$ roots or a Steiner vertices of degree 3 in order to attain connectivity. Thus, all are needed.
+
+Let
+\begin{itemize}
+\item $P$-edges: 2-edges between roots or a Steiner vertices of degree 3
+\item $C$-edges: all others.
+\end{itemize}
+These will be denoted by $P(T_i)$ and $C(T_i)$, respectively.
+\end{proof}
+\underline{Claim 3:} For each full component $T_i$ of $T$ we have
+\[
+	\sum_{e \in C(T_i)} c(e) \geq \frac{2^r}{r \cdot 2^r + s} \cdot \sum_{e \in P(T_i)} c(e).
+\]
+\begin{proof}[Claim 3]
+It suffices to prove the statement for full components of size $k = 2^r + s$.
+If $k' < k$, then
+\[
+	\frac{2r'}{r' \cdot 2^{r'} + s'} > \frac{2^r}{r \cdot 2^r + s}.
+\]
+Proof by induction on total sum of level distances of all roots or a Steiner vertices of degree 3 to the root of $T_i$. Let $w$ be the weight of edges starting on the $r+1$st level. Hence,
+\[
+\sum_{e \in P(T_i)} c(e) = 2^r \cdot 2 \cdot w \cdot r + 2 \cdot s \cdot w.
+\]
+and
+\[
+\sum_{e \in C(T_i)} c(e) = 2 \cdot s \cdot w + \left( 2^r -s \right) \cdot 2w = 2^r \cdot 2 w.
+\]
+Now assume $T_i$ does not have this structure.
+\begin{enumerate}[(i)]
+\item There is a the root or a Steiner vertex of degree 3 whose parent isn't such. By exchanging them, the induction hypothesis can be applied
+\item If there is one subtree with only such vertices and others that do not contain any, we can improve the solution by interchanging again.
+\end{enumerate}
+\end{proof}
+Sum inequality of Claim 3 over all full components of $T_i$:
+\begin{IEEEeqnarray*}{rCl}
+\sum_{i=1}^P \sum_{e \in C(T_i)} c(e) &\geq& \frac{2^r}{r \cdot 2^r + s} \cdot \underbrace{ \sum_{i=1}^P \sum_{e \in P(T_i)} c(e) }_{= \smt - 2^n}.
+\end{IEEEeqnarray*}
+Now,
+\begin{IEEEeqnarray*}{rCl}
+\smt_k(B_n) &=& \sum_{i=1}^P \sum_{e \in C(T_i)} c(e) + \sum_{i=1}^P \sum_{e \in P(T_i)} c(e) \\
+&\geq& \left( 1 + \frac{2^r}{r \cdot 2^r + s} \right) \cdot \left( \smt - 2^n \right).
+\end{IEEEeqnarray*}
+Hence,
+\[
+	r_k \geq \frac{\smt_k}{\smt} \geq \frac{(r+1) \cdot 2^r + s}{r \cdot 2^r + s} - \frac{2^n}{\smt} = \frac{(r+1) \cdot 2^r + s}{r \cdot 2^r +s} - \underbrace{ \frac{1}{n +1} }_{\to 0}
+\]
+
+For the other direction: Prove that $r_3 \leq \frac{5}{3}$ (the general case is essentially the same).
+Start with an optimum Steiner tree. We will present 3 3-Steiner trees of a total length at most $5 \cdot \smt$.
+
+\underline{Assumption 1:} Optimum solution is a full Steiner tree. If not: use induction.
+Given $R_1$ and $R_2$ with $D = R_1 \cap R_2$, we get
+\[
+\frac{\smt_k(R_1) + \smt_k(R_2)}{\smt(R_1) + \smt(R_2)} \leq \max \left\{ \frac{\smt_k(R_1)}{\smt(R_1)}, \frac{\smt_k(R_2)}{\smt(R_2)} \right\}.
+\]
+\underline{Assumption 2:} $\SMT$ is a complete binary tree with exactly its leaves being terminals.
+Split vertices of degree at least 4, connect them using an edge of weight 0, contract Steiner vertices of degree 2. Add terminals with edges of length 0.
+\end{proof}
+\end{document}

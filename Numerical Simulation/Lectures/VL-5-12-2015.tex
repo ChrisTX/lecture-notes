@@ -8,7 +8,7 @@
 In the following $\Omega \subseteq \R^N$ will be a \emph{domain} (i.e.\ open and connected), and $\Gamma = \partial \Omega$.
 \begin{definition}[spaces of continuous functions] % Def 2.1
 \label{def:c2e1}
-Let $\Omega$ be a bounded domain. The space $C(\bar{\Omega})$ consists out of all continuous functions $y : \bar{\Omega} \to \R$. The space $C^k(\bar{\Omega})$ consists out of all functions$y \in C^k(\Omega)$ such that $D^\alpha y$ can be continuously extended to $\bar{\Omega}$ for all multi-indices $|\alpha| \leq k$. We identify $D^\alpha y$ with its extension.
+Let $\Omega$ be a bounded domain. The space $C(\bar{\Omega})$ consists out of all continuous functions $y : \bar{\Omega} \to \R$. The space $C^k(\bar{\Omega})$ consists out of all functions $y \in C^k(\Omega)$ such that $D^\alpha y$ can be continuously extended to $\bar{\Omega}$ for all multi-indices $|\alpha| \leq k$. We identify $D^\alpha y$ with its extension.
 These spaces are Banach spaces under the norms
 \[
 	\| y \|_{C(\bar{\Omega})} = \max_{x \in \bar{\Omega}} |y(x)|, \quad \| y \|_{C^k(\bar{\Omega})} = \sum_{|\alpha|\leq k} \| D^\alpha y \|_{C(\bar{\Omega})}.
@@ -127,7 +127,7 @@ Here $a : V \times V \to \R$ is a bilinear form on a real Hilbert space $V$, and
 \label{thm:c2e10}
 Assume there exists constants $\alpha_0, \beta_0 > 0$, \ac{st}
 \begin{enumerate}[(i)]
-\item $|a(y, v)| \leq \alpha_0 \| y \|_V \cdot \| v \|_V \quad \forall y, v \in V$ (``\emph{Boundedness}'')
+\item $|a(y, v)| \leq \alpha_0 \| y \|_V \cdot \| v \|_V \quad \forall y, v \in V$ (``\emph{boundedness}'')
 \item $a(y,y) \geq \beta_0 \| y \|_V^2 \quad \forall y \in V$ (``\emph{coercivity}'')
 \end{enumerate}
 Then \cref{eq:c2e2-star} admits a unique solution for every $F \in V^*$, and there exists $c > 0$ (independent of $F$), \ac{st}
@@ -151,7 +151,7 @@ However, in many cases, e.g.\ the Poisson equation considered next, we have a sy
 \tag{$\star$}
 \begin{IEEEeqnarraybox}[][c]{rCl"l}
 -\lapl y &=& f & \text{in } \Omega \\
-y &=& 0 \text{on } \Gamma
+y &=& 0 & \text{on } \Gamma
 \end{IEEEeqnarraybox}
 \end{equation}
 Here, $f \in L^2(\Omega)$.\\
@@ -169,7 +169,7 @@ Find $y \in H_0^1(\Omega)$ such that
 \end{equation}
 This is equivalent to
 \[
-	\min \frac{1}{2} \int_\Omega \| \nabla y \|^2 \dx - \int_\Omega f \cdot y \dx.
+	\min \frac{1}{2} \int_\Omega \| \nabla y \|^2 \dx - \int_\Omega f y \dx.
 \]
 \begin{definition} % Def 2.12
 \label{def:c2e12}

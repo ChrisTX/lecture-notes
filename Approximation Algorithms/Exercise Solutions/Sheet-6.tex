@@ -1,0 +1,137 @@
+\documentclass[oneside,a4paper]{amsart}
+
+\usepackage{geometry}
+\usepackage{parskip}
+\usepackage{mathtools}
+\usepackage{enumerate}
+\usepackage{relsize}
+
+\newcommand{\NP}{\ensuremath{N \! P}}
+\newcommand{\tp}{\ensuremath{\mathsmaller T}}
+\newcommand{\gmid}{\mathrel{}\middle|\mathrel{}}
+\newcommand{\midcolon}{\mathrel{}:\mathrel{}}
+\newcommand{\smallo}{\ensuremath{\mathit{o}}}
+
+\usepackage[vlined,linesnumbered]{algorithm2e}
+\usepackage{cleveref}
+\usepackage{tikz}
+\usepackage{IEEEtrantools}
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{\node[shape=circle,draw,inner sep=1pt] (char) {#1};}}
+
+\DeclareMathOperator{\OPT}{OPT}
+
+% Algorithm2e specific
+\IncMargin{2.5em}
+\SetNlSty{circled}{}{}
+\SetNlSkip{1em}
+\DontPrintSemicolon
+\newcommand{\EndAlgorithmLine}{\vskip\medskipamount % or other desired dimension
+\leaders\vrule width \textwidth\vskip0.4pt % or other desired thickness
+\vskip\smallskipamount % ditto
+\nointerlineskip}
+
+\begin{document}
+\title{Approximation Algorithms - Exercise Sheet 6 solutions}
+\maketitle{}
+\section*{Exercise 6.1}
+\EndAlgorithmLine
+\vspace{-7pt}
+\begin{algorithm}[H]
+Sort the items such that $a_1 \geq a_2 \geq \ldots \geq a_n$\label{ex61-s1}\;
+$i=1$, $j = n$\;
+\While{$i < j$}{
+	\eIf{$a_i + a_i \leq 1$}{
+		Put $a_i$ and $a_j$ into new bin $i = i + 1$, $j = j - 1$\;
+	}{
+		Put $a_i$ is new bin $i = i +1$\;
+	}
+}
+\end{algorithm}
+\vspace{-7pt}
+\EndAlgorithmLine
+Runtime: \cref{ex61-s1} $\mathcal{O}(n \log n)$. The number of iterations is at most $n$ and we have cost $\mathcal{O}(1)$ per iteration.
+
+Correctness: Consider the $j$ at the end of the algorithm. We have $n - j$ bins with two items. Then, every item $a_k$, $k > j$ is matched with another item. Need to show that an optimum solution does not have more matches.
+\begin{itemize}
+\item Case 1: $a_j > \frac{1}{2}$. Clear by ordering.
+\item Case 2: W.l.o.g.\ assume all $a_j$ during the algorithm were also at most $\frac{1}{2}$ and every unmatched $a_i > \frac{1}{2}$. Let $a_i$ be unmatched. If there is no $a_j$ to match to put it in a new bin.
+\end{itemize}
+\section*{Exercise 6.2}
+\subsection*{(i)}
+\textsc{Next Fit} is monotone.
+Let $S$ be the instance $a_1, \ldots, a_n$ and let $T$ be the instance
+\[
+a_1, \ldots, a_{i_1}, b_1, a_{i_1+1}, \ldots, a_{i_2}, b_2, a_{i_2+1}, \ldots, a_n \quad (b_1, \ldots, b_k).
+\]
+Let $f_S : \{ 1, \ldots, n \} \to \{ 1, \ldots, m_S\}$, $f_T : \{ 1, \ldots, n + k \} \to \{ 1, \ldots, m_T\}$ be the outputs of \textsc{Next Fit}.
+
+Claim: $m_T \geq m_S$ \\
+Observation: $f_S^{-1}(l) = \{ \lambda_l, \ldots, \lambda_{l+1} - 1\}$ for some $\lambda_1, \ldots, \lambda_{m_S + 1}$.
+Analogously: $f_T^{-1}(l) = \{ \mu_l, \ldots, \mu_{l+1} - 1 \}$ for $\mu_1, \ldots, \mu_{m_T + 1}$.
+We have:
+\begin{enumerate}[(i)]
+\item\label{ex62-i} $\lambda_1 = \mu_1 = 1$
+\item\label{ex62-ii} $\lambda_{m_S + 1} = n +1$, $\mu_{m_T + 1} = n + m + 1$.
+\item\label{ex62-iii} $a_{\lambda_l} + a_{\lambda_l + 1}, \ldots, a_{\lambda_{l+1}} > 1 \quad \forall l$ (otherwise we could put item $a_{\lambda_{l+1}}$ into the bin $l$). Similar for $T$.
+\end{enumerate}
+Prove by induction on $l$: $\lambda_l \leq \mu_l$.
+For $l = 1$, this is \cref{ex62-i}. For $l > 1$ we have by induction $\lambda_{l-1} \leq \mu_{l-1}$. Assume $\lambda_l > \mu_l$. Then
+\[
+	\mu_{l-1} \leq \lambda_{l-1} < \lambda_l < \mu_l.
+\]
+But
+\[
+	\sum_{i=\mu_{l-1}}^{\mu_l} b_i \geq \sum_{i = \lambda_{l-1}}^{\lambda_l} a_i > 1
+\]
+by \cref{ex62-iii} for $S$. Contradiction by \cref{ex62-iii} for $T$.
+In particular,
+\[
+	\mu_{m_S + 1} \leq \lambda_{m_S + 1} \overset{\text{\cref{ex62-ii}}}{=} n + 1 < n +k + 1 = \mu_{m_T + 1}.
+\]
+Thus,
+\[
+	m_S + 1 < m_T + 1.
+\]
+\subsection{(ii)}
+\textsc{First Fit} is not monotone.
+Counterexample:
+\begin{IEEEeqnarray*}{rCl}
+	S &=& \left( \frac{1}{2}, \frac{3}{4}, \frac{1}{2}, \frac{1}{2}, \frac{1}{8}, \frac{3}{8} - \varepsilon, \frac{1}{4} \right) \\
+	T &=& \left( \frac{1}{2}, \frac{3}{4}, \varepsilon, \frac{1}{2}, \frac{1}{2}, \frac{1}{8}, \frac{3}{8} - \varepsilon, \frac{1}{4} \right)
+\end{IEEEeqnarray*}
+\textsc{First Fit} requires 4 bins on $S$ and 3 bins on $T$.
+\section*{Exercise 6.3}
+\subsection*{(i)}
+$a_1, \ldots, a_n$, $k \in \mathbb{N}$ instance of $k$-Partition. $A \coloneqq \{ a_1', \ldots, a_n' \}$. $t(a_i') \coloneqq a_i \;\; \forall i = 1, \ldots, n$, $m = k$.
+If
+\[
+	\max_{i=1}^m \left\{ \sum_{a \in A_i} t(a) \right\} \text{ is minimum}  \quad \Leftrightarrow \quad \forall i \sum_{a \in A_i} t(a) = K, \;\; K \text{ constant}
+\]
+As $k$-Partition is strongly \NP-hard, \textsc{Multiprocessor Scheduling} is \NP-hard.
+\[
+	(K = ) \OPT(I) \leq q(\operatorname{size}(I), \operatorname{largest}(I)).
+\]
+By Exercise 5.4, there is no FPAS.
+\subsection*{(ii)}
+Let $A = \bigcup_{i=1}^m A_i'$ be the solution of \textsc{Greedy} and $a_{n'}$ be the last element considered in the algorithm in the set $A_j'$ such that
+\[
+	\sum_{a \in A_j} t(a)
+\]
+is maximum in the end.
+\[
+	\underbrace{ \sum_{a \in A_j \setminus \{ a_{n_i} \}} }_{\leq \OPT} t(a) \leq \sum_{a \in A_i'} t(a) \quad \forall i \in \{ 1, \ldots, m \} \setminus \{ j \}.
+\]
+This with $t(a_{n'}) \leq \OPT$ gives $2 \OPT \geq \sum_{a \in A_i'} t(a) = \operatorname{Greedy}(I)$. Thus we have a 2-factor approximation.
+\subsection*{(iii)}
+Let $M = \sum_{a \in A} t(a)$. Let $k$ be the optimum value, then we have $k \geq \frac{M}{m}$.
+Now let, $\varepsilon > 0$. There are at most $\frac{m}{\varepsilon}$ elements with size at least $\frac{M}{m} \varepsilon$.
+
+We can find the optimum solution for these elements in $m^{\frac{m}{\varepsilon}} = m^m \cdot m^{\frac{1}{\varepsilon}}$ (constant time). Now we use \textsc{Greedy} (polynomial time). This algorithm is at most $\frac{M}{m} \varepsilon \leq k \cdot \varepsilon$ higher than $k$ ($1 + \varepsilon$)-approximation. In each step we have that the \textsc{Greedy} assigns $b$ to $i$ then we have
+\[
+\sum_{a \in A} (ta) \leq \sum_{a \in A_j} t(a) \quad \forall j \neq i.
+\]
+Thus for the last element we have
+\[
+\sum_{a \in A_i, a \neq b} t(a) + t(b) \leq k + t(b) \leq k (1+\varepsilon).
+\]
+\end{document}

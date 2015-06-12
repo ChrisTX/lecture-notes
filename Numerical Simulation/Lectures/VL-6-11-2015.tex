@@ -1,0 +1,161 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+\subsection{Application to the model problem}
+In the boundary control problem we have $g = 0$, $w = \beta u$, $y_0 = 0$:
+\[
+	y(x, t) = \int_0^t G(x, 1, t - s) \beta(s) u(s) \eqqcolon (\tilde{S}u)(x).
+\]
+\begin{corollary} % Cor 3.3
+\label{cor:c3e3}
+The operator
+\begin{IEEEeqnarray*}{rCl}
+	S : L^2(0, T) &\to& L^2(0, 1), \\
+	u &\mapsto& (Su)(x) = y(x, T) = \int_0^T G(x, 1, T - s) \beta(s) u(s) \ds
+\end{IEEEeqnarray*}
+is continuous.
+\end{corollary}
+\begin{problem}[Reduced formulation]
+\begin{IEEEeqnarray*}{u"l}
+minimize & f(u) = \frac{1}{2} \| Su - y_\Omega \|_{L^2(0, 1)}^2 + \frac{\lambda}{2} \| u \|_{L^2(0, T)}^2 \\
+subject to & u \in U_{ad} = \{ u \in L^2(0, T) \midcolon u_a(t) \leq u(t) \leq u_b(t) \; \text{\ac{ae}} \}
+\end{IEEEeqnarray*}
+A solution $u_0$ exists by \cref{thm:c1e18} and is unique if $\lambda > 0$.
+\end{problem}
+\paragraph{Variational inequality}
+\[
+	\langle S^*(Su_0 - y_\Omega) + \lambda u_0, u - u_0 \rangle \geq 0 \quad \forall u \in U_{ad}.
+\]
+\paragraph{Adjoint equation}
+The operator $S^*$ can be determined by calculating
+\begin{IEEEeqnarray*}{rCl}
+	\langle S^* v, u \rangle_{L^2(0, T)} = \langle v, Su \rangle_{L^2(0, 1)} &=& \int_0^1 v(x) \left( \int_0^T G(x, 1, T-s) \beta(s) u(s) \ds \right) \dx \\
+	&=& \int_0^T u(s) \left( \beta(s) \int_0^1 G(x, 1, T-s) v(x) \dx \right) \ds
+\end{IEEEeqnarray*}
+Therefore,
+\begin{IEEEeqnarray*}{rCl}
+	(S^*v)(t) &=& \beta(t) \int_0^1 G(\xi, 1, T-t) v(\xi) \dxi \\
+	&=& \beta(t) \int_0^1 G(1, \xi, T-t) v(\xi) \dxi,
+\end{IEEEeqnarray*}
+as $G(\cdot, \cdot, T-t)$ is symmetric.
+\begin{lemma} % Lemma 3.4
+\label{thm:c3e4}
+It holds $(S^*v)(t) = \beta(t) p(1, t)$, where $p$ is the generalized solution to the end-value problem
+\begin{IEEEeqnarray*}{rCl}
+-p_t(x, t) &=& p_{xx}(x, t) \\
+p_x(0, t) &=& 0 \\
+p_x(1, t) + \alpha p(1, t) &=& 0 \\
+p_x(x, T) &=& v(x)
+\end{IEEEeqnarray*}
+\end{lemma}
+\begin{proof}
+It holds $(S^* v)(t) = \beta(t) \tilde{p}(1, T-t)$, where
+\[
+	\tilde{p}(1, t) = \int_0^1 G(1, \xi, t) v(\xi) \dxi
+\]
+is by \cref{thm:c3e1} the generalized solution of
+\[
+\left\{
+\begin{IEEEeqnarraybox}[][c]{rCl}
+-\tilde{p}_t(x, t) &=& \tilde{p}_{xx}(x, t) \\
+\tilde{p}_x(0, t) &=& 0 \\
+\tilde{p}_x(1, t) + \alpha \tilde{p}(1, t) &=& 0 \\
+\tilde{p}_x(x, 0) &=& v(x)
+\end{IEEEeqnarraybox}
+\right. .
+\]
+\end{proof}
+\begin{theorem} % Thm 3.5
+\label{thm:c3e5}
+A control $u_0 \in U_{ad}$ with corresponding state $y_0(x, T) = S u_0(x)$ is optimal for the 1D-boundary control problem if and only if
+\[
+\int_0^T \left(\beta(t), p(1, t) + \lambda u_0(t)\right)\left(u(t) - u_0(t)\right) \dt \geq 0 \quad \forall u \in U_{ad},
+\]
+where $p \in L^2(Q) = L^2[(0, 1) \times (0, T)]$ is the generalized solution to
+\[
+\left\{
+\begin{IEEEeqnarraybox}[][c]{rCl}
+-p_t(x, t) &=& p_{xx}(x, t) \\
+p_x(0, t) &=& 0 \\
+p_x(1, t) + \alpha p(1, t) &=& 0 \\
+p_x(x, T) &=& y_0(x, T) - y_\Omega(x)
+\end{IEEEeqnarraybox} \right. \quad \text{(adjoint state equation)}.
+\]
+\end{theorem}
+\begin{proof}
+Variational inequality and \cref{thm:c3e4}.
+\end{proof}
+\paragraph{Point-wise discussion}
+For almost all $t \in [0, T]$
+\[
+	\left(\beta(t) p(1, t) + \lambda u_0(t) \right)\left(v - u_0(t) \right) \geq 0 \quad \forall v \in [u_a(t), u_b(t)].
+\]
+\paragraph{Conclusion}
+If $\lambda > 0$, then the optimal control $u_0$ is uniquely characterized by the fixed-point equation
+\[
+	u_0 = \PP_{U_{ad}} \left\{ - \frac{\beta}{\lambda} p_0(1, \cdot) \right\},
+\]
+which is equivalent to the point-wise projection
+\[
+	u_0(t) = \PP_{[u_a(t), u_b(t)]} \left\{ - \frac{\beta(t)}{\lambda} p_0(1, t) \right\} \quad \text{\ac{ae}}
+\]
+If $\lambda = 0$, $u_0$ is determined at almost all $t$ with $\beta(t) p(1, t) \neq 0$:
+\[
+	u_0(t) = \begin{cases}
+	u_a(t) & \text{if } \beta(t)p(1, t) > 0 \\
+	u_b(t) & \text{if } \beta(t)p(1, t) < 0
+	\end{cases}.
+\]
+\subsection{Bang-Bang principle}
+Consider $\lambda = 0$ in more detail. For simplicity, set $u_a \equiv -1$, $u_b \equiv 1$, $\beta \equiv 1$ in the model problem.
+By the previous statement, 
+\[
+	u_0 = \begin{cases}
+	1 & \text{if } p_0(1, t) > 0 \\
+	\text{?} & \text{if } p_0(1, t) = 0 \\
+	0 & \text{if } p_0(1, t) < 0
+	\end{cases}.
+\]
+\begin{theorem}[Bang-Bang control] % Thm 3.6 
+\label{thm:c3e6}
+In this setting, if $y_0(\cdot, T) - y_\Omega \neq 0$ (in $L^2$), then the function $t \mapsto p_0(1, t)$ has only countably many roots, with one possible cluster point at $t = T$.
+Consequently, the optimal control is piecewise constant in $[0, T)$, 
+\[
+	|u_0(t)| = 1
+\]
+with at most countably many sign flips (at the roots of $p_0(1, t)$).
+\end{theorem}
+\begin{proof}
+We assume $\alpha > 0$. The case $\alpha = 0$ is analogous. With $d = y_0(\cdot, T) - y_\Omega$, \cref{thm:c3e1} states
+\begin{IEEEeqnarray*}{rCl}
+p_0(1, t) &=& \int_0^1 G(\xi, 1, T-t) d(\xi) \dxi \\
+&=& \sum_{n=1}^\infty \frac{1}{\sqrt{N_n}} \cos(\mu_n) \exp\left(-\mu_n^2(T-t)\right) \underbrace{ \int_0^1 \frac{1}{\sqrt{N_n}} \cos(\mu_n \xi) d(\xi) \dxi }_{{} \coloneqq d_n}.
+\end{IEEEeqnarray*}
+Since
+\[
+	\left\{ \frac{1}{\sqrt{N_n}} \cos(\mu_n x) \right\}
+\]
+is an orthonormal system, the sequence $d_n$ is square summable. The asymptotic of $\mu_n$ is $\sim (n-1) \pi$ for $n \to \infty$.
+Therefore, the series possesses time derivatives of any order, which decay exponentially for $n \to \infty$.
+The same argument works for complex arguments, which shows that
+\[
+	\varphi(z) = \sum_{n=1}^\infty \frac{1}{\sqrt{N_n}} \cos(\mu_n) \exp\left(-\mu_n^2 (T-z)\right) d_n
+\]
+is analytic on $\operatorname{Re}(z) < T$.
+If $\varphi \not\equiv 0$, then $\varphi$ has only finitely many roots in every compact subset of $\operatorname{Re}(z) < T$, in particular in $[0, T-\varepsilon]$ for every $\varepsilon > 0$ (identity theorem for analytic functions).
+
+So the theorem is proved if we exclude $\varphi \equiv 0$. If $\varphi \equiv 0$, then multiplication by $\exp\left(\mu_1^2 (T-z)\right)$ gives
+\begin{IEEEeqnarray*}{rCl}
+0 &=& \frac{1}{\sqrt{N_1}} \cos(\mu_1) d_1 + \sum_{n=2}^\infty \frac{1}{\sqrt{N_n}} \exp\left(- \left(\mu_n^2 - \mu_1^2\right)(T-z) \right) d_n,
+\end{IEEEeqnarray*}
+which for $|z| \to -\infty$ implies $d_1 = 0$. One then continues to show $d_2 = 0, d_3 = 0, \ldots$ in the same way.
+This contradicts the assumption $d \not\equiv 0$.
+\end{proof}
+\paragraph{Conclusion}
+In the setting of \cref{thm:c3e6}, the optimal control is unique (which is not covered by the standard argument if $\lambda = 0$).
+\begin{proof}
+The case $\lambda > 0$ is clear. Consider the case $\lambda = 0$. According to \cref{thm:c3e6} every optimal control is a Bang-Bang control with countably many switching points. 
+On the other hand, since $f$ is convex, and every optimal control is minimizing $f$, the set of optimal controls is convex.
+Next, one has to convince oneself that both properties can only hold if the set of optimal controls contains a single element (Exercise!).
+\end{proof} 
+\end{document}

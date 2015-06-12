@@ -114,8 +114,8 @@ The identification of $f'(u)$ as an element of $U$ is called the \emph{gradient 
 \begin{examplenumb} % Example 1.21
 \label{ex:c1e21}
 \begin{enumerate}[(i)]
-\item\label{ex:c1e21-i} Let $A : U \to V$ be bounded and linear. Then $A$ is Fréchet-differentiable, and $A'(u) = A \quad \forall u \in U$.
-\item\label{ex:c1e21-ii} \underline{Quadratic function on a Hilbert space:} \\
+\item\label[equation]{ex:c1e21-i} Let $A : U \to V$ be bounded and linear. Then $A$ is Fréchet-differentiable, and $A'(u) = A \quad \forall u \in U$.
+\item\label[equation]{ex:c1e21-ii} \underline{Quadratic function on a Hilbert space:} \\
 Let $U$ be a Hilbert space, $A \in \mathcal{L}(U, U)$ self-adjoint and $b \in U$. Then,
 \[
 	f(u) = \frac{1}{2} \langle u, A u \rangle - \langle b, u \rangle + f(0)
@@ -124,7 +124,7 @@ is Fréchet-differentiable, and
 \[
 	\nabla f(u) = Au - b.
 \]
-\item\label{ex:c1e21-iii} Let $U = C[0, 1]$ and $f(u) = \sin(u(1))$.
+\item\label[equation]{ex:c1e21-iii} Let $U = C[0, 1]$ and $f(u) = \sin(u(1))$.
 \begin{IEEEeqnarray*}{rCl}
 f(u + h) &=& \sin(u(1) + h(1)) \\
 &=& \sin(u(1)) + \cos(u(1)) - h(1) - \underbrace{ \frac{1}{2} \sin(u(1)) [h(1)]^2 }_{\| \cdot \| \leq \frac{1}{2} \| h \|_\infty^2}
@@ -159,7 +159,7 @@ Let $U$ be a real Banach space, $C \subseteq U$ and $f : \mathcal{U} \to \R$ be 
 \begin{mdframed}[style=theoremframing]
 \begin{equation}
 \label{eq:thm-c1e23-star}
-\begin{IEEEeqnarraybox}{u"c}
+\begin{IEEEeqnarraybox}[][c]{u"l}
 minimize & f(u) \\
 subect to & u \in C
 \end{IEEEeqnarraybox} \tag{\ensuremath{\star}}
@@ -171,7 +171,7 @@ then $f'(\bar{u}) = 0$. If $f$ is convex, $f'(\bar{u}) = 0$ implies that $\bar{u
 \label{thm:c1e24}
 Consider the same situation as in \cref{thm:c1e23}, but assume that $C$ is closed and convex. Then, if $\bar{u} \in C$ (!) solves \labelcref{eq:thm-c1e23-star}, it holds
 \[
-	f'(\bar{u})[u - \bar{u}] \geq 0 \quad \forall u \in C \; \text{``\emph{varational inequality}''}.
+	f'(\bar{u})[u - \bar{u}] \geq 0 \quad \forall u \in C \quad \text{``\emph{varational inequality}''}.
 \]
 The converse is true, if $f$ is convex.
 \end{theorem}
