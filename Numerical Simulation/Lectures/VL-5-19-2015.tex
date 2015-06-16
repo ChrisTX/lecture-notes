@@ -124,7 +124,7 @@ u &\mapsto& Gu,
 such that $y = Gu$ is the unique weak solution of the state equation with data $u$. $G$ is called the \emph{control-to-state} operator. As $H_0^1(\Omega)$ is continuously embedded in $L^2(\Omega)$, we can consider instead
 \begin{IEEEeqnarray*}{rCl}
 S : L^2(\Omega) &\to& L^2(\Omega), \\
-S(u) &\mapsto& E_{\overline{\underline{Y}}} G u,
+S(u) &\mapsto& E_Y G u,
 \end{IEEEeqnarray*}
 where $E_{\overline{\underline{Y}}}$ is the embedding $H^1 \hookrightarrow L^2(\Omega)$.
 
@@ -180,7 +180,7 @@ subject to & (u, v) &\in& U_{ad} \times V_{ad}.
 Here
 \begin{IEEEeqnarray*}{rCl}
 S : L^2(\Omega) \times L^2(\Gamma_1) &\to& L^2(\Omega), \\
-S(u, v) &=& E_{\overline{\underline{Y}}} G(u, v).
+S(u, v) &=& E_{Y} G(u, v).
 \end{IEEEeqnarray*}
 is continuous, since $S_\Gamma = \tau \circ G, \; (u, v) \mapsto y|_\Gamma$ is continuous by \cref{thm:c2e8}.
 Now apply \cref{thm:c1e18} to prove the existence of optimal control $(u_0, v_0)$, which is unique if $\lambda_u > 0$ and $\lambda_v > 0$.

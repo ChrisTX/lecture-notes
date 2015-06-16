@@ -1,0 +1,187 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+\section{Variational formulation of parabolic PDEs} % 3.2
+\label{sec:c3e2}
+The state equation could be of the form
+\begin{IEEEeqnarray*}{rCl"l}
+	y_t(x, t) + (\mathcal{A} y(\cdot, t))(x) &=& b(t, x) & \text{on } Q = \Omega \times [0, T] \\
+	y(x, t) &=& y_0(x) & \text{in } \Omega
+\end{IEEEeqnarray*}
+Here $\mathcal{A}$ is an elliptic differential operator on a suitable function space (boundary conditions and etc.). For instance, $y(\cdot, t) \in H^1(\Omega)$ for almost every $t$.
+
+How to deal with the time derivative? \\
+Tread the problem as a function-space valued differential equation:
+\begin{IEEEeqnarray*}{rCl"l}
+	y'(t) + \mathcal{A} y(t) &=& b(t) & \in H \\
+	y(0) &=& y_0 & \in H
+\end{IEEEeqnarray*}
+\underline{Aim:} Variational formulation
+\begin{IEEEeqnarray*}{rCl"l}
+\frac{\mathrm{d}}{\mathrm{d} t} \langle y(t), v \rangle_H + a(y(t), v) &=& \langle b(t), v \rangle_V & \forall v \in V \\
+y(0) &=& y_0 & \in H
+\end{IEEEeqnarray*}
+Thus $y \in W^{1, 2}(0, T; V)$ with the Gelfand triple $V \subseteq H \subseteq V^*$.
+\paragraph{Bochner spaces}
+\addtocounter{dummythm}{2} % 7 and 8 have not been in the lecture
+\begin{definition}[classes of vector-valued functions] % Def 3.9
+\label{def:c3e9}
+Let $X$ be a real Banach space and $0 < T < \infty$. A function $y : [0, T] \to X$ is called
+\begin{enumerate}[(i)]
+\item \emph{continuous}, if $\tau \to t$ implies $y(\tau) \to y(t)$. The space of continuous functions $y : [0, T] \to X$ is a Banach space denoted by $C([0, T], X)$ using the norm
+\[
+	\| y \|_{C([0, T], X)} = \sup_{t \in [0, T]} \| y \|_X.
+\]
+\item \emph{step-function}, if it takes only finitely many values $z_1, \ldots, z_m \in X$ and \\ $y^{-1}(z; \cdot) \subseteq [0, T]$ is measurable for $i = 1, \ldots, m$.
+\item \emph{measurable}, if there exists a sequence $(y_n)$ of step-functions, such that
+\[
+	y(t) = \lim_{n \to \infty} y_n(t) \;\; \text{\ac{ae}}
+\]
+\end{enumerate}
+\end{definition}
+\begin{definition}[space \texorpdfstring{$L^p(0, T; X)$}{Lp(0, T; X)}] % Def 3.10
+\label{def:c3e10}
+Let $X$ be a real Banach space. The \emph{space $L^p(0, T; X)$} with $1 \leq p < \infty$ consists out of all equivalence classes of measurable functions $y : [0, T] \to X$ for which
+\[
+	\| y \|_p \coloneqq \left( \int_0^T \| y(t) \|_X^p \dt \right)^{\frac{1}{p}} < \infty.
+\]
+The space $L^\infty(0, T; X)$ consists of all measurable functions $y : [0, T] \to X$ for which
+\[
+	\| y \|_{\infty} \coloneqq \esssup_{t \in [0, T]} \| y(t) \|_X < \infty.
+\]
+\end{definition}
+\begin{proposition} % Prop 3.11
+\label{thm:c3e11}
+Let $X$ and $Y$ be real Banach spaces, and $1 \leq p < \infty$.
+\begin{enumerate}[(i)]
+\item\label[equation]{thm:c3e11-i} The space $L^p(0, T; X)$ with the norm $\| y \|_p$ is a Banach space. The step-functions are dense in that space.
+\item\label[equation]{thm:c3e11-ii} The space $C([0, T]; X)$ is dense in $L^p(0, T; X)$, and the embedding
+\[
+	C([0, T]; X) \subseteq L^p(0, T; X)
+\]
+is continuous.
+\item\label[equation]{thm:c3e11-iii} If $X$ is a Hilbert space, then $L^2(0, T; X)$ is also a Hilbert space with the scalar product
+\[
+	\langle y, v \rangle = \int_0^T \langle y(t), v(t) \rangle_X \dt.
+\]
+\item\label[equation]{thm:c3e11-iv} If $X$ is a separable space, then $L^p(0, T; X)$ is separable.
+\item\label[equation]{thm:c3e11-v} If the embedding $X \subseteq Y$ is continuous, then the embeddings
+\[
+	L^r(0, T; X) \subseteq L^q(0, T; Y), \quad 1 \leq q \leq r \leq \infty
+\]
+are continuous.
+\end{enumerate}
+\end{proposition}
+\begin{proof}
+Exercise.
+\end{proof}
+\paragraph{Bochner integral}
+For step-functions $y = \sum_{i=1}^m z_1 \mathds{1}_{M_i}$ we define
+\[
+	\int_0^T y(t) \dt \coloneqq \sum_{i=1}^m z_i |M_i| \quad \in X.
+\]
+For measurable functions $y(t) = \lim_{n \to \infty} y_n(t)$ \ac{ae}, where $(y_n)$ are step-functions we define
+\[
+	\int_0^T y(t) \dt \coloneqq \lim_{n \to \infty} \int_0^T y_n(t) \dt.
+\]
+One can show that this is independent of the choice of $(y_n)$.
+\paragraph{Dual spaces of \texorpdfstring{$L^p(0, T; X)$}{Lp(0, T; X)}}
+\begin{proposition} % Prop 3.12
+\label{thm:c3e12}
+Let $X$ be a real reflexive and separable Banach space, and let $1 < p < \infty$, $\frac{1}{p} + \frac{1}{q} = 1$. Then the spaces
+\[
+	L^p(0, T; X)^* \quad \text{and} \quad L^q(0, T; X^*)
+\]
+are isometrically isomorphic. These spaces are reflexive and separable.
+\end{proposition}
+\begin{proof}
+The isometric embedding $L^q(0, T; X^*) \subseteq L^p(0, T; X)^*$ is ``easy''. The reverse relation is nontrivial, see \cite[8.20.5]{Edwards}. % Edwards ``Functional Analysis'', 8.20.5.
+Reflexivity is then clear. Separability follows from \cref{thm:c3e11}, \labelcref{thm:c3e11-iv}.
+\end{proof}
+\underline{Identification:} $L^p(0, T; X)^* = L^q(0, T; X^*)$.
+In particular $L^2(0, T; X)^* = L^2(0, T; X^*)$.
+\paragraph{Gelfand (Evolution) triplets}
+\begin{definition} % Def 3.13
+\label{def:c3e13}
+We understand a \emph{Gelfand triple} ``$V \subseteq H \subseteq V^*$'' to be the following
+\begin{enumerate}[(i)]
+\item $V$ is a real, separable and reflexive Banach space.
+\item $H$ is a real, separable Hilbert space.
+\item The embedding $V \subseteq H$ is continuous, and $V$ is dense in $H$.
+\end{enumerate}
+\end{definition}
+Note that the embedding $H = H^* \subseteq V^*$ is then injective, continuous and dense (Exercise). In this sense, we can identify $V \subseteq H \subseteq V^*$ and
+\begin{equation}
+\tag{$\star$}
+\label{eq:c3e2-star}
+\langle \underbrace{h}_{\mathclap{\in V^*}}, v \rangle_V = \langle \underbrace{h}_{\mathclap{\in H}}, v \rangle_H \quad \forall h \in H, v \in V.
+\end{equation}
+\paragraph{Generalized derivatives}
+\begin{definition} % Def 3.14
+\label{def:c3e14}
+Let $y \in L^1(0, T; X)$ and $w \in L^1(0, T; Z)$. Then $w$ is called the \emph{$n$th generalized derivative of $y$} on $(0, T)$ if
+\[
+	\int_0^T \underbrace{\varphi^{(n)}(t) y(t)}_{\in L^1 !} \dt = (-1)^n \int_0^T \underbrace{ \varphi(t) w(t) }_{\in L^1 !} \dt \quad \forall \varphi \in C_0^\infty(0, T).
+\]
+Notation: $w = y^{(n)}$.
+\end{definition}
+One can show uniqueness using
+\[
+	\int_0^T \varphi(t) w(t) \dt = 0 \quad \forall \varphi \in C_0^\infty.
+\]
+implying $w = 0$ (fundamental Lemma).
+\begin{proposition}[Existence] % Prop 3.15
+Let ``$V \subseteq H \subseteq V^*$'' be a Gelfand triple, and let $1 \leq p, q \leq \infty$, $0 < T < \infty$.
+Then for $y \in L^p(0, T; V)$ there exists a generalized derivative $y^{(n)} \in L^q(0, T; V^*)$ if and only if there exists $w \in L^q(0, T; V^*)$ such that
+\[
+	\int_0^T \langle y(t), v \rangle_H \varphi^{(n)}(t) \dt = (-1)^n \int \langle w(t), v \rangle_V \varphi(t) \dt \quad \forall v \in V, \; \forall \varphi \in C_0^\infty(0, T).
+\]
+In this case $y^{(n)} = w$ and
+\[
+	\frac{\mathrm{d}^n}{\mathrm{d} t^n} \langle y(t), v \rangle_H = \langle y^{(n)}(t), v \rangle_V \quad \forall v \in V \; \text{\ac{ae} on } [0, T],
+\]
+where $\frac{\mathrm{d}^n}{\mathrm{d} t^n}$ denotes the $n$th weak derivative for real functions on $(0, T)$.
+\end{proposition}
+\begin{proof}
+The definition of the generalized derivative is equivalent to 
+\[
+	\left\langle \int_0^T \varphi^{(n)}(t) y(t) \dt, v \right\rangle_V = (-1)^n \left\langle \int_0^T \varphi(t) w(t) \dt, v \right\rangle_V \quad \forall v \in V.
+\]
+It is an exercise to prove that this equivalent to
+\[
+	\int_0^T \langle \varphi^{(n)} (t) y(t), v \rangle_V \dt = (-1)^n \int_0^T \langle \varphi(t) w(t), v \rangle_V \dt.
+\]
+The assertion follows from \cref{eq:c3e2-star}.
+\end{proof}
+\pagebreak
+\paragraph{The Sobolev space \texorpdfstring{$W^1_p(0, T; V, H)$}{W1p(0, T; V, H)}}
+\begin{propdef} % Prop & Def 3.16
+\label{thm:c3e16}
+Let ``$V \subseteq H \subseteq V^*$'' be a Gelfand triple and let $1 < p < \infty$, $\frac{1}{p} + \frac{1}{q} = 1$, $0 < T < \infty$. The following hold:
+\begin{enumerate}[(i)]
+\item\label[equation]{thm:c3e16-i} The set of all $y \in L^p(0, T; V)$ that have a generalized derivative
+\[
+	y' \in L^q(0, T; V^*) = \left( L^p(0, T; V) \right)^*
+\]
+forms a real Banach space with the norm
+\[
+	\| y \|_{W^{1,p}} = \| y \|_{L^p(0, T; V)} + \| y' \|_{L^q(0, T; V)}.
+\]
+This space is denoted by $W^{1, p}(0, T; V, H)$.
+\item\label[equation]{thm:c3e16-ii} The embedding
+\[
+	W^{1, p}(0, T; V, H) \subseteq C([0, T]; H)
+\]
+is continuous.
+\item\label[equation]{thm:c3e16-iii} For all $y, v \in W^{1, p}(0, T; V, H)$ and arbitrary $t, s, 0 \leq s \leq t \leq T$ it holds
+\[
+	\langle y(t), v(t) \rangle_H - \langle y(s), v(s) \rangle_H = \int_s^t \langle y'(\tau), v(\tau) \rangle_V + \langle v'(\tau), y(\tau) \rangle_V \: \mathrm{d} \tau
+\]
+(\emph{integration by parts}). The point evaluations on the left side make sense by \labelcref{thm:c3e16-ii}.
+\end{enumerate}
+\end{propdef}
+\underline{Special case:}
+\[
+	W(0, T) \coloneqq W^{1, 2}(0, T; V, H) = \left\{ y \in L^2(0, T; V) \midcolon y' \in L^2(0, T; V^*) \right\}.
+\]
+\end{document}
