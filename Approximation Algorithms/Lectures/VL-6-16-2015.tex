@@ -1,0 +1,138 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+This result gives us
+\[
+	r_k \approx 1 + \frac{1}{\log k}.
+\]
+\begin{theorem} % Thm 74
+\label{thm:74}
+Computing a minimum $k$-Steiner tree is \NP-hard for $k \geq 4$.
+\end{theorem}
+\begin{proof}
+Use the same reduction as in \cref{thm:61}, but start with 3-\textsc{Sat}-3 (i.e.\ 3-\textsc{Sat} where each variable appears at most 3 times). We can assume each variable to appear at least once as a negated and a non-negated literal (otherwise it is superfluous). Thus, each literal vertex can only be connected to two clauses. In this case, the graph contains only Steiner vertices of degree at most 4. Moreover, all full components have size at most 4.
+\end{proof}
+Let $G = (V, E)$, $R \subseteq V(G)$, $c : E(G) \to \R_+$. We define
+\begin{itemize}
+\item $\MST(R)$: minimum spanning tree in $G_D(R)$
+\item $\mst(R)$: length of $\MST(R)$.
+\item For $t_1, t_2, \ldots, t_i \subseteq R$, let $\MST(R/t_1, \ldots, t_i)$ be a minimum spanning tree in $G_D(R)$, where all terminals within one $t_i$ are connected by edges of length $0$.
+\end{itemize}
+\begin{algorithmbox}[Relative Greedy Algorithm]
+\begin{tabular}{@{}ll}
+\textit{Input:} & $G = (V, E)$, $R \subseteq V(G)$, $c : E(G) \to \R_+$\\
+\textit{Output:} & A Steiner tree for $R$ in $G$
+\end{tabular}
+\end{algorithmbox}
+\vspace{-7pt}
+\begin{algorithm}[H]
+$i \coloneqq 0$\;
+\While{$\mst(R/t_1, \ldots, t_i) \neq 0$}{
+	choose $t_{i+1} \subseteq R$ with $|t_{i+1}| \leq k$ that minimizes $f_i(t_{i+1}) \coloneqq \frac{\smt(t_{i+1})}{\mst(R/t_1, \ldots, t_i) - \mst(R/t_1, \ldots, t_{i+1})}$\;
+	$i \coloneqq i + 1$\;
+	$i_{\max} \coloneqq i$\;
+}
+\Return $\bigcup_{i=1}^{i_{\max}} \SMT(t_i)$\;
+\end{algorithm}
+\vspace{-7pt}
+\EndAlgorithmLine
+\begin{proposition} % Prop 75
+\label{thm:75}
+If $a_i \geq 0$, $b_i > 0$, $i = 1, \ldots, n$ then
+\[
+	\frac{\sum_{i=1}^n a_i}{\sum_{i=1}^n b_i} \geq \min_j \frac{a_j}{b_j}.
+\]
+\end{proposition}
+\begin{proof}
+\[
+	\sum_{i=1}^n b_i \cdot \min_j \frac{a_j}{b_j} \leq \sum_{i=1}^n b_i \cdot \frac{a_i}{b_i} = \sum_{i=1}^n a_i.
+\]
+\end{proof}
+Let $G(V, E)$, $R \subseteq V(G)$ and $A \subseteq \begin{pmatrix}
+R \\ 2
+\end{pmatrix}$.
+We denote by $\MST(R/A)$ a minimum spanning tree in $G_D(R)$ after setting all edges in $A$ to length 0. Additionally, for $A_1, A_2, \ldots, A_s \subseteq \begin{pmatrix}
+R \\ 2
+\end{pmatrix}$ we use the notation
+\[
+	\MST(R/A_1 A_2 \ldots A_s) \coloneqq \MST(R / A_1 \cup A_2 \cup \ldots \cup A_s).
+\]
+\begin{lemma}[Contraction Lemma] % Lemma 76
+\label{thm:76}
+Let $G = (V, E)$ be a graph, $R \subseteq V$ be the terminal set and $A, B, C \subseteq \begin{pmatrix}
+R \\ 2
+\end{pmatrix}$. Then
+\[
+	\mst(R/A) - \mst(R/AB) \geq \mst(R/AC) - \mst(R/ABC).
+\]
+\end{lemma}
+\begin{proof}
+Prove the statement first for single edges.
+\[
+e, f \in \begin{pmatrix}
+R \\ 2
+\end{pmatrix} \; : \; \mst(R) - \mst(R/e) \geq \mst(R/f) - \mst(R/ef).
+\]
+We denote by $G_\alpha$ the graph resulting from $G_D(R)$ by taking all edges of length at most $\alpha$.
+Then,
+\begin{IEEEeqnarray*}{rCl}
+	\mst(R) - \mst(R/e) &=& \begin{IEEEeqnarraybox}[][t]{rl} \min_{\alpha \geq 0} \Big\{ \alpha \mathrel \Big| & \text{ in $G_\alpha$ the endpoints of $e$} \\
+	& \text{ belong to the same connected component} \Big\} \end{IEEEeqnarraybox} \\
+	&\geq& \begin{IEEEeqnarraybox}[][t]{rl} \min_{\alpha \geq 0} \Big\{ \alpha \mathrel \Big| & \text{ in $(G/f)_\alpha$ the endpoints of $e$} \\
+	& \text{ belong to the same connected component} \Big\} \end{IEEEeqnarraybox} \\
+	&=& \mst(R/f) - \mst(R/ef).
+\end{IEEEeqnarray*}
+Thus,
+\[
+	\mst(\underbrace{R/A}_{R'}) - \mst(R/Ae) \geq \mst(R/Af) - \mst(R/Aef).
+\]
+For $C = \{ c_1, c_2, \ldots \}$ this gives us
+\begin{IEEEeqnarray*}{rCl}
+\mst(R/A) - \mst(R/Ae) &\geq& \mst(R/Ac_1) - \mst(R/Aec_1) \\
+&\vdots& \\
+&\geq& \mst(R/AC) - \mst(R/AeC).
+\end{IEEEeqnarray*}
+Therefore, for $B = \{ b_1, b_2, \ldots \}$:
+\begin{IEEEeqnarray*}{rCl}
+\mst(R/A) - \mst(R/AB) &=& \sum_{i=0}^{|B|-1} \mst(R/Ab_1 \ldots b_i) - \mst(R/Ab_1 \ldots b_{i+1}) \\
+&\geq& \sum_{i=0}^{|B|-1} \mst(R/Ab_1 \ldots b_i C) - \mst(R/Ab_1 \ldots b_{i+1} C) \\
+&=& \mst(R/AC) - \mst(R/ABC).
+\end{IEEEeqnarray*}
+\end{proof}
+\begin{theorem}][Zelikovsky \lbrack{}1996\rbrack{}] % Thm 77
+\label{thm:77}
+The \textsc{Relative Greedy Algorithm} has an approximation ratio of $(1 + \ln 2) \cdot r_k < 1.694 \cdot r_k$.
+\end{theorem}
+\begin{proof}
+Let $t_1^*, t_2^*, \ldots$ be the full components of a minimum $k$-Steiner tree and let
+\[
+f_i(t) \coloneqq \frac{\smt(t)}{\mst(R/t_1 \ldots t_i) - \mst(R/t_1 \ldots t_i t)}
+\]
+For $i = 0, \ldots i_{\max} - 1$ we have
+\[
+	f_i(t_{i+1}) \leq 1.
+\]
+By definition and \cref{thm:76}:
+\begin{IEEEeqnarray*}{rCl}
+	f_i(t_{i+1}) &=& \frac{\smt(t_{i+1})}{\mst(R/t_1 \ldots t_i) - \mst(R/t_1 \ldots t_{i+1})} \\
+	&\leq& \min_j \frac{\smt(t_j^*)}{\mst(R/t_1 \ldots t_i) - \mst(R/t_1 \ldots t_i t_j^*)} \\
+	&\leq& \min_j \frac{\smt(t_j^*)}{\mst(R/t_1 \ldots t_i t_1^* \ldots t_{j-1}^*) - \mst(R/t_1 \ldots t_i t_1^* \ldots t_j^*)} \\
+	&\leq& \frac{\sum_{j} \smt(t_j^*)}{\sum_j \mst(R/t_1 \ldots t_i t_1^* \ldots t_{j-1}^*) - \mst(R/t_1 \ldots t_i t_1^* \ldots t_j^*)} \\
+	&=& \frac{\smt_k}{\mst(R/t_1 \ldots t_i)}
+\end{IEEEeqnarray*}
+The $m_i \coloneqq \mst(R/t_1 \ldots t_i)$ are monotonically decreasing in $i$ and
+\begin{IEEEeqnarray*}{rCl}
+\smt(t_i) &=& f_{i-1}(t_i) \cdot \left( \mst(R/t_1 \ldots t_{i-1}) - \mst(R/t_1 \ldots t_i) \right).
+\end{IEEEeqnarray*}
+This gives us
+\begin{IEEEeqnarray*}{rCl}
+\sum_{i=1}^{i_{\max}} \smt(t_i) &=& \sum_{i=1}^{i_{\max}} f_{i-1}(t_i) \cdot \left( \mst(R/t_1 \ldots t_{i-1}) - \mst(R/t_1 \ldots t_i) \right) \\
+&\leq& \sum_{i=1}^{i_{\max}} \min \left( 1, \frac{\smt_k}{\mst(R/t_1 \ldots t_{i-1})} \right) \cdot \left( \mst(R/t_1 \ldots t_{i-1}) - \mst(R/t_1 \ldots t_i) \right) \\
+&\leq& \int_0^{\mst(R)} \min \left( 1, \frac{\smt_k}{x} \right) \dx \\
+&=& \int_0^{\mst_k} 1 \dx + \int_{\smt_k}^{\mst(R)} \frac{\smt_k}{x} \dx \\
+&=& \smt_k + \smt_k \cdot \ln \frac{\mst(R)}{\smt_k} \\
+&\leq& (1 + \ln 2) \cdot \smt_k,
+\end{IEEEeqnarray*}
+as $\mst(R) \leq 2 \cdot \smt_k$.
+\end{proof}
+\end{document}
