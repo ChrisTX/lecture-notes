@@ -1,0 +1,214 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+\begin{remark} % Remark 3.16
+For $V = \R$ the space does not coincide with the ``classical'' Sobolev space
+$V = \R$:
+\begin{IEEEeqnarray*}{rCl}
+	W^{1, p}(0, T; \R) &=& \{ y \in L^p(0, T) \midcolon y' \in L^q(0, T) \} \\
+	&\neq& W^{1, p}(0, T) = \{ y \in L^p(0, T) \midcolon y' \in L^p(0, T)\}.
+\end{IEEEeqnarray*}
+$p = 2$: ``generalized'' derivative versus ``weak'' derivative:
+\[
+	V = H^1(\Omega), H = L^2(\Omega)
+\]
+\end{remark}
+\paragraph{Main theorem on first-order evolution equations}
+Variational evolution equation given a Gelfand triple $V \subseteq H \subseteq V^*$:
+\begin{equation}
+\opttag{$\star$}
+\label{eq:FirstOrderEvolStar}
+\begin{IEEEeqnarraybox}[][c]{rCl"l}
+\frac{\mathrm{d}}{\mathrm{d}t} \langle y(t), v \rangle_H + a(t, y(t), v) &=& \langle b(t), v \rangle_V & \forall v \in V \\
+y(0) &=& y_0 & \in H \\
+y &\in& W(0, T) \coloneqq W^{1,2}(0, T; V, H)
+\end{IEEEeqnarraybox}
+\end{equation}
+Here $\frac{\mathrm{d}}{\mathrm{d}t}$ is the weak derivative, that is the first equation means
+\[
+	-\int_0^T \langle y(t), v_H \rangle \varphi(t) \dt + \int_0^T a(y(t), v) \varphi(t) \dt = \int_0^T \langle b(t), v \rangle \varphi(t) \dt \quad \forall \varphi \in C_0^\infty(0, T)
+\]
+The initial condition $y_0 \in H$ is meaningful by \cref{thm:c3e15}, \labelcref{thm:c3e15-ii}.
+\paragraph{Assumption}
+\begin{enumerate}[({A}1)]
+\item\label{eq:c3e2-A1} $V\subseteq H \subseteq V^*$ is a Gelfand triple where both $V$ and $H$ are (real) separable Hilbert spaces
+\item\label{eq:c3e2-A2} $a : [0, T] \times V \times V \to \R$ is linear in the second and third argument. There exists $c > 0$ such that
+\[
+	|a(t, y, v)| \leq c \| y \|_V \cdot \| v \|_V \quad \forall t \in [0, T], \forall y, v \in V.
+\]
+\item\label{eq:c3e2-A3} For fixed $y, v \in V$ the map $t \mapsto a(t, y, v)$ is measurable on $[0, T]$
+\item\label{eq:c3e2-A4} There exists $\alpha > 0, \beta \geq 0$ such that
+\[
+	a(t, y, y) + \beta \| y \|_H^2 \geq \alpha \| y \|_V^2 \quad \forall t \in [0, T], \forall y \in V.
+\]
+(``Gårding's inequality'')
+\item\label{eq:c3e2-A5} $b \in L^2(0, T, V^*)$.
+\end{enumerate}
+The existence and uniqueness of a solution to \cref{eq:FirstOrderEvolStar} can be proved constructively using
+\paragraph{Galerkin approximation}
+Let $\{ \psi_1, \psi_2, \ldots \}$ be a basis of $V$ (exists by separability) and $y_{n, 0} = \sum_{k=1}^n c_{k,0} \psi_k$ is a sequence such that
+\[
+y_{n,0} \to y_0 \text{ in } H (n \to \infty)
+\]
+The Galerkin approximation for \cref{eq:FirstOrderEvolStar} seeks for
+\[
+	y_n(t) = \sum_{k=1}^n c_{k, n}(t) \psi_k
+\]
+such that
+\[
+\left\{ % TODO
+\begin{IEEEeqnarraybox}[][c]{rCl"l}
+\frac{\mathrm{d}}{\mathrm{d}t} \langle y_n(t), \psi \rangle_H + a(t, y_n(t), \psi) &=& \langle b(t), \psi \rangle_V & \forall \psi \in V_n \coloneqq \spn \{ \psi_1, \ldots, \psi_n \} \\
+y_n(0) &=& y_{n, 0}
+\end{IEEEeqnarraybox}
+\right.
+\]
+Equivalently:
+\[
+\left.
+\begin{IEEEeqnarraybox}[][c]{rCl}
+\sum_{k=1}^n c_{k,n}'(t) \langle \psi_k, \psi_j \rangle_H + c_{k,n}(t) a(t, \psi_k, \psi_j) &=& \langle b(t), \psi_j \rangle_V \\
+c_{j,n}(0) &=& c_{j, 0}
+\end{IEEEeqnarraybox}
+\right\} j = 1, \ldots, n
+\]
+This can be written equivalently as
+\begin{equation}
+\label{eq:FirstOrderEvolStarStar}
+\opttag{$\star\star$}
+\begin{IEEEeqnarraybox}[][c]{rCl}
+G c'(t) + \mathcal{A}(t) c(t) &=& \mathcal{B}(t) \\
+c(0) &=& c_0
+\end{IEEEeqnarraybox}
+\end{equation}
+Here the Gram matrix $G = \langle \psi_k, \psi_j \rangle_H$ is invertible, and $t \mapsto \mathcal{A}(t) \in \R^{n \times n}$ and $t \mapsto \mathcal{B}(t) \in \R^n$ are component-wise bounded and integrable by \cref{eq:c3e2-A2,eq:c3e2-A3}.
+The ODE \cref{eq:FirstOrderEvolStarStar} hence has a unique solution $t \mapsto c(t)$ in the sense that the vector-valued Voltera equation
+\[
+	c(t) = c_0 + \int_0^t G^{-1}(\mathcal{B}(s) - \mathcal{A}(s) c(s)) \ds
+\]
+has a unique solution $c \in C([0, T], \R^n)$ (use a fixed-point theorem, a variant of Picard-Lindelöf). Note that $c$ is classically differentiable \ac{ae}\ on $T$ and its weak derivative satisfies \cref{eq:FirstOrderEvolStarStar}.
+This provides a unique Galerkin approximation
+\[
+	y_n \in C(0, T; V_n) \subseteq C(0, T; H).
+\]
+\begin{theorem}[Lions \lbrack{}1961\rbrack{}] % Thm 17
+\label{thm:c3e17}
+Assume \crefrange{eq:c3e2-A1}{eq:c3e2-A5} hold. Then for every data pair $(y_0, b)$ the evolution equation \cref{eq:FirstOrderEvolStar} has exactly one solution $y^* \in W(0, T)$ which depends continuously on the data, i.e.\ there exists $D > 0$ such that
+\[
+	\| y^* \|_{W(0, T)} = \| y^* \|_{L^2(0, T; V)} + \| (y^*)' \|_{L^2(0, T; V^*)} \leq D \cdot \left( \| y_0 \|_H + \| b \|_{L^2(0, T; V^*)} \right).
+\]
+Moreover, the problem is equivalent to the operator equation
+\begin{IEEEeqnarray*}{rCl"l}
+y'(t) + \mathcal{A}(t) y(t) &=& b(t) & \text{in } L^2(0, T; V^*) \\
+y(0) &=& y_0
+\end{IEEEeqnarray*}
+where $\mathcal{A}(t) : V \to V^*$ is defined by
+\[
+	\langle \mathcal{A}(t) y, v \rangle_V = a(t, y, v) \quad \forall y, v \in V.
+\]
+(and $t \mapsto \mathcal{A}y(t) \in L^2(0, T; V^*)$ for $y \in L^2(0, T; V)$).
+
+In particular, a sequence $(y_n)$ of the Galerkin approximation converges to $y^*$ in the following sense
+\[
+	y_n \to y^* \quad \text{in } L^2(0, T; V)
+\]
+and even (recall $y_n \in C([0, T], H)$),
+\[
+	y_n \to y^* \quad \text{in } C([0, T], H),
+\]
+that is
+\[
+	\max_{t \in [0, T]} \| y_n(t) - y^*(t) \|_H \to 0.
+\]
+\end{theorem}
+\begin{proof}
+See \cite[§ 26]{Wloka}.
+\end{proof}
+\begin{examplenumb} % Example 3.18
+\label{ex:c3e18}
+Numerous examples can be found in \cite[§ 28]{Wloka}. We consider here the analogon to the 1D-problem in \cref{thm:c3e1}:
+\begin{IEEEeqnarray*}{rCl"l}
+y_t - \lapl y + c_0 y &=& y & \text{on } Q = \Omega \times (0, T) \\
+\partial_\nu y + \alpha y &=& w & \text{on } \Sigma = \partial \Omega \times (0, T) \\
+y(\cdot, 0) &=& y_0 & \text{in } \Omega
+\end{IEEEeqnarray*}
+Here $\Omega \subseteq \R^N$ is a bounded Lipschitz domain, $c_0 \in L^\infty(Q)$, $\alpha \in L^\infty(\Sigma)$, $\alpha(x, t) \geq 0$ \ac{ae}\ on $\Sigma$. \\
+Data: $g \in L^2(Q)$, $w \in L^2(\Sigma)$, $y_0 \in L^2(\Omega)$. \\
+Testing with $\tilde{v} \in C_0^\infty(Q)$ and eliminating $-\lapl$ by integration by parts yields
+\begin{equation}
+\label{eq:FirstOrderEvolStarStarStar}
+\opttag{$\star\star\star$}
+\begin{IEEEeqnarraybox}[][c]{l}
+\iint_Q y_t \tilde{v} \dx \dt + \iint_Q \nabla_x y \nabla_x \tilde{v} \dx \dt + \iint_Q c_0 y \tilde{v} \dx \dt - \iint_\Sigma (w - \alpha y) \tilde{v} \ds \dt \\
+\quad = \iint_Q g \tilde{v} \dx \dt \quad \forall \tilde{v} \in C_0^\infty(Q).
+\end{IEEEeqnarraybox}
+\end{equation}
+\underline{Gelfand triple:} $V = H^1(\Omega) \subseteq H = L^2(\Omega) \subseteq (H^1(\Omega))^*$.
+Hence, we seek a solution $y \in W(0, T) = W(0, T; H^1(\Omega), L^2(\Omega))$.
+Then we can understand the first integral as (since $y_t(t) \in V^*$):
+\begin{IEEEeqnarray*}{rCl}
+	\int_0^T \langle y_t(t), \tilde{v}(\cdot, t) \rangle_V \dt &\overset{\text{\cref{thm:c3e14}}}{=}& \int_0^T \frac{\mathrm{d}}{\mathrm{d}t} \langle y(t), \tilde{v}(\cdot, t) \rangle_H \dt.
+\end{IEEEeqnarray*}
+One can now argue that \cref{eq:FirstOrderEvolStarStarStar} holds on $Q$ if (and only if?):
+\begin{equation}
+\label{eq:FirstOrderEvolStarStarStarStar}
+\opttag{$\star\star\star\star$} % Yes, 4 ! stars
+\begin{IEEEeqnarraybox}[][c]{l}
+\frac{\mathrm{d}}{\mathrm{d}t} \langle y(t), v \rangle_H + \underbrace{ \int_\Omega \nabla_x y(t) \nabla_x v \dx + \int_\Omega c_0 y(t) v \dx + \int_{\partial \Omega} \alpha y(t) v \ds }_{a(t, y(t), v) = a(y(t), v)} \\
+\quad = \underbrace{ \int_\Omega y(x, t) v(x) \dx + \int_{\partial \Omega} w(x, t) v(x) \ds }_{\langle b(t), v \rangle_V} \quad \forall v \in C_0^\infty(\Omega) \;\; \Leftrightarrow \;\; \forall v \in V = H^1(\Omega)
+\end{IEEEeqnarraybox}
+\end{equation}
+\end{examplenumb}
+\begin{theorem} % Thm 3.19
+\label{thm:c3e19}
+For every $(g, w, y_0) \in L^2(Q) \times L^2(\Sigma) \times L^2(y_0)$ there exists a solution
+\[
+y \in W^{1,2}(0, T; H^1(\Omega), L^2(\Omega))
+\] of \cref{eq:FirstOrderEvolStarStarStarStar} that depends continuously on $(g, w, y_0)$.
+(Moreover, it can be approximated by Galerkin method)
+\end{theorem}
+\addtocounter{section}{3} % Yes, this is again not a typo. After 3.2 comes 3.6
+\section{Parabolic optimal control problems} % 3.6
+\label{sec:c3e6}
+\begin{problem}[Model problem: optimal boundary control]
+\begin{IEEEeqnarray*}{u"l}
+minimize & J(y, u) \coloneqq \frac{1}{2} \int_\Omega |y(x, T) - y_\Omega(x)|^2 \dx \pm \frac{\lambda}{2} \iint_\Sigma |u(x, t)|^2 \ds \dt \\
+subject to & \left\{ \begin{IEEEeqnarraybox}[][c]{rCl"l}
+y_t - \lapl y &=& 0 & \text{in } Q \\
+\partial_\nu y + \alpha y &=& \beta u & \text{in } \Sigma \\
+y(0) &=& 0 & \text{in } \Omega
+\end{IEEEeqnarraybox} \right. \quad (\alpha, \beta = L^\infty(\Sigma)) \\
+and & u_a(x, t) \leq u(x, t) \leq u_b(x, t) \quad \text{\ac{ae} on } \Sigma = \partial \Omega \times (0, T).
+\end{IEEEeqnarray*}
+\end{problem}
+Here $y \in W(0, T; H^1(\Omega), L^2(\Omega))$, $u \in L^2(\Sigma)$.
+The state equation is to be understood in the variational sense
+\[
+	\frac{\mathrm{d}}{\mathrm{d}t} \langle y_t, v \rangle_{L^2(\Omega)} + a(y(t), v) = \langle b(t), v \rangle_{H^1(\Omega)} \quad \forall v \in H^1(\Omega)
+\]
+in the sense of \cref{ex:c3e18} with $g = 0, w = \beta u, y_0 = 0$.
+By \cref{thm:c3e19}, the linear control-to-state operator
+\begin{IEEEeqnarray*}{rCl}
+	\tilde{S} : L^2(\Sigma) &\to& W(0, T) \\
+	\tilde{S}u &=& y
+\end{IEEEeqnarray*}
+is continuous. By \cref{thm:c3e15}, \labelcref{thm:c3e15-ii} we can regard $\tilde{S}$ as a bounded operator
+\begin{IEEEeqnarray*}{rCl}
+	\tilde{S} : L^2(I) &\to& C([0, T], L^2(\Omega)).
+\end{IEEEeqnarray*}
+It follows that the \emph{``observation operator''}
+\begin{IEEEeqnarray*}{rCl}
+S : L^2(\Sigma) &\to& L^2(\Sigma), \\
+Su &=& (\tilde{S}u)(\cdot, T) = y(\cdot, T)
+\end{IEEEeqnarray*}
+is also continuous.
+\paragraph{Reduced formulation}
+\begin{IEEEeqnarray*}{u"l}
+minimize & f(u) \coloneqq \frac{1}{2} \| Su - y_\Omega \|_{L^2(\Omega)}^2 + \frac{\lambda}{2} \| u \|_{L^2(\Sigma)}^2 \\
+subject to & u \in U_{ad} = \{ u \in L^2(\Sigma) \midcolon u_a \leq u \leq u_b \text{ \ac{ae}} \}
+\end{IEEEeqnarray*}
+\begin{theorem} % Thm 3.20
+\label{thm:c3e20}
+Under the made assumptions the optimal boundary control problem admits a solution $u_0 \in U_{ad}$. In case $\lambda > 0$ it is unique.
+\end{theorem}
+\end{document}
