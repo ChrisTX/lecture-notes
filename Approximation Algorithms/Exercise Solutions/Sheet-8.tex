@@ -1,0 +1,95 @@
+\documentclass[oneside,a4paper]{amsart}
+
+\usepackage{geometry}
+\usepackage{parskip}
+\usepackage{mathtools}
+\usepackage{enumerate}
+\usepackage{IEEEtrantools}
+\usepackage{relsize}
+\usepackage{multirow}
+\usepackage{xfrac}
+
+\newcommand{\NP}{\ensuremath{N \! P}}
+\newcommand{\tp}{\ensuremath{\mathsmaller T}}
+\newcommand{\gmid}{\mathrel{}\middle|\mathrel{}}
+\newcommand{\midcolon}{\mathrel{}:\mathrel{}}
+\newcommand{\smallo}{\ensuremath{\mathit{o}}}
+
+\usepackage[vlined,linesnumbered]{algorithm2e}
+\usepackage{cleveref}
+\usepackage{tikz}
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{\node[shape=circle,draw,inner sep=1pt] (char) {#1};}}
+
+\DeclareMathOperator{\OPT}{OPT}
+
+% Algorithm2e specific
+\IncMargin{2.5em}
+\SetNlSty{circled}{}{}
+\SetNlSkip{1em}
+\DontPrintSemicolon
+\newcommand{\EndAlgorithmLine}{\vskip\medskipamount % or other desired dimension
+\leaders\vrule width \textwidth\vskip0.4pt % or other desired thickness
+\vskip\smallskipamount % ditto
+\nointerlineskip}
+
+\DeclareMathOperator{\dist}{dist}
+\DeclareMathOperator{\SMT}{SMT}
+\DeclareMathOperator{\smt}{smt}
+
+\begin{document}
+\title{Approximation Algorithms - Exercise Sheet 8 solutions}
+\maketitle{}
+\section*{Exercise 8.1}
+Consider
+\[
+	[t_i, t_j] \coloneqq \{ t_i, t_{i+1}, \ldots, t_k \}
+\]
+(indices are taken modulo here).
+
+We use here
+\[
+	\smt_k ([t_i, t_j] + v) = \min_{i \leq k < j - 1} \{ \smt([t_i, t_k] + v) + \smt([t_{k+1}, t_j] + v)\}
+\]
+and
+\[
+	\smt([t_i, t_j] + v) = \min \left\{ \min_{i \leq k \leq j} \{ \dist(t_k, v) + \smt([t_i, t_j]) \}, \min_{w \notin [t_i, t_j]} \{ \dist(v, w) + \smt_w([t_i, t_j] + w) \} \right\}.
+\]
+Consider a Steiner Minimum Tree $T$ for $[t_i, t_j] + v$ with $\delta_T(v) \geq 2$.
+Take the unique $t_i$-$v$-path $P_i$ and denote its last edge as $e = \{ w, v \}$
+Take subtree $T'$ of $T$ rooted at $w$ and add $v$.
+$T'$ is a Steiner Minimum Tree for a subset of $([t_i, t_j]) + v$.
+Claim: Subtree has form $[t_i, t_k]$. $t_k$ as ``maximum'' vertex contained.
+Suppose $t_l$ not part of the subset with $i \leq l \leq k$.
+$t_k$-$v$-path $P_k$, $t_l$-$v$-path $P_l$. Consider area bounded by outer face, $P_i$, $P_l$. $P_l$ starts within but its last edge is outside, implying we have a cycle and $T$ was not a tree.
+
+The rest is as in Dreyfus-Wagner.
+\section*{Exercise 8.2}
+Use the same proof as in the lecture but take a cycle through these ordered terminals. Then $c(C) \leq 2 \cdot \smt(G)$. We can delete the longest path between two terminals and obtain a path $P$ from that.
+Then $c(T) \leq c(P) \leq c(C) (1 - \frac{1}{t}) \leq 2 \smt(G) (1 - \frac{1}{t})$.
+
+For the second part, consider $K_{n+1}$, $v_0 \in V(K_{n+1})$, $v \in V(K_{n+1}) \setminus \{ v_0 \}$ terminals.
+\[
+	c(e) = \begin{cases}
+	1 & v_0 \in e\\
+	2 & \text{else}
+	\end{cases}
+\]
+Then, $\smt = n$, but $T = 2(n-1)$, and $2 \cdot \frac{2}{n}$, thus we are tight.
+\section*{Exercise 8.3}
+\subsection*{(i)}
+Add a vertex $v$ with zero-cost edges $\{ v, s \} \quad \forall s \in S$ to obtain $G'$. Compute a MST in $G'$.
+Return solution restricted to the original graph.
+
+Correctness: Let $T$ be some optimum solution. Adding the zero-cost edges transforms it into a spanning tree in $G'$. The algorithm computes a minimum spanning tree in $G'$, thus the returned solution is optimum.
+\subsection*{(ii)}
+If $|S| = 1$, this is equivalent to the Steiner tree problem. To obtain a 2-factor approximation: We proceed as in the first part but use a 2-factor approximation for SMT instead of MST (e.g.\ Kou-Markowsky-Berman) for $T = \{v\} \cup R$.
+\section*{Exercise 8.4}
+$G = (V, E)$, add vertex of degree at most $B$.
+$G' = (V', E')$, $R \subseteq V'$ terminals, $c \equiv 1$
+\begin{itemize}
+\item $V' = S \cup R = \{ x_v \mid v \in V\} \cup \{ x_{v,w} = x_{w,v} \mid \{v,w\} \in E\}$.
+\item connect all $x_v \in S$.
+\item connect $x_v$ to $x_{v,w}$ if $v \in \{ v, w \}$
+\end{itemize}
+If you have a vertex cover $C$ in $G$ of size $K$. Take a path in $G'$ through all vertices corresponding to $C$ and connect each $x \in R$ to it (once). This is a Steiner tree of size $m + k - 1$. Other direction works the same.
+\end{document}

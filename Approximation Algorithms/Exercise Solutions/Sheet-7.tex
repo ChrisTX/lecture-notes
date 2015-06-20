@@ -4,7 +4,6 @@
 \usepackage{parskip}
 \usepackage{mathtools}
 \usepackage{enumerate}
-\usepackage{IEEEtrantools}
 \usepackage{relsize}
 \usepackage{multirow}
 \usepackage{xfrac}
@@ -17,6 +16,7 @@
 
 \usepackage[vlined,linesnumbered]{algorithm2e}
 \usepackage{cleveref}
+\usepackage{IEEEtrantools}
 \usepackage{tikz}
 \newcommand*\circled[1]{\tikz[baseline=(char.base)]{\node[shape=circle,draw,inner sep=1pt] (char) {#1};}}
 
@@ -37,6 +37,42 @@
 \begin{document}
 \title{Approximation Algorithms - Exercise Sheet 7 solutions}
 \maketitle{}
+\section*{Exercise 7.1}
+\subsection*{(i)}
+Let $m$ be the number of different item sizes and let them be ordered, i.e.\ we'd have $c_1 \leq c_2 \leq \ldots \leq c_m$. We can describe an instance of this restricted \textsc{Bin Packing Problem} by a numbers $n_1, \ldots, n_m \in \mathbb{N}$, denoting the multiplicity of each item size, i.e.\ we have $n_1$ many items of size $c_1$ and so on. Given an instance with $m$ different item sizes, we can determine this ordering and the numbers in $\mathcal{O}(n \log n)$.
+
+The idea is now to use dynamic programming where we pack a bin in each step and consider the minimum number of bins required to packing the remaining items. Let $\operatorname{bins}(q_1, q_2, \ldots, q_m)$ be the minimum amount of bins required to pack for $i = 1, \ldots, m$ $q_i$ many items of size $c_i$ together in a single bin. Moreover, $0 \leq q_i \leq n_i$, as we only have $n_i$ many items of size $c_i$ in total. Therefore, only $\prod_{i=1}^m n_i \in \mathcal{O}(n^m)$ many of such vectors exist.
+Therefore, we can compute in $\mathcal{O}(n^m)$ time the set $Q$ of such vectors with $\operatorname{bins}(q_1, q_2, \ldots, q_m) = 1$.
+
+From there on, we can use for elements not in $Q$ the recursion
+\[
+	\operatorname{bins}(l_1, \ldots, l_m) = 1 + \min_{q \in Q} \operatorname{bins}(l_1 - q_1, \ldots, l_m - q_m).
+\]
+This way, we can calculate $\operatorname{bins}(n_1, \ldots, n_m)$. Since $\sum_{i=1}^m l_i - q_i < \sum_{i=1}^m l_i$, we obtain a recursion depth of at most $\mathcal{O}(n^m)$ and in each step we need $\mathcal{O}(n^m)$ to compute the minimum. Thus, this takes $\mathcal{O}(n^{2m})$ time in total.
+\subsection*{(ii)}
+Transform the instance $I$ by rounding. Let
+\begin{IEEEeqnarray*}{rCl}
+I_{< \varepsilon} &=& (a \in I \mid a < \varepsilon) \\
+I_{\geq \varepsilon} &=& (a \in I \mid a \geq \varepsilon)
+\end{IEEEeqnarray*}
+Denote by $(n_1, \ldots, n_m)$:
+\[
+	n_i \coloneqq |(a \in I \setminus I_{< \varepsilon} \mid a \in [\varepsilon(1+ \varepsilon)^{i-1}, \varepsilon(1+\varepsilon)^i) |.
+\]
+Then, the rounded instance has
+\[
+	m = \left\lceil \log_{1+\varepsilon} \frac{1}{\varepsilon} \right\rceil.
+\]
+Now apply (i) on $I_{\geq \varepsilon}$.
+By reverting the rounding, this increases the required bin size by at most $(1 + \varepsilon)$.
+Since we only decrease item size and count the solution requires at most $\OPT(I)$ many bins, since the algorithm from (i) is exact.
+
+Now, add the elements from $I_{< \varepsilon}$ using \textsc{Greedy} (we only add a new bin if required). We can only add bins if every other bin is filled with items amounting to weight greater 1. Thus, the optimum (correct) solution has to require an extra bin, too.
+\subsection*{(iii)}
+If $T \leq \sum t_i$, $\log(T) \leq \log( \sum t_i)$ and this is polynomially bound in the input size.
+
+The idea is to consider the processors as bins of size $T$, where $T$ is the optimal processing time. In this case, we've got to solve bin packing with that unknown time.
+We apply the algorithm of the previous part and use binary search to iteratively find a suitable processing time $T$. If the algorithm requires at most $m$ bins, set the right boundary to $(1 + \varepsilon)$ times the current time estimate. Otherwise, let the left bound to the current time estimate.
 \section*{Exercise 7.2}
 Let's discuss the implementability first: Use Dijkstra (on the directed graph obtained by replacing each edge with a pair of opposing, directed edges) starting from $v_1, v_2$ and $v_3$ and store the result. This can be done in $\mathcal{O}(m + n \log n)$. Using that information, we can determine $P$ and $a$ in linear time. Afterwards, traverse all vertices and if they fulfill the conditions (which can be checked in constant time after this step) and compute $\sum_{i=1}^3 \operatorname{dist}(v_i, z)$ for each one. By sorting the list of vertices obtained this way ($\mathcal{O}(n \log n)$), we can determine a minimizer and use the shortest paths to it computed by Dijkstra earlier. Overall, that's $\mathcal{O}(m + n \log n)$.
 

@@ -28,7 +28,7 @@ Let $G = (V, E)$, $R \subseteq V(G)$, $c : E(G) \to \R_+$. We define
 \begin{algorithm}[H]
 $i \coloneqq 0$\;
 \While{$\mst(R/t_1, \ldots, t_i) \neq 0$}{
-	choose $t_{i+1} \subseteq R$ with $|t_{i+1}| \leq k$ that minimizes $f_i(t_{i+1}) \coloneqq \frac{\smt(t_{i+1})}{\mst(R/t_1, \ldots, t_i) - \mst(R/t_1, \ldots, t_{i+1})}$\;
+	choose $t_{i+1} \subseteq R$ with $|t_{i+1}| \leq k$ that minimizes $f_i(t_{i+1}) \coloneqq \frac{\smt(t_{i+1})}{\mst(R/t_1 \ldots t_i) - \mst(R/t_1 \ldots t_{i+1})}$\;
 	$i \coloneqq i + 1$\;
 	$i_{\max} \coloneqq i$\;
 }
@@ -99,7 +99,7 @@ Therefore, for $B = \{ b_1, b_2, \ldots \}$:
 &=& \mst(R/AC) - \mst(R/ABC).
 \end{IEEEeqnarray*}
 \end{proof}
-\begin{theorem}][Zelikovsky \lbrack{}1996\rbrack{}] % Thm 77
+\begin{theorem}[Zelikovsky \lbrack{}1996\rbrack{}] % Thm 77
 \label{thm:77}
 The \textsc{Relative Greedy Algorithm} has an approximation ratio of $(1 + \ln 2) \cdot r_k < 1.694 \cdot r_k$.
 \end{theorem}
