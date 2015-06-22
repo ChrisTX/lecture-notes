@@ -57,6 +57,20 @@
 \usepackage[a4paper]{geometry}
 \usepackage{IEEEtrantools}
 
+% Define a Tag-like structure for IEEEeqnarrayS
+\newcommand\ztag[1]{%
+\def\@currentlabel{#1}%
+\gdef\tmp{%
+\addtocounter{equation}{-1}%
+\def\theequation{#1}}%
+\aftergroup\aftergroup\aftergroup\aftergroup\aftergroup\aftergroup
+\aftergroup\aftergroup\aftergroup\aftergroup\aftergroup\aftergroup
+\aftergroup\aftergroup\aftergroup\aftergroup\aftergroup\aftergroup
+\aftergroup\aftergroup\aftergroup\aftergroup\aftergroup\aftergroup
+\aftergroup\aftergroup\aftergroup\aftergroup\aftergroup\aftergroup
+\aftergroup
+\tmp}
+
 % Dokument Struktur
 \setcounter{secnumdepth}{2}
 \setcounter{tocdepth}{2}
@@ -91,6 +105,7 @@
 \subfile{Lectures/VL-6-2-2015}
 \subfile{Lectures/VL-6-9-2015}
 \subfile{Lectures/VL-6-11-2015}
+\subfile{Lectures/VL-6-15-2015}
 
 \backmatter
 \cleardoublepage
