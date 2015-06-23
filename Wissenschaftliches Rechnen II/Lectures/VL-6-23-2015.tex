@@ -13,7 +13,7 @@
  			\[
  				\|u\|_{W^{1,p}(0,T;X)} \coloneqq 
  				\begin{cases} 
- 					\left(\int_0^T\left(\|u(t)\|_X\right)^p + \|\dot{u}(t)\|_X^p\right)^{frac{1}{p}} ,&1<p<\infty \\
+ 					\left(\int_0^T\left(\|u(t)\|_X\right)^p + \|\dot{u}(t)\|_X^p\right)^{\frac{1}{p}} ,&1<p<\infty \\
  					\esssup_{0\leq t\leq T} \left( \|u(t)\|_X + \|\dot{u}(t)\|_X\right ), &p=\infty
  				\end{cases}
  			\]
@@ -211,7 +211,11 @@ Wir nehmen an, dass
 			\sup_{v_h\in H^1_0(\Omega)} \frac{\left| \int_\Omega f(t)v_h\,dx - a(u_h(t),v_h) \right|}{\nabla v\|_{L^2(\Omega)}} 
 		\\
 		&\leq&
-			\frac{\overset{\|v_{\cancel{h}}\|_{L^2(\Omega)}}^{\leq C_F}}{\|\nabla v\|_{L^2(\Omega)}} \|f(t)\|_{L^2(\Omega)} + \frac{\|\nabla v_h\|_{L^2(\Omega)}}{\|nabla v\|_{L^2(\Omega)}}\|\nabla u_h(t)\|_{L^2(\Omega)}
+			\frac{
+				\overbrace{
+							\|v_{\cancel{h}}\|_{L^2(\Omega)}
+				}^{\leq C_F}}{\|\nabla v\|_{L^2(\Omega)}} 
+			\|f(t)\|_{L^2(\Omega)} + \frac{\|\nabla v_h\|_{L^2(\Omega)}}{\|nabla v\|_{L^2(\Omega)}}\|\nabla u_h(t)\|_{L^2(\Omega)}
 		\\
 		&\leq&
 			C_{\Omega,\tau}(\|f(t)\|_{L^2(\Omega)} + \|\nabla u_h(t)\|_{L^2(\Omega)}).
