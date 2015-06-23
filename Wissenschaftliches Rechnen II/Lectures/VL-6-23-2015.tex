@@ -205,21 +205,25 @@ Wir nehmen an, dass
 	\end{IEEEeqnarray*}
 
 	Daraus folgt
-	\begin{IEEEeqnarray*}{rCl} _Ganze Gleichung soll Nummer 4.3.12 haben %NUMMER!!!
-			\|\ddot{u}(t)\|_{H^{-1}(\Omega)} 
-		&\leq&
-			\sup_{v_h\in H^1_0(\Omega)} \frac{\left| \int_\Omega f(t)v_h\,dx - a(u_h(t),v_h) \right|}{\nabla v\|_{L^2(\Omega)}} 
-		\\
-		&\leq&
-			\frac{
-				\overbrace{
-							\|v_{\cancel{h}}\|_{L^2(\Omega)}
-				}^{\leq C_F}}{\|\nabla v\|_{L^2(\Omega)}} 
-			\|f(t)\|_{L^2(\Omega)} + \frac{\|\nabla v_h\|_{L^2(\Omega)}}{\|nabla v\|_{L^2(\Omega)}}\|\nabla u_h(t)\|_{L^2(\Omega)}
-		\\
-		&\leq&
-			C_{\Omega,\tau}(\|f(t)\|_{L^2(\Omega)} + \|\nabla u_h(t)\|_{L^2(\Omega)}).
-	\end{IEEEeqnarray*}
+	\begin{equation}
+		\left.
+		\begin{aligned}
+				\|\ddot{u}(t)\|_{H^{-1}(\Omega)} 
+			&\leq&
+				\sup_{v_h\in H^1_0(\Omega)} \frac{\left| \int_\Omega f(t)v_h\,dx - a(u_h(t),v_h) \right|}{\nabla v\|_{L^2(\Omega)}} 
+			\\
+			&\leq&
+				\frac{
+					\overbrace{
+								\|v_{\cancel{h}}\|_{L^2(\Omega)}
+					}^{\leq C_F}}{\|\nabla v\|_{L^2(\Omega)}} 
+				\|f(t)\|_{L^2(\Omega)} + \frac{\|\nabla v_h\|_{L^2(\Omega)}}{\|\nabla v\|_{L^2(\Omega)}}\|\nabla u_h(t)\|_{L^2(\Omega)}
+			\\
+			&\leq&
+				C_{\Omega,\tau}(\|f(t)\|_{L^2(\Omega)} + \|\nabla u_h(t)\|_{L^2(\Omega)})
+			\end{aligned}
+			\right\}\tag{4.3.12}\label{eqn:c4e3s12}
+	\end{equation}
 	\textbf{Bemerkung: } Stabilität der $L^2$ Projektion auf $V_h$ in $H^1_0(\Omega)$:
 	\[
 		\exists C: \quad \|\nabla v_h\|_{L^2(\Omega)} \leq C\|\nabla v\|_{L^2(\Omega)}
