@@ -1,0 +1,228 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+
+%Sind im Kapitel der Wellengleichung
+%  -> Sind in Subsection 4.2: Funktionenräume bzgl. der Zeit
+
+\begin{definition}[Sobolev-Räume]\label{def:c4e2s4}
+	Sei $(X,\|\cdot\|_X)$ ein Banachraum.
+ 	\begin{enumerate}
+ 		\item Der Sobolevraum $W^{1,p}(0,T;X)$ besteht aus allen Funktionen $u\in L^p(0,T;X)$
+ 			so dass die schwache Ableitung $\dot{u}$ existiert und yu $L^p(0,T;X)$ gehört. Definiere 
+ 			\[
+ 				\|u\|_{W^{1,p}(0,T;X)} \coloneqq 
+ 				\begin{cases} 
+ 					\left(\int_0^T\left(\|u(t)\|_X\right)^p + \|\dot{u}(t)\|_X^p\right)^{frac{1}{p}} ,&1<p<\infty \\
+ 					\esssup_{0\leq t\leq T} \left( \|u(t)\|_X + \|\dot{u}(t)\|_X\right ), &p=\infty
+ 				\end{cases}
+ 			\]
+ 		\item Wir schreiben $H^1(0,T;X) \coloneqq W^{1,2}(0,T;X)$.
+ 	\end{enumerate}
+\end{definition}
+
+\begin{theorem}\label{thm:c4s2s5}
+	Sei $u\in W^{1,p}(0,T;X)$ für ein $1\leq p\leq\infty$. Dann gilt
+	\begin{enumerate}
+		\item $u\in C^0([0,T];X)$, d.h. $u$ ist stetig im ganzen Intervall $[0,T]$ (bis auf Änderung auf Mengen vom Maß $0$)
+		\item Es gilt der Hauptsatz
+			\[
+				u(t) = u(s) + \int_s^t \dot{u}(\tau)\,d\tau,\quad\forall 0\leq t\leq T
+			\]
+		\item Es gilt 
+			\[
+				\max_{0\leq t\leq T} \|u(t)\|_X \leq C\|u\|_{W^{1,p}(0,T;X)}
+			\]
+			wobei $C$ nur von $T$ abhängt. 
+	\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+	\cite[S.286]{Evans}.
+\end{proof}
+
+\begin{remark*}
+	Der Dualraum zu $H^1_0(\Omega)$ ist $H^{-1}(\Omega)$.
+\end{remark*}
+
+\begin{theorem}\label{thm:c4s2s6}
+	Sei $u\in L^2(0,T;H^1_0(\Omega))$ mit $\dot{u}\in L^2(0,T;H^{-1}(\Omega))$. Dann gilt
+	\begin{enumerate}
+		\item $u\in C^0([0,T];H^1_0(\Omega))$ (auch bei Änderungen von $u$ auf einer Menge vom Maß $0$)
+		\item Die Abbildung 
+			\[
+				t\mapsto \frac{1}{2} \|u(t)\|_{L^2(\Omega)}^2
+			\]
+			ist absolutstetig mit
+			\[
+				\frac{d}{dt} \|u(t)\|_{L^2(\Omega)}^2  = \left\langle \dot{u}(t),u(t)\right\rangle_{H^{-1}(\Omega)\times H^1_0(\Omega)},
+			\]
+			für fast alle $0\leq t\leq T$
+		\item außerdem
+			\[ 
+				\max_{0\leq t\leq T} \|u(t)\|_{L^2(\Omega)} \leq C\left( \|u\|_{L^2(0,T;H^1_0(\Omega))} + \|\dot{u}\|_{L^2(0,T;H^{-1}(\Omega))} \right),
+			\]
+			wobei $C$ nur von $T$ abhängt.
+	\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+	\cite[S.287]{Evans}.
+\end{proof}
+
+
+\subsection{Schwache Lösung}\label{sec:c4e3}
+Wir nehmen an, dass
+\begin{equation}\label{eqn:c4e3s1}
+	f\in \underbrace{L^2([0,T]\times\Omega)}_{=L^2(0,T;L^2(\Omega))}, g\in H^1_0(\Omega), r\in L^2(\Omega)
+\end{equation}
+
+\textbf{Erinnerung: } Für $u,v\in H^1_0(\Omega)$ war 
+\[
+	a(u,v) \coloneqq \int_\Omega \nabla u\cdot\nabla v\,dx.
+\]
+
+\begin{definition}[Schwache Lösung]\label{def:c4e3s1}
+	Wir sagen $u\in L^2(0,T;H^1_0(\Omega))$ mit $\dot{u}\in L^2(0,T;L^2(\Omega))$ und $\ddot{u}\in L^2(0,T;H^{-1}(\Omega))$ ist eine \emph{schwache Lösung} von (\ref{eqn:s4e1s1}) - (\ref{eqn:c4e1s3}), falls
+	\begin{equation}\label{eqn:c4e3s2}
+		\langle\ddot{u}(t),v\rangle_{H^{-1}\times H^1_0} + a(u(t),v) = \int_\Omega f(t)v\,dx
+	\end{equation}
+	für jedes $v\in H^1_0(\Omega)$ und fast alle $0\leq t\leq T$, und 
+	\begin{equation}\label{eqn:c4e3s3}
+		u(0) = g,\quad\dot{u}(0) = r.
+	\end{equation}
+\end{definition}
+
+\begin{remark}\label{rem:c4e3s2}
+	Aus \cref{thm:c4e2s6} wissen wir, dass $u\in C^0([0,T];H^1_0(\Omega))$.
+\end{remark}
+
+\begin{theorem}[Existenz einer schwachen Lösung]\label{thm:c4e3s3}
+	Gegeben Daten $f,g,r$ wie in (\ref{eqn:c4e3s1}). Dann gibt es eine schwache Lösung des Modellproblems (\ref{eqn:c4e1s1}) - (\ref{eqn:c4e1s3}) (Lösung von (\ref{eqn:c4e3s2}) und (\ref{eqn:c4e3s3})).
+\end{theorem}
+
+\begin{proof}
+	Der Beweis benutzt Galerkin's Methode und gliedert sich in Schritte (a) - (d):\newline\newline\noindent
+	\textbf{(a) Galerkin's Methode  } Sei $\{V_h\}_{h>0}$ eine Familie endlich-dimensionaler Unterräume von $H^1_0(\Omega)$ mit der Eigenschaft, dass für alle $v\in H^1_0(\Omega)$ gilt
+	\[
+		\lim_{h\to 0}\inf_{v_h\in V_h} \|\nabla(v-v_h)\|_{L^2(\Omega)} = 0
+	\]	
+	[z.B. sei $V_h = P^{1,0}_0(\mathcal{T}_h)$ für eine Folge regulärer quasiuniformer Triangulierungen $\mathcal{T}_h$]\newline\noindent
+	Wir suchen zugehörige Funktionen $u_h\in C^2([0,T];V_h)$ (wir werden $u_h$ als Lösung einer gewöhnlichen Dgl zweiter Ordnung erhalten, also $C^2$ für Lösung erwartet), so dass 
+	\begin{equation}\label{eqn:c4e3s4}
+		(\ddot{u}_h (t), v_h)_{L^2(\Omega)} + a(u_h(t),v) = \int_\Omega f(t)v\,dx
+	\end{equation}
+	für jedes $v_h\in V_h$ und alle $0\leq t\leq T$, und 
+	\begin{equation}\label{eqn:c4e3s5}
+		u_h(0) = g_h, \quad\dot{u}_h(0) = r_h
+	\end{equation} 
+	wobei wir $g_h$ und $r_h$ als Bestapproximation im FE-Raum $V_h$ wählen, d.h.
+	\[
+		g_h\coloneqq \argmin_{w_h\in V_h} \|\nabla (g-w_h)\|_{L^2(\Omega)},\quad r_h\coloneqq\argmin_{w_h\in V_h}\|r-w_h\|_{L^2(\Omega)}.
+	\]
+	\textbf{Beobachtung: } (\ref{eqn:c4e3s4}) - (\ref{eqn:c4e3s5}) ist äquivalent zu einem System gewöhnlicher Differentialgleichungen bzgl. der zeitabhängigen Basiskoeffizienten $d_{h,j}(t),\,1\leq j\leq\dim{V_h}$, in der Darstellung
+	\[
+		u_h(t) = \sum_{j=1}^{\dim{V_h}} d_{h,j}(t)\lambda_{h,j},
+	\]
+	wobei $\{\lambda_{h,j}|\,1\leq j\leq\dim{V_h}$ eine Basis von $V_h$ ist. Das System gewöhnlicher Dgl lautet
+	\begin{equation}\label{eqn:c4e3s7}
+		M_h \ddot{d}_h(t) + A_h d_h(t) = F_h(t),
+	\end{equation} 
+	wobei 
+	\[
+		(M_h)_{i,j} \coloneqq \int_\Omega \lambda_{h,i}\lambda_{h,j}\,dx,\quad (A_h)_{i,j} \coloneqq \int_\Omega \nabla\lambda_{h,i} \cdot \nabla\lambda_{h,j}\,dx,\quad (F_h(t))_j \coloneqq \int_\Omega f(t)\lambda_{h,j} \,dx.
+	\]
+	Die Theorie gewöhnlicher Dgl. garantiert die Existenz einer eindeutigen Lösung 
+	\[
+		d_h(t) = \left( d_{h,1}(t),...,d_{h,\dim{V_h}} \right) \in C^2([0,T];\mathbb{R}^{\dim{V_h}})
+	\]
+	von (\ref{eqn:c4e3s7}) mit Anfangsbedingungen 
+	\begin{equation}\label{eqn:c4e3s8}
+		 d_h(0) = \gamma_h,\quad\dot{d}_h(0) = \rho_h,
+	\end{equation}
+	mit 
+	\[
+		g_h = \sum_{j=1}^{\dim{V_h}} \gamma_{h,j}\lambda_{h,j},\quad r_h = \sum_{j=1}^{\dim{V_h}}\rho_{h,j}\lambda_{h,j}.
+	\]
+	Offensichtlich löst
+	\[
+		u_h(t) = \sum_{j=1}^{\dim{V_h}} d_{h,j}\lambda_{h,j}
+	\]
+	das System (\ref{eqn:c4e3s4}) - (\ref{c4e3s5}) und $u_h\in C^2([0,T];V_h)$.\newline\newline\noindent
+	$\rightsquigarrow$ Wenn wir im Ort diskretisieren, erhalten wir eine eindeutige Lösung!\newline\newline\noindent
+	Hängt die Lösung stetig von den Daten ab?\newline\newline\noindent
+
+	\textbf{(b) Energieabschätzung  } Wir müssen die richtige Testfunktion in (\ref{eqn:c4e3s4}) wählen: $v_h = \dot{u}_h(t)$. Damit erhalten wir 
+	\begin{equation}
+		(\ddot{u}_h(t),\dot{u}_h)_{L^2(\Omega)} + a(u_h(t),\dot{u}_h(t)) = \int_\Omega f(t)\dot{u}_h(t)\,dx.\label{eqn:c4e3s_(*)}\tag{(*)}
+	\end{equation}
+	Es gilt
+	\[
+		(\ddot{u}_h(t),\dot{u}_h)_{L^2(\Omega)} = \frac{1}{2}\frac{d}{dt}\|\dot{u}_h(t)\|_{L^2(\Omega)}^2,
+	\]
+	und
+	\[
+		a(u_h(t),\dot{u}_h(t)) = \frac{1}{2}\frac{d}{dt} a(u_h(t),u_h(t)).	
+	\]
+	Diese Terme können wir in \ref{eqn:c4e3s_(*)} einsetzen:
+	\[
+		\frac{d}{dt}\left( \underbrace{\frac{1}{2}\|\dot{u}_h(t)\|_{L^2(\Omega)}^2 + \frac{1}{2}a(u_h(t), u_h(t))}_{\eqqcolon\mathcal{E}(u_h)(t)} \right) = \int_\Omega f(t)\dot{u}_h(t)\,dx.
+	\]
+	Die Größe
+	\[
+		\mathcal{E}(u)(t) \coloneqq \frac{1}{2}\|\dot{u}(t)\|_{L^2(\Omega)}^2 + \frac{1}{2}\|\nabla u(t)\|_{L^2(\Omega)}^2
+	\]
+	heißt \emph{Energie} von $u\in C^1([0,T];H^1_0(\Omega))$ zum Zeitpunkt $0\leq t\leq T$.
+
+	Mit dieser Notation und der Young'schen-Ungleichung
+	\[
+		\int_\Omega f(t)\dot{u}_h(t)\,dx \leq \frac{1}{2}\|f(t)\|_{L^2(\Omega)}^2 + \underbrace{\frac{1}{2}\|\dot{u}_h(t)\|_{L^2(\Omega)}^2}_{\leq \mathcal{E}(u_h)(t)}
+	\]
+	 folgt
+	\begin{IEEEeqnarray*}{rCl}
+		\frac{d}{dt}\mathcal{E}(u_h)(t) &\leq& \mathcal{E}(u_h)(t) + \frac{1}{2}\|f(t)\|_{L^2(\Omega)}^2
+	\end{IEEEeqnarray*}
+	für $0\leq t\leq T$. \emph{Gronwall's Lemma} impliziert
+	\[
+		\mathcal{E}(u_h)(t) \leq e^t\left(\mathcal{E}(u_h)(0) + \frac{1}{2}\int_0^t\|f(s)\|_{L^2(\Omega)}^2\,dS\right),\quad\forall 0\leq t\leq T.
+	\]
+	Da $t$ beliebig war, folgt daraus 
+	\begin{IEEEeqnarray*}{rCl}
+		\max_{0\leq t\leq T}&&\left( \|\dot{u}_h(t)\|_{L^2(\Omega)}^2 + \|\nabla u_h(t)\|_{L^2(\Omega)}^2 \right) \\
+		&\leq& e^T( \|r_{\cancel{h}}\|_{L^2(\Omega)}^2 + \|\nabla g_{\cancel{h}}\|_{L^2(\Omega)}^2 + \|f\|_{L^2(0,T;L^2(\Omega))}^2)
+	\end{IEEEeqnarray*}
+
+	Wir haben gezeigt: $\dot{u}_h\in C^0([0,T];L^2(\Omega))$ und $u_h\in C^0([0,T];H^1_0(\Omega))$.\newline\newline\noindent
+	\textbf{(c) Schranke für $\dot{u}$  } Fixiere $v\in H^1_0(\Omega), v\not=0$, und setze $v_h =\argmin_{w_h\in V_h}\|v-w_h\|_{L^2(\Omega)}$. Offensichtlich gilt
+	\[
+		(v-v_h,v_h)_{L^2(\Omega)} = 0
+	\]
+	und (\ref{eqn:c4e3s4}) impliziert
+	\begin{IEEEeqnarray*}{rCl}
+		\langle\ddot{u}_h(t),v\rangle_{H^{-1}\times H^1_0} &=& (\ddot{u}_h(t),\underbrace{v}_{=v-v_h+v_h})_{L^2(\Omega)} \\
+		&=& (\ddot{u}_h(t),v_h)_{L^2(\Omega)}\\
+		&\overset{(\ref{eqn:c4e3s4})}=& \int_\Omega f(t)v_h\,dx - a(u_h(t),v_h).
+	\end{IEEEeqnarray*}
+
+	Daraus folgt
+	\begin{IEEEeqnarray*}{rCl} _Ganze Gleichung soll Nummer 4.3.12 haben %NUMMER!!!
+			\|\ddot{u}(t)\|_{H^{-1}(\Omega)} 
+		&\leq&
+			\sup_{v_h\in H^1_0(\Omega)} \frac{\left| \int_\Omega f(t)v_h\,dx - a(u_h(t),v_h) \right|}{\nabla v\|_{L^2(\Omega)}} 
+		\\
+		&\leq&
+			\frac{\overset{\|v_{\cancel{h}}\|_{L^2(\Omega)}}^{\leq C_F}}{\|\nabla v\|_{L^2(\Omega)}} \|f(t)\|_{L^2(\Omega)} + \frac{\|\nabla v_h\|_{L^2(\Omega)}}{\|nabla v\|_{L^2(\Omega)}}\|\nabla u_h(t)\|_{L^2(\Omega)}
+		\\
+		&\leq&
+			C_{\Omega,\tau}(\|f(t)\|_{L^2(\Omega)} + \|\nabla u_h(t)\|_{L^2(\Omega)}).
+	\end{IEEEeqnarray*}
+	\textbf{Bemerkung: } Stabilität der $L^2$ Projektion auf $V_h$ in $H^1_0(\Omega)$:
+	\[
+		\exists C: \quad \|\nabla v_h\|_{L^2(\Omega)} \leq C\|\nabla v\|_{L^2(\Omega)}
+	\]
+	mit $C$ abhängig von der Uniformität des Gitters.\newline\newline\noindent
+
+\end{proof}
+
+
+\end{document}
