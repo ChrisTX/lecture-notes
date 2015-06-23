@@ -1,0 +1,181 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+\begin{lemma} % Lemma 81
+\label{thm:81}
+For any fixed $\varepsilon > 0$, a $(1 + \varepsilon)$-approximation solution to DCR can be computed in polynomial time
+\end{lemma}
+\begin{proof}
+Set $k \coloneqq 2^{\lceil 1/\varepsilon \rceil}$ and solve $k$-DCR. This yields an $r_k$-approximation to DCR ($r_k \leq 1 + \varepsilon$).
+Let $(x, \mathscr{C})$ be an optimum solution to DCR. Replace each $C \in \mathscr{C}$ by a $k$-Steiner tree. Adjust $x$.
+Direct the full components towards the root of $C$.
+\end{proof}
+\begin{algorithmbox}[BGRS Algorithm]
+\begin{tabular}{@{}ll}
+\textit{Input:} & $G = (V, E)$, $R \subseteq V(G)$, $c : E(G) \to \R_+$, $\varepsilon$\\
+\textit{Output:} & A Steiner tree for $R$ in $G$
+\end{tabular}
+\end{algorithmbox}
+\vspace{-7pt}
+\begin{algorithm}[H]
+$i \coloneqq 0$\;
+\Repeat{a single terminal ist left}{
+	$i \coloneqq i + 1$\;
+	$i_{\max} = i$\;
+	compute a $\left( 1 + \frac{\varepsilon}{2} \right)$ approximate solution $(x, \mathscr{C})$ to DCR\;
+	select $C_i \in \mathscr{C}$ with probability proportional to $x_{C_i}$\;
+	contract $C_i$\;
+}\;
+\Return $\bigcup_{i=1}^{i_{\max}} C_i$\;
+\end{algorithm}
+\vspace{-7pt}
+\EndAlgorithmLine
+\begin{theorem}[Byrka, Grandoni, Rothvoß, Sanita \lbrack{}2013\rbrack{}] % Thm 82
+BGRS has an expected pproximation ratio of $\ln 4 + \varepsilon < 1.387$.
+\end{theorem}
+The \textsc{BGRS Algorithm} can be derandomized.
+Goemans, Olver, Rothvoß, Zenklusen \lbrack{}2011\rbrack{}: simplified version using a similar approach.
+lower bound: $\frac{96}{95} > 1.01$ unless $P = \NP$ (Chlebik, Chlebikova \lbrack{}2008\rbrack{}). Moreover the gap between the known lower bounds for the algorithms discussed so far and the proven upper bounds are quite far from each other:
+\begin{center}
+\begin{tabular}{ccc}
+\textsc{Relative Greedy} & ${} \leq 1.694$ & ${} \geq 1.385$ \\
+\textsc{Loss Contraction} & ${} \leq 1.550$ & ${} \geq 1.233$
+\end{tabular}
+\end{center}
+\chapter{The Traveling Salesman Problem} % Ch 6
+\label{sec:c6}
+\begin{problem}[Traveling Salesman Problem (TSP)]
+\begin{tabular}{@{}ll}
+\textit{Input:} & A complete (undirected) graph $K_n$, $n \geq 3$ $c : E(K_n) \to \R_+$ \\
+\textit{Output:} & A Hamiltonian cycle $T$, \ac{st} $\sum_{e \in E(T)} c(e)$ is minimum.
+\end{tabular}
+\end{problem}
+A Hamiltonian cycle in $K_n$ is called a \emph{tour}.
+\begin{theorem} % Thm 83
+TSP is \NP-hard.
+\end{theorem}
+\begin{proof}
+Let $G = (V, E)$ be an instance of \textsc{Hamiltonian circuit}.
+Define
+\[
+	G' = \left( V, \begin{pmatrix}
+	V \\ 2
+	\end{pmatrix} \right), \quad c(e) \coloneqq \begin{cases}
+	1, & \text{if } e \in E(G) \\
+	2, & \text{else}
+	\end{cases}.
+\]
+Then $G$ is Hamiltonian if and only $G'$ has a tour of length $|V(G)|$.
+\end{proof}
+\begin{theorem} % Thm 84
+If $P \neq \NP$, then no approximation algorithm for TSP with approximation ratio $r \in \N$ exists.
+\end{theorem}
+\begin{proof}
+Use the same proof as above, but instead set
+\[
+	c(e) = \begin{cases}
+	1, & \text{if } e \in E(G) \\
+	|V(G)| \cdot r & \text{else}
+	\end{cases}.
+\]
+Then, if $G$ is Hamiltonian, then $G'$ has a tour of length $|V(G)|$. If $G$ is not Hamiltonian, then each tour in $G'$ has length at least $|V(G)| - 1 + r \cdot |V(G)| > |V(G)| \cdot r$.
+Hence, an approximation algorithm for TSP with ratio $r$ can be used to decide the Hamiltonicity of $G$.
+\end{proof}
+In the special case of \textsc{Metric TSP}, $c$ satisfies the triangle inequality.
+\begin{theorem} % Thm 85
+\textsc{Metric TSP} is \NP-hard.
+\end{theorem}
+\begin{proof}
+See above, $1$-$2$-TSP is metric.
+\end{proof}
+However, this problem can be approximated. Special cases of it include \textsc{Euclidean TSP}, \textsc{Rectilinear TSP}, \textsc{Graphic TSP} and $1$-$2$-TSP. In \textsc{Graphic TSP}, one considers the metric closure of an unweighted graph.
+\begin{algorithmbox}[Nearest-Neighbor-Algorithm]
+\begin{tabular}{@{}ll}
+\textit{Input:} & $K_n$, $c : E(K_n) \to \R_+$\\
+\textit{Output:} & A TSP-tour for $K_n$.
+\end{tabular}
+\end{algorithmbox}
+\vspace{-7pt}
+\begin{algorithm}[H]
+$T \coloneqq (\{ v_1 \}, \emptyset)$ for an arbitrary $v_1 \in V(K_n)$.\;
+\For{$i \coloneqq 2$ \KwTo $n$}{
+	let $v_i \notin V(T)$ that minimizes $c(v_i, v_{i-1})$\;
+	add $v_i$ and $\{ v_{i-1}, v_i \}$ to $T$.\;
+}
+Add $\{ v_n, v_1 \}$ to $T$.\;
+\end{algorithm}
+\vspace{-7pt}
+\EndAlgorithmLine
+\begin{theorem}[Rosenkrantz, Stearns, Lewis \lbrack{}1977\rbrack{}] % Thm 86
+For \textsc{Metric TSP}\\instances with $n$ vertices the \textsc{Nearest-Neighbor-Algorithm} has an approximation ratio of $\Theta(\log n)$.
+\end{theorem}
+\begin{proof}
+$\mathcal{O}(\log n)$: What is the longest possible edge (compared to $c(\OPT)$) length in a \textsc{Metric TSP} instance? It's at most $\frac{1}{2} \OPT$.
+
+Iterate: Let $NN$ denote the tour of the algorithm. We define $f : V(K_n) \to \R$ as the length of the edge that was used by $NN$ to leave a vertex. Observe that $c(\{ x, y \}) \geq \min \left\{ f(x), f(y) \right\}$ for all $x, y \in V(K_n)$.
+Assume $NN$ visits $x$ before $y$ then $c(\{ x, y\}) \geq f(x)$ - and by interchanging the roles of $x$ and $y$ we obtain $c(\{x, y\}) \geq f(y)$.
+Let $\OPT(X)$ denote an optimum tour for $X \subseteq V(K_n)$. Then,
+\[
+	c(\OPT(X)) = \sum_{e \in \OPT(X)} c(e) \geq \sum_{\{x, y\} \in \OPT(X)} \min\left\{ f(x), f(y) \right\}.
+\]
+Let $V(K_n) = \{ x_1, x_2, \ldots, x_n \}$ such that $f(x_1) \geq f(x_2) \geq \ldots \geq f(x_n)$.
+For $k$ with $1 \leq k \leq n$ define
+\[
+	X_k \coloneqq \left\{ x_1, x_2, \ldots, x_{\min\{2k, n\}} \right\}.
+\]
+This implies
+\[
+	\sum_{\{x, y\} \in \OPT(X_k)} \min\left\{ f(x), f(y) \right\} \geq 2 \cdot \sum_{i=k+1}^{\min\{2k, n\}} f(x_i)
+\]
+Since $c(\OPT) \geq c(\OPT(X_k))$, we get
+\[
+	\sum_{j=0}^{\lceil \log n \rceil - 1} c(\OPT) \geq \sum_{j=0}^{\lceil \log \rceil - 1} 2 \cdot \sum_{i=2^j + 1}^{\min\{2^{j+1}, n\}} f(x_i) = c(NN) - f(x_1).
+\]
+On the right hand side, each $x_i$ appears exactly once for $i = 2, \ldots, n$. Additionally, we know $f(x_1) \leq \frac{1}{2} \OPT$.
+Overall we get
+\[
+	c(NN) \leq \left( \lceil \log n \rceil + \frac{1}{2} \right) \cdot \OPT.
+\]
+
+$\Omega(\log n)$: We define a partial Nearest-Neighbor-tour as a subtour on a subset of the vertices that can be found by the \textsc{Nearest-Neighbor-Algorithm}. We construct a \textsc{Metric TSP} instance: Let the vertices $V_k$ be the points in a $2 \times (8 2^k - 3)$ grid. The edge lengths are given by the Euclidean metric, rectilinear metric or graphic TSP metric on a graph with edge length 1.
+Then, $|V_k| = 16 \cdot 2^k - 6$. We call the graph $G_k$ and denote by $l_i$ the lower-left vertex in the instance $G_i$ and by $m_i$ the middle vertex in the topmost row.
+
+\underline{Claim:} Let the vertices of $G_k$ be embedded into $G_m$ with $m > k$. Then there exists a partial Nearest-Neighbor-tour in $G_m$ that
+\begin{enumerate}[(a)]
+\item visits exactly the vertices in $G_k$
+\item starts in $l_k$ and ends in $m_k$
+\item has length exactly $(12 + 4k) \cdot 2^k - 3$
+\end{enumerate}
+The case $k = 0$ is trivial. For $k \to \k + 1$: $|V_{k+1}| = 16 \cdot 2^{k+1} - 6 = 2 \cdot |V_k| + 6$. This means we can construct $G_{k+1}$ by taking two copies of $G_k$ and 6 vertices in between. It is easily seen that by considering the tours on the $G_k$, we can construct an appropriate tour by going from the middle vertex of the first instance to the upper left of the additional vertices and from there on to the lower left corner of the right block. We take the tour for the right block and go from the middle vertex to the two remaining vertices, ending in the middle one.
+The length of this tour is then:
+\[
+	2 \cdot \left( (12 + 4k) \cdot 2^k - 3 \right) + 5 + \frac{1}{2} |V_k| + 1 = (12 + 4{(k+1)}) \cdot 2^{(k+1)} - 3.
+\]
+We have $n \coloneqq 16 \cdot 2^k - 6$, but $\OPT = n$. This gives us a ratio of
+\[
+	\frac{(12 + 4k) \cdot 2^k -3}{16 \cdot 2^k - 6} \geq \frac{3 + \log \left( \frac{n+6}{16} \right)}{4} \geq \frac{1}{4} \left( \log n - 1 \right).
+\]
+This, $\Theta(\log n)$ is tight (it can be proven to be $\frac{1}{2} \log n + \smallo(\log n)$).
+\end{proof}
+\begin{remark}
+\textsc{Greedy-Algorithm:} Add shortest possible edge. One can show the approximation ratio to be $\Theta(\log n)$, too. In 1979 it was known $\Omega(\log n/\log \log n) \leq \mathcal{O}(\log n)$.
+\end{remark}
+\begin{algorithmbox}[Minimum Spanning Tree Algorithm]
+\begin{tabular}{@{}ll}
+\textit{Input:} & $K_n$, $c : E(K_n) \to \R_+$\\
+\textit{Output:} & A TSP-tour for $K_n$.
+\end{tabular}
+\end{algorithmbox}
+\vspace{-7pt}
+\begin{algorithm}[H]
+Start with a minimum spanning tree\;
+Double all edges\;
+Shortcut to get a tour\;
+\end{algorithm}
+\vspace{-7pt}
+\EndAlgorithmLine
+\begin{theorem} % Thm 87
+\label{thm:87}
+The MST-algorithm has approximation ratio 2.
+\end{theorem}
+\end{document}
