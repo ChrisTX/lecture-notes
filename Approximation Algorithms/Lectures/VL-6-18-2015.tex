@@ -80,7 +80,8 @@ $\mst(R/\Loss(t_1 \ldots t_i))$ is monotonically decreasing in $i$:
 \end{IEEEeqnarray*}
 Hence, we have
 \begin{IEEEeqnarray*}{rCl}
-\mst(R/\Loss(t_1 \ldots t_{i_{\max}})) + \sum_{i=1}^{i_{\max}} \loss(t_i) &\leq& G_{i_{\max}} + \smt_k - \loss_k + \loss_k - G_{i_{\max}} + \loss_k \cdot \ln \frac{G_0}{\loss_k} \\
+\mst(R/\Loss(t_1 \ldots t_{i_{\max}})) + \sum_{i=1}^{i_{\max}} \loss(t_i) &\leq& G_{i_{\max}} + \smt_k - \loss_k + \loss_k \\
+&& \quad {} - G_{i_{\max}} + \loss_k \cdot \ln \frac{G_0}{\loss_k} \\
 &=& \smt_k + \loss_k \cdot \ln \frac{G_0}{\loss_k} \\
 &=& \smt_k + \loss_k \cdot \frac{\mst(R) - \smt_k + \loss_k}{\loss_k} \\
 &\leq& \smt_k \left( 1 + \frac{\loss_k}{\smt_k} \cdot \ln \left( 1 + \frac{\smt_k}{\loss_k} \right) \right) \\

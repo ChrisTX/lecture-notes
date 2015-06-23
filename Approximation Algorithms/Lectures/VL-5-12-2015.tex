@@ -122,7 +122,7 @@ Hence, we have proved that we have a $1 - \frac{1}{k}$-approximation algorithm.
 \begin{algorithm}[H]
 $S_1 \coloneqq$ \sfrac{1}{2}-approximation from \cref{thm:43}.\;
 \lIf{$c(S_1) = 0$}{\Return $\emptyset$}
-$t \coloneqq \varepsilon \cdot \frac{c(S_1)}{n}, \quad \tilde{c}_j \coloneqq \lfloor \frac{c_j}{t} \rfloor, j = 1, \ldots, n.$\;
+$t \coloneqq \varepsilon \cdot \frac{c(S_1)}{n}, \;\; \tilde{c}_j \coloneqq \lfloor \frac{c_j}{t} \rfloor, \; j = 1, \ldots, n.$\;
 $S_2 \coloneqq$ exact algorithm on $(\tilde{c}_1, \ldots, \tilde{c}_n, w_1, \ldots, w_n, W)$ from \cref{thm:45}.\;
 \eIf{$c(S_1)$ > $c(S_2)$}{\Return $S_1$}{\Return $S_2$}
 \end{algorithm}
