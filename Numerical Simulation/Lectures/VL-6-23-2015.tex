@@ -1,0 +1,217 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+\addtocounter{dummythm}{-1} % Remark 3.20 and Theorem 3.20
+\begin{remark}[Arbitrary initial value \texorpdfstring{$y_0$}{y0}]
+\label{rem:c3e20}
+In the case of an inhomogeneous initial value $y_0 \in L^2(\Omega)$, $y_0 \neq 0$, the reduced formulation of the boundary control problem becomes
+\begin{IEEEeqnarray*}{u"l}
+minimize & \frac{1}{2} \| S_{y_0} u - y_\Omega \|_{L^2(\Omega)}^2 + \frac{\lambda}{2} \| u \|_{L^2(\Sigma)}^2 \\
+subject to & u \in U_{ad}
+\end{IEEEeqnarray*}
+Here $S_{y_0} : L^2(\Sigma) \to L^2(\Omega)$, $S_{y_0}(u) = y(\cdot, T)$ with
+\[
+\left\{
+\begin{IEEEeqnarraybox}[][c]{rCl"l}
+y_t - \lapl y &=& 0 & \text{in } Q \\
+\partial_\nu y + \alpha y &=& \beta u & \text{in } \Sigma \\
+y(0) &=& y_0 & \text{in } \Omega
+\end{IEEEeqnarraybox}
+\right.
+\]
+The operator $S_{y_0}$ is continuous by \cref{thm:c3e19} and \cref{thm:c3e15}, \labelcref{thm:c3e15-ii}, but not linear. To write the reduced formulation in the usual way, we note
+\[
+	S_{y_0}(u) = Su + S_{y_0}(0),
+\] 
+where $S$ is the \emph{linear} operator from above (for $y_0 = 0$).
+Hence, the inhomogeneous problem is recast into
+\begin{IEEEeqnarray*}{u"l}
+minimize & \frac{1}{2} \| S u - \hat{y}_\Omega \|_{L^2(\Omega)}^2 + \frac{\lambda}{2} \| u \|_{L^2(\Sigma)}^2 \\
+subject to & u \in U_{ad}
+\end{IEEEeqnarray*}
+with $\hat{y}_\Omega = y_\Omega - S_{y_0}(0)$, which is obtained by solving
+\[
+\left\{
+\begin{IEEEeqnarraybox}[][c]{rCl"l}
+y_t - \lapl y &=& 0 & \text{in } Q \\
+\partial_\nu y + \alpha y &=& 0 & \text{in } \Sigma \\
+y(0) &=& y_0 & \text{in } \Omega
+\end{IEEEeqnarraybox}
+\right.
+\]
+\paragraph{Variational inequality (for inhomogeneous initial values)}
+\begin{IEEEeqnarray*}{rCl}
+\IEEEeqnarraymulticol{3}{l}{ \langle S^*(S u_0 - \hat{y}_\Omega), u - u_0 \rangle_{L^2(\Sigma)} + \lambda \langle u_0, u - u_0 \rangle_{L^2(\Sigma)} } \\
+\quad &=& \langle S u_0 - \hat{y}_\Omega, S(u - u_0) \rangle_{L^2(\Omega)} + \lambda \langle u_0, u - u_0 \rangle_{L^2(\Sigma)} \\
+\quad &=& \langle S_{y_0} (u_0) - \hat{y}_\Omega, S_{y_0}(u) - S_{y_0}(u_0) \rangle_{L^2(\Omega)} + \lambda \langle u_0, u - u_0 \rangle_{L^2(\Sigma)} \geq 0 \quad \forall u \in U_{ad}
+\end{IEEEeqnarray*}
+Let $\bar{y}(T) = S_{y_0}(u_0)$, then
+\[
+	\langle \bar{y}(T) - y_\Omega, y(T) - \bar{y}(T) \rangle_{L^2(\Omega)} + \lambda \langle u_0, u - u_0 \rangle_{L^2(\Sigma)} \geq 0 \quad \forall u \in U_{ad}.
+\]
+\end{remark}
+\paragraph{Auxiliary result (for adjoint equations)}
+In analogy to \cref{thm:c3e4} (1D-case), we consider a backward equation in time
+\begin{equation}
+\label{eq:c3e6-star}
+\opttag{$\star$}
+\left\{
+\begin{IEEEeqnarraybox}[][c]{rCl"l}
+- p_t - \lapl p + c_0 p &=& a_Q & \text{on $Q$} \\
+\partial_\nu p + \alpha p &=& a_\Sigma & \text{on $\Sigma$} \\
+p(\cdot, T) &=& a_\Omega & \text{on $\Omega$}
+\end{IEEEeqnarraybox}
+\right.
+\end{equation}
+with $c_0, \alpha$ as in \cref{ex:c3e18} (bounded and measurable), and
+\[
+	(a_Q, a_\Sigma, a_\Omega) \in L^2(Q) \times L^2(\Sigma) \times L^2(\Omega).
+\]
+We can regard this as an abstract endvalue problem. Indeed letting
+\[
+	a(t, y, v) = \int_\Omega (\nabla y \cdot \nabla v + c_0(\cdot, t) y \cdot v) \dx + \int_\Gamma \alpha(\cdot, t) y \cdot v \ds
+\]
+(cf.\ \cref{ex:c3e18}) we can say the following
+\begin{lemma} % Lemma 3.21
+\label{thm:c3e21}
+The problem \cref{eq:c3e6-star} admits a unique solution
+\[
+	p \in W(0, T) = W(0, T; H^1(\Omega), L^2(\Omega))
+\]
+in the sense that
+\[
+	-\frac{\mathrm{d}}{\mathrm{d}t} \langle p(t), v \rangle_{L^2(\Omega)} + a(t, p(t), v) = \int_\Omega a_Q(\cdot, t) v \dx + \int_{\partial \Omega} a_\Sigma (\cdot, t) v \ds \quad \forall v \in H^1(\Omega)
+\]
+and $p(\cdot, T) = a_\Omega$. There exists $c_a > 0$ such that
+\[
+	\| p \|_{W(0, T)} \leq c_a \left( \| a_Q \|_{L^2(Q)} + \| a_\Sigma \|_{L^2(\Sigma)} + \| a_\Omega \|_{L^2(\Omega)} \right).
+\]
+\end{lemma}
+\begin{proof}
+Transform the time $t \mapsto T - t$ in all quantities and apply \cref{thm:c3e19}.
+\end{proof}
+\begin{theorem} % Thm 3.22
+\label{thm:c3e22}
+Let $y \in W(0, T)$ be the unique weak solution of the problem in \cref{ex:c3e18}:
+\[
+\left\{
+\begin{IEEEeqnarraybox}[][c]{rCl"l}
+y_t - \lapl y + c_0 y &=& g & \text{on $Q$} \\
+\partial_\nu y + \alpha y &=& w & \text{on $\Sigma$} \\
+y(\cdot, 0) &=& y_0 & \text{on $\Omega$}
+\end{IEEEeqnarraybox}
+\right.
+\]
+Then $y$ is related to the solution $p \in W(0, T)$ of \cref{eq:c3e6-star} as follows:
+\begin{IEEEeqnarray*}{rCl}
+\IEEEeqnarraymulticol{3}{l}{ \int_\Omega a_\Omega \cdot y(\cdot, T) \dx + \iint_Q a_Q \cdot y \dx \dt + \iint_\Sigma a_\Sigma \cdot y \ds \dt } \\
+\quad &=& \iint_\Omega y_0 \cdot p(\cdot, 0) \dx + \iint_Q g \cdot p \dx \dt + \iint_\Sigma w \cdot p \ds \dt
+\end{IEEEeqnarray*}
+\end{theorem}
+\begin{proof}
+Using \cref{thm:c3e14}, i.e.
+\[
+	\frac{\mathrm{d}}{\mathrm{d}t} \langle y(t), v \rangle_H = \langle y'(t), v \rangle_{V^*, V},
+\]
+we write the variational characterization of $y$ and $p$ in the form ($V = H^1(\Omega), H=L^2(\Omega)$):
+\begin{IEEEeqnarray*}{rCl"l}
+	\langle y'(t), v \rangle_{V^*, V} + a(t, y(t), v) &=& \int_\Omega g(\cdot, t) v \dx + \int_{\partial \Omega} w(\cdot, t) v \ds & \forall v \in V \\
+	-\langle p'(t), v \rangle_{V^*, V} + a(t, p(t), v) &=& \int_\Omega a_\Omega(\cdot, t) p \dx + \int_{\partial \Omega} a_\Sigma(\cdot, t) v \ds & \forall v \in V
+\end{IEEEeqnarray*}
+We can test the first equation with $v = p(t) \in V$ and the second with $y(t) \in V$ almost everywhere. Integration over time then gives:
+\begin{IEEEeqnarray*}{rCl}
+	\int_0^T \langle y'(t), p(t) \rangle_{V^*, V} + a(t, y(t), p(t)) &=& \iint_Q g \cdot p \dx \dt + \iint_\Sigma w \cdot p \ds \dt \\
+	- \int_0^T \langle p'(t), y(t) \rangle_{V^*, V} + \underbrace{ a(t, p(t), y(t)) }_{a(t, y(t), p(t))} &=& \iint_Q a_Q \cdot y \dx \dt + \iint_\Sigma a_\Sigma \cdot y \ds \dt
+\end{IEEEeqnarray*}
+In the first equation, we use integration by parts (\cref{thm:c3e15}, \labelcref{thm:c3e15-iii}):
+\begin{IEEEeqnarray*}{rCl}
+- \int_0^T \langle p'(t), y(t) \rangle_{V^*, V} + a(t, p(t), y(t)) &=& - \langle y(T), p(T) \rangle_{L^2(\Omega)} + \langle y(0), p(0) \rangle_{L^2(\Omega)} \\
+&& \quad {} + \iint_Q g \cdot p \dx \dt + \iint_\Sigma w \cdot p \dx \dt.
+\end{IEEEeqnarray*}
+Using $y(0) = y_0$ and $p(T) = a_\Omega$, the result follows.
+\end{proof}
+\subsection{Optimality conditions for the model problem}
+\begin{IEEEeqnarray*}{u"l}
+minimize & f(u) = \frac{1}{2} \| S_{y_0}(u) - y_\Omega \|_{L^2(\Omega)}^2 + \frac{\lambda}{2} \| u \|_{L^2(\Sigma)}^2 \\
+subject to & u \in U_{ad} = \left\{ u \in L^2(\Sigma) \midcolon u_a \leq u \leq u_b \;\; \text{\ac{ae}} \right\}
+\end{IEEEeqnarray*}
+with $S_{y_0}(u) = y(T)$ with
+\[
+\left\{
+\begin{IEEEeqnarraybox}[][c]{rCl"l}
+y_t - \lapl y &=& 0 & \text{in $Q$} \\
+\partial_\nu y + \alpha y &=& \beta u & \text{in $\Sigma$} \\
+y(0) &=& y_0 & \text{in $\Omega$}
+\end{IEEEeqnarraybox}
+\right.
+\]
+\paragraph{Adjoin equation}
+\begin{IEEEeqnarray*}{rCl"l}
+- p_t - \lapl p &=& 0 & \text{in $Q$} \\
+\partial_\nu p + \alpha p &=& 0 & \text{in $\Sigma$} \\
+p(T) &=& y(T) - y_\Omega & \text{in $\Omega$}
+\end{IEEEeqnarray*}
+\begin{theorem} % Thm 3.23
+\label{thm:c3e23}
+A control $u_0 \in U_{ad}$ with corresponding state $\bar{y} \in W(0, T)$ is optimal for the model problem if and only if the corresponding adjoint state $\bar{p} \in W(0, T)$ satisfies
+\[
+\iint_\Sigma (\beta \cdot \bar{p} + \lambda u_0)(u - u_0) \ds \dt \geq 0 \quad \forall u \in U_{ad}.
+\]
+\end{theorem}
+\begin{proof}
+In the light of \cref{rem:c3e20}, the necessary and sufficient condition for $u_0$ is
+\[
+	\int_\Omega (\bar{y}(T) - y_\Omega) \cdot (y(T) - \bar{y}(T)) \dx + \lambda \iint_\Sigma u_0 (u - u_0) \ds \dt \geq 0 \quad \forall u \in U_{ad}.
+\]
+By \cref{thm:c3e22} (with $a_Q = 0$, $a_\Sigma = 0$, $a_\Omega = \bar{y}(T) - y_\Omega$, $g = 0$, $w = \beta (u - u_0)$, ``$y_0 = 0$''), it holds that
+\[
+	\int_\Omega (\bar{y}(T) - y_\Omega) \cdot \underbrace{ (y(T) - \bar{y}(T)) }_{\tilde{y}(T)} \dx = \iint_\Sigma \beta (u - u_0) \bar{p} \ds \dt.
+\]
+Since $\tilde{y} = y - \bar{y}$ solves the problem
+\[
+\left\{
+\begin{IEEEeqnarraybox}[][c]{rCl"l}
+\tilde{y}_t - \lapl \tilde{y} &=& 0 & \text{in $Q$} \\
+\partial_\nu \tilde{y} + \alpha \tilde{y} &=& \beta(u - u_0) = w & \text{in $\Sigma$} \\
+\tilde{y}(0) &=& 0
+\end{IEEEeqnarraybox}
+\right.
+\]
+In combination, this proves the result.
+\end{proof}
+\begin{samepage}
+\paragraph{Conclusions}
+\begin{theorem} % Thm 3.24
+\label{thm:c3e24}
+A control $u_0 \in U_{ad}$ with corresponding state $\bar{y}$ is optimal for the model problem, if and only if for the corresponding adjoint state $\bar{p}$ it holds for almost all points $(x, t) \in \Sigma$:
+\[
+	\left( \beta(x, t) \bar{p}(x, t) + \lambda u_0(x, t) \right) (v - u_0(x, t)) \geq 0 \quad \forall v \in [u_a(x, t), u_b(x, t)]
+\]
+(``weak minimum principle'') and
+\[
+	\beta(x, t) \bar{p}(x, t) u_0(x, t) + \frac{\lambda}{2} u_0(x, t)^2 = \min_{v \in [ u_a(x, t), u_b(x, t) ]} \beta(x, t) \bar{p}(x, t) v + \frac{\lambda}{2} v^2
+\]
+(``minimum principle'') and (in case $\lambda > 0$):
+\[
+	u_0(x, t) = \PP_{[u_a(x, t), u_b(x, t)]} \left\{ - \frac{1}{\lambda} \beta(x, t) \bar{p}(x, t) \right\}.
+\]
+\end{theorem}
+\end{samepage}
+\begin{proof}
+Exercise.
+\end{proof}
+For $\lambda > 0$ we can summarize the optimality conditions as follows
+\begin{IEEEeqnarray*}{c}
+\begin{IEEEeqnarraybox}{rCl}
+y_t - \lapl y &=& 0 \\
+\partial_\nu y + \alpha y &=& \beta u \\
+y(0) &=& y_0
+\end{IEEEeqnarraybox} \qquad
+\begin{IEEEeqnarraybox}{rCl}
+- p_t - \lapl p &=& 0 \\
+\partial_\nu p + \alpha p &=& 0 \\
+p(T) &=& y(T) - y_\Omega
+\end{IEEEeqnarraybox} \\
+u = \PP_{U_{ad}} \left\{ - \frac{1}{\lambda} \beta \cdot p \right\}
+\end{IEEEeqnarray*}
+\end{document}

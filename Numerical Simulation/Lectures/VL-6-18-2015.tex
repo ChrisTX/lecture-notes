@@ -129,7 +129,7 @@ See \cite[§ 26]{Wloka}.
 Numerous examples can be found in \cite[§ 28]{Wloka}. We consider here the analogon to the 1D-problem in \cref{thm:c3e1}:
 \begin{IEEEeqnarray*}{rCl"l}
 y_t - \lapl y + c_0 y &=& y & \text{on } Q = \Omega \times (0, T) \\
-\partial_\nu y + \alpha y &=& w & \text{on } \Sigma = \partial \Omega \times (0, T) \\
+\partial_\nu y + \alpha y &=& w & \text{on } \Sigma = \partial \Omega \times [0, T] \\
 y(\cdot, 0) &=& y_0 & \text{in } \Omega
 \end{IEEEeqnarray*}
 Here $\Omega \subseteq \R^N$ is a bounded Lipschitz domain, $c_0 \in L^\infty(Q)$, $\alpha \in L^\infty(\Sigma)$, $\alpha(x, t) \geq 0$ \ac{ae}\ on $\Sigma$. \\
@@ -154,12 +154,12 @@ One can now argue that \cref{eq:FirstOrderEvolStarStarStar} holds on $Q$ if (and
 \label{eq:FirstOrderEvolStarStarStarStar}
 \opttag{$\star\star\star\star$} % Yes, 4 ! stars
 \begin{IEEEeqnarraybox}[][c]{l}
-\frac{\mathrm{d}}{\mathrm{d}t} \langle y(t), v \rangle_H + \underbrace{ \int_\Omega \nabla_x y(t) \nabla_x v \dx + \int_\Omega c_0 y(t) v \dx + \int_{\partial \Omega} \alpha y(t) v \ds }_{a(t, y(t), v) = a(y(t), v)} \\
+\frac{\mathrm{d}}{\mathrm{d}t} \langle y(t), v \rangle_H + \underbrace{ \int_\Omega \nabla_x y(t) \nabla_x v \dx + \int_\Omega c_0 y(t) v \dx + \int_{\partial \Omega} \alpha y(t) v \ds }_{a(t, y(t), v)} \\
 \quad = \underbrace{ \int_\Omega y(x, t) v(x) \dx + \int_{\partial \Omega} w(x, t) v(x) \ds }_{\langle b(t), v \rangle_V} \quad \forall v \in C_0^\infty(\Omega) \;\; \Leftrightarrow \;\; \forall v \in V = H^1(\Omega)
 \end{IEEEeqnarraybox}
 \end{equation}
 \end{examplenumb}
-\begin{theorem} % Thm 3.19
+\begin{theorem} % Thm 3.19 (referred to 3.18 as well)
 \label{thm:c3e19}
 For every $(g, w, y_0) \in L^2(Q) \times L^2(\Sigma) \times L^2(y_0)$ there exists a solution
 \[
@@ -198,7 +198,7 @@ is continuous. By \cref{thm:c3e15}, \labelcref{thm:c3e15-ii} we can regard $\til
 \end{IEEEeqnarray*}
 It follows that the \emph{``observation operator''}
 \begin{IEEEeqnarray*}{rCl}
-S : L^2(\Sigma) &\to& L^2(\Sigma), \\
+S : L^2(\Sigma) &\to& L^2(\Omega), \\
 Su &=& (\tilde{S}u)(\cdot, T) = y(\cdot, T)
 \end{IEEEeqnarray*}
 is also continuous.

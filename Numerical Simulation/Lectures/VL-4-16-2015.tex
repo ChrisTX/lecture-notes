@@ -21,7 +21,7 @@ We consider a function
 \]
 where $b \in U^*$ and $f(0)$ a constant.
 \begin{proposition} % Prop 1.16
-\label{prop:c1e16}
+\label{thm:c1e16}
 \begin{itemize}
 \item If $a$ is bounded, then $f$ is continuous.
 \item If $a$ is positive, then $f$ is convex.
@@ -33,20 +33,20 @@ where $b \in U^*$ and $f(0)$ a constant.
 Exercise.
 \end{proof}
 \begin{proposition} % Prop 1.17
-\label{prop:c1e17}
+\label{thm:c1e17}
 Let $U$ be a real \emph{reflexive} Banach space and $C \subseteq U$ be closed and convex. Then the problem
 \begin{mdframed}[style=theoremframing]
 minimize $\frac{1}{2} a(u, u) - b(u) + f(0)$ ($a$ bounded) subject to $u \in C$.
 \end{mdframed}
 has at least one solution, if either
 \begin{enumerate}[(i)]
-\item \label[equation]{prop:c1e17-i} $C$ is bounded and $a$ is positive
-\item \label[equation]{prop:c1e17-ii} $a$ is strongly positive (coercive)
+\item \label[equation]{thm:c1e17-i} $C$ is bounded and $a$ is positive
+\item \label[equation]{thm:c1e17-ii} $a$ is strongly positive (coercive)
 \end{enumerate}
-In case \labelcref{prop:c1e17-ii} the solution is unique. In case \labelcref{prop:c1e17-i} the solution is unique if $a$ is strictly positive.
+In case \labelcref{thm:c1e17-ii} the solution is unique. In case \labelcref{thm:c1e17-i} the solution is unique if $a$ is strictly positive.
 \end{proposition}
 \begin{proof}
-\cref{thm:c1e14,prop:c1e16}
+\cref{thm:c1e14,thm:c1e16}
 \end{proof}
 \begin{theorem} % Thm 1.18
 \label{thm:c1e18}
@@ -73,7 +73,7 @@ Let $\sigma = \inf_{\| u \|_U = 1} \| S u \|_H$, then
 \[
 	a(u, u) \geq (\sigma^2 + \lambda \| u \|^2).
 \]
-Almost everything follows from \cref{prop:c1e17}. Uniqueness in case \labelcref{thm:c1e18-i} with $\lambda = 0$: If $S$ is injective, then $a$ is strictly positive. If $S$ is not injective, then $f(u) = f(u + h)$ for all $h$ from the null space of $S$.
+Almost everything follows from \cref{thm:c1e17}. Uniqueness in case \labelcref{thm:c1e18-i} with $\lambda = 0$: If $S$ is injective, then $a$ is strictly positive. If $S$ is not injective, then $f(u) = f(u + h)$ for all $h$ from the null space of $S$.
 Hence solutions cannot be unique.
 \end{proof}
 \begin{examplenumb}[linear best approximation] % Example 1.19
@@ -145,7 +145,7 @@ is the Fréchet-derivative of
 in zero. Similar for $u_2$.
 \end{itemize}
 \begin{proposition} % Prop 1.22
-\label{prop:c1e22}
+\label{thm:c1e22}
 If $f : U_1 \times U_2 \to V$ is Fréchet-differentiable, then
 \[
 	f'(\bar{u}_1, \bar{u}_2)[u_1, u_2] = f_{u_1} (\bar{u}_1, \bar{u}_2)[h_1] + f_{u_2} (\bar{u}_1, \bar{u}_2)[h_2]

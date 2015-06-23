@@ -80,7 +80,7 @@ If the $g'(u_0)$ are linearly independent, then $\lambda_0 \neq 0$ (and we choos
 \]
 Hence, we need conditions under which cones do not intersect. Thus, we need a separation theorem.
 \begin{proposition}[Krein's extension theorem] % Prop 1.34
-\label{prop:c1e34}
+\label{thm:c1e34}
 Let $U$ be a Banach space, $K$ a convex cone, and $L$ a linear subspace of $U$ \ac{st}
 \[
 	L \cap \Int K = \emptyset.
@@ -106,11 +106,11 @@ Let $U$ be a Banach space. A subset $K \subseteq U$ is called a \emph{cone}, if 
 \]
 \end{definition}
 \begin{proposition} % Prop 1.36
-\label{prop:c1e36}
+\label{thm:c1e36}
 Let $K$ be a cone in a Banach space.
 \begin{enumerate}[(i)]
-\item\label[equation]{prop:c1e36-i} $K^+$ is closed, convex and nonempty.
-\item\label[equation]{prop:c1e36-ii} If $K \neq \emptyset$, then
+\item\label[equation]{thm:c1e36-i} $K^+$ is closed, convex and nonempty.
+\item\label[equation]{thm:c1e36-ii} If $K \neq \emptyset$, then
 \[
 	\inf_{u \in K} \ell(u) = \begin{cases}
 	0 & \text{if } \ell \in K^+ \\
@@ -120,9 +120,9 @@ Let $K$ be a cone in a Banach space.
 \end{enumerate}
 \end{proposition}
 \begin{proof}
-\labelcref{prop:c1e36-i} is trivial.
+\labelcref{thm:c1e36-i} is trivial.
 
-\labelcref{prop:c1e36-ii}: If $\ell \in K^+$, then
+\labelcref{thm:c1e36-ii}: If $\ell \in K^+$, then
 \[
 	\alpha \underbrace{ \ell(u) }_{\geq 0} = \ell\underbrace{(\alpha u)}_{\in K} \to 0 \quad \text{for } \alpha \to 0.
 \]
@@ -172,7 +172,7 @@ We thus can apply the Separation Theorem \labelcref{thm:c1e7}: There exists $\el
 \[
 	\sup_{u \in K_{m + 1}} \ell(u) \leq \inf_{v \in K}\ell(v)
 \]
-By \cref{prop:c1e36}, \labelcref{prop:c1e36-ii}, thus implies $\ell \in K^+$ and $-\ell \in K_{m +1}^+$. We choose $\ell_{m + 1} = -\ell$, $\ell_{m+2} = \ldots = \ell_{n+1} = 0$. Then,
+By \cref{thm:c1e36}, \labelcref{thm:c1e36-ii}, thus implies $\ell \in K^+$ and $-\ell \in K_{m +1}^+$. We choose $\ell_{m + 1} = -\ell$, $\ell_{m+2} = \ldots = \ell_{n+1} = 0$. Then,
 \[
 	\ell + \ell_{m + 1} + \ell_{m + 2} + \ldots + \ell_{n + 1} = 0.
 \]
@@ -181,7 +181,7 @@ We now claim that
 \label{eq:thm-c1e37-star}
 \opttag{$\star$} K^+ = \left( \bigcap_{i=0}^m K_i \right)^+ = K_0^+ + K_1^+ + \ldots + K_m^+,
 \end{equation}
-which then proves \labelcref{prop:c1e36-ii}, since then $\ell = \ell_0 + \ldots + \ell_m$ for some $\ell_i \in K_i^+$, $i = 0, \ldots, m$.
+which then proves \labelcref{thm:c1e36-ii}, since then $\ell = \ell_0 + \ldots + \ell_m$ for some $\ell_i \in K_i^+$, $i = 0, \ldots, m$.
 Note that ``$\supseteq$'' in \cref{eq:thm-c1e37-star} is trivial by definition of dual cones.
 To prove ``$\subseteq$'', let
 \begin{IEEEeqnarray*}{rCl}
@@ -204,7 +204,7 @@ Since $\ell \in \left( \bigcap_{i=0}^m K_i \right)^+$, it holds that
 \[
 	F(x) \geq 0 \quad \forall x \in L \cap C.
 \]
-By \cref{prop:c1e34}, we can extend $F$ to $X$ \ac{st}
+By \cref{thm:c1e34}, we can extend $F$ to $X$ \ac{st}
 \begin{IEEEeqnarray*}{l"rCl"l}
 	& F(x) &\geq& 0 & \forall x \in C, \\
 	\Leftrightarrow & \sum_{i=0}^m \ell_i(u_i) &\geq& 0 & \forall (u_0, \ldots, u_m) \in K_0 \times \ldots \times K_m \text{ for some } \ell_i \in U^*. 
