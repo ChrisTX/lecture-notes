@@ -1,0 +1,82 @@
+%Corrected!
+
+\documentclass{article}
+\usepackage[left=3cm,right=3cm,top=0cm,bottom=2cm]{geometry} % page settings
+\usepackage{amsmath} % provides many mathematical environments & tools
+\usepackage{IEEEtrantools}
+\usepackage{amssymb}
+\usepackage{mathtools}
+
+\setlength{\parindent}{0mm}
+
+
+\begin{document}
+\section{Solutions to sheet 9}
+\textbf{Exercise 1: } The problem reads
+\[
+	minimize\,J(y,u) \coloneqq \int_0^T\int_0^1 (y(x,t)-y_Q)^2\,dx\,dt + \frac{\lambda}{2}\int_0^T\int_0^1 u^2\,dx\,dt,
+\]
+with $Q\coloneqq (0,1)\times (0,T)$, subject to
+\begin{IEEEeqnarray*}{rCll}
+	y_t(x,t) &=& y_{xx} + u(x,t)&\text{in }\Omega\\
+	y_x(0,t) &=& 0 &\text{in } (0,T)\\
+	y_x(1,t)+\alpha y(1,t) &=& 0 &\text{in }(0,T)\\
+	y(x,0) &=& 0&\text{in } (0,1)
+\end{IEEEeqnarray*}
+with $U_{ad} \coloneqq \{u|\,u_a\leq u\leq u_b\, a.e.\}$ and $y,y_Q,u_a,u_b\in L^2(Q)$ and $\alpha,\lambda\geq 0$.\newline\newline\noindent
+To show: What are $S^*, p$?\newline\newline\noindent
+\textbf{$\blacksquare$ Proof: }By Theorem 3.1 there exists eactly one solution operator $S:L^2(Q)\to L^2(Q)$, $y = Su$ with
+\[
+	Su(x,t) = \int_0^t \int_0^1 G(x,\xi,t-s)u(\xi,s)\,d\xi\,ds
+\]
+with Green's function $G$. We want to compute $S^*$. It holds $\forall w\in L^2(Q)$:
+\begin{IEEEeqnarray*}{rCl}
+	\langle w,Su\rangle_{L^2(Q)} &=& \int_0^T\int_0^1 \left( \int_0^t \int_0^1 w(x,t)\:G(x,\xi,t-s)\:u(\xi,s)\,d\xi\,ds \right) \,dx\,dt \\
+	&=& \int_0^T \int_0^1 u(\xi,s) \left( \int_s^T\int_0^1 G(x,\xi,t-s)\:w(x,t)\,dx\,dt \right)\,d\xi\,ds \\
+	&=& \langle S^*w,u\rangle_{L^2(Q)}
+\end{IEEEeqnarray*}
+(Using Foubini). Now we need $p$:\newline\noindent
+Claim: $p(x,s) = S^*w(x,s)$ is the generalized solution to 
+\begin{IEEEeqnarray*}{rCll}
+	-p_t(x,t) - p_{xx}(x,t) &=& w(x,t) &\text{in }Q\\
+	p_x(0,t) &=& 0&\text{in }(0,T)\\
+	p_x(1,t)+\alpha p(1,t) &=& 0&\text{in }(0,T)\\
+	p(x,T) &=& 0 &\text{in }(0,1)
+\end{IEEEeqnarray*}
+Proof: Let $\sigma \coloneqq T-t$ and $\tau \coloneqq T-s$. Then
+\begin{IEEEeqnarray*}{rCl}
+	p(x,T-\tau) &=& -\int_\tau^0 \int_0^1 G(\xi,x,\tau-\sigma)\:w(\xi,T-\sigma)\,d\xi\,d\sigma \\
+		&=& \underbrace{\int_0^\tau \int_0^1 G(\xi,x,\tau-\sigma)\:w(\xi,T-\sigma)\,d\xi\,d\sigma }_{\eqqcolon \tilde{p}(x,\tau)}
+\end{IEEEeqnarray*}
+Using Theorem 3.1 we know that $\tilde{p}$ solves (generalized)
+\begin{IEEEeqnarray*}{rCll}
+	\tilde{p}_\tau(x,\tau) - \tilde{p}_{xx}(x,\tau) &=& w(x,T-\tau) &\text{in }(0,1)\times(0,T)\\
+	\tilde{p}_x(0,\tau) &=& 0&\text{in }(0,T)\\
+	\tilde{p}_x(1,\tau) + x\tilde{p}(1,\tau) &=& 0&\text{ in }(0,T)\\
+	\tilde{p}(x,0) &=& 0&\text{in }(0,1)
+\end{IEEEeqnarray*}
+The claim follows.\hfill$\blacksquare$\newline\noindent
+We get the optimality conditions
+\[
+	\bar{y} = S\bar{u}
+\]
+with  $p$ solves (*) and $w = \bar{y}-y_Q$ and $\langle p+\lambda u,u-\bar{u}\rangle_{L^2(Q)}\geq 0$.\newline\newline\noindent
+\textbf{Exercise 2: } We already know that $|\bar{u}| = 1$ a.e. for optimal $\bar{u}$, that means $\bar{u} = 1$ a.e. or $\bar{u} = -1$ a.e.\newline\noindent
+Assume that $u_1,u_2$ are optimal control with state $y_1,y_2$ and $\|y_1-y_2\|_{L^2} \eqqcolon M$. Then We have that
+\[
+	\frac{u_1 + u_2}{2}
+\]
+is admissible and optimal with state
+\[
+	\frac{y_1+y_2}{2}
+\]
+since
+\[
+	\left\|\frac{y_1(\cdot,T)+y_2(\cdot,T)}{2}-y_\Omega(\cdot)\right\|_{L^2(\Omega)} \leq \frac{1}{2}\|y_1(\cdot,T)-y_\Omega(\cdot)\|_{L^2(\Omega)} + \frac{1}{2} \|y_2(\cdot,T)-y_\Omega\|_{L^2(\Omega)} = M.
+\]
+But since $|u_1| = |u_2|$ a.e. on $(0,T)$ and $\left|\frac{u_1+u_2}{2}\right| = 1$ a.e. in $(0,T)$ we have that $u_1+u_2=2$ a.e. and hence it follows that $u_1 = u_2$ a.e.
+\[
+	\Rightarrow\quad u_1 = u_2\quad\text{in }L_2(0,1)
+\]
+
+\end{document}

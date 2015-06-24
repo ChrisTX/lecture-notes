@@ -1,0 +1,115 @@
+%Corrected!
+
+\documentclass{article}
+\usepackage[left=3cm,right=3cm,top=0cm,bottom=2cm]{geometry} % page settings
+\usepackage{amsmath} % provides many mathematical environments & tools
+\usepackage{IEEEtrantools}
+\usepackage{amssymb}
+\usepackage{mathtools}
+
+\setlength{\parindent}{0mm}
+
+\begin{document}
+
+\textbf{Exercise 1 (Pointwise inequality constraints)}\newline\noindent
+Let $\Omega$ bounded Lipschitz domain and $u_a,u_b\in L_2(\Omega)$ s.t. $u_a\leq u_b$ almost everywhere. Then
+\[
+	U_{ad}\coloneqq\{u\in L_2(\Omega)|\,u_a\leq u\leq u_b\,a.e.\}
+\]
+is a \emph{convex}, \emph{bounded} and \emph{closed} subset of $L_2(\Omega)$.\newline\newline\noindent
+\textbf{Proof. a) Convexity of $U_{ad}$: } Let $u_1,u_2\in U_{ad}$ and $\lambda\in[0,1]$. Then we have
+\[
+	\lambda u_1+(1-\lambda)u_2 	\begin{cases}
+									\geq \lambda+(1-\lambda)\min{\{u_1,u_2\}} = \min{\{u_1,u_2\}} \geq u_a &a.e.\\
+									\leq \lambda+(1-\lambda)\max{\{u_1,u_2\}} = \max{\{u_1,u_2\}} \leq u_b &a.e.
+								\end{cases}
+\]
+and therefore $\lambda u_1 + (1-\lambda)u_2\in U_{ad}$. This shows convexity.\newline\newline\noindent
+\textbf{b) Boundedness of $U_{ad}$: }
+We need a distance function on $L_2(\Omega)$. As this space is normed, we already have the induced distance function
+\[
+	d(f,g):L_2(\Omega)\times L_2(\Omega)\to\mathbb{R}
+\]
+given by
+\[
+	d(f,g) \coloneqq \|f-g\|_{L_2(\Omega)}.
+\]
+As all $u\in U_{ad}$ satisfy $u_a\leq u\leq u_b$ almost everywhere, we see that $U_{ad}$ is bounded, because it holds that
+\[
+	|f-g| \leq |u_b-u_a|\quad\,a.e.
+\]
+and therefore
+\[
+	\sup_{f,g\in U_{ad}}d(f,g) \leq d(u_a,u_b) = \|u_a-u_b\|_{L_2(\Omega)}\overset{Minkowski}\leq \underbrace{\|u_a\|_{L_2(\Omega)}}_{<\infty}+\underbrace{\|u_b\|_{L_2(\Omega)}}_{<\infty} <\infty
+\]
+and this gives us the boundedness(?).\newline\newline\noindent
+\textbf{c) Closedness of $U_{ad}$: } $L^2$ is a Hilbert-space (metric), so sequentially closedness is enough. Let therefore $(u_n)_n\subset U_{ad}$ a Cauchy-sequence. Let $u\in L_2(\Omega)$ be the limit w.r.t the $L^2$-norm.\newline\noindent
+In this case, there is a subsequence $\left(u_{n_k}\right)_k$ s.t. $u_{n_k}\to u$ almost everywhere. That's why $u_a\leq u\leq u_b$ almost everywhere because we have pointwise convergence. Therefore $u\in U_{ad}$ and $U_{ad}$ is closed. \newline\newline\noindent
+
+\textbf{Exercise 2 (Convergence of the Uzawa Algorithm)}\newline\noindent
+Let $A\in\mathbb{R}^{n\times n}$ symmetric, positive definite, $b\in\mathbb{R}^n,d\in\mathbb{R}^m$ and $C\in\mathbb{R}^{m\times n}$ with rank $m\leq n$. Consider the system
+\begin{equation}\label{system1}
+	\begin{bmatrix}A&C^T\\C&0\end{bmatrix}\begin{bmatrix}u\\\lambda\end{bmatrix} = \begin{bmatrix}b\\d\end{bmatrix}
+\end{equation}
+
+If $\varepsilon=0$ and $\alpha<\frac{2}{\|S\|}$, where $S=CA^{-1}C^T$ is the Schur complement, then the \emph{Uzawa Algorithm} converges to the true solution.\newline\newline\noindent
+\textbf{Proof. } The first equation of the system above reads
+\[
+	Au + C^T\lambda = b \Rightarrow u = A^{-1}b-A^{-1}C^T\lambda
+\]
+and by inserting this into the second equation we get
+\[
+	d = Cu = CA^{-1}b - CA^{-1}C^T\lambda.
+\]
+So we have a system $S\lambda = h$ where
+\begin{IEEEeqnarray*}{rCl}
+	S &\coloneqq& CA^{-1}C^T\\
+	h &\coloneqq& CA^{-1}b-d.
+\end{IEEEeqnarray*}
+
+Let $q^{(k)} \coloneqq d-Cu^{(k)}$ the \emph{defect} and $(u,\lambda)$ the exact solution of the saddle point problem. Then it holds that
+\begin{IEEEeqnarray*}{rCl}
+	q^{(k)} &=& d-CA^{-1}(b-C^T\lambda^{k-1})\\
+	&=& CA^{-1}C^T\lambda^{(k-1)} - \underbrace{(CA^{-1}b-d)}_{=h=S\lambda=CA^{-1}b-d}\\
+	&=& S(\lambda^{(k-1)}-\lambda).
+\end{IEEEeqnarray*}
+Moreover:
+\begin{IEEEeqnarray*}{rCl}
+	\lambda^{(k)}-\lambda &=& \lambda^{(k)}-\lambda^{(k-1)}+\lambda^{(k-1)}-\lambda \\
+	&=& \alpha \underbrace{Cu^{(k)}-d}_{=-q^{(k)}=-S(\lambda^{(k-1)}-\lambda)} + \lambda^{(k-1)}-\lambda\\
+	&=& (I-\alpha S)(\lambda^{(k-1)}-\lambda)
+\end{IEEEeqnarray*}
+Using this we have
+\begin{IEEEeqnarray*}{rCl}
+	\|\lambda^{(k)}-\lambda\| &\leq& \underbrace{\|I-\alpha S\|}_{\eqqcolon\varrho} \|\lambda^{(k-1)}-\lambda\|\\
+	&\leq& ...\\
+	&\leq& \varrho^k \|\lambda^{(0)}-\lambda\|
+\end{IEEEeqnarray*}
+By hypothesis we have $\varrho < 1$ so we have convergence. In fact, Uzawa's algorithm is nothing else than Richardson applied to the Schur complement $S$.\newline\newline\noindent
+
+\textbf{Exercise 3 (Optimal stationary heat equation with boundary control)}\newline\noindent
+
+...\newline\noindent
+For the adjoint state consider the Lagrange function of the problem
+\[
+	\nabla_y L(y,u,\underbrace{p}_{\text{multiplier}}) \coloneqq \|y-y_\Omega\|_{L^2(\Omega)} + \frac{\lambda}{2}\|u\|_{L^2(\Omega)}^2 - a(y,p) + F_u(p)
+\]
+and calculate the derivate
+\begin{IEEEeqnarray*}{rCll}
+	\nabla_y L(\xi) &=& 2\langle y-y_d,\xi\rangle_{L^2(\Omega)} - a(\xi,p) &\overset{!}= 0,\quad\forall \xi\in H^1(\Omega)\\
+	\nabla_p L(\beta) &=& -a(y,\beta) + F_u(\beta) &\overset{!}= 0,\quad\forall \beta\in H^1(\Omega)\\
+	\nabla_u L(\gamma) &=& \lambda\langue u,\gamma\rangle_{L^2(\Omega)} + F_\gamma(p) &\geq 0,\quad\forall \gamma\in U_{ad}-u\\
+\end{IEEEeqnarray*}
+And this gives the variational inequality
+\[
+	\langle \alpha p|_\Gamma + \lambda u, \tilde{u} - u\rangle_{L^2(\Omega)}\geq 0,\quad\forall \tilde{u}\in U_{ad}
+\]
+in weak form we get:
+\begin{IEEEeqnarray*}{rCl}
+	-\Delta p &=& 2y - y_\Omega,\quad\text{in }\Omega\\ 
+	\partial_\nu p + \alpha p &=& 0,\quad\text{on }\Gamma
+\end{IEEEeqnarray*}
+
+
+
+\end{document}
