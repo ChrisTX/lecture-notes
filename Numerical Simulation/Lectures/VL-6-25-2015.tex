@@ -1,0 +1,180 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+\paragraph{Gradient projection method}
+\begin{IEEEeqnarray*}{u"l}
+minimize & f(u) \coloneqq \frac{1}{2} \| Su - y_\Omega \|_{L^2(\Omega)}^2 + \frac{\lambda}{2} \| u \|_{L^2(\Sigma)}^2 \\
+subject to & u \in U_{ad}
+\end{IEEEeqnarray*}
+\begin{IEEEeqnarray*}{c}
+Su
+\left\{
+\begin{IEEEeqnarraybox}[][c]{rCl}
+y_t - \lapl y &=& 0 \\
+\partial_\nu y + \alpha y &=& \beta u \\
+y(0) &=& y_0
+\end{IEEEeqnarraybox}
+\right. \quad\quad
+\begin{IEEEeqnarraybox}[][c]{rCl}
+- p_t - \lapl p &=& 0 \\
+\partial_\nu p + \alpha p &=& 0 \\
+p(T) &=& y(T) - y_\Omega
+\end{IEEEeqnarraybox} \\
+u = \PP_{U_{ad}} \left\{ - \frac{1}{\lambda} \beta \cdot p \right\}
+\end{IEEEeqnarray*}
+For this formulation, we have assume that $\lambda > 0$.
+Our previous calculations \cref{rem:c3e20,thm:c3e23} reveal that
+\begin{IEEEeqnarray*}{rCl"l}
+	\langle \nabla f(u), v \rangle_{L^2(\Sigma)} &=& \langle Su - \hat{y}_\Omega, Sv \rangle_{L^2(\Omega)} + \lambda \langle u, v \rangle_{L^2(\Sigma)} \\
+	&=& \langle \beta \cdot p + \lambda u, v \rangle_{L^2(\Sigma)} & \forall u \in U = L^2(\Sigma).
+\end{IEEEeqnarray*}
+Thus,
+\[
+	\nabla f(u) = \beta \cdot p + \lambda u.
+\]
+Similar to \cref{thm:c2e27} it holds that $u_0$ is an optimal control if and only if
+\[
+	u_0 = \PP_{U_{ad}} \left( u_0 - \sigma \nabla f(u_0) \right).
+\]
+Here $\sigma > 0$ is arbitrary. For $\sigma = \frac{1}{\lambda}$, we recover
+\[
+	u_0 = \PP_{U_{ad}} \left\{ -\frac{1}{\lambda} \beta \cdot p \right\}.
+\]
+THe gradient projection method proceeds as usual (for the model problem):
+Given a control $u_k \in L^2(\Sigma)$:
+\begin{enumerate}
+\item\label[equation]{eq:c3e6-PGM-1} Calculate the state $y_k$ for the control $u_k$.
+\item Calculate the adjoint state $p_k$ and obtain the anti-gradient
+\[
+	v_k = - \nabla f(u_k) = - \left( \beta p_k + \lambda u_k \right).
+\]
+\item Find step-size $\sigma_k$ (e.g.\ by backtracking) such that
+\[
+	f\left(\PP\left\{u_k + \sigma_k v_k\right\}\right) \approx \min_{\sigma > 0} f\left( \PP_{U_{ad}} \left\{ u_k + \sigma v_k \right\}\right).
+\]
+\item Update $u_{k+1} = u_k + \sigma_k v_k$, $k \leftarrow k + 1$, back to \labelcref{eq:c3e6-PGM-1}.
+\end{enumerate}
+Alternatives (see \cite[Section 3.7.2]{Troeltzsch}):
+\begin{itemize}
+\item primal-dual active set method
+\item direct solution of optimality system
+\item full discretization of non-reduced problem
+\end{itemize}
+\chapter{Semilinear elliptic problems} % Ch 4
+\label{sec:c4}
+\begin{example}[an optimal control problem with a semilinear state equation]
+\begin{IEEEeqnarray*}{u"l}
+minimize & J(y, u) \coloneqq \frac{1}{2} \| y - y_\Omega \|_{L^2(\Omega)}^2 + \frac{\lambda}{2} \| u \|_{L^2(\Omega)}^2 \\
+subject to & \left\{
+\begin{IEEEeqnarraybox}[][c]{rCl"l}
+- \lapl y + y + y^3 &=& u & \text{in $\Omega$} \\
+\partial_\nu y &=& 0 & \text{on $\Gamma = \partial \Omega$}
+\end{IEEEeqnarraybox}
+\right. \\
+and & u_a \leq u(x) \leq u_b \quad \text{\ac{ae} on $\Omega$}
+\end{IEEEeqnarray*}
+The state equation is called \emph{semilinear}, since the derivatives of highest order (here two) enter linearly.
+\end{example}
+\underline{Outline}
+\begin{itemize}
+\item the existence of a continuous control-to-state operator $y = Su$ is derived in the framework of monotone operators.
+\item continuity of $y$ can be derived for controls $u$ having higher integrability than 2.
+\item the reduced formulation might be nonconvex (since $S$ will be nonlinear)
+\begin{itemize}
+\item not clear whether optimal controls exist
+\item necessary conditions are not sufficient
+\item no globally convergent optimization methods
+\end{itemize}
+\end{itemize}
+\pagebreak
+\section{Solvability of a model class of semilinear elliptic PDEs} % Sec 4.1
+\label{sec:c4e1}
+\begin{problemnonumb}[Model problem]
+\begin{equation}
+\opttag{$\star$}
+\label{eq:c4e1-star}
+\left\{ \begin{IEEEeqnarraybox}[][c]{rCl"l}
+\mathcal{A} y + c_0(x) + d(x, y) &=& f & \text{on $\Omega$} \\
+\partial_{\nu_{\mathcal{A}}} y + \alpha(x) y + e(x, y) &=& g & \text{on $\Gamma$}
+\end{IEEEeqnarraybox} \right.
+\end{equation}
+\end{problemnonumb}
+\begin{assumption} % Ass 4.1
+\label{as:c4e1}
+\begin{itemize}
+\item $\Omega \subseteq \R^N$ bounded Lipschitz domain
+\item $(\mathcal{A}y)(x) = \dive(A(x) \cdot \nabla y(x))$, where $A \in (L^\infty(\Omega))^{N \times N}$ is symmetric and uniformly elliptic
+\item $\nu_{\mathcal{A}} = \mathcal{A} \nu$ conormal vector
+\item $c_0 \in L^\infty_+(\Omega)$, $\alpha \in L^\infty_+(\Gamma)$, $f \in L^2(\Omega)$, $g \in L^2(\Gamma)$
+\end{itemize}
+\end{assumption}
+\cref{as:c4e1} is the same as in \cref{sec:c2e2}.
+\begin{assumption} % Ass 4.2
+\label{as:c4e2}
+$d : \Omega \times \R \to \R$, $e : \Gamma \times \R \to \R$ satisfy:
+\begin{enumerate}[(i)]
+\item $x \mapsto d(x, \eta) \in L^\infty(\Omega)$, $x \mapsto e(x, \eta) \in L^\infty(\Gamma) \quad \forall \eta \in \R$
+\item $\eta \mapsto d(x, \eta)$ and $\eta \to e(x, \eta)$ are \emph{continuous} and \emph{monotonically increasing} for almost every $x \in \Omega$ and $x \in \Gamma$, respectively.
+\item $d(x, 0) = 0$ and $e(x, 0) = 0$ for almost every $x \in \Omega$ and $x \in \Gamma$, respectively.
+\item There exists $M > 0$ such that $|d(x, \eta)| \leq M$ and $|e(x, \eta)| \leq M$ for almost every $x \in \Omega$ and $x \in \Gamma$, respectively, and all $\eta \in \R$.
+\end{enumerate}
+\end{assumption}
+\paragraph{Weak solution in \texorpdfstring{$H^1(\Omega)$}{H1(Ω)}}
+A function $y \in H^1(\Omega)$ is called \emph{weak solution} of \cref{eq:c4e1-star} if it satisfies the \emph{variational equation}:
+\[
+	a(y, v) + \int_\Omega d(x, y(x)) v(x) \dx + \int_\Gamma e(x, y(x)) v(x) \ds = \int_\Omega f \cdot v \dx + \int_\Gamma g \cdot v \ds \quad \forall v \in H^1(\Omega),
+\]
+where
+\[
+	a(y, v) = \int_\Omega \nabla y \cdot A \nabla v \dx + \int_\Omega c_0 y v \dx + \int_\Gamma \alpha y v \ds.
+\]
+We know that $a$ is bounded and coercive on $H^1(\Omega) \times H^1(\Omega)$. Therefore it induces a linear, bounded and continuously invertible operator
+\begin{IEEEeqnarray*}{rCl}
+	A : H^1(\Omega) &\to& \left( H^1(\Omega) \right)^* \\
+	y &\mapsto& a(y, \cdot)
+\end{IEEEeqnarray*}
+\begin{theorem} % Thm 4.3
+\label{thm:c4e3}
+Under \cref{as:c4e1,as:c4e2} the model problem \cref{eq:c4e1-star} admits a unique weak solution $y \in H^1(\Omega)$.
+There exists a constant $c > 0$ (independent of $d, e, f, g$) such that
+\[
+	\| y \|_{H^1(\Omega)} \leq c \left( \| f \|_{L^2(\Omega)} + \| g \|_{L^2(\Sigma)} \right)
+\]
+In fact, we can choose $c = \frac{1}{\beta_0}$, where
+\[
+	a(v, v) \geq \beta_0 \| v \|_{H^1(\Omega)}^2 \quad \forall v \in H^1(\Omega).
+\]
+\end{theorem}
+The proof uses a standard existence result for \emph{monotone operators}.
+\begin{definitionnonumb}
+Let $V$ be a real Banach space. A (nonlinear) operator $T : V \to V^*$ is called
+\begin{enumerate}[(i)]
+\item \emph{monotone}, if $\langle T y_1 - T y_2, y_1 - y_2 \rangle_{V^*, V} \geq 0 \quad \forall y_1, y_2 \in V$.
+\item \emph{strictly monotone}, if the inequality is always strict for $y_1 \neq y_2$.
+\item \emph{coercive}, if
+\[
+	\frac{\langle Ty, y \rangle_{V^*, V}}{\| y \|_V} \to + \infty \quad \text{for $\| y \|_V \to \infty$}.
+\]
+\item \emph{hemi-continuous}, if $t \mapsto \langle T(y + tv), w \rangle_{V^*, V}$ is continuous on $[0, 1]$ for all $y, v, w \in V$.
+\item \emph{strongly monotone}, if there exists $\beta_0 > 0$ such that
+\[
+	\langle Ty_1 - Ty_2, y_1 - y_2 \rangle_{V^*, V} \geq \beta_0 \| y_1 - y_2 \|_V^2 \quad \forall y_1, y_2 \in V.
+\]
+\end{enumerate}
+\end{definitionnonumb}
+\begin{theorem}[Main theorem for monotone operators] % Thm 4.4
+\label{thm:c4e4}
+Let $V$ be a real and separable Hilbert space, and let $T : V \to V^*$ be a monotone, coercive and hemi-continuous operator. Then for every $F \in V^*$ the equation
+\[
+	Ty = F
+\]
+has at least one solution $y \in V$. The set of solutions is bounded, convex and closed. If $T$ is strictly monotone, then a solution $y$ is unique. If $T$ is strongly monotone, then $T^{-1} : V^* \to V$ is Lipschitz-continuous: 
+\[
+	\frac{1}{\beta} \| T y_1 - T y_2 \|_{V^*} \geq y_1 - y_2 \|_V.
+\]
+\end{theorem}
+\begin{proof}
+See \cite{Zeidler2B}. % Zeidler, "Nonlinear Functional Analysis", Vol. II/B
+A simple proof via Banach's fixed point theorem is possible if $T$ is Lipschitz-continuous (Exercise).
+\end{proof}
+\end{document}
