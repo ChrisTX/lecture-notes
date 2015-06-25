@@ -1,0 +1,168 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+This bound is tight, which can be seen by considering the \textsc{Graph TSP} instance corresponding to a path of length $n$. Then the optimum is $2n$, but the \textsc{Minimum Spanning Tree Algorithm} could find a solution of length $4n$.
+\begin{samepage}
+\begin{algorithmbox}[Christofides' Algorithm]
+\begin{tabular}{@{}ll}
+\textit{Input:} & $K_n$, $c : E(K_n) \to \R_+$\\
+\textit{Output:} & A TSP-tour for $K_n$.
+\end{tabular}
+\end{algorithmbox}
+\vspace{-7pt}
+\begin{algorithm}[H]
+Compute a Minimum Spanning Tree\;
+Add a minimum weight perfect matching on odd degree vertices\;
+Shortcut an Eulerian trail to get a tour\;
+\end{algorithm}
+\vspace{-7pt}
+\EndAlgorithmLine
+\end{samepage}
+\begin{theorem}[Christofides \lbrack{}1976\rbrack{}] % Thm 88
+\label{thm:88}
+\textsc{Christofides' Algorithm} has an approximation ratio of $\frac{3}{2}$ for \textsc{Metric TSP}.
+\end{theorem}
+\begin{proof}
+Obviously, the cost of the minimum spanning tree is bound by $\OPT$. On the other hand, an optimum tour consists out of two odd-joins and therefore, the cost of the minimum weight perfect matching is at most $\frac{1}{2} \OPT$.
+\end{proof}
+This bound is tight as well, which can be seen by using a set of triangles, so that we have $n$ vertices. Then $\OPT$ is $2n$, but \textsc{Christofides' Algorithm} might find a solution of weight $3n$.
+\begin{samepage}
+\begin{algorithmbox}[$k$-$\OPT$ Algorithm]
+\begin{tabular}{@{}ll}
+\textit{Input:} & complete graph $K_n$, $c : E(K_n) \to \R_+$, $k \in \N$\\
+\textit{Output:} & A TSP-tour for $K_n$.
+\end{tabular}
+\end{algorithmbox}
+\vspace{-7pt}
+\begin{algorithm}[H]
+choose an arbitrary TSP-tour $T$\;
+\While{$\exists A \subseteq E(T), B \subseteq E(K_n), |A| = |B| = k$ and $c(B) \subset c(A)$ and $(T\setminus A) \cup B$ is a tour}{
+	$T \coloneqq (T \setminus A) \cup B$\;
+}\;
+\end{algorithm}
+\vspace{-7pt}
+\EndAlgorithmLine
+\end{samepage}
+A TSP-tour is called \emph{$k$-optimal} if the \textsc{$k$-$\OPT$ Algorithm} cannot improve it.
+For all $k$ there exists $k$-optimal tours that are not $k+1$-optimal.
+
+Let $f(k, n)$ be such that $k$-$\OPT \leq f(k, n) \cdot \OPT$. As we've got a metric TSP instance, $f(k, n) \leq \frac{1}{2} n$.
+One can prove that there exist \textsc{Metric TSP} instances, where $k$-$\OPT$ finds a solution that is by a factor of $\frac{1}{4} \cdot n^{\frac{1}{2k}}$ longer than an optimum tour.
+For $k = 2$, for \textsc{Metric TSP} the approximation ratio lies between $\frac{1}{4} \sqrt{n}$ and $4 \sqrt{n}$. For Euclidean TSP, we get a bound by $c \frac{\log n}{\log \log n}$ and $\log n$, respectively.
+\begin{theorem}[Chandra, Karloff, Tovey \lbrack{}1999\rbrack{}] % Thm 89
+\label{thm:89}
+A 2-optimal TSP tour in a \\\textsc{Metric TSP} instance is at most by a factor of $4 \cdot \sqrt{n}$ longer than an optimum tour on $n$ vertices.
+\end{theorem}
+\begin{proof}
+Let $K_n, c: E(K_n) \to \R_+$ be a \textsc{Metric TSP} instance. Let $T$ be a 2-optimal tour and $T^*$ an optimal tour.
+For $k = 1, \ldots, n$ we define
+\[
+	E_k \coloneqq \left\{ e \in E(T) \gmid c(e) > \frac{2 \cdot c(T^*)}{\sqrt{k}} \right\}.
+\]
+\underline{Claim:} $|E_k| < k$ for $k = 1, \ldots, n$.\\
+Assume there exists $k$ with $|E_k| \geq k$. Take an arbitrary orientation of $T$. Set $r \coloneqq |E_k|$ and let $(a_1, b_1), (a_2, b_2), \ldots, (a_r, b_r)$ be the oriented edges in $E_k$.
+We prove now that for each $x \in V(K_n)$ there are less than $\sqrt{k}$ of the $b_i$ that have distance at most $\frac{c(T^*)}{\sqrt{k}}$ to $x$.
+Assume there exist vertices $b_{i_1}, \ldots, b_{i_p}$, $p \geq \sqrt{k}$ such that all these vertices have distance at most $\frac{c(T^*)}{\sqrt{k}}$ from some $x \in V(K_n)$.
+This implies
+\[
+\dist(b_{i_l}, b_{i_m}) \leq 2 \cdot \frac{c(T^*)}{\sqrt{k}}
+\]
+for $1 \leq l < m \leq p$. This in turn implies
+\[
+\dist(a_{i_l}, a_{i_m}) \geq 2 \cdot \frac{c(T^*)}{\sqrt{k}},
+\]
+because otherwise
+\[
+	T' \coloneqq T \setminus \left\{ (a_{i_l}, b_{i_l}), (a_{i_m}, b_{i_m}) \right\} \cup \left\{ (a_{i_l}, a_{i_m}), (b_{i_l}, b_{i_m}) \right\}
+\]
+would have smaller weight and $T$ was not 2-optimal.
+As $p \geq \sqrt{k}$, we conclude that an optimum tour on $a_{i_1}, \ldots, a_{i_p}$ has length at least
+\[
+	p \cdot 2 \cdot \frac{c(T^*)}{\sqrt{k}} \geq 2 \cdot (T^*).
+\]
+A subtour of an optimum tour cannot be longer than the tour itself, so we have a contradiction.
+Thus we know that for all $x \in V(G)$ less than $\sqrt{k}$ of the $b_i$ has distance at most $\frac{c(T^*)}{\sqrt{k}}$ to $x$.
+Select an arbitrary $b_i$ and consider all vertices $b_j$ with distance at most $\frac{c(T^*)}{\sqrt{k}}$. We know that less than $\sqrt{k}$ many of these exist, so we remove them all.
+Iterate this process of selecting $b_i$'s and removing $b_j$'s. By assumption, $|E_k| \geq k$ and thus we have more than $\sqrt{k}$ iterations until all vertices $b_j$ have been removed. Hence, more than $\sqrt{k}$ $b_i$'s (selected ones) with pairwise distance larger than $\frac{c(T^*)}{\sqrt{k}}$. This implies that an optimum tour through all selected $b_i$'s has length larger than
+\[
+	\sqrt{k} \cdot \frac{c(T^*)}{\sqrt{k}} = c(T^*).
+\]
+This is again a contradiction.
+
+Let $E(T) = \{ e_1, e_2, \ldots, e_n \}$ with $c(e_1) \geq c(e_2) \geq \ldots \geq c(e_n)$.
+We know $|E_k| < k$ and thus
+\[
+	c(e_i) \leq \frac{2 \cdot c(T^*)}{\sqrt{i}}.
+\]
+This gives us
+\begin{IEEEeqnarray*}{rCl}
+c(T) &=& \sum_{i=1}^n c(e_i) \\
+&\leq& \sum_{i=1}^n \frac{2 \cdot c(T^*)}{\sqrt{i}} \\
+&\leq& 2 \cdot c(T^*) \cdot \sum_{i=1}^n \frac{1}{\sqrt{i}} \\
+&\leq& 2 \cdot c(T^*) \int_0^n \frac{1}{\sqrt{x}} \dx \\
+&=& 4 \cdot \sqrt{n} \cdot c(T^*).
+\end{IEEEeqnarray*}
+This proves the result.
+\end{proof}
+Englert, Röglin, Vöcking [2014]: For all $k$, there exists \textsc{Metric TSP} instances for which $k$-$\OPT$ needs an exponential number of steps.
+\paragraph{Local Search Algorithm}
+How to decide whether a given tour is optimum?
+\begin{problem}[Restricted Hamiltonian Cycle]
+\begin{tabular}{@{}ll}
+\textit{Input:} & A graph $G = (V, E)$ and a Hamiltonian path $P$ \\
+\textit{Question:} & Does $G$ contain contain a Hamiltonian cycle?
+\end{tabular}
+\end{problem}
+\begin{theorem} % Thm 90
+\label{thm:90}
+The \textsc{Restricted Hamiltonian Cycle} is \NP-complete.
+\end{theorem}
+\begin{proof}
+Reduction from \textsc{Hamiltonian Cycle}: Let $V(G) = \{ 1, \ldots, n\}$. Replace each vertex of $G$ by the following gadget: Use 8 vertices arranged in a square with its middle points present. We call the corner vertices $W_i$, $N_i$, $E_i$ and $S_i$. In addition to the edges connecting the square, connect two of the opposing midpoints, namely the one between $W_i$ and $S_i$ with the one between $N_i$ and $E_i$. We add edges $\{ S_i, N_i \}$ for $i = 1, \ldots, n - 1$ and call the resulting graph $H$. Then $H$ contains a Hamiltonian path.
+Add edges $\{ W_i, E_j \}$ as follows: Add $\{ W_i, E_j\}$ and $\{ W_j, E_i \}$ if and only if $\{ i, j\} \in E(G)$.
+
+\underline{Claim:} $H$ is Hamiltonian if and only if $G$ is Hamiltonian. \\
+If $G$ is Hamiltonian, then let $\{i, j\}$ be an edge on an Hamiltonian cycle.
+Then go from $W_i$ to $E_i$ to $W_j$ to $E_j$ and so on. This yields a Hamiltonian cycle in $H$.
+If $H$ is Hamiltonian, then no gadget is traversed $N_i \to S_i$, because then all gadgets would have traversed this way and the first and the last vertex cannot be connected. So we have to have a cycle akin to the other case, i.e.\ all gadgets are traversed $W_i \to E_i$ and by taking the edges $\{ i, j\}$, we obtain a corresponding tour in $G$.
+\end{proof}
+\begin{theorem} % Thm 91
+\label{thm:91}
+For a \textsc{Metric TSP} instance, it is \coNP-complete to decide whether a given TSP-tour is optimum.
+\end{theorem}
+\begin{proof}
+Obviously the problem is in \coNP: A certificate is a better tour.
+
+Reduce \textsc{Restricted Hamiltonian Cycle} to the complement of this problem:
+Given $G, P$. If the endpoints of $P$ are connected in $G$ this is clear.
+Otherwise, let
+\[
+	c_{ij} \coloneqq \begin{cases}
+	1 & \text{if } \{ i, j \} \in E(G) \\
+	2 & \text{else}
+	\end{cases}.
+\]
+This is a metric instance and $P$ results in a tour of length $n + 1$.
+This tour is optimal if and only if there is no Hamiltonian cycle in $G$.
+\end{proof}
+\begin{problem}[Euclidean TSP]
+\begin{tabular}{@{}ll}
+\textit{Input:} & A finite set of points in $\R^2$, at least 3 points. \\
+\textit{Output:} & A shortest Hamiltonian cycle with respect to $c(\{ x, y\}) \coloneqq \| x - y \|_2$.
+\end{tabular}
+\end{problem}
+\begin{theorem}[Garey, Graham, Johnson \lbrack{}1977\rbrack{}] % Thm 92
+\label{thm:92}
+\textsc{Euclidean TSP} is \\ \NP-hard.
+\end{theorem}
+It is still open whether the decision version of this problem is \NP-complete.
+How to prove that a given tour hast length at most $k$? For $V \subseteq \Z^2$, we have edge lengths of
+\[
+	\sqrt{(x_1 - x_2)^2 + (y_1 - y_2)^2}
+\]
+and thus the length of the tour is
+\[
+	\sum_{i=1}^n \sqrt{a_i}
+\]
+and we have to decide whether this sum is at most $k$.
+\end{document}

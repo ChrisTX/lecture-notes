@@ -1,0 +1,81 @@
+\documentclass[oneside,a4paper]{amsart}
+
+\usepackage{geometry}
+\usepackage{parskip}
+\usepackage{mathtools}
+\usepackage{enumerate}
+\usepackage{relsize}
+\usepackage{multirow}
+\usepackage{xfrac}
+
+\newcommand{\NP}{\ensuremath{N \! P}}
+\newcommand{\tp}{\ensuremath{\mathsmaller T}}
+\newcommand{\gmid}{\mathrel{}\middle|\mathrel{}}
+\newcommand{\midcolon}{\mathrel{}:\mathrel{}}
+\newcommand{\smallo}{\ensuremath{\mathit{o}}}
+
+\usepackage[vlined,linesnumbered]{algorithm2e}
+\usepackage{cleveref}
+\usepackage{IEEEtrantools}
+\usepackage{tikz}
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{\node[shape=circle,draw,inner sep=1pt] (char) {#1};}}
+
+\DeclareMathOperator{\OPT}{OPT}
+
+% Algorithm2e specific
+\IncMargin{2.5em}
+\SetNlSty{circled}{}{}
+\SetNlSkip{1em}
+\DontPrintSemicolon
+\newcommand{\EndAlgorithmLine}{\vskip\medskipamount % or other desired dimension
+\leaders\vrule width \textwidth\vskip0.4pt % or other desired thickness
+\vskip\smallskipamount % ditto
+\nointerlineskip}
+
+\DeclareMathOperator{\dist}{dist}
+\DeclareMathOperator{\SMT}{SMT}
+\DeclareMathOperator{\smt}{smt}
+\DeclareMathOperator{\loss}{loss}
+\DeclareMathOperator{\mst}{mst}
+
+\begin{document}
+\title{Approximation Algorithms - Exercise Sheet 9 solutions}
+\maketitle{}
+\section*{Exercise 9.4}
+\subsection*{(i)}
+Let $T^*$ be a full component. Then $T^*$ has to be a star, since $V \setminus R$ is a stable set.
+Obtain the MST by taking an Eulertour, except for a single edge with cost at least $2 \cdot \loss(T^*)$.
+Then,
+\[
+	\mst(R \cap V(T^*)) \leq 2 \cdot c(T^*) - 2 \cdot \loss(T^*).
+\]
+Adding all full components yields the result.
+\subsection*{(ii)}
+Let $T^*$ be a full component. Assume that $|V(T^*)| > 2$, then every path between two terminals has at least two edges. Thus,
+\[
+	c(T^*) \geq |R \cap V(T^*)|.
+\]
+On the other hand, we get get
+\[
+	(|R \cap V(T^*)| - 1) \cdot 2 \geq \mst(R \cap V(T^*)).
+\]
+Therefore:
+\begin{IEEEeqnarray*}{rCl}
+	\mst(R \cap V(T^*)) &\leq& (|R \cap V(T^*)| - 1) \cdot 2 \\
+	&=& (|V(T^*)| - |V(T^*) \setminus R| - 1) \cdot 2 \\
+	&\leq& (\smt(R) - \loss(T_1^* \ldots T_k^*) \cdot 2 \\
+	&\leq& 2 \cdot ( c(T) - \loss (T^*) )
+\end{IEEEeqnarray*}
+\subsection*{(iii)}
+Proceed as in the proof done in the lecture.
+Then,
+\begin{IEEEeqnarray*}{rCl}
+\mst(R/\loss(T_1 \ldots T_{i_{\max}})) + \sum_{i=0}^{i_{\max}} \loss(T_i) &=& \ldots \\
+&=& \smt_k + \loss_k \cdot \ln \frac{\mst(R) - \smt_k + \loss_k}{\loss_k} \\
+&\overset{\text{(i),(ii)}}{\leq}& \smt_k + \loss_k \cdot \frac{\smt_k - \loss_k}{\loss_k} \\
+&=& \smt_k \left( 1 + \frac{\loss_k}{\smt_k} \ln \left( \frac{\smt_k}{\loss_k} - 1 \right) \right) \\
+&\leq& \smt_k \left( 1 + \max_{0 \leq x \leq \frac{1}{2}} x \ln \left( \frac{1}{x} - 1 \right) \right) \\
+&\leq& \smt_k (1 + 0.279).
+\end{IEEEeqnarray*}
+This gives an approximation ratio of $1.279 \cdot r_k$.
+\end{document}
