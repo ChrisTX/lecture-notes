@@ -38,7 +38,7 @@ This bound is tight as well, which can be seen by using a set of triangles, so t
 choose an arbitrary TSP-tour $T$\;
 \While{$\exists A \subseteq E(T), B \subseteq E(K_n), |A| = |B| = k$ and $c(B) \subset c(A)$ and $(T\setminus A) \cup B$ is a tour}{
 	$T \coloneqq (T \setminus A) \cup B$\;
-}\;
+}
 \end{algorithm}
 \vspace{-7pt}
 \EndAlgorithmLine
@@ -147,7 +147,7 @@ This tour is optimal if and only if there is no Hamiltonian cycle in $G$.
 \end{proof}
 \begin{problem}[Euclidean TSP]
 \begin{tabular}{@{}ll}
-\textit{Input:} & A finite set of points in $\R^2$, at least 3 points. \\
+\textit{Input:} & A finite set $V$ of points in $\R^2$, at least 3 points. \\
 \textit{Output:} & A shortest Hamiltonian cycle with respect to $c(\{ x, y\}) \coloneqq \| x - y \|_2$.
 \end{tabular}
 \end{problem}

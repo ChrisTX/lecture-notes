@@ -1,0 +1,152 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+We want to derive a \ac{PTAS}. For this we want to use dynamic programming with a finite grid overlaying the points.
+
+Fix some $\varepsilon$, $0 < \varepsilon < 1$. Our goal is finding a $(1 + \varepsilon)$-approximation for \textsc{Euclidean TSP}.
+We call an instance of \textsc{Euclidean TSP} \emph{well rounded}, if:
+\begin{enumerate}
+\item\label[equation]{eq:wellrounded-i} $\forall (v_x, v_y) \in V$: $v_x$ and $v_y$ are odd integers
+\item\label[equation]{eq:wellrounded-ii} $\max_{v, w \in V} \| v - w \|_2 \leq \frac{64 \cdot |V|}{\varepsilon} + 16$
+\item\label[equation]{eq:wellrounded-iii} $\min_{v, w \in V} \| v - w \|_2 \geq 8$
+\end{enumerate}
+\begin{theorem} % Thm 93
+\label{thm:93}
+If there exists a \ac{PTAS} for well rounded \textsc{Euclidean TSP} instances, then there exists a \ac{PTAS} for \textsc{Euclidean TSP}.
+\end{theorem}
+\begin{proof}
+Let $V \subseteq \R^2$, $|V|$ finite and $|V| \geq 3$.
+We define
+\[
+	L \coloneqq \max_{v, w \in V} \| v - w \|_2.
+\]
+We define a new instance by
+\[
+	V' \coloneqq \left\{ \left( 1 +  8 \cdot \left\lfloor \frac{8n}{\varepsilon \cdot L} \cdot v_x \right\rfloor, 1 +  8 \cdot \left\lfloor \frac{8n}{\varepsilon \cdot L} \cdot v_y \right\rfloor  \right) \gmid (v_x, v_y) \in V \right\}.
+\]
+\textit{Remark:} $|V'| < |V|$ is possible.
+With this choice, $v_x', v_y'$ are numbers of the form $8a + 1$, $a \in \mathbb{Z}$. Thus \labelcref{eq:wellrounded-i} and \labelcref{eq:wellrounded-iii} are fulfilled.
+We have
+\[
+	\max_{v', w' \in V'} \| v' - w' \|_2 \leq \frac{64n'}{\varepsilon \cdot L} \cdot \max_{v, w \in V} \| v - w \|_2 + 16 = \frac{64 \cdot |V'|}{\varepsilon} + 16.
+\]
+Thus, \labelcref{eq:wellrounded-ii} is fulfilled, too and $V'$ is well-rounded.
+
+By assumption, we have a \ac{PTAS} for $V'$. We use it with $\frac{\varepsilon}{4}$ to get a $\left( 1 + \frac{\varepsilon}{4} \right)$-approximation.
+Then, we have a tour for $V'$ of length
+\[
+	\ell' \leq \left(1 + \frac{\varepsilon}{4}\right) \cdot \OPT(V').
+\]
+This gives us a tour for $V$ of length at most
+\[
+	\ell \leq \left( \frac{\ell'}{8} + 4n \right) \cdot \frac{\varepsilon \cdot L}{8n}.
+\]
+For this, we consider the tour that by undoing the rounding, we add for each vertex at most a distance of $2 \cdot \sqrt{2}$ times the grid size $\frac{8n}{\varepsilon \cdot L}$, which gives us the $4n$ term ($2 \sqrt{2} < 4$). The factor of $8$ is due to us undoing the scaling.
+
+By the same argument applied the other way around, we obtain
+\[
+	\OPT(V') \leq 8 \cdot \left( \frac{8n}{\varepsilon \cdot L} \cdot \OPT(V) + 4n \right).
+\]
+Hence,
+\begin{IEEEeqnarray*}{rCl}
+	\ell &\leq& \frac{\varepsilon \cdot L}{8n} \left( 4n + \left( 1 + \frac{\varepsilon}{4} \right) \cdot \frac{1}{8} \cdot 8 \left( \frac{8n}{\varepsilon \cdot L} \cdot \OPT(V) + 4n \right) \right)  \\
+	&=& \frac{\varepsilon \cdot L}{2} + \left( 1 + \frac{\varepsilon}{4} \right) \cdot \OPT(V) + \left( 1 + \frac{\varepsilon}{4} \right) \cdot \frac{\varepsilon \cdot L}{2} \\
+	&=& \left( 1 + \frac{\varepsilon}{4} \right) \cdot \OPT(V) + \varepsilon \cdot L + \frac{\varepsilon^2}{8} \cdot L.
+\end{IEEEeqnarray*}
+As $L \leq \frac{1}{2} \OPT(V)$, we obtain
+\begin{IEEEeqnarray*}{rCl}
+\ell &\leq& \left( 1 + \frac{\varepsilon}{4} + \frac{\varepsilon}{2} + \frac{\varepsilon^2}{16} \right) \cdot \OPT(V) \\
+&\overset{\varepsilon < 1}{\leq}& (1 + \varepsilon) \cdot \OPT(V).
+\end{IEEEeqnarray*}
+Which is what we wanted to prove.
+\end{proof}
+\underline{Assumption:} All coordinates are within $[0, 2^N] \times [0, 2^N]$ with
+\begin{IEEEeqnarray*}{rCl}
+N &\coloneqq& \lceil \log L \rceil + 1, \\
+L &\coloneqq& \max_{v, w \in V} \| v - w \|_2
+\end{IEEEeqnarray*}
+For $i \coloneqq 1$ to $N-1$ define
+\begin{IEEEeqnarray*}{rCl}
+	G_i &\coloneqq& X_i \cup Y_i \\
+	X_i &\coloneqq& \left\{ \left[ \left( 0, k \cdot 2^{N-i} \right), \left(2^N, k \cdot 2^{N-i}\right) \right] \gmid k = 0, \ldots, 2^i -1 \right\} \\
+	Y_i &\coloneqq& \left\{ \left[ \left( j \cdot 2^{N-i}, 0\right) , \left(j \cdot 2^{N-i}, 2^N\right) \right] \gmid j = 0, \ldots, 2^i -1 \right\}
+\end{IEEEeqnarray*}
+Let $a, b \in \{ 0, 2, \ldots, 2^N - 2 \}$ be even integers. We define the shifted grids
+\begin{IEEEeqnarray*}{rCl}
+	G_i^{(a, b)} &\coloneqq& X_i^{(b)} \cup Y_i^{(a)} \\
+	X_i^{(b)} &\coloneqq& \left\{ \left[ \left( 0, \left( b + k \cdot 2^{N-i} \right) \; \operatorname{mod} 2^N \right), \left( 2^N, \left( b + k \cdot 2^{N-i} \right) \; \operatorname{mod} 2^N \right) \right] \right\} \\
+	Y_i^{(b)} &\coloneqq& \left\{ \left[ \left( \left( a + j \cdot 2^{N-i} \right) \; \operatorname{mod} 2^N, 0 \right), \left( \left( a + j \cdot 2^{N-i} \right) \; \operatorname{mod} 2^N, 2^N \right) \right] \right\}
+\end{IEEEeqnarray*}
+\underline{Observation:} $G_{N-1}^{(a, b)} = G_{N-1}$.
+
+We say a line is in level $1$, if $\ell \in G_1^{(a, b)}$ and in level $i > 1$, if $\ell \in G_i^{(a, b)} \setminus G_{i-1}^{(a, b)}$.
+A region of a grid $G_i^{(a, b)}$ is:
+\begin{IEEEeqnarray*}{rCl}
+\Big\{ (x, y) \in [0, 2^N] \times [0, 2^N] \Big|&& \left(x-a-j\cdot 2^{N-i}\right) \; \operatorname{mod} 2^N < 2^{N-i}, \\
+&& \left(y-b-k\cdot 2^{N-i}\right) \; \operatorname{mod} 2^N < 2^{N-i}, \; \text{for } j, k \in \{ 0, \ldots, 2^i - 1 \} \Big\}
+\end{IEEEeqnarray*}
+
+Let $\ell$ be a line in $G_{N-1}$, we define
+\[
+\crossings(T, \ell) \coloneqq \text{the number of crossing of $\ell$ with a polygon $T$}.
+\]
+\begin{lemma} % Lemma 94
+\label{thm:94}
+For an optimum TSP-tour $T$ of a well-rounded \textsc{Euclidean TSP} instance $V$, we have
+\[
+	\sum_{\ell \in G_{N-1}} \crossings(T, \ell) \leq \OPT(V).
+\]
+\end{lemma}
+\begin{proof}
+Consider one segment of $T$ of length $s$. Let $x, y$ be the projections of the line segment to the $x$ and $y$-axises, respectively.
+Then the segment crosses at most $\frac{x}{2} + 1 + \frac{y}{2} + 1$ times the grid $G_{N-1}$.
+As $s^2 = x^2 + y^2$, we have
+\[
+	(x+y)^2 \leq (x+y)^2 + (x-y)^2 = 2s^2.
+\]
+Thus, $x + y \leq \sqrt{2} \cdot s$, and
+\[
+	\frac{x + y}{2} + 2 \leq \frac{\sqrt{2}}{2} \cdot s + 2 \leq s, \quad \text{if } s \geq 8.
+\]
+By summing over all line segments, the statement of the Lemma follows.
+\end{proof}
+Define
+\begin{IEEEeqnarray*}{rCl}
+	C &\coloneqq& 7 + \left\lceil \frac{36}{\varepsilon} \right\rceil, \\
+	P &\coloneqq& N \cdot \left\lceil \frac{6}{\varepsilon} \right\rceil.
+\end{IEEEeqnarray*}
+We define \emph{portals}:
+If
+\[
+	\left[ \left( 0, \left(b + k \cdot 2^{N-i} \right) \; \operatorname{mod} 2^N  \right), \left( 2^N, \left(b + k \cdot 2^{N-i} \right) \; \operatorname{mod} 2^N \right) \right]
+\]
+is a line in $G_i^{(a, b)}$ (horizontal) then define the portals
+\[
+\left\{ \left( \left( a + \frac{h}{p} \cdot 2^{N-i} \right) \; \operatorname{mod} 2^N, \left(b + k \cdot 2^{N-i} \right) \; \operatorname{mod} 2^N \right) \gmid h = 0, \ldots, p \cdot 2^i\right\}.
+\]
+
+Let $V \subseteq [0, 2^N] \times [0, 2^N]$ be a well-rounded \textsc{Euclidean TSP}-instance and let $a, b \in \{ 0, 2, \ldots, 2^N - 2 \}$, $C$ and $P$ as above.
+A \emph{Steiner tour} is a closed sequence of line segments, that contains $V$ and crosses grid lines only in portals. A Steiner tour is \emph{light}, if for all $i$ and each region in $G_i^{(a, b)}$ the tour crosses each border edge of the region at most $C$ times.
+\begin{lemma}[Patching Lemma] % Lemma 95
+\label{thm:95}
+Let $V \subset \R^2$ be an \textsc{Euclidean TSP} instance and $T$ a tour for $V$. Let $\ell$ be a segment of length $s$ of a line that contains no point of $V$. Then there exists a tour for $V$ that is at most $6s$ longer than $T$ and crosses $\ell$ at most twice.
+\end{lemma}
+\begin{proof}
+\ac{wlog} $\ell$ is a vertical line segment. Assume $T$ crosses $\ell$ exactly $k$ times in the edges $e_1, e_2, \ldots, e_k$, $k \geq 3$.
+Subdivide each $e_i$ by two points $p_i$ and $q_i$ that are close to $\ell$, hereby let $p_i$ be left of $\ell$ and $q_i$ right of $\ell$.
+Define
+\[
+	t \coloneqq \left\lfloor \frac{k-1}{2} \right\rfloor.
+\]
+Then,
+\[
+	k - 2 \leq 2 t \leq k - 1.
+\]
+Remove the edges $p_i, q_i$ for $i = 1, \ldots, 2t$ (i.e.\ avoid the crossings). Let $P$ be a shortest tour through $p_1, \ldots, p_k$ and add a minimum lengths perfect matching on $p_1, \ldots, p_{2t}$. Similarly we'll proceed on the other side and denote the result by $Q$.
+Then, the length of $P$ and $Q$ is bounded by $3s$.
+We get a Eulerian graph ($T$ with the modifications). By shortcutting, we obtain a new tour with length at most $6s$ and at most $2$ crossings with $s$.
+\end{proof}
+\begin{theorem}
+There exists light Steiner tours of length at most $(1 + \varepsilon) \cdot \OPT$.
+\end{theorem}
+\end{document}
