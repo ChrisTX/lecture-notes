@@ -141,7 +141,7 @@ This can be done for instance by Armijo-line search.
 minimize & f(u) \coloneqq \frac{1}{2} \| Su - y_\Omega \|_{L_2}^2 + \frac{\lambda}{2} \| u \|_{L_2^2} \\
 subject to & u \in U_{ad} \coloneqq \{ u \in L^2(\Omega) \mid u_a \leq u(x) \leq u_b \; \text{\ac{ae}}\}
 \end{IEEEeqnarray*}
-where $u_a u_b \in L_\infty(\Omega)$ and $Su \coloneqq y$ solves
+where $u_a, u_b \in L_\infty(\Omega)$ and $Su \coloneqq y$ solves
 \begin{IEEEeqnarray*}{rCl"l}
 - \lapl y &=& \beta \cdot u & \text{in } \Omega \\
 u &=& 0 & \text{on } \partial \Omega
