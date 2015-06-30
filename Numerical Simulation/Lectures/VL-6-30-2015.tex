@@ -1,0 +1,258 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+\begin{proof}[\cref{thm:c4e3}]
+We would life to apply \cref{thm:c4e4} with $V = H^1(\Omega)$. We claim that the variational formulation is an operator equation
+\[
+	(Ty)[v] \coloneqq (Ay + Dy + Ey)[v] = F[v] = \langle f, v \rangle_{L^2(\Omega)} + \langle g, v \rangle_{L^2(\Sigma)} \quad \forall v \in H^1(\Omega),
+\]
+where
+\begin{IEEEeqnarray*}{rCl}
+(Ay)[v] &=& a(y, v) \\
+(Dy)[v] &=& \int_\Omega d(x, y(x)) v(x) \dx \\
+(Ey)[v] &=& \int_\Gamma e(x, y(x)) v(x) \ds 
+\end{IEEEeqnarray*}
+Indeed, \cref{as:c4e2} implies $y \mapsto d(x, y(x)) \in L^2(\Omega)$ and $x \mapsto e(x, y(x)) \in L^2(\Sigma)$ and therefore $Dy \in V^*$, $Ey \in V^*$.
+For $Ay$ we know this already and $F \in V^*$ is clear.
+The operators $A, D, E : V \to V^*$ are already monotone. Indeed, $A$ is strongly monotone (linear and coercive):
+\[
+	\langle Ay, y \rangle_{V^*, V} = a(y, y) \geq \beta_0 \| y \|_{V}^2.
+\]
+By assumption, $\eta \mapsto d(x, \eta)$ is monotone for \ac{ae} $x \in \Omega$. This implies
+\[
+	\left( d(x, \eta_1) - d(x, \eta_2) \right) \left( \eta_1 - \eta_2 \right) \geq 0 \quad \forall \eta_1, \eta_2 \in \R
+\]
+and hence
+\[
+	\langle D y_1 - D y_2, y_1 - y_2 \rangle_{V^*, V} = \int_\Omega \left( d(x, y_1(x)) - d(x, y_2(x)) \right) \left(y_1(x) - y_2(x) \right) \dx \geq 0.
+\]
+In particular, since $d(x, 0) = 0$, it holds $\langle Dy, y \rangle_{V^*, V} \geq 0$.
+The arguments for $E$ are the same. As a result, the operator $T : V \to V^*$ is strongly monotone with coercivity constant of $A$:
+\[
+	\langle T y_1 - T y_2, y_1 - y_2 \rangle_{V^*, V} \geq \beta_0 \| y_1 - y_2 \|_V^2.
+\]
+
+We show hemi-continuity. $A$ is linear and continuous, therefore hemi-continuous. For $D$, fix $y, v, w \in V$ and consider
+\[
+	\varphi(t) = \langle D(y + tv), w \rangle_{V^*, V} = \int_\Omega d(x, y(x) + t v(x)) w(x) \dx.
+\]
+If $t_n \to t_*$, then for \ac{ae} $x \in \Omega$,
+\[
+	d(x, y(x) + tv(x)) \to d(x, y(x) + t_* v(x)).
+\]
+Furthermore,
+\[
+	|d(x, y(t) + tv(x)) w(x) | \leq M |w(x)|
+\]
+and $w \in L^1(\Omega)$. By Lebesgue's dominated convergence theorem, it follows $\varphi(t_n) \to \varphi(t_*)$ that is, $D$ is hemi-continuous. The arguments for $E$ are the same.
+
+Applying \cref{thm:c4e4}, we find that for every $F \in V^*$, in particular for every $(f, g) \in L^2(\Omega) \times L^2(\Gamma)$ there exists a unique weak solution $y \in V$ and
+\[
+	\| y_1 - y_2 \|_V \leq \frac{1}{\beta_0} \| T y_1 - T y_2 \|_{V^*} \quad \forall y_1, y_2 \in V.
+\]
+
+The stability estimate follows from $T(0) = 0$ ($D(0) = 0, E(0) = 0$!):
+\[
+	\| y \|_V \leq \frac{1}{\beta_0} \| Ty \|_{V^*} = \frac{1}{\beta_0} \| F \|_{V^*} \overset{\text{Exercise}}{\leq} \frac{1}{\beta_0} \left( \| f \|_{L^2(\Omega)} + \| g \|_{L^2(\Sigma)} \right).
+\]
+\end{proof}
+\begin{remark} % Rem 4.5
+\label{rem:c4e5}
+The result is not applicable to the nonlinearity $d(x, y) = y^3$, since it does not fulfill \cref{as:c4e2}, \labelcref{as:c4e2-iv}. The proof reveals, that we can replace \labelcref{as:c4e2-iv} by
+\begin{enumerate}[({iv}')]
+\item $y \mapsto d(\cdot, y(\cdot))$ is continuous from $H^1(\Omega) \to L^2(\Omega)$ and $y \mapsto e(\cdot, y(\cdot))$ is continuous from $H^1(\Omega) \to L^2(\Gamma)$.
+\end{enumerate}
+Then $D : H^1(\Omega) \to \left( H^1(\Omega) \right)^*$ is continuous, in particular, hemi-continuous.
+From the Sobolev embedding \cref{thm:c2e5}, in the case $N = 3$, we get $H^1 \hookrightarrow L^6(\Omega)$, which proves (iv') for $y \mapsto y^3$.
+\end{remark}
+\begin{remark} % Rem 4.6
+\label{rem:c4e6}
+We see that $F \in V^*$ is enough in \cref{thm:c4e3}. Based on Hölder's inequality and the Sobolev embedding \cref{thm:c2e5}, we can require less integrability from the right hand side: \cref{thm:c4e3} remains true if $f \in L^r(\Omega)$, $g \in L^s(\Gamma)$ if $r > \frac{N}{2}$, $s > N -1$. In this case
+\[
+	\| y \|_{H^1(\Omega)} \leq c \| F \|_{V^*} \leq c \left( \| f \|_{L^r(\Omega)} + \| g \|_{L^s(\Gamma)} \right).
+\]
+(compare discussion on $L^p$ data in \cref{sec:c2e2}).
+\end{remark}
+\subsection{Continuity of solutions}
+\begin{theorem} % Thm 4.7
+\label{thm:c4e7}
+Let $r > \frac{N}{2}$, $s > N - 1$ and $f \in L^r(\Omega)$, $g \in L^s(\Gamma)$. The unique solution of the model problem \cref{eq:c4e1-star} (which exists by \cref{rem:c4e6}) belongs to $L^\infty(\Omega)$, and there exists $c_\infty > 0$ such that
+\[
+	\| y \|_{L^\infty(\Omega)} \leq c_\infty \left( \| f \|_{L^r(\Omega)} + \| g \|_{L^s(\Gamma)} \right).
+\]
+\end{theorem}
+\begin{lemma}[Casas \lbrack{}1993\rbrack{}] % Lemma 4.8
+\label{thm:c4e8}
+Let $\Omega \subseteq \R^N$ be a bounded Lipschitz domain, $r > \frac{N}{2}$, $s > N - 1$ and $f \in L^r(\Omega)$, $g \in L^s(\Gamma)$.
+Then the unique weak solution $y \in H^1(\Omega)$ of the Neumann problem
+\begin{IEEEeqnarray*}{rCl"l}
+\mathcal{A} y + y &=& f & \text{on } \Omega \\
+\partial_{\nu_\mathcal{A}} y &=& g & \text{on } \Gamma
+\end{IEEEeqnarray*}
+(which exists by \cref{thm:c4e3}) is continuous on $\bar{\Omega}$, and there exists $c(r, s) > 0$ such that
+\[
+	\| y \|_{C(\bar{\Omega})} \leq c(r, s) \left( \| f \|_{L^r(\Omega)} + \| g \|_{L^s(\Gamma)} \right).
+\]
+\end{lemma}
+The proofs for \cref{thm:c4e7,thm:c4e8} can be found in \cite{Troeltzsch}.
+\begin{theorem}[Dropping the annoying \cref{as:c4e2}, \labelcref{as:c4e2-iii}, \labelcref{as:c4e2-iv}] % Thm 4.9
+\label{thm:c4e9}
+Suppose \cref{as:c4e1} holds but with $f \in L^r(\Omega)$, $g \in L^s(\Gamma)$, where $r > \frac{N}{2}$, $s > N - 1$. Suppose further that \cref{as:c4e2}, \labelcref{as:c4e2-i}, \labelcref{as:c4e2-ii} hold. Then the model problem \cref{eq:c4e1-star} admits a unique weak solution $y \in H^1(\Omega) \cap L^\infty(\Omega)$. This solution is continuous on $\bar{\Omega}$, and there exists a constant $c > 0$ (independent of $d, e, f, g$) such that
+\[
+	\| y \|_{H^1(\Omega)} + \| y \|_{C(\bar{\Omega})} \leq c \left( \| f - d(\cdot, 0) \|_{L^r(\Omega)} + \| g + e(\cdot, 0) \|_{L^s(\Gamma)} \right).
+\]
+\end{theorem}
+\begin{proof}
+\begin{enumerate}
+\item\label{thm:c4e9-proof-case1} We first consider that \cref{as:c4e2}, \labelcref{as:c4e2-iii} still holds, i.e.\ $d(\cdot, 0) = 0$, $e(\cdot, 0) = 0$.
+We cut off $d$ by defining
+\[
+	d_k(x, y) = \begin{cases}
+	d(x, k) & \text{if } y > k \\
+	d(x, y) & \text{if } |y| \leq k \\
+	d(x, -k) & \text{if } y < -k 
+	\end{cases}.
+\]
+By \cref{as:c4e2}, \labelcref{as:c4e2-i}, \labelcref{as:c4e2-ii} it holds that
+\[
+	|d_k(x, y)| \leq \max \left( |d(x, k)|, |d(x, -k)| \right) \leq M_k
+\]
+for some $M_k > 0$. Analogously, we define $e_k$.
+By \cref{thm:c4e7}, the problem
+\begin{IEEEeqnarray*}{rCl}
+\mathcal{A} y + c_0(x) y + d_k(x, y) &=& f \\
+\partial_{\nu_\mathcal{A}} y + \alpha(x) y + e_k(x, y) &=& g
+\end{IEEEeqnarray*}
+has exactly one solution $y_k \in H^1(\Omega)$ that satisfies
+\[
+	\| y_k \|_{L^\infty(\Gamma)} \overset{\text{Exercise}}{\leq} \| y_k \|_{L^\infty(\Omega)} \leq c_\infty \left( \| f \|_{L^r(\Omega)} + \| g \|_{L^s(\Gamma)} \right),
+\]
+where $c_\infty$ is independent of $k$!
+Choosing
+\[
+	k > c_\infty \left( \| f \|_{L^r(\Omega)} + \| g \|_{L^s(\Gamma)} \right),
+\]
+we get $|y_k(x)| \leq k$ \ac{ae} and therefore
+\[
+	d_k(x, y_k(x)) = d(x, y_k(x)).
+\]
+hence, $y = y_k$ is a weak solution of the model problem \cref{eq:c4e1-star}, and by applying \cref{thm:c4e3} with $d_k$ and $e_k$, we get
+\[
+	\| y \|_{H^1(\Omega)} \leq c_1 \left( \| f \|_{L^r(\Omega)} + \| g \|_{L^s(\Gamma)} \right).
+\]
+We can rewrite the model problem \cref{eq:c4e1-star} for $y$ as
+\begin{IEEEeqnarray*}{rCl"l}
+\mathcal{A} y + y &=& f + y - c_0(x) y + d_k(x, y) & \text{in } \Omega \\
+\partial_{\nu_\mathcal{A}} y &=& g - \alpha(x) y - e_k(x, y) & \text{on } \Gamma
+\end{IEEEeqnarray*}
+Since $y \in L^\infty(\Omega)$, $y|_\Gamma \in L^\infty(\Gamma)$, the right hand sides are in $L^r(\Omega)$, $L^s(\Gamma)$, respectively.
+Thus, \cref{thm:c4e8} applies, that is $y \in C(\bar{\Omega})$ and
+\[
+	\| y \|_{C(\bar{\Omega})} = \| y \|_{L^\infty(\Omega)} \leq c_1 \left( \| f \|_{L^r(\Omega)} + \| g \|_{L^s(\Gamma)} \right)
+\]
+for the same $c_1 > 0$.
+To prove uniqueness, let $\tilde{y} \in H^1(\Omega) \cap L^\infty(\Omega)$ be another weak solution. By the same argument it then holds that $\tilde{y}$ is continuous on $\bar{\Omega}$. One verifies that both $y$ and $\tilde{y}$ solve the cutoff problem with
+\[
+	k \coloneqq \max \left\{ \| y \|_{C(\bar{\Omega})}, \| \tilde{y}(x) \|_{C(\bar{\Omega})} \right\},
+\]
+whose solution is unique $y = \tilde{y}$.
+\item In the general case, we rewrite the model problem \cref{eq:c4e1-star} as
+\begin{IEEEeqnarray*}{rCl}
+\mathcal{A} y + c_0(x) y + \underbrace{ d(x, y) - d(x, 0) }_{\tilde{d}(x, y)} &=& \underbrace{ f(x) - d(x, 0) }_{\tilde{f}(x) \in L^r(\Omega)} \\
+\partial_{\nu_{\mathcal{A}}} y + \alpha(x) y + \underbrace{ e(x, y) - e(x, 0) }_{\tilde{e}(x, y)} &=& \underbrace{ g(x) - e(x, 0) }_{\tilde{g}(x) \in L^s(\Gamma)}
+\end{IEEEeqnarray*}
+and apply \cref{thm:c4e9-proof-case1}.
+\end{enumerate}
+\end{proof}
+\paragraph{Further generalization}
+Currently we cannot treat e.g. 
+\begin{IEEEeqnarray*}{rCl"l}
+- \lapl y + y^3 &=& f & \text{on } \Omega \\
+\partial_{\nu_\mathcal{A}} y &=& 0 \text{on } \Gamma
+\end{IEEEeqnarray*}
+in which both $c_0 = 0$ and $\alpha = 0$. \\
+\underline{Generalized model problem:}
+\begin{equation}
+\opttag{$\star\star$}
+\label{eq:c4e1-starstar}
+\begin{IEEEeqnarraybox}[][c]{rCl"l}
+\mathcal{A} y + d(x, y) &=& 0 & \text{on } \Omega \\
+\partial_{\nu_\mathcal{A}} y + e(x, y) &=& 0 & \text{on } \Gamma
+\end{IEEEeqnarraybox}
+\end{equation}
+\begin{assumption} % As 4.10
+\label{as:c4e10}
+\begin{itemize}
+\item $\Omega \subseteq \R^N$ and $\mathcal{A}$ satisfy the same assumptions as in \cref{as:c4e1}.
+\item $d$ and $e$ satisfy \cref{as:c4e2}, \labelcref{as:c4e2-i} and \labelcref{as:c4e2-ii}.
+\item Furthermore, there exists for any $M > 0$ functions $\psi_M \in L^r(\Omega)$, $\phi_M \in L^s(\Gamma)$ where $r > \frac{N}{2}$, $s > N -1$, such that
+\begin{IEEEeqnarray*}{rCl"s}
+|d(x, y)| &\leq& \psi_M(x) & for almost every $x \in \Omega$, and all $|y| \leq M$ \\
+|e(x, y)| &\leq& \psi_M(x) & for almost every $x \in \Gamma$, and all $|y| \leq M$
+\end{IEEEeqnarray*}
+and one of the following two conditions hold:
+\begin{enumerate}[(i)]
+\item\label[equation]{as:c4e10-i} $\exists E_d \subset \Omega$, $|E_d| > 0$, and $M_d > 0$, $\lambda_d > 0$ such that
+\begin{IEEEeqnarray*}{rCl"l}
+d(x, y_1) &<& d(x, y_2) & \forall x \in E_d, \; y_1 < y_2 \\
+(d(x, y) - d(x, 0))y &\geq& \lambda_d |y|^2 & \forall x \in E_d, \; \forall |y| > M_d
+\end{IEEEeqnarray*}
+\item\label[equation]{as:c4e10-ii} $\exists E_e \subset \Gamma$, $|E_e| > 0$ (on $\Gamma$), $M_e > 0$, $\lambda_e > 0$
+\begin{IEEEeqnarray*}{rCl"l}
+e(x, y_1) &<& e(x, y_2) & \forall x \in E_e, \; y_1 < y_2 \\
+(e(x, y) - e(x, 0))y &\geq& \lambda_e |y|^2 & \forall x \in E_e, \; \forall |y| > M_e
+\end{IEEEeqnarray*}
+\end{enumerate}
+\end{itemize}
+\end{assumption}
+\begin{theorem} % Thm 4.11
+\label{thm:c4e11}
+Given \cref{as:c4e10}, the generalized model problem \cref{eq:c4e1-starstar} admits a unique solution in $H^1(\Omega) \cap L^\infty(\Omega)$. This solution is continuous on $\bar{\Omega}$.
+\end{theorem}
+\begin{proof}
+\cite[Theorem 4.10]{Troeltzsch}.
+\end{proof}
+\begin{remark} % Rem 4.12
+\label{rem:c4e12}
+If $y \mapsto d(x, y)$ and\slash{}or $y \mapsto e(x, y)$ are differentiable for almost every $x \in \Omega$. Then the crucial assumptions in \cref{as:c4e10} can be replaced by
+\[
+\frac{\partial}{\partial y}d(x, y) \geq \lambda_d \quad \forall x \in E_d, \forall y \in \R
+\]
+and\slash{}or
+\[
+\frac{\partial}{\partial y}e(x, y) \geq \lambda_e \quad \forall x \in E_e, \forall y \in \R.
+\]
+\end{remark}
+\begin{example} % Ex 4.13
+\label{ex:c4e13}
+\begin{IEEEeqnarray*}{rCl}
+\mathcal{A} y + y + y^3 &=& \underbrace{ f }_{\in L^r(\Omega)} \\
+\partial_{\nu_\mathcal{A}} y &=& 0
+\end{IEEEeqnarray*}
+This implies
+\begin{IEEEeqnarray*}{rCl}
+d(x, y) &=& y + y^3 - f(x) \\
+e(x, y) &=& 0
+\end{IEEEeqnarray*}
+and this satisfies \cref{rem:c4e12}. Thus
+\[
+	\frac{\partial}{\partial y} d(x, y) = 1 + y^2 \geq \lambda_d = 1 \quad \forall x \in E_d \coloneqq \Omega.
+\]
+
+On the other hand,
+\begin{IEEEeqnarray*}{rCl}
+\mathcal{A} y + y^3 &=& \underbrace{ f }_{\in L^r(\Omega)} \\
+\partial_{\nu_\mathcal{A}} y &=& 0
+\end{IEEEeqnarray*}
+This implies
+\begin{IEEEeqnarray*}{rCl}
+d(x, y) &=& y^3 - f(x) \\
+e(x, y) &=& 0
+\end{IEEEeqnarray*}
+This does not satisfy \cref{rem:c4e12}, but it still satisfies \cref{as:c4e10}, \labelcref{as:c4e10-i}: Either $d(x, y_1) < d(x, y_2)$:
+\[
+	\left( d(x, y) - d(x, 0) \right) = y^4 \geq y^2 \quad \forall x \in \Omega, |y| \geq 1
+\]
+and therefore $\lambda_d = 1$, $M_d = 1$, $E_d = \Omega$.
+\end{example}
+\end{document}

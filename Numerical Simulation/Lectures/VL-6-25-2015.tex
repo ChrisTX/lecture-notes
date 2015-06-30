@@ -105,7 +105,8 @@ The state equation is called \emph{semilinear}, since the derivatives of highest
 \item $\Omega \subseteq \R^N$ bounded Lipschitz domain
 \item $(\mathcal{A}y)(x) = \dive(A(x) \cdot \nabla y(x))$, where $A \in (L^\infty(\Omega))^{N \times N}$ is symmetric and uniformly elliptic
 \item $\nu_{\mathcal{A}} = \mathcal{A} \nu$ conormal vector
-\item $c_0 \in L^\infty_+(\Omega)$, $\alpha \in L^\infty_+(\Gamma)$, $f \in L^2(\Omega)$, $g \in L^2(\Gamma)$
+\item $c_0 \in L^\infty_+(\Omega)$, $\alpha \in L^\infty_+(\Gamma)$, such that $\| c \|_{L^\infty(\Omega)} + \| \alpha \|_{L^\infty(\Gamma)} > 0$
+\item $f \in L^2(\Omega)$, $g \in L^2(\Gamma)$
 \end{itemize}
 \end{assumption}
 \cref{as:c4e1} is the same as in \cref{sec:c2e2}.
@@ -113,10 +114,10 @@ The state equation is called \emph{semilinear}, since the derivatives of highest
 \label{as:c4e2}
 $d : \Omega \times \R \to \R$, $e : \Gamma \times \R \to \R$ satisfy:
 \begin{enumerate}[(i)]
-\item $x \mapsto d(x, \eta) \in L^\infty(\Omega)$, $x \mapsto e(x, \eta) \in L^\infty(\Gamma) \quad \forall \eta \in \R$
-\item $\eta \mapsto d(x, \eta)$ and $\eta \to e(x, \eta)$ are \emph{continuous} and \emph{monotonically increasing} for almost every $x \in \Omega$ and $x \in \Gamma$, respectively.
-\item $d(x, 0) = 0$ and $e(x, 0) = 0$ for almost every $x \in \Omega$ and $x \in \Gamma$, respectively.
-\item There exists $M > 0$ such that $|d(x, \eta)| \leq M$ and $|e(x, \eta)| \leq M$ for almost every $x \in \Omega$ and $x \in \Gamma$, respectively, and all $\eta \in \R$.
+\item\label[equation]{as:c4e2-i} $x \mapsto d(x, \eta) \in L^\infty(\Omega)$, $x \mapsto e(x, \eta) \in L^\infty(\Gamma) \quad \forall \eta \in \R$
+\item\label[equation]{as:c4e2-ii} $\eta \mapsto d(x, \eta)$ and $\eta \to e(x, \eta)$ are \emph{continuous} and \emph{monotonically increasing} for almost every $x \in \Omega$ and $x \in \Gamma$, respectively.
+\item\label[equation]{as:c4e2-iii} $d(x, 0) = 0$ and $e(x, 0) = 0$ for almost every $x \in \Omega$ and $x \in \Gamma$, respectively.
+\item\label[equation]{as:c4e2-iv} There exists $M > 0$ such that $|d(x, \eta)| \leq M$ and $|e(x, \eta)| \leq M$ for almost every $x \in \Omega$ and $x \in \Gamma$, respectively, and all $\eta \in \R$.
 \end{enumerate}
 \end{assumption}
 \paragraph{Weak solution in \texorpdfstring{$H^1(\Omega)$}{H1(Ω)}}
@@ -170,7 +171,7 @@ Let $V$ be a real and separable Hilbert space, and let $T : V \to V^*$ be a mono
 \]
 has at least one solution $y \in V$. The set of solutions is bounded, convex and closed. If $T$ is strictly monotone, then a solution $y$ is unique. If $T$ is strongly monotone, then $T^{-1} : V^* \to V$ is Lipschitz-continuous: 
 \[
-	\frac{1}{\beta} \| T y_1 - T y_2 \|_{V^*} \geq y_1 - y_2 \|_V.
+	\frac{1}{\beta} \| T y_1 - T y_2 \|_{V^*} \geq \| y_1 - y_2 \|_V.
 \]
 \end{theorem}
 \begin{proof}
