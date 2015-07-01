@@ -1,0 +1,134 @@
+\documentclass[a4paper, oneside, USenglish]{amsart}
+\usepackage{babel}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+
+\usepackage{mathtools}
+\usepackage{IEEEtrantools}
+\usepackage{mdframed}
+\usepackage{geometry}
+\usepackage{dsfont}
+
+\usepackage{parskip}
+
+% Differentiale
+\newcommand{\dx}{\:\mathrm{d}x}
+\newcommand{\dy}{\:\mathrm{d}y}
+\newcommand{\dz}{\:\mathrm{d}z}
+\newcommand{\ds}{\:\mathrm{d}s}
+\newcommand{\dt}{\:\mathrm{d}t}
+\newcommand{\du}{\:\mathrm{d}u}
+\newcommand{\dxi}{\:\mathrm{d}\xi}
+\newcommand{\dxy}{\:\mathrm{d}(x,y)}
+\newcommand{\dxyz}{\:\mathrm{d}(x,y,z)}
+
+% Zahlen
+\newcommand{\Q}{\ensuremath{\mathbb{Q}}}
+\newcommand{\R}{\ensuremath{\mathbb{R}}}
+\newcommand{\N}{\ensuremath{\mathbb{N}}}
+\newcommand{\Z}{\ensuremath{\mathbb{Z}}}
+\newcommand{\C}{\ensuremath{\mathbb{C}}}
+
+\begin{document}
+\title{Numerical Simulation - Exercise Sheet 10 Solutions}
+\maketitle{}
+\section*{Theoretical Exercise 1}
+\subsection*{(a)}
+For finite $p$:
+\begin{IEEEeqnarray*}{rCl}
+\| u \|_{L^p(0, T; X)} &\leq& \left( \int_0^T \| u(t) \|_X^r \dt \right)^{\frac{1}{r}} \\
+&\leq& \left( \int_0^T \sup_{\tau \in [0, T]} \| u(\tau) \|_X \dt \right)^{\frac{1}{r}} \\
+&=& T \cdot \| u \|_{C(0, T; X)}
+\end{IEEEeqnarray*}
+Infinite $p$ is treated analogously.
+\subsection*{(b)}
+\begin{IEEEeqnarray*}{rCl}
+\| u \|_{L^q(0, T; Y)} &=& \left( \int_0^T \| u(t) \|_Y^q \dt \right)^{\frac{1}{r}} \\
+&\overset{X \hookrightarrow Y}{\leq}& c \cdot \left( \int_0^T \| u(t) \|_X^q \right)^{\frac{1}{q}} \\
+&=& c \cdot \| u \|_{L^q(0, T; X)} \\
+&\overset{\text{Jensen, Hölder}}{\leq}& \tilde{c} \cdot \| u \|_{L^p(0, T; X)}
+\end{IEEEeqnarray*}
+\subsection*{(c)}
+$u \in L^p(0, T; X)$, $v \in L^q(0, T; X^\star)$.
+Then, $t \mapsto \langle u(t), v(t) \rangle_{X, X^*}$ is measurable.
+\begin{IEEEeqnarray*}{rCl}
+\int_0^T \langle u(t), v(t) \rangle_{X, X^*} \dt &\leq& \int_0^T \| u(t) \|_X \| v(t) \|_{X^*} \\
+&\overset{\text{Hölder}}{\leq}& \| u \|_{L^p(0, T; X)} \cdot \| v \|_{L^q(0, T; X^*)}
+\end{IEEEeqnarray*}
+Thus: $\forall v \in L^q(0, T; X^*) \; \exists \bar{v} \in L^p(0, T; X)^*$ with
+\[
+	\bar{v}(u) = \int_0^T \langle u(t), v(t) \rangle_{X, X^*} \dt
+\]
+and
+\[
+	\| \bar{v} \|_{L^p(0, T; X)^*} \leq \| v \|_{L^q(0, T; X^*)}.
+\]
+\section*{Theoretical Exercise 2}
+\subsection*{(a)}
+\begin{IEEEeqnarray*}{rCl}
+\frac{\partial}{\partial t} \langle u(t), v(t) \rangle_H &=& \langle u'(t), v(t) \rangle_H + \langle u(t), v'(t) \rangle_H
+\end{IEEEeqnarray*}
+Thus:
+\begin{IEEEeqnarray*}{rCl}
+\langle u(t), v(t) \rangle_H - \langle u(s), v(s) \rangle_H &=& \int_s^t \langle u'(t), v(t) \rangle_H + \langle u(t), v'(t) \rangle_H \\
+&=& \int_s^t \langle u'(t), v(t) \rangle_{V^*, V} + \langle v'(t), u(t) \rangle_{V^*, V}.
+\end{IEEEeqnarray*}
+\subsection*{(b)}
+Assume $\varphi : \R \to \R$, $\varphi \in C^1(\R)$, $s < t$ fixed with $\varphi(s) = 0$, $\varphi(t) = 1$, $\exists c$ independently of $s, t$ such that
+\[
+	|\varphi(\cdot)| + |\varphi'(\cdot)| \leq c.
+\]
+
+Therefore, for $u \in C^1([0, 1]; V)$:
+\begin{IEEEeqnarray*}{rCl}
+\langle u(t), \varphi(t) u(t) \rangle_H &\overset{\text{(a)}}{=}& \int_s^t \langle u'(\tau), \varphi(\tau) u(\tau) \rangle_{V^*, V} + \langle u(\tau), \varphi(\tau) u'(\tau) + \varphi'(\tau) u(\tau) \rangle_{V^*, V} \: \mathrm{d} \tau.
+\end{IEEEeqnarray*}
+Hence,
+\begin{IEEEeqnarray*}{rCl}
+\| u(t) \|_H^2 &=& \int_s^t 2 \varphi(\tau) \langle u(\tau), u'(\tau) \rangle_{V, V^*} + \varphi'(\tau) \langle u, u \rangle_{V, V^*} \: \mathrm{d} \tau \\
+&\overset{\exists \tilde{c} > 0}{\leq}& \tilde{c} \int_s^t \| u(\tau) \|_V \| u'(\tau) \|_{V^*} + \| u(\tau) \|_V \| u(\tau) \|_{V^*} \: \mathrm{d} \tau
+\end{IEEEeqnarray*}
+Since $u \in W^{1, p}(0, T; V, H)$ this is
+\begin{IEEEeqnarray*}{rCl}
+&\overset{\frac{1}{p} + \frac{1}{q} = 1}{\leq}& \tilde{c} \Big( \| u \|_{L^p(0, T; V)} \| u' \|_{L^q(0, T; V^*)} + \| u \|_{L^p(0, T; V)} \underbrace{ \| u \|_{L^q(0, T; V^*)} }_{\leq c \cdot \| u \|_{L^p(0, T; V) \; \text{(second identification)}}} \Big) \\
+&\leq& \hat{c} \cdot \left( \| u \|_{L^p(0, T; V)} + \| u' \|_{L^q(0, T; V^*)} \right)^2.
+\end{IEEEeqnarray*}
+As this is pointwise, we get:
+\begin{IEEEeqnarray}{rCl"l}
+\label{eq:star}
+\| u \|_{C([0, T]; H)} &\leq& \sqrt{\hat{c}} \cdot \| u \|_{W^{1, p}(0, T; V, H)} & \forall u \in C^1([0, T]; V) \overset{\text{dense}}{\subseteq} W
+\end{IEEEeqnarray}
+Since $i : (C^1([0, T]; V), \| \cdot \|_W ) \hookrightarrow (C([0, T], H), \| \cdot \|_{\infty})$ is bounded, linear and \eqref{eq:star} holds:
+There exists a unique bounded, linear extension $\bar{i} : (W, \| \cdot \|_W ) \hookrightarrow (C([0, T], H), \| \cdot \|_{\infty})$.
+
+To get the inequality for $\| u(\xi) \|^2_H$ with a $t$-independent constant, choose $t = \xi$, $s = 0$ for $\xi \geq \frac{T}{2}$ and $t = T$ and $\varphi$ such that $\varphi(s) = 0$, $\varphi(t) = 1$.
+In the other case $\xi < \frac{T}{2}$, choose $t = T$, $s = \xi$ and $\varphi(s) = 1$, $\varphi(t) = 0$.
+\section*{Theoretical Exercise 3}
+From $t \to \tau \in [0, 1]$ it follows
+\[
+	\| y(t, \cdot) - y(\tau, \cdot) \|_{L^1(0, 1)} \xrightarrow{t \to \tau} 0,
+\]
+since
+\begin{IEEEeqnarray*}{rCl}
+	\| y(t, \cdot) - y(\tau, \cdot) \|_{L^1(0, 1)} &=& \int_0^1 \left| e^t \frac{1}{\sqrt{x}} - e^\tau \frac{1}{\sqrt{x}} \right| \dx \\
+	&=& \left| e^t - e^\tau \right| \int_0^1 \frac{1}{\sqrt{x}} \dx \\
+	&=& 2 \cdot \left| e^t - e^\tau \right| \\
+	&\xrightarrow{t \to \tau}& 0
+\end{IEEEeqnarray*}
+Furthermore,
+\[
+	\max_{t \in [0, 1]} \| y(t, \cdot) \|_{L^1} = \max_{t \in [0, 1]} \int_0^1 \left| e^t \frac{1}{\sqrt{x}} \right| \dx = 2 \cdot e < \infty.
+\]
+
+Question: For which $1 \leq p, q \leq \infty$ is $y \in L^p(0, 1; L^q(0, 1))$?
+\begin{IEEEeqnarray*}{rCl"l}
+\| y \|_{L^p(0, T; L^q(0, 1))} &=& \left( \int_0^1 \| y(t, \cdot) \|_{L^q(0, 1)}^p \dt \right)^\frac{1}{p} & \text{for } 1 \leq p, q < \infty \\
+&=& \left( \int_0^1 e^{pt} \left( \int_0^1 \frac{1}{\sqrt{x}^q} \dx \right)^{\frac{p}{q}} \dt \right)^{\frac{1}{p}} \\
+&=& \underbrace{ \left( \int_0^1 e^{pt} \dt \right)^{\frac{1}{p}} }_{< \infty} \cdot \underbrace{  \left( \int_0^1 \frac{1}{\sqrt{x}^q} \dx \right)^{\frac{1}{q}} }_{< \infty, \text{ iff } q < 2}
+\end{IEEEeqnarray*}
+Analogously $p = \infty$ also works, but $q = \infty$ does not.
+
+For $1 \leq p \leq \infty$ and $1 \leq q < 2$, $y \in L^p(0, 1; L^q(0, 1))$.
+\end{document}
