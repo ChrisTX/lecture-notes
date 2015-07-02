@@ -1,0 +1,134 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+\section{Nemytskii operators}
+Given the nonlinearity $d : \Omega \times \R \to \R$, we map a function $x \mapsto y(x)$ on $\Omega$ to another function $x \mapsto d(x, y(x))$. As illustrated in \cref{rem:c4e5}, one is interested in the continuity of this assignment
+\[
+	y(\cdot) \mapsto d(\cdot, y(\cdot))
+\]
+between certain function spaces. We will study differentiability of such operators.
+\begin{definition}[Nemytskii operators] % Def 4.14
+\label{def:c4e14}
+Let $E \subseteq \R^m$ be a bounded and measurable set, and $\varphi: E \times \R \to \R$ a function.
+A mapping
+\begin{IEEEeqnarray*}{rCl}
+\Phi : \{ y \midcolon E \to \R \} &\to& \{ x \midcolon E \to \R \} \\
+\Phi(y) &=& \varphi(\cdot, y(\cdot))
+\end{IEEEeqnarray*}
+is called a \emph{Nemytskii} or \emph{superposition operator}.
+\end{definition}
+We will study $\Phi$ as a map between $L^p$ spaces. The following conditions will be used.
+\begin{definition} % Def 4.15
+\label{def:c4e15}
+The function $\varphi$ is said to satisfy the
+\begin{enumerate}[(i)]
+\item \emph{Carathéodory condition}, if $x \mapsto \varphi(x, \eta)$ is measurable for every $\eta \in \R$, and $\eta \mapsto \varphi(x, \eta)$ is continuous for almost every $x \in E$.
+\item \emph{boundedness condition}, if $x \mapsto \varphi(x, 0) \in L^\infty(E)$. 
+\end{enumerate}
+The function $\varphi$ is called \emph{locally Lipschitz continuous \ac{wrt}\ $\eta$}, if for every $M > 0$ there exists $L(M) > 0$, \ac{st}\ for almost all $x \in E$:
+\[
+	\left| \varphi(x, \eta) - \varphi(x, \xi) \right| \leq L(M) \left| \eta - \xi \right| \quad \forall \eta, \xi \in [-M, M].
+\]
+\end{definition}
+\begin{example}
+Let
+\[
+	\varphi(x, \eta) = a_1(x) + a_2(x) b(\eta)
+\]
+with $a_i \in L^\infty(E)$, $b \in C^1(\R)$, e.g.\ $\varphi(x, \eta) = \eta^3$.
+\end{example}
+\begin{lemma} % Lemma 4.16
+\label{thm:c4e16}
+Suppose the function $\varphi(x, \eta)$ satisfies the boundedness condition and is locally Lipschitz continuous \ac{wrt}\ $\eta$.
+Also assume $x \mapsto \varphi(x, \eta)$ is measurable for every $\eta \in \R$.
+Then the associated Nemytskii operator $\Phi$ is continuous from $L^\infty(E)$ to $L^\infty(E)$.
+Furthermore, it holds for all $p \in [1, \infty]$ that
+\[
+	\left\| \Phi(y) - \Phi(z) \right\|_{L^p(E)} \leq L(M) \| y - z \|_{L^p(E)}
+\]
+for all $y, z \in L^\infty(E)$ with $\| y \|_{L^\infty(E)} \leq M$, $\| z \|_{L^\infty(E)} \leq M$.
+\end{lemma}
+\begin{proof}
+By boundedness and local Lipschitz continuity, it holds
+\[
+	\left| \varphi(x, y(x)) \right| \leq \left| \varphi(x, 0) \right| + \left| \varphi(x, y(x)) - \varphi(x, 0) \right| \leq K + L(M) \cdot M
+\]
+for almost every $x \in E$, if $\| y \|_{L^\infty(E)} \leq M$. This shows that $\Phi$ maps $L^\infty(E)$ to $L^\infty(E)$.
+Let also $\| z\|_{L^\infty(E)} \leq M$, then 
+\begin{IEEEeqnarray*}{rCl}
+	\left\| \Phi(y) - \Phi(z) \right\|_{L^\infty(E)} &=& \esssup_{x \in E} \left| \varphi(x, y(x)) - \varphi(x, z(x)) \right| \\
+	&\leq& L(M) \| y - z \|_{L^\infty(E)}
+\end{IEEEeqnarray*}
+This proves that $\Phi$ is Lipschitz-continuous on every bounded subset of $L^\infty(E)$, which implies overall continuity.
+The estimate in the $L^p$ norm follows in the same way.
+\begin{IEEEeqnarray*}{rCl}
+\int_E \left| \varphi(x, y(x)) - \varphi(x, z(x)) \right|^p \dx &\leq& (L(M))^p \underbrace{ \int_E |y(x) - z(x)|^p \dx }_{< \infty, \text{ since $E$ is bounded}}.
+\end{IEEEeqnarray*}
+This proves the lemma.
+\end{proof}
+\begin{remark} % Rem 4.17
+\label{thm:c4e17}
+If $\varphi$ is uniformly bounded and (globally) Lipschitz continuous, \ac{wrt}\ $\eta$, then the corresponding Nemytskii operator is Lipschitz continuous from $L^p(E)$ to $L^p(E)$, $1 \leq p \leq \infty$.
+\end{remark}
+\begin{example}
+$\varphi(y) = \sin(y(\cdot))$.
+\end{example}
+\subsection{Differentiability}
+\begin{lemma} % Lemma 4.18
+\label{thm:c4e18}
+Suppose $\varphi(x, \eta)$ satisfies the Carathéodory condition, and that $\eta \mapsto \varphi_\eta(x, \eta)$ exists for almost every $x \in E$.
+Assume that $\varphi_\eta(x, \eta)$ satisfies the boundedness condition and is locally Lipschitz continuous \ac{wrt}\ $\eta$.
+Then the associated Nemytskii operator $\Phi$ is continuously Fréchet differentiable from $L^\infty(E)$ to $L^\infty(E)$, and for $h \in L^\infty(E)$:
+\[
+	(\Phi'(y)h)(x) = \varphi_\eta(x, y(x)) \cdot h(x) \quad \text{\ac{ae} on $E$}.
+\]
+\end{lemma}
+\begin{proof}
+It is easy to see that with $\varphi_\eta$, also $\varphi$ satisfies a boundedness condition and is locally Lipschitz continuous \ac{wrt}\ $\eta$.
+Therefore, $\Phi : L^\infty(E) \to L^\infty(E)$ is continuous by \cref{thm:c4e16}.
+
+For almost every $x \in E$ we have (using the asserted expression $\Phi'$)
+\begin{IEEEeqnarray*}{rCl}
+\IEEEeqnarraymulticol{3}{l}{ \left|\Phi(y + h)(x) - \left[ \Phi(y)(x) + \left( \Phi'(y)h \right)(x) \right] \right| } \\
+\quad &=& \left| \varphi(x, y(x) + h(x)) - \varphi(x, y(x)) - \varphi_\eta(x, y(x)) h(x) ) \right| \\
+\quad &=& \left| \int_0^1 \varphi_\eta(x, y(x) + \vartheta h(x)) - \varphi_\eta(x, y(x)) \: \mathrm{d} \vartheta \cdot h(x) \right|
+\end{IEEEeqnarray*}
+Considering $\| y \|_{L^\infty(E)} \leq M$ and $\| h \|_{L^\infty(E)} \leq M$ we can continue with
+\begin{IEEEeqnarray*}{rCl}
+&\leq& L(2M) \int_0^1 \vartheta |h(x)| \: \mathrm{d} \vartheta \cdot |h(x)| \\
+&\leq& \frac{L(2M)}{2} \| h \|_{L^\infty(E)}^2
+\end{IEEEeqnarray*}
+This shows that $\Phi'(y)$ is the Fréchet derivative at $y$. It depends continuously on $y$, since for fixed $\| y \|_{L^\infty(E)} \leq M$ and $\| y - \tilde{y} \|_{L^\infty(E)} \leq M$ we have
+\begin{IEEEeqnarray*}{rCl}
+\left\| \Phi'(y) - \Phi'(\tilde{y}) \right\| &=& \sup_{\| h \|_{L^\infty(E)} = 1} \left\| \left(\varphi_\eta(\cdot, y(\cdot))) - \varphi_\eta(\cdot, \tilde{y}(\cdot)) \right) h(\cdot) \right\|_{L^\infty(E)} \\
+&\leq& L(2M) \| y - \tilde{y} \|_{L^\infty(\Omega)} \to 0 \quad \text{for } \tilde{y} \to y.
+\end{IEEEeqnarray*}
+This proves the Lemma.
+\end{proof}
+\begin{remark} % Rem 4.19
+\label{rem:c4e19}
+The condition in \cref{thm:c4e18} is fulfilled if $\varphi = \varphi(\eta)$ depends only on $\eta$ and is twice continuously differentiable.
+\end{remark}
+\begin{example}
+$\Phi(y) = y(\cdot)^3$, \; $\Phi(y) = \sin(y(\cdot))$.
+\end{example}
+\begin{remark} % Rem 4.20
+\label{rem:c4e20}
+In contrast to \cref{thm:c4e17}, even uniform boundedness and global Lipschitz continuity of $\varphi_n$ do not necessarily ensure that $\Phi$ is Fréchet differentiable from $L^p(E)$ to $L^p(E)$.
+\end{remark}
+\begin{example}
+$y(\cdot) \mapsto \sin(y(\cdot))$ is not Fréchet differentiable from $L^p(E)$ to $L^p(E)$.
+\end{example}
+Once can show that $\Phi$ is continuous from $L^p(E)$ to $L^q(E)$, $1 \leq q \leq p < \infty$ if and only if there exists $\alpha \in L^q(E)$ and $\beta \in L^\infty(E)$ \ac{st}
+\[
+	|\varphi(x, \eta)| \leq \alpha(x) + \beta(x) |\eta|^\frac{p}{q} \quad \text{\ac{ae}\ on $E$}.
+\]
+Given $q < p$ there is a result that $\Phi$ is Fréchet differentiable from $L^p(E)$ to $L^q(E)$ if there $\varphi_\eta$ exists and $y(\cdot) \mapsto \varphi_\eta(\cdot, y(\cdot))$ is continuous from $L^p(E)$ to $L^r(E)$, where
+\[
+	r = \frac{pq}{p - q}.
+\]
+If $r \leq p$, once can use the previous condition to check this.
+\begin{example}
+For any $k \leq 5$ the map $y(\cdot) \mapsto y(\cdot)^k$ is Fréchet differentiable from $L^6(\Omega)$ to $L^\frac{6}{5}(\Omega)$. (Recall: $y \mapsto y^3$ is continuous from $L^6(\Omega) \to L^2(\Omega)$) 
+\end{example}
+\end{document}
