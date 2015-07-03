@@ -1,0 +1,126 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+
+%Zusammenfassung von Dienstag 30.6.15?
+\begin{theorem}\label{thm:c4e2s2}
+	Seien die Daten hinreichend glatt im Sinne von (4.3.16) %LABEL!!!!!
+	\[
+		g\in H^2(\Omega), r\in H^1_0(\Omega), f\in H^1(0,T;L^2(\Omega))
+	\]
+	und $\Omega$ glatt berandet oder konvex. Dann konvergiert die Folge der Galerkin-Approximationen
+	\[
+		\{u_h\} \subseteq C^2([0,T]; V_h)
+	\]
+	wobei $(u_h)$ (4.4.1) löst )%LABEL 
+	mit
+	\[
+		g_h \coloneqq \argmin_{v_h\in V_h} \|\nabla(g-v_h)\|_{L^2}
+	\]
+	und 
+	\[
+		r_h \coloneqq \argmin_{v_h\in V_h} \|\nabla (r-r_h)\|_{L^2},
+	\]
+	gegen die schwache Lösung $u$ stark im Raum der Funktionen endlicher Energie (für $h\to 0$).\newline\newline\noindent
+	Ferner gilt unter der zusätzlichen Annahme
+	\[
+		\dot{u}\in L^\infty(0,T;H^2(\Omega)),\quad \ddot{u}\in L^2(0,T;H^2(\Omega))
+	\]
+	dass
+	\begin{IEEEeqnarray*}{rCl}
+		\|\dot{u}(t) - \dot{u}_h(t)\|_{L^2(\Omega)} &+& h\|\nabla(u(t)-u_h(t))\|_{L^2(\Omega)} \\
+		&\leq& Ch^2(\|D^2u(t)\|_{L^2} + \|D^2\dot{u}(t)\|_{L^2} + e^t \|D^2\ddot{u}\|_{L^2(0,T;L^2(\Omega))}),
+	\end{IEEEeqnarray*}	
+	wobei $C$ nur von der Gitterregularität abhängt.
+\end{theorem}
+\begin{proof}
+	Folgt aus der vorangegangenen Herleitung, und $L^2$-Fehlerabschätzungen für Galerkin-Projektionen in $H^1_0(\Omega)$, bekannt unter dem Schlüsselwort ``Aubin-Nitsche-Dualitätstrick''.
+\end{proof}
+
+\subsection{Explizite Zeitdiskretisierung mittels Leapfrog}\label{sec:c4e5}
+Wir betrachten jetzt die Zeitdiskretisierung von (4.4.1) %LABEL
+Wir wählen das populäre Verfahren von \emph{Störmer-Verlet} (\emph{Leapfrog}). Wir zerlegen das Zeitintervall in äquidistante Zeitschritte $\Delta t$ und bezeichnen mit $u_h^n$ eine Approximation von $u_h(t_h), t_h = n\Delta t, n\in\mathbb{N}_0: n\Delta T\leq T$.\newline\noindent
+Gegeben $(u_h^n)_{n\in\mathbb{N}_0}$, ersetze von $u_h$ in (4.4.1) %LABEL
+durch einen zentrierten Differenzenquotienten
+\[
+	\ddot{u}_h(t) \approx \frac{u_h(t_{n+1}) - 2u_h(t_h) + u_h(t_{n-1})}{(\Delta t)^2} \approx \frac{u_h^{n+1}-2u_h^n+u_h^{n-1}}{(\Delta t)^2}.
+\]
+Dieser Ansatz führt auf ein System von Differenzialgleichungen in den Unbekannten $u_h^0,u_h^1,...$ \newline\noindent
+\begin{centering}\newline
+	- Das Leapfrog / Störmer-Verlet-Verfahren -\newline\newline
+\end{centering}
+Für $n\geq 1$ haben wir
+\begin{equation}\label{eqn:c4e5s1}
+	(\Delta t)^{-2}(u_h^{n+1}-2u_h^n+u_h^{n-1}, v_h)_{L^2(\Omega)} + a(u_h^n,v_h) = \int_\Omega f(t_h)v_h\,dx,\quad\forall v_h\in V_h.
+\end{equation}
+
+Hier müssen wir natürlich die Anfangswerte vorgeben, z.B.
+\begin{equation}\label{eqn:c4e5s2}
+	u_h^0 \coloneqq g_h, u_h^1\text{ ist Fkt. von }g_h,r_h\text{ und }\ddot{u}(0) = \Delta g+f.
+\end{equation}
+Offensichtlich können die $h_h^n$ durch Basiskoeffizienten $d_h^n$ repräsentiert werden, also
+\[
+	u_h^n = \sum (d_h^n)_j b_j.
+\]
+Dann wird aus (\ref{eqn:c4e5s1}) 
+\[
+	M_h d_h^{n+1} = M_h (2d_h^n - d_h^{n-1}) - (\Delta t)^2A_h u_h^n + F_h(t_n),\quad n\geq 2
+\]
+wobei $M_h,A_h,F_h$ wie zuvor sind (Massenmatrix,...). Es muss in diesem Fall $M_h$ invertiert werden! Die Inversion dieser Matrix ist numerisch unproblematisch.\newline\newline\noindent
+Wir erinnern uns: Der Beweis von \cref{thm:c4e3s3} zeigte
+\[
+    \frac{d}{dt} \mathcal{E}(u_h)(t) = (f(t),\dot{u}_h(t))_{L^2(\Omega)} \overset{f=0}= 0.
+\]
+wobei die Energie definiert war durch
+\[
+	\mathcal{E}(u)(t) = \frac{1}{2} \|\dot{u}(t)\|_{L^2}^2 + \frac{1}{2} \|\nabla u\|_{L^2(\Omega)}^2.
+\]
+
+\begin{remark}[Verbesserung der Energieschranken]\label{rem:c4e5s1}
+	Aus (\ref{eqn:c4e5s2}) leiten wir her:
+	\begin{IEEEeqnarray*}{rCl}
+		\frac{d}{dt} \mathcal{E}(u)(t) &\leq& \|f(t)\|_{L^2(\Omega)} \overbrace{\|\dot{u}(t)\|_{L^2(\Omega)}}^{\leq\sqrt{2}\sqrt{\mathcal{E}(u)(t)}} \\
+		&\leq& \sqrt{2}\|f(t)\|_{L^2(\Omega)}\sqrt{\mathcal{E}(u)(t)}.
+	\end{IEEEeqnarray*}
+	Dividiere durch $2\sqrt{\mathcal{E}(u)(t)}$ und erhalten
+	\begin{IEEEeqnarray*}{rCl}
+		\frac{\frac{d}{dt}\mathcal{E}(u)(t)}{2\sqrt{\mathcal{E}(u)(t)}} &=& \frac{d}{dt} \sqrt{\mathcal{E}(u)(t)}\\
+		&\leq& \|f(t)\|_{L^2(\Omega)}
+	\end{IEEEeqnarray*}
+	für fast alle $0 \leq t\leq T$. Wir haben angenommen dass $2\sqrt{\mathcal{E}(u)(t)}\not=0$ ist. Wäre das auf einer Menge vom Maß $0$ so, wäre es egal, und falls es der Ausdruck auf einer Menge vom Maß ungleich $0$ verschwindet, dann verschwindet auch die Ableitung, und die Aussage ist trivial.\newline\noindent
+	Integration über $[0,T]$ liefert
+	\begin{IEEEeqnarray*}{rCl}
+		\sqrt{\mathcal{E}(u)(t)}-\sqrt{\mathcal{E}(u)(0)} &\leq& \frac{1}{\sqrt{2}}\|f\|_{L^1(0,T;L^2(\Omega))}
+	\end{IEEEeqnarray*} 
+	und das kann nach oben durch die $L^2(0,T;L^2(\Omega))$ abgeschätzt werden. Daraus folgt 
+	\[
+		\mathcal{E}(u)(t) \leq \frac{3}{4}t (\|\nabla g\|_{L^2}^2 + \|r\|_{L^2(\Omega)}^2 + \|f\|_{L^2(0,T;L^2(\Omega))}^2).
+	\]
+	Man beachte, dass die Konstante in (\ref{eqn:c4e3s11}) proportional zu $e^t$ war.
+\end{remark}
+Diskretisiere nun
+Gegeben seien die Approximationen $u_h^0,u_h^1,...$. Dann approximiere wir die Zeitenleitungen zu Zeitpunkten $t_{n+\frac{1}{2}}\coloneqq (n+\frac{1}{2})\Delta t$ durch
+\[
+	\dot{u}_h^{n+\frac{1}{2}} \coloneqq \frac{u_h^{n+1}-u_h^n}{\Delta t},\quad n\in\mathbb{N}_0.
+\] 
+Dann definieren wir die diskrete Energie $(u_h^n)_{n\in\mathbb{N}_0}$ durch
+\begin{equation}\label{eqn:c4e5s5}
+	\mathcal{E}_h^{n+\frac{1}{2}} \coloneqq \frac{1}{2}\|\dot{u}_h^{n+\frac{1}{2}}\|_{L^2(\Omega)}^2 + \frac{1}{a}(u_h^{n+1},u_h^n).
+\end{equation}
+Diese Wahl wird durch folgende Rechnung motiviert.\newline\noindent
+Die Wahl $v_h\coloneqq u_h^{n+1}-u_h^{n-1}$ in (\ref{eqn:c4e5s1}) führt zu
+\begin{IEEEeqnarray*}{rCl}
+	\left\| \underbrace{\frac{u_h^{n+1}-u_h^n}{\Delta t}}_{\dot{u}_h^{n+\frac{1}{2}}} \right\|_{L^2} + \left\| \underbrace{\frac{u_h^n - u_h^{n-1}}{\Delta t}}_{\dot{u}_h^{n+\frac{1}{2}}} \right\|_{L^2}
+	&=& (f_h,u^{n+1}-u^{n-1})_{L^2(\Omega)} \\
+	&&- a(u_h^n,u_h^{n+1})+a(u_h^n,u_h^{n-1})
+\end{IEEEeqnarray*}
+und daher
+\begin{equation}\label{eqn:c4e5s6}
+	2\mathcal{E}^{n+\frac{1}{2}}_h - 2\mathcal{E}_h^{n-\frac{1}{2}} = (f_h,u_h^{n+1}-u_h^{n-1}) = \Delta t(f_h,\dot{u}_h^{n+\frac{1}{2}}-\dot{u}_h^{n-\frac{1}{2}}).
+\end{equation}
+Falls $f=0$ folgt aus (\ref{eqn:c4e5s6})
+\[
+	\mathcal{E}_h^{n+\frac{1}{2}}=\mathcal{E}_h^{\frac{1}{2}}
+\]
+für alle $n\in\mathbb{N}$. Das ist das diskrete Analogon der Energieerhaltung.
+\end{document}
