@@ -1,0 +1,111 @@
+\documentclass[oneside,a4paper]{amsart}
+
+\usepackage{geometry}
+\usepackage{parskip}
+\usepackage{mathtools}
+\usepackage{enumerate}
+\usepackage{relsize}
+\usepackage{multirow}
+\usepackage{xfrac}
+
+\newcommand{\NP}{\ensuremath{N \! P}}
+\newcommand{\tp}{\ensuremath{\mathsmaller T}}
+\newcommand{\gmid}{\mathrel{}\middle|\mathrel{}}
+\newcommand{\midcolon}{\mathrel{}:\mathrel{}}
+\newcommand{\smallo}{\ensuremath{\mathit{o}}}
+
+\usepackage[vlined,linesnumbered]{algorithm2e}
+\usepackage{cleveref}
+\usepackage{IEEEtrantools}
+\usepackage{tikz}
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{\node[shape=circle,draw,inner sep=1pt] (char) {#1};}}
+
+\DeclareMathOperator{\OPT}{OPT}
+
+% Algorithm2e specific
+\IncMargin{2.5em}
+\SetNlSty{circled}{}{}
+\SetNlSkip{1em}
+\DontPrintSemicolon
+\newcommand{\EndAlgorithmLine}{\vskip\medskipamount % or other desired dimension
+\leaders\vrule width \textwidth\vskip0.4pt % or other desired thickness
+\vskip\smallskipamount % ditto
+\nointerlineskip}
+
+\DeclareMathOperator{\dist}{dist}
+\DeclareMathOperator{\SMT}{SMT}
+\DeclareMathOperator{\smt}{smt}
+\DeclareMathOperator{\loss}{loss}
+\DeclareMathOperator{\mst}{mst}
+\DeclareMathOperator{\MST}{MST}
+
+\begin{document}
+\title{Approximation Algorithms - Exercise Sheet 10 solutions}
+\maketitle{}
+\section*{Exercise 10.1}
+\subsection*{(i)}
+To show $\frac{3}{2}$ is a lower bound, consider an instance with two rows of terminals, $k$ many in the first row, $k + 1$ many in the second one. Connect the terminals using edges of weight one to $k$ Steiner vertices $S_1, \ldots, S_k$ where you'd connect the $i$th terminal in the first row with $S_i$ and the $2(i-1)$th and $2(i-1) + 1$st terminal in the lower row. Add an additional vertex $s$ and connect it to all terminals by weight $1 + \varepsilon$.
+
+A Steiner Minimum Tree would pick $s$ and all its edges to attain weight $(2k + 1)(1 + \varepsilon)$. The algorithm could add all of the $S_i$ to obtain an MST of weight $3k$. Adding $s$ does not improve distances on the terminal distance graph, so we get a $\frac{3}{2}$-approximation.
+
+For the other direction, let $T$ be the output of the algorithm and $A \coloneqq c(T)$.
+Let $I \subset V \setminus R$ be the set chosen by the algorithm (i.e.\ $T$ corresponds to a minimum spanning tree on $R \cup I$).
+We denote by $T^*$ an optimum Steiner Minimum Tree and by $I^*$ the set of Steiner vertices of degree at least 3 in $T^*$.
+Then, $T^* = \MST(R \cup I^*)$, so if $I = I^*$, then $\OPT = A$.
+If not, then for all $v \in I \setminus I^*$ we can add the shortest edge to $T^*$ incident to $v$ (Note: $V \setminus R$ is a stable set implies this edge goes to $R$).
+We get a tree containing all vertices in $I$.
+Note: By construction of the algorithm, the degree of $v$ in $T$ is at least 3 for all $v \in I \setminus I^*$.
+
+Thus we have at most added $\frac{A}{3}$ edges. This implies
+\[
+	\underbrace{ \mst(R \cup I \cup I^*) }_{\geq \mst(R \cup I) = A} \leq \OPT + \frac{A}{3}.
+\]
+Alas, $A \leq \frac{3}{2} \OPT$.
+To see why $\mst(R \cup I \cup I^*) \geq \mst(R \cup I)$: Since $V \setminus R$ is a stable set, we have that if $\mst(R \cup I \cup I^*) < \cup(R \cup I)$, then there exists $v \in I^* \setminus I$: $\mst(R \cup I \cup \{ v \}) < \mst(R \cup I)$. This is a contradiction to the algorithm.
+\section*{Exercise 10.2}
+\subsection*{(i)}
+Consider a $K_{2, k + 1}$ with weights $1$.
+
+Step 1: The relative Greedy algorithm chooses $i \leq k$ terminals (wlog $w_1, \ldots, w_i$) minimizing 
+\[
+	\frac{\smt(\{ w_1, \ldots, w_i \})}{\mst(R) - \mst(R/\{w_1, \ldots, w_i\})} = \frac{i}{2k - 2(k-i-1)} = \frac{1}{2} \frac{i}{i-1},
+\]
+which is minimized by $i = k$. Hence,
+\[
+	t_1 = \{ w_1, \ldots, w_k \}.
+\]
+
+Step 2: Algorithm choses (wlog) vertices $t_2 = \{ w_1, \ldots, w_i, w_{k+1} \}$. for some $i \leq k - 1$, minimizing
+\[
+	\frac{\smt(t_2)}{\mst(R) - \mst(R/t_1 t_2)} = \frac{i + 1}{2k - 0}.
+\]
+This is minimizes by $i = 1$.
+Hence, $t_2 = \{ w_1, w_{k+1} \}$.
+
+The algorithm might choose for $\SMT(t_2)$ $v$ connected to $w_1$ and $w_{k+1}$ and $u$ with the rest, which gives a $t+2$ output, but $\OPT = k+1$.
+\section*{Exercise 10.3}
+Find a minimum weight perfect 2-matching. This is a collection of cycles. Remove one edge from every cycle and connect the endpoint to the next cycle (and close the last to the first). This yields a TSP tour.
+Since every cycle has at least 3 edges, we replace at most $\frac{1}{3}$ of the edges, since weights are all 1 or 2, the weight might also increase at most by $\frac{1}{3}$.
+Since we have the weight of an output is at most $\frac{4}{3}$ of minimum weight perfect 2-matching, which is at most $\OPT$.
+\section*{Exercise 10.4}
+Suppose $T^*$ is an optimum tour and we direct the edges of $T^*$ in some direction. Then we can see that for each subset of vertices $X$ of $V(G)$, there has to be at least one outgoing edge the other vertices $V \setminus X$.
+This is because of the same reason a $\MST$ is a lower bound for TSP. Let $k$ be a vertex to which $w$ is closest.
+\[
+	\sum d(k, w) = \MST \leq \OPT_{TSP}.
+\]
+Now consider adding a vertex to the subtour
+\[
+	d(w, l) \leq d(k, l) + d(k, w)
+\]
+by the triangle inequality.
+Therefore,
+\[
+	d(k, w) + d(w, l) - d(k, l) \leq 2 \cdot d(k, w).
+\]
+Then,
+\begin{IEEEeqnarray*}{rCl}
+	w(T) &=& w(T') - d(i, w) + d(j, w) - d(i, j) \\
+	&\overset{\text{min.\ of $i$, $j$}}{\leq}& w(T') + d(k, w) + d(l, w) - d(k, l) \\
+	&\leq& w(T') + 2 \cdot d(k, w)
+\end{IEEEeqnarray*}
+\end{document}

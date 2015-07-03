@@ -79,7 +79,7 @@ Let $a, b \in \{ 0, 2, \ldots, 2^N - 2 \}$ be even integers. We define the shift
 \end{IEEEeqnarray*}
 \underline{Observation:} $G_{N-1}^{(a, b)} = G_{N-1}$.
 
-We say a line is in level $1$, if $\ell \in G_1^{(a, b)}$ and in level $i > 1$, if $\ell \in G_i^{(a, b)} \setminus G_{i-1}^{(a, b)}$.
+We say a line is in \emph{level $1$}, if $\ell \in G_1^{(a, b)}$ and in \emph{level $i > 1$}, if $\ell \in G_i^{(a, b)} \setminus G_{i-1}^{(a, b)}$.
 A region of a grid $G_i^{(a, b)}$ is:
 \begin{IEEEeqnarray*}{rCl}
 \Big\{ (x, y) \in [0, 2^N] \times [0, 2^N] \Big|&& \left(x-a-j\cdot 2^{N-i}\right) \; \operatorname{mod} 2^N < 2^{N-i}, \\
@@ -146,7 +146,4 @@ Remove the edges $p_i, q_i$ for $i = 1, \ldots, 2t$ (i.e.\ avoid the crossings).
 Then, the length of $P$ and $Q$ is bounded by $3s$.
 We get a Eulerian graph ($T$ with the modifications). By shortcutting, we obtain a new tour with length at most $6s$ and at most $2$ crossings with $s$.
 \end{proof}
-\begin{theorem}
-There exists light Steiner tours of length at most $(1 + \varepsilon) \cdot \OPT$.
-\end{theorem}
 \end{document}

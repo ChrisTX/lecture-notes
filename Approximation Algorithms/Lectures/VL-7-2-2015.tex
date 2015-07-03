@@ -1,0 +1,175 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+\begin{theorem} % Thm 96
+\label{thm:96}
+Let $V \subset [0, 2^N] \times [0, 2^N]$ be a well-rounded \textsc{Euclidean TSP} instance.
+If $a$ and $b$ are randomly chosen from $\{ 0, 2, \ldots, 2^N - 2 \}$, then with probability at least \sfrac{1}{2} there exists a light Steiner tour of length at most $(1 + \varepsilon) \cdot \OPT(V)$.
+\end{theorem}
+\begin{proof}
+Let $T$ be an optimum TSP tour for $V$. Add a Steiner point whenever we cross a grid line.
+Move the Steiner points to portals.
+The nearest portal for a grid line in level $i$ has distance at most $\frac{2^{N-i-1}}{p}$.
+Consider a line $\ell \in G_{N-1}$ which is in level $i$ with probability
+\[
+	p(\ell, i) \coloneqq \begin{cases}
+	2^{i-N} & \text{if } i > 1 \\
+	2^{2-N} & \text{if } i = 1
+	\end{cases}.
+\]
+In $G_i$, there are $2^i$ lines, of which half are in the $i$th level, thus we have a probability of
+\[
+	\frac{2^{i-1}}{2^{N-1}} = 2^{i-N}.
+\]
+The expected increase of the length for a line $\ell$ is:
+\begin{IEEEeqnarray*}{rCl}
+\sum_{i=1}^{N-1} p(\ell, i) \cdot \crossings(T, \ell) \cdot 2 \cdot \frac{2^{N-i-1}}{p} &=& N \cdot \frac{\crossings(T, \ell)}{p}
+\end{IEEEeqnarray*}
+
+Next modification to get a light Steiner tour:
+We define as \emph{segment} of a horizontal or vertical line in $G_i^{(a, b)}$ the segment between
+\[
+	\left(a + j \cdot 2^{N-i}, b + k \cdot 2^{N-i} \right)
+\]
+and
+\[
+	\left( a + (j + 1) \cdot 2^{N-i}, b + k \cdot 2^{N-i} \right)
+\]
+taken $\operatorname{mod} 2$.
+
+\begin{samepage}
+\EndAlgorithmLine
+\begin{algorithm}[H]
+\For{$i \coloneqq N - 1$ \KwSty{down to} $1$}{
+	apply the Patching \cref{thm:95} to each segment of a horizontal line of $G_i^{(a, b)}$ that contains more than $C - 4$ crossings\;
+	perform the same action for vertical segments\;
+}
+\end{algorithm}
+\end{samepage}
+\EndAlgorithmLine
+\textit{Remark:} For segments consisting of $2$ parts, we apply the Patching \cref{thm:95} twice. This gives at most $4$ crossings.
+
+For each line $\ell$ the Patching \cref{thm:95} is applied at most $\frac{\crossings(T, \ell)}{C - 7}$.
+Let for a line $\ell$ in $G_{N-1}^{(a, b)}$ denote $c(\ell, i, a, b)$ the number of applications of the Patching \cref{thm:95} in iteration $i$.
+Then, $c(\ell, i, a, b) = 0$ if the level of $\ell$ is greater than $i$.
+Hence, the total increase in the length of a tour for line $\ell$ is:
+\begin{IEEEeqnarray*}{rCl}
+\sum_{i \geq \level(\ell)} c(\ell, i, a, b) \cdot 6 \cdot 2^{N-i}
+\end{IEEEeqnarray*}
+and
+\[
+	\sum_{i \geq \level(\ell)} c(\ell, i, a, b) \leq \frac{\crossings(T, \ell)}{C - 7}.
+\]
+Recall that $p(\ell, j)$ was the probability that $\ell$ is in level $j$. This gives us that the total increase is at most
+\begin{IEEEeqnarray*}{rCl}
+	\sum_{j=1}^{N-1} p(\ell, j) \cdot \sum_{i \geq j} c(\ell, i, a, b) \cdot 6 \cdot 2^{N-i} &=& 6 \cdot \sum_{i=1}^{N-1} c(\ell, i, a, b) \cdot 2^{N-i} \cdot \underbrace{ \sum_{j=1}^i p(\ell, j) }_{\leq 2 \cdot p(\ell, i)} \\
+	&\leq& 12 \cdot \frac{\crossings(T, \ell)}{C - 7}
+\end{IEEEeqnarray*}
+We remove pairs of edges if a corner portal is used more than twice. This reduces amount of crossings appropriately and we have a light Steiner tour.
+By \cref{thm:94} we have:
+\begin{IEEEeqnarray*}{rCl}
+\sum_{\ell \in G_{N-1}} \crossings(T, \ell) &\leq& \OPT(V)
+\end{IEEEeqnarray*}
+Our total increase of the previous steps can be bounded with this result:
+\begin{IEEEeqnarray*}{rCl}
+\sum_{\ell \in G_{N-1}} N \cdot \frac{\crossings(T, \ell)}{p} + \sum_{\ell \in G_{N-1}} \frac{12 \cdot \crossings(T, \ell)}{C - 7} &\leq& \OPT(V) \cdot \left( \frac{N}{p} + \frac{12}{C - 7} \right) \\
+&\leq& \OPT(V) \cdot \frac{\varepsilon}{2}.
+\end{IEEEeqnarray*}
+Hence, by Markov's inequality
+\[
+\Pr[\text{increase} > \varepsilon \cdot \OPT(V)] \leq \frac{1}{2}.
+\]
+\end{proof}
+A region has at most $4 \cdot C$ portals used by the light Steiner tour.
+There are $P + 2$ possibilities for a portal: Within a region there are $p + 1 \leq (p+2)^{C4}$ possibilities to choose the portal.
+Hence, there are $(4C)!$ possibilities to run through the portals.
+\begin{algorithmbox}[Arora's Algorithm]
+\begin{tabular}{@{}ll}
+\textit{Input:} & A well-rounded \textsc{Euclidean TSP} instance $V \subseteq [0, 2^N] \times [0, 2^N]$, \\
+& $0 < \varepsilon < 1$ \\
+\textit{Output:} & A tour that has length at most $(1 + \varepsilon) \cdot \OPT(V)$
+\end{tabular}
+\end{algorithmbox}
+\vspace{-7pt}
+\begin{algorithm}[H]
+Choose $a$ and $b$ randomly from $\{ 0, 2, \ldots, 2^N - 2 \}$.\;
+Set $R_0 \coloneqq \{ ([0, 2^N] \times [0, 2^N], V) \}$.\;
+\For{$i \coloneqq 1$ \KwTo $N-1$}{
+	Compute $G_i^{(a, b)}$, set $R_i \coloneqq \emptyset$.\;
+	\For{$(r, Vr) \in R_i$ \KwSty{with} $|V_r| \geq 2$}{
+		add $4$ subregions of $r$ to $R_i$\;
+	}
+}
+\For{$i \coloneqq N - 1$ \KwSty{down to} 1}{
+	\For{$r \in R_i$}{
+		Compute an optimum solution for $(r, Vr)$
+	}
+}
+\end{algorithm}
+\vspace{-7pt}
+\EndAlgorithmLine
+\begin{theorem} % Thm 97
+\label{thm:97}
+\textsc{Arora's Algorithm} finds with probability at least \sfrac{1}{2} a tour of length at most $(1 + \varepsilon) \cdot \OPT(V)$.
+The runtime is $\mathcal{O}(n \cdot (\log n)^\alpha)$, where $\alpha$ is a constant that linearly depends on $\frac{1}{\varepsilon}$, i.e.\ $\mathcal{O}(n \cdot (\log n)^{\mathcal{O}\left( \frac{1}{\varepsilon} \right)})$.
+\end{theorem}
+\begin{proof}
+\underline{Correctness:} $a, b$ are randomly chosen. Thus \cref{thm:96} gives us this result.
+
+\underline{Runtime:} We create a tree rooted at $R_0$ where each node is connected to vertices of the subregions that it was split into in the algorithm.
+Denote by $S$ the set of all vertices in the tree that have $4$ children, which are all leaves.
+Each such vertex represents a region with at least $2$ points, and thus
+\[
+	|S| \leq \frac{n}{2},
+\]
+where $n \coloneqq |V|$.
+We have at most $N \cdot \frac{n}{2} + 4 \cdot N \cdot \frac{n}{2} = \frac{5}{2} \cdot N \cdot n$ vertices all together.
+For each fixed region, we have $(P+2)^{4C} \cdot (4C)!$ possibilities.
+If $|V_r| = 1$, we can compute an optimum solution in $\mathcal{O}(C)$ time.
+Otherwise, if $|V_r| > 1$, we have at most $4C$ portals on the inner lines and hence $8C$ portals in total.
+We have $(P+2)^{4C}$ possibilities and there are $(8C)!$ possibilities for a tour to run through the portals.
+
+For each region the runtime is at most
+\[
+	(P+2)^{4C} \cdot (4C)! \cdot (P+2)^{4c} \cdot (8C)!.
+\]
+We have as already discusses, at most $\frac{5}{2} \cdot N \cdot n$ many regions and had
+\[
+	N = \mathcal{O} \left( \log \frac{n}{\varepsilon} \right), \quad C = \mathcal{O}\left( \frac{1}{\varepsilon} \right), \quad P = \mathcal{O} \left( \frac{N}{\varepsilon} \right).
+\]
+By plugging these in, we obtain a total runtime of
+\[
+\mathcal{O} \left( n \log \frac{n}{\varepsilon} \cdot (P+2)^{8C} \cdot (8C)^{12C} \right) = \mathcal{O} \left( n \cdot (\log n)^{\mathcal{O}\left( \frac{1}{\varepsilon} \right)} \cdot \mathcal{O}\left( \frac{1}{\varepsilon} \right)^{\mathcal{O}\left( \frac{1}{\varepsilon} \right)} \right).
+\]
+\end{proof}
+\begin{theorem} % Thm 98
+\label{thm:98}
+\textsc{Euclidean TSP} has a \ac{PTAS} with runtime $\mathcal{O}\left(n^{3.01} \right)$.
+\end{theorem}
+\begin{proof}
+For $a$ and $b$ there are $\mathcal{O} \left( \frac{n^2}{\varepsilon^2} \right)$ possibilities. We can try them all.
+\end{proof}
+This can be generalized to the $d$-dimensional case:
+\[
+	\mathcal{O}(n \log n^{\mathcal{O} \left( d \cdot \frac{1}{\varepsilon} \right)^d}).
+\]
+This approach also works for the \textsc{Steiner Tree Problem}.
+\chapter{The \texorpdfstring{\PCP{}}{PCP} Theorem} % Ch 7
+\label{sec:c7}
+So far we have seen for example
+\begin{itemize}
+\item \ac{PTAS} for \textsc{Euclidean TSP}
+\item \sfrac{3}{2} approximation for \textsc{Metric TSP} (lower bound $1 + \varepsilon$)
+\item 2-approximation for \textsc{Vertex Cover} (lower bound $1 + \varepsilon$)
+\item $\frac{n}{\log n}$-approximation for \textsc{Coloring} (lower bound $n^{1-\varepsilon}$)
+\item $\log n$-approximation for \textsc{Set Cover} ($\Omega(\log n)$)
+\end{itemize}
+Can't we find a PTAS in all these cases? The answer is negative as we will see in this chapter.
+\begin{theorem} % Thm 99
+\label{thm:99}
+$\NP = \PCP(\log n, 1)$.
+\end{theorem}
+PCP stands for probabilistically checkable proofs. This is a common generalization of \NP{} and co-RP.
+
+\NP{}: For a language $L$ and $x \in L$, there exists a certificate $c$ with $|c| \leq \operatorname{poly}(|X|)$ such that $\TMM$ accepts $(x, c)$ and if $x \notin L$ for all certificates $c$, $\TMM$ rejects $(x, c)$.
+\end{document}
