@@ -102,7 +102,7 @@ Using this claim, we get for an optimum solution $F^*$:
 \begin{IEEEeqnarray*}{rCl}
 	\sum_{S \in F} c(S) &=& \sum_{x \in U} \tilde{c}(x) \\
 	&\leq& \sum_{S \in F^*} \underbrace{ \sum_{x \in S} \tilde{c}(x) }_{\text{Claim: }\leq c(S) \cdot H_{|S|}} \\
-	&\leq& \sum_{S \in F} c(S) \cdot H_{|S|} \\
+	&\leq& \sum_{S \in F^*} c(S) \cdot H_{|S|} \\
 	&\leq& H_{n} \cdot \sum_{S \in F^*} c(S).
 \end{IEEEeqnarray*}
 \begin{proof}[Claim]
@@ -115,7 +115,7 @@ as we know that at least $|S| - (i-1)$ elements of $S$ are not yet covered.
 Thus,
 \begin{IEEEeqnarray*}{rCl}
 	\sum_{x \in S} \tilde{c}(x) &\leq& \sum_{i = 1}^{|S|} \frac{c(S)}{|S| - (i-1)} \\
-	&\leq& c(S) \cdot \sum_{i=1}^{|S|} \frac{1}{i} \\
+	&=& c(S) \cdot \sum_{i=1}^{|S|} \frac{1}{i} \\
 	&=& c(S) \cdot H_{|S|}.
 \end{IEEEeqnarray*}
 This proves the claim.
@@ -158,8 +158,8 @@ Thus, $|S| \leq 2 \cdot \OPT$.
 \begin{remark}
 \begin{itemize}
 \item This is the best ratio known for \textsc{Minimum Size Vertex Cover}.
-\item $1.36$ is a lower bound unless $P = \NP$ [Dinur, Sufu, 2005].
-\item $2-\varepsilon$ is a lower bound if the unique games conjecture is true [Knot, Reger, 2008].
+\item $1.36$ is a lower bound unless $P = \NP$ [Dinur, Safra, 2005].
+\item $2-\varepsilon$ is a lower bound if the unique games conjecture is true [Khot, Regev, 2008].
 \end{itemize}
 \end{remark}
 \begin{problem}[$k$-Center]

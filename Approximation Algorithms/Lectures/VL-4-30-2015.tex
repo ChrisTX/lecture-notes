@@ -74,7 +74,7 @@ Thus,
 \[
 	w_n\left(F_n^\pi\right) - w_0\left(F_0^\pi\right) \leq \frac{1}{2} \left( w(T_n) - w(T_0) \right).
 \]
-Then, $w(T_0) = 0$ and $F_n^\pi = F_n$. Hence,
+We have, $w(T_0) = 0$ and $F_n^\pi = F_n = \mathscr{C} \setminus T_n$. Hence,
 \[
 	w_n \left( F_n^\pi \right) = w(F_n) = w(\mathscr{C}) - w(T_n).
 \]
@@ -162,7 +162,7 @@ Consider the \textsc{Set Cover} problem.
 \]
 \underline{IP}:
 \begin{IEEEeqnarray*}{lrCl}
-\min \sum_{i=1}^m c(S_i) - x_i \\
+\min \sum_{i=1}^m c(S_i) \cdot x_i \\
 \text{\ac{st}} & \sum_{j \in S_i} x_i &\geq& 1 \quad \text{for each } j \in \{ 1, \ldots, n \} \\
 & x_i &\in& \{ 0, 1\}
 \end{IEEEeqnarray*}
@@ -181,7 +181,7 @@ as the maximal occurrence of an element.
 \vspace{-7pt}
 \begin{algorithm}[H]
 Compute an optimum solution $x \in \R^m$ of the \textsc{Set Cover}-LP.\;
-$\mathscr{F} \coloneqq \left\{ S_i \mid x_i \geq \frac{1}{f} \right\}$.\;
+$\mathscr{F} \coloneqq \left\{ S_i \gmid x_i \geq \frac{1}{f} \right\}$.\;
 \end{algorithm}
 \vspace{-7pt}
 \EndAlgorithmLine

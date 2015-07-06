@@ -60,7 +60,7 @@ Then, replace $x_j^*$ by $x_j^* + \varepsilon$, and $x_l^*$ by $x_l^* - \varepsi
 \]
 With this choice, we have
 \[
-	(x_j^* + \varepsilon) \cdot w_j + \left(x_l^* - \varepsilon \cdot \frac{w_l}{w_j}\right) \cdot w_l = x_j^* \cdot w_j + x_l^* \cdot w_l.
+	(x_j^* + \varepsilon) \cdot w_j + \left(x_l^* - \varepsilon \cdot \frac{w_j}{w_l}\right) \cdot w_l = x_j^* \cdot w_j + x_l^* \cdot w_l.
 \]
 This gives a cost increase greater or equal to zero:
 \[
@@ -74,7 +74,7 @@ Furthermore, this can be done in $\mathcal{O}(n \log n)$.
 \textit{Output:} & $j \in \{ 1, \ldots, n \}$, \ac{st}\ $|\{ a_i \mid a_j \leq a_i \}| = k$.
 \end{tabular}
 \end{problem}
-The \textsc{Median} problem is the special case $k \coloneqq \left\lfloor \frac{n}{2} \right\rfloor$.
+The \textsc{Median} problem is the special case $k \coloneqq \left\lceil \frac{n}{2} \right\rceil$.
 We assume in the following that we have a total ordering.
 \pagebreak
 \begin{algorithmbox}[Selection Algorithm]
@@ -98,14 +98,14 @@ l, & \text{if } |A| = k, \\
 \vspace{-7pt}
 \EndAlgorithmLine
 \begin{theorem} % prob Thm 40
-The \textsc{Selection Algorithm} computes a solution to \textsc{Selection} in linear time.
+The \textsc{Selection Algorithm} computes the $k$-largest element in linear time.
 \end{theorem}
 \begin{proof}
 Correctness is obvious.
 
 \underline{Runtime:} It holds that
 \[
-	|A| \geq 3 \cdot \left( \left\lfloor \frac{1}{2} \cdot \frac{n}{5} \right\rfloor \cdot 2 \right) \geq \frac{n}{4}.
+	|A| \geq 3 \cdot \left( \left\lfloor \frac{1}{2} \cdot \frac{n}{5} \right\rfloor - 2 \right) \geq \frac{n}{4}.
 \]
 The same holds for $|B|$.
 Let $T(n)$ denote the runtime of the algorithm:
@@ -135,7 +135,7 @@ compute the median within each set\;
 recursively compute the median $z_m$ of these medians\;
 define $A \coloneqq \{ z_i \mid z_i \geq z_m \}$ and $B \coloneqq \{ z_i \mid z_i < z_m \}$.\;
 $z_i^* \coloneqq \begin{cases}
-\textsc{WMA}(B, \{ w_i \mid z_i \in B \}, W - \sum_{i \,:\, z_i \leq z_m w_i}), & \text{if } \sum_{i \,:\, z_i \leq z_m} w_i < W \\
+\textsc{WMA}(B, \{ w_i \mid z_i \in B \}, W - \sum_{i \,:\, z_i \leq z_m} w_i), & \text{if } \sum_{i \,:\, z_i \leq z_m} w_i < W \\
 z_m, & \text{else} \\
 \textsc{WMA}(A, \{ w_i \mid z_i \in A \}, W), & \text{if } \sum_{i \,:\, z_i < z_m} w_i \geq W
 \end{cases}$\;
@@ -185,7 +185,7 @@ f(i, X) &\coloneqq& \text{optimum solution, if only the first $i$ items are allo
 f(n, W) &=& \OPT. \\
 f(i+1, X) &=& \begin{cases}
 f(i, X), & \text{if } w_{i+1} > X \\
-\max{f(i, X), f(i, X - w_{i+1}) + c_{i+1}}, & \text{else}
+\max\{f(i, X), f(i, X - w_{i+1}) + c_{i+1}\}, & \text{else}
 \end{cases}.
 \end{IEEEeqnarray*}
 \begin{theorem} % Thm 44

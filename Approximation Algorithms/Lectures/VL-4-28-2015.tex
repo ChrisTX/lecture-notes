@@ -52,7 +52,7 @@ Construct a complete graph $G'$ on $V(G)$ with
 as metric.
 Then
 \[
-	\dom(G) = \min_{1 \leq k \leq |V|} \left\{ C \subseteq V \mid |C| = k \text{ and } \max_{x \in V} \min_{c \in C} \{ \dist(x, c) = 1 \} \right\}.
+	\dom(G) = \min_{1 \leq k \leq |V|} \left\{ C \subseteq V \gmid |C| = k \text{ and } \max_{x \in V} \min_{c \in C} \{ \dist(x, c) = 1 \} \right\}.
 \]
 This forces a solution to only use edges in the graph, as other choices would increase the maximum to $2$.
 \end{proof}
@@ -97,7 +97,7 @@ By Claim 2, we have a 2-approximation.
 \end{proof} 
 \begin{remark}
 The analysis is tight:
-Consider a graph consisting out of $K_n$ with distance $2$ on its edges and an additional vertex connected to all vertices with distance $1$. For the \textsc{$k$-Center} problem with $k = 1$, $\OPT = 1$. However, the algorithm may find a solution with value $2$.
+Consider a graph consisting out of $K_n$ with distance $2$ on its edges and an additional vertex connected to all vertices with distance $1$. For the \textsc{$k$-Center} problem with $k = 1$, $\OPT = 1$. However, the algorithm may find a solution with because there is a $2$-stable set of size at least $2$ if the graph is disconnected in the step and if the graph is connected, selecting any vertex other than the $n+1$-st will result in a maximum $2$-stable set that has cardinality $1$ and corresponds to a solution of value $2$.
 \end{remark}
 \begin{theorem} % Thm 26
 \label{thm:26}
@@ -211,7 +211,6 @@ Hence, the total weight of satisfied clauses is greater or equal to
 \]
 \end{proof}
 \begin{example}
-
 Is the analysis tight?
 \begin{center}
 \begin{tabular}{cc}
@@ -220,7 +219,6 @@ $w = 1$ & $w = 2$ \\
 $\tilde{w} = \frac{1}{2}$ & $\tilde{w} = \frac{1}{2}$
 \end{tabular}
 \end{center}
-
-Then $x_1$ would be \textit{false}. The algorithm achieves $2$ but $\OPT = 3$.
+Then $x_1$ could be set to \textit{false}. The algorithm achieves $2$ but $\OPT = 3$.
 \end{example} 
 \end{document}
