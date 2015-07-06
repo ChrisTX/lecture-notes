@@ -18,7 +18,7 @@ at a point $u_0$ consists of $h$, \ac{st} $g'(u_0)h = 0$. This turns out to be n
 	\[
 		\Phi_v(u_0,v_0)=\frac{\partial\Phi}{\partial v}(u_0,v_0)\,:\,V\to W
 	\]
-	is bijective. The, there exist $r>0, R>0$ \ac{st} for $\|u-u_0\|<r$ there exists a \emph{unique} $v=v(u)\in V$ satisfying $(u,v)\in\mathcal{O}(u_0,v_0),\,\|v-v_0\|<R$ and $\Phi(u,v) = 0$. The map $u\mapsto v(u)$ is Fréchet-differentiable in $N_r=\{u\in U:\|u-u_0\|<r\}$. 
+	is bijective. Then, there exist $r>0, R>0$ \ac{st} for $\|u-u_0\|<r$ there exists a \emph{unique} $v=v(u)\in V$ satisfying $(u,v)\in\mathcal{O}(u_0,v_0),\,\|v-v_0\|<R$ and $\Phi(u,v) = 0$. The map $u\mapsto v(u)$ is Fréchet-differentiable in $N_r=\{u\in U:\|u-u_0\|<r\}$. 
 \end{theorem}
 \begin{proof}
 	Assume $u_0=0, v_0=0, U\not=\{0\}, V\not=\{0\}, W\not=\{0\}$. Define 
@@ -38,7 +38,7 @@ at a point $u_0$ consists of $h$, \ac{st} $g'(u_0)h = 0$. This turns out to be n
 	\[
 		F_v(u,v) = \Phi_v(0,0) - \Phi_v(u,v)
 	\]
-	Since $F_v$ is continuous in $(0,0)$ by assumption and $F_v(0,0) = 0$, we can apply the (one dimensional) \emph{Taylor theorem} that
+	Since $F_v$ is continuous in $(0,0)$ by assumption and $F_v(0,0) = 0$, we can apply the (one dimensional) \emph{Taylor theorem}, that is,
 	\begin{IEEEeqnarray*}{rCl}
 		\|F(u,v)-F(u,w)\| &\leq& \sup_{0\leq \Theta\leq 1} \|F_v(u,v+ \Theta(w-v))\|\cdot\|v-w\| \\
 		&\leq& \smallo(1)\|v-w\| \quad \text{ for } u,v,w\to 0.
@@ -146,7 +146,7 @@ at a point $u_0$ consists of $h$, \ac{st} $g'(u_0)h = 0$. This turns out to be n
 	\[
 		A \coloneqq \frac{\partial\Phi}{\partial u_2}(0,0) = \left.g'(u_0)\right|_{U_2}.
 	\]
-	As $U_2$ is complimentary to $U_1 = \mathcal{N}(g'(u_0))$, it follows that $A$ is injective, as well as
+	As $U_2$ is complementary to $U_1 = \mathcal{N}(g'(u_0))$, it follows that $A$ is injective, as well as
 	\[
 		\mathcal{R}(A) = \mathcal{R}(g'(u_0)) = V.
 	\]

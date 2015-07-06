@@ -8,14 +8,14 @@ Consider optimization tasks in Banach spaces: \par
 minimize $J(\xi)$ such that $\xi \in M$
 \end{problem}
 Here $J : X \to \R$ on a Banach space X, and $M \subseteq X$. Out motivation will be \textbf{optimal control problems}. \par
-\textbf{Optimal control:} Physical processes modeled by differential or integral equations in function spaces involving a control variable to drive a certain cost function to a minimum.
+\textbf{Optimal control:} Physical processes modeled by differential or integral equations in function spaces involving a control variable to derive a certain cost function to a minimum.
 \begin{example}
 \begin{enumerate}
 \item \textbf{Optimal stationary heating of a boundary:} \par
 \textit{Target function:} $\Omega \subset \R^3$, $\Gamma$ boundary.
 \begin{IEEEeqnarray*}{rCl}
 J_\lambda : L^2(\Omega) \times L^2(\Gamma) &\to& \R, \lambda \geq 0 \\
-(y, n) &\mapsto& \frac{1}{2} \int_\Omega (y(x) - y_\Omega(x))^2 \dx + \frac{\lambda}{2} \int_\Gamma |u(s)|^2 \ds \\
+(y, u) &\mapsto& \frac{1}{2} \int_\Omega (y(x) - y_\Omega(x))^2 \dx + \frac{\lambda}{2} \int_\Gamma |u(s)|^2 \ds \\
 && = \frac{1}{2} \| y - y_\Omega \|^2 + \frac{\lambda}{2} \| u \|^2 
 \end{IEEEeqnarray*}
 $y_\Omega$ is the target temperature, $y$ is called the state and $u$ the control. \par
@@ -160,7 +160,7 @@ N_{\bar{\xi}} &=& (T_{\bar{\xi}}(M))^\circ = (\conv(T_{\bar{\xi}}(M)))^\circ \\
 \begin{problem}
 minimize $J(y, u)$, $y \in \R^n$, $u \in \R^m$, \ac{st}
 \begin{IEEEeqnarray*}{c}
-Au = Bu, \; A \text{ is invertible} \\
+Ay = Bu, \; A \text{ is invertible} \\
 \underbrace{u_a \leq u \leq u_b}_{\text{``box constraint''}} \Leftrightarrow u \in U_{ad}
 \end{IEEEeqnarray*}
 \end{problem}
@@ -197,7 +197,7 @@ p = A^{-\tp} \nabla_y J(y, u)
 is called \textbf{adjoint state}. Therefore \eqref{eq:c0e1} reads
 \begin{IEEEeqnarray*}{rCl"l}
 \nabla_y L(\bar{y}, \bar{u}, \bar{p}) &=& 0 \\
-\langle \nabla_u L(\bar{y}, \bar{u}, \bar{p}, u - \bar{u}) &\geq& 0 & \forall u \in U_{ad}
+\langle \nabla_u L(\bar{y}, \bar{u}, \bar{p}), u - \bar{u}) &\geq& 0 & \forall u \in U_{ad}
 \end{IEEEeqnarray*}
 \textbf{Note:} $\bar{p}$ is a Lagrange multiplier. \par
 \textbf{Lagrange function for inequality constraints:}

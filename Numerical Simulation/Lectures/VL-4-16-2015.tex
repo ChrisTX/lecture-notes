@@ -88,7 +88,7 @@ $\hat{y}_d$ is called \emph{best approximation}.
 \subsection{Fréchet differentiability}
 \begin{definition} % Def 1.20
 \label{def:c1e20}
-Let $U$ and $V$ be Banach spaces. A function $f : U \to V$ is called \emph{Fréchet-differentiable} if there exists a bounded linear operator $f'(u) : U \to V$ \ac{st}
+Let $U$ and $V$ be Banach spaces. A function $f : U \to V$ is called \emph{Fréchet-differentiable at $u\in U$} if there exists a bounded linear operator $f'(u) : U \to V$ \ac{st}
 \[
 	f(u +h) = f(u) + f'(u) h + \underbrace{ \smallo(\| h \|) }_{\lim_{h \to 0} \frac{o (\| h \|)}{\| h \|} = 0}.
 \]
@@ -161,7 +161,7 @@ Let $U$ be a real Banach space, $C \subseteq U$ and $f : \mathcal{U} \to \R$ be 
 \label{eq:thm-c1e23-star}
 \begin{IEEEeqnarraybox}[][c]{u"l}
 minimize & f(u) \\
-subect to & u \in C
+subject to & u \in C
 \end{IEEEeqnarraybox} \opttag{\ensuremath{\star}}
 \end{equation}
 \end{mdframed}
@@ -181,7 +181,7 @@ It is enough that $f$ is \emph{Gateaux-differentiable}.
 \begin{proof}
 If $\bar{u}$ solves \labelcref{eq:thm-c1e23-star}, then
 \[
-f(\bar{u}) \leq f(\bar{u} + u - \bar{u}) = f(\bar{u}) + f'(\bar{u}[u - \bar{u}]) + \smallo(\| u - \bar{u} \|)
+f(\bar{u}) \leq f(\bar{u} + u - \bar{u}) = f(\bar{u}) + f'(\bar{u})[u - \bar{u}] + \smallo(\| u - \bar{u} \|)
 \]
 Then,
 \begin{IEEEeqnarray*}{rCl}

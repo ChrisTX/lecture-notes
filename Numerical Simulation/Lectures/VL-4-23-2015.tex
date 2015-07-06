@@ -21,16 +21,16 @@ Let $u_0$ be a local minimum of \cref{prob:c1e3-star} such that
 \end{enumerate}
 Then there exists $\lambda_0 \in \R$ and $\lambda_1^* \in V^*$ which do not vanish simultaneously, \ac{st}
 \begin{IEEEeqnarray*}{rCl"l}
-\mathcal{L}_u(u_0, \lambda_0, \lambda_1^*) = \lambda_0 f'(u) + g'(u_0)^* \lambda_1^* &=& 0 & \text{in } U^*, \\
-\noalign{that is \vspace{\jot}} \lambda_0 f'(u) h + \lambda_1^* (g'(u_0)h) &=& 0 & \forall h \in U.
+\mathcal{L}_u(u_0, \lambda_0, \lambda_1^*) = \lambda_0 f'(u_0) + g'(u_0)^* \lambda_1^* &=& 0 & \text{in } U^*, \\
+\noalign{that is \vspace{\jot}} \lambda_0 f'(u_0) h + \lambda_1^* (g'(u_0)h) &=& 0 & \forall h \in U.
 \end{IEEEeqnarray*}
 ($g'(u_0)^* \, : \, V^* \to U^*$ is denoting the adjoint operator).
 If $g$ is in $C^1$ and $u_0$ is a regular point of $g$, then $\lambda_0 \neq 0$, so that \ac{wlog}\ $\lambda_0 = 1$.
 \end{theorem}
 \begin{proof}
-We first consider the case that $u_0$ is a regular point, then $\mathcal{R}(g'(n_0)) = V$. In this case it holds with $M = \{ u \in U \, : \, g(u) = 0\}$ that $T_{u_0} M = \mathcal{N}(g'(n_0))$ by \cref{thm:c1e31}. Let $h \in \mathcal{N}(g'(u_0))$. Since $T_{u_0} M$ is a linear space, there exists an admissible curve $\gamma : (- \varepsilon, \varepsilon) \to M$ \ac{st} $\dot\gamma(0) = h$. Then the function $t \mapsto f(\gamma(t))$ attains a local minimum at $t=0$. By the chain rule,
+We first consider the case that $u_0$ is a regular point, then $\mathcal{R}(g'(u_0)) = V$. In this case it holds with $M = \{ u \in U \, : \, g(u) = 0\}$ that $T_{u_0} M = \mathcal{N}(g'(u_0))$ by \cref{thm:c1e31}. Let $h \in \mathcal{N}(g'(u_0))$. Since $T_{u_0} M$ is a linear space, there exists an admissible curve $\gamma : (- \varepsilon, \varepsilon) \to M$ \ac{st} $\dot\gamma(0) = h$. Then the function $t \mapsto f(\gamma(t))$ attains a local minimum at $t=0$. By the chain rule,
 \[
-	f(u_0) \dot\gamma(0) = f'(u_0) h = 0.
+	f'(u_0) \dot\gamma(0) = f'(u_0) h = 0.
 \]
 Since this holds for every $h \in \mathcal{N}(g'(u_0))$, this means that
 \[
@@ -44,7 +44,7 @@ In summary,
 \[
 	f'(u_0) = -g'(u_0)^* \lambda_1^*
 \]
-for some $\lambda_1 \in V^*$.
+for some $\lambda_1^* \in V^*$.
 Assume now $\mathcal{R}(g'(u_0)) \neq V$, then there exists $\lambda_1^* \in V^*$, $\lambda_1^* \neq 0$, \ac{st}
 \[
 	\lambda_1^*(V) = 0 \quad \forall v \in \mathcal{R}(g'(u_0))
