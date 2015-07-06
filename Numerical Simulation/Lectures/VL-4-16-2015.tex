@@ -61,7 +61,7 @@ has a solution if one of the following three conditions is satisfied:
 \item \label[equation]{thm:c1e18-ii} $\lambda > 0$
 \item \label[equation]{thm:c1e18-iii} $S$ is bounded below: $\exists \sigma > 0$ \ac{st} $\| S u \| \geq \sigma \| u \|$.
 \end{enumerate}
-In cases \labelcref{thm:c1e18-ii}, \labelcref{thm:c1e18-iii} the solution is unique. In \labelcref{thm:c1e18-i} with $\lambda = 0$, the solution is unique (equivalent to $S$ is injective).
+In cases \labelcref{thm:c1e18-ii}, \labelcref{thm:c1e18-iii} the solution is unique. In \labelcref{thm:c1e18-i} with $\lambda = 0$, the solution is unique if and only if $S$ is injective.
 \end{theorem}
 \begin{proof}
 First of all, $U$ is reflexive since it is a Hilbert space. We write $f$ as
@@ -165,7 +165,7 @@ subject to & u \in C
 \end{IEEEeqnarraybox} \opttag{\ensuremath{\star}}
 \end{equation}
 \end{mdframed}
-then $f'(\bar{u}) = 0$. If $f$ is convex, $f'(\bar{u}) = 0$ implies that $\bar{u}$ solves \labelcref{eq:thm-c1e23-star}.
+then $f'(\bar{u}) = 0$. If $C$ is convex and $f$ is convex on $C$, $f'(\bar{u}) = 0$ implies that $\bar{u}$ solves \labelcref{eq:thm-c1e23-star}.
 \end{theorem}
 \begin{theorem} % Thm 1.24
 \label{thm:c1e24}
