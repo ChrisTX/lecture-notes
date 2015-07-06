@@ -152,7 +152,7 @@ so $\ell$ is continuous.
 Let $A$ be a closed convex subset of a normed space $X$ and let $\xi \notin A$. Then there exists a continuous linear functional that strictly separates $A$ and $\{ \xi \}$.
 \end{theorem}
 \begin{proof}
-Since $X \setminus A$ is open, there exists an open ball $B$ around $\xi$ \ac{st} $A \cap B \neq \emptyset$. Since $B^\circ \neq \emptyset$, we can apply \cref{thm:c1e7} to obtain $\ell \in X^*$ \ac{st}
+Since $X \setminus A$ is open, there exists an open ball $B$ around $\xi$ \ac{st} $A \cap B = \emptyset$. Since $B^\circ \neq \emptyset$, we can apply \cref{thm:c1e7} to obtain $\ell \in X^*$ \ac{st}
 \[
 	\ell(a) \leq \ell(\xi) + \ell(b - \xi) \quad \forall b \in B, a \in A.
 \]
@@ -193,7 +193,7 @@ This immediately implies that $A$ and $\xi$ cannot be strictly separated. By \cr
 \end{proof}
 \begin{corollary}[Mazur's lemma] % Cor 1.10
 \label{cor:c1e10}
-Let $X$ be a normed space and $(\xi_n) \subseteq X, \xi_n \rightharpoonup \xi$. Then $\xi \in \conv\{ \xi_n \; : \; n \in \N \}$.
+Let $X$ be a normed space and $(\xi_n) \subseteq X, \xi_n \rightharpoonup \xi$. Then $\xi \in \overline{\conv\{ \xi_n \; : \; n \in \N \}}$.
 \end{corollary}
 \subsection{Reflexive Banach spaces}
 Recall that a Banach space $U$ is called \emph{reflexive} if the canonical map $U \to U^{**}$, $u \mapsto u''$, $u''(\ell) = \ell(u)$ is surjective (in which case it is an isometric isomorphism, because the canonical embedding of $U$ into $U^{**}$ is always linear and injective).

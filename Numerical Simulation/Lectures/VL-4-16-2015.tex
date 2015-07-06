@@ -61,7 +61,7 @@ has a solution if one of the following three conditions is satisfied:
 \item \label[equation]{thm:c1e18-ii} $\lambda > 0$
 \item \label[equation]{thm:c1e18-iii} $S$ is bounded below: $\exists \sigma > 0$ \ac{st} $\| S u \| \geq \sigma \| u \|$.
 \end{enumerate}
-In cases \labelcref{thm:c1e18-ii}, \labelcref{thm:c1e18-iii} the solution is unique. In \labelcref{thm:c1e18-i} with $\lambda = 0$, the solution is unique (equivalent to $S$ is injective).
+In cases \labelcref{thm:c1e18-ii}, \labelcref{thm:c1e18-iii} the solution is unique. In \labelcref{thm:c1e18-i} with $\lambda = 0$, the solution is unique if and only if $S$ is injective.
 \end{theorem}
 \begin{proof}
 First of all, $U$ is reflexive since it is a Hilbert space. We write $f$ as
@@ -88,7 +88,7 @@ $\hat{y}_d$ is called \emph{best approximation}.
 \subsection{Fréchet differentiability}
 \begin{definition} % Def 1.20
 \label{def:c1e20}
-Let $U$ and $V$ be Banach spaces. A function $f : U \to V$ is called \emph{Fréchet-differentiable} if there exists a bounded linear operator $f'(u) : U \to V$ \ac{st}
+Let $U$ and $V$ be Banach spaces. A function $f : U \to V$ is called \emph{Fréchet-differentiable at $u\in U$} if there exists a bounded linear operator $f'(u) : U \to V$ \ac{st}
 \[
 	f(u +h) = f(u) + f'(u) h + \underbrace{ \smallo(\| h \|) }_{\lim_{h \to 0} \frac{o (\| h \|)}{\| h \|} = 0}.
 \]
@@ -161,11 +161,11 @@ Let $U$ be a real Banach space, $C \subseteq U$ and $f : \mathcal{U} \to \R$ be 
 \label{eq:thm-c1e23-star}
 \begin{IEEEeqnarraybox}[][c]{u"l}
 minimize & f(u) \\
-subect to & u \in C
+subject to & u \in C
 \end{IEEEeqnarraybox} \opttag{\ensuremath{\star}}
 \end{equation}
 \end{mdframed}
-then $f'(\bar{u}) = 0$. If $f$ is convex, $f'(\bar{u}) = 0$ implies that $\bar{u}$ solves \labelcref{eq:thm-c1e23-star}.
+then $f'(\bar{u}) = 0$. If $C$ is convex and $f$ is convex on $C$, $f'(\bar{u}) = 0$ implies that $\bar{u}$ solves \labelcref{eq:thm-c1e23-star}.
 \end{theorem}
 \begin{theorem} % Thm 1.24
 \label{thm:c1e24}
@@ -181,7 +181,7 @@ It is enough that $f$ is \emph{Gateaux-differentiable}.
 \begin{proof}
 If $\bar{u}$ solves \labelcref{eq:thm-c1e23-star}, then
 \[
-f(\bar{u}) \leq f(\bar{u} + u - \bar{u}) = f(\bar{u}) + f'(\bar{u}[u - \bar{u}]) + \smallo(\| u - \bar{u} \|)
+f(\bar{u}) \leq f(\bar{u} + u - \bar{u}) = f(\bar{u}) + f'(\bar{u})[u - \bar{u}] + \smallo(\| u - \bar{u} \|)
 \]
 Then,
 \begin{IEEEeqnarray*}{rCl}
