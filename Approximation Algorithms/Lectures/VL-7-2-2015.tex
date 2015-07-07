@@ -169,7 +169,7 @@ Can't we find a PTAS in all these cases? The answer is negative as we will see i
 \label{thm:99}
 $\NP = \PCP(\log n, 1)$.
 \end{theorem}
-PCP stands for probabilistically checkable proofs. This is a common generalization of \NP{} and co-RP.
+PCP stands for probabilistically checkable proofs. This is a common generalization of \NP{} and \coRP{}.
 
-\NP{}: For a language $L$ and $x \in L$, there exists a certificate $c$ with $|c| \leq \operatorname{poly}(|X|)$ such that $\TMM$ accepts $(x, c)$ and if $x \notin L$ for all certificates $c$, $\TMM$ rejects $(x, c)$.
+\NP{}: For a language $L$ and $x \in L$, there exists a certificate $c$ with $|c| \leq \operatorname{poly}(|X|)$ such that Turing machine $M$ accepts $(x, c)$ and if $x \notin L$ for all certificates $c$, Turing machine $M$ rejects $(x, c)$.
 \end{document}
