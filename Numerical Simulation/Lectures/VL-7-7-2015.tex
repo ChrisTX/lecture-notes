@@ -1,0 +1,253 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+\section{Existence of optimal controls} % Sec 4.3
+\label{sec:c4e3}
+Model case:
+\begin{problem}[Distributed control problem]
+\begin{IEEEeqnarray*}{u"l}
+minimize & J(y, u) = \int_\Omega \varphi(x, y(x)) \dx + \int_\Omega \psi(x, u(x)) \dx \\
+subject to & \left\{\begin{IEEEeqnarraybox}[][c]{rCl"l}
+- \lapl y + d(x, y) &=& u & \text{in } \Omega \\
+\partial_\nu u &=& 0 & \text{on } \Gamma = \partial \Omega
+\end{IEEEeqnarraybox}\right. \\
+and & u \in U_{ad} = \left\{ u \in L^\infty(\Omega) \midcolon u_a(x) \leq u(x) \leq u_b(x) \; \text{\ac{ae} on } \Omega \right\}
+\end{IEEEeqnarray*}
+\end{problem}
+\begin{assumption} % As 4.21
+\label{as:c4e21}
+\begin{itemize}
+\item $\Omega \subseteq \R^N$ bounded Lipschitz domain.
+\item $|d(x, 0)| \leq M$
+\item $x \mapsto d(x, \eta)$, $\eta \mapsto d(x, \eta)$
+\item $u_a, u_b \in L^\infty(\Omega)$
+\item $d, \varphi, \psi : \Omega \times \R \to \R$ satisfy the Carathéodory condition, the boundedness condition, and are locally Lipschitz continuous \ac{wrt}\ the second argument (\cref{def:c4e15} with $E = \Omega$)
+\item For almost every $x \in \Omega$, $d_\eta$ exists and $d_\eta(x, \eta) \geq 0$
+\item There exists $E_d \subset \Omega$, $|E_d| > 0$, and $\lambda_d > 0$ \ac{st}
+\[
+d_\eta(x, \eta) \geq \lambda_d \quad \forall x \in E_d, \; \forall \eta \in \R
+\]
+\item For almost every $x \in \Omega$, $\xi \mapsto \psi(x, \xi)$ is convex.
+\end{itemize}
+\end{assumption}
+\paragraph{Reduced formulation}
+Since $U_{ad} \subseteq L^\infty(\Omega)$ and $\Omega$ is bounded, a $u \in U_{ad}$ belongs to $L^r(\Omega)$ for some fixed $r > \frac{N}{2}$. Therefore, given \cref{as:c4e21}, \cref{thm:c4e9} is applicable: for every $u \in U_{ad}$ there exists a unique state (weak solution in $H^1(\Omega)$) $y = y(u)$ in $H^1(\Omega) \cap C(\bar{\Omega})$ and
+\begin{equation}
+\opttag{$\star$}
+\label{eq:c4e3-star}
+	\| y \|_{C(\bar{\Omega})} \leq c_\infty \| u \|_{L^r(\Omega)} \leq c_r \| u \|_{L^\infty(\Omega)}
+\end{equation}
+Using the operator
+\begin{IEEEeqnarray*}{rCl}
+S : L^r(\Omega) \supset U_{ad} &\to& H^1(\Omega) \cap C(\bar{\Omega}) \\
+u & \mapsto & y(u)
+\end{IEEEeqnarray*}
+the reduced formulation is
+\[
+\left\{ \begin{IEEEeqnarraybox}[][c]{u"l}
+minimize & f(u) \coloneqq J(Su, u) = \int_\Omega \varphi(x, y(u)(x)) \dx + \int_\Omega \psi(x, u(x)) \dx \\
+subject to & u \in U_{ad}
+\end{IEEEeqnarraybox} \right.
+\]
+\subsection{Existence of global minimizer}
+\begin{theorem} % Thm 4.22
+\label{thm:c4e22}
+Under \cref{as:c4e21}, the distributed control problem admits at least one optimal control in the sense that $f : U_{ad} \to \R$ defined above has at least one global minimizer $u_0 \in U_{ad}$.
+\end{theorem}
+\begin{proof}
+Since $U_{ad}$ is bounded in $L^\infty(\Omega)$, it follows from \cref{eq:c4e3-star} that
+\[
+	\| y(u) \|_{C(\bar{\Omega})} \leq M \quad \forall u \in U_{ad}.
+\]
+As in the proof of \cref{thm:c4e16}, the boundedness condition and the local Lipschitz continuity now imply that there exists $\tilde{c} > 0$ such that for all $u \in U_{ad}$ we have
+\[
+	|d(x, y(x))| \leq \tilde{c}, \;\; |\varphi(x, y(u)(x))| \leq \tilde{c} \;\; \text{and} \;\; |\psi(x, u(x))| \leq \tilde{c}
+\]
+for almost all $x \in \Omega$.
+Hence $f$ is bounded from below on $U_{ad}$. Let $(u_n) \subseteq U_{ad}$ be a minimizing sequence, that is,
+\[
+	f(u_n) \to \inf_{u \in U_{ad}} f(u) > - \infty.
+\]
+Since $U_{ad}$ is convex, closed and bounded in the reflexive Banach spaces $L^r(\Omega)$ (Exercise!), we can assume that $(u_n)$ is weakly sequentially convergent (\cref{cor:c1e12}), i.e.
+\[
+	u_n \xrightharpoonup{L^r(\Omega)} u_0 \in U_{ad}.
+\]
+We will show that
+\[
+	f(u_0) = \inf_{u \in U_{ad}} f(u).
+\]
+Let $(y_n)$ be the sequence of corresponding states $y_n(u_n)$.
+Since $(y_n)$ and $(d(\cdot, y_n(\cdot)))$ are bounded in $L^\infty(\Omega)$ as shown above, we can also assume (after extraction of further subsequences) that
+\[
+	x_n = - d(\cdot, y_n(\cdot)) + y_n + u_n \xrightharpoonup{L^r(\Omega)} z.
+\]
+Now that $y_n$ is the solution
+\[
+	\left\{ \begin{IEEEeqnarraybox}[][c]{rCl"l}
+	- \lapl y_n + y_n &=& z_n & \text{on } \Omega \\
+	\partial_\nu y_n &=& 0 & \text{on } \Gamma 
+	\end{IEEEeqnarraybox} \right.
+\]
+By an exercise, the weak solution of this is unique for $z_n \in L^2(\Omega)$, and the linear operator $z_n \to y_n$ is continuous from $L^2(\Omega)$ to $H^1(\Omega)$, in particular from $L^r(\Omega)$ to $H^1(\Omega)$ if $r \geq 2$, which we can assume from now on. But a linear, continuous map is also weakly sequentially continuous.
+Therefore, $z_n \rightharpoonup z$ in $L^r(\Omega)$ implies
+\[
+	y_n \rightharpoonup y_0 \quad \text{in } H^1(\Omega).
+\]
+By Rellich's \cref{thm:c2e6}, this implies
+\[
+	y_n \to y_0 \quad \text{in } L^2(\Omega)
+\]
+(compact embedding of $H^1(\Omega)$ in $L^2(\Omega)$; note that weakly convergent sequences are bounded).
+Note that $\| y_n \|_{L^2(\Omega)} \leq \tilde{M}$ and therefore $\| y_0 \|_{L^2(\Omega)} \leq \tilde{M}$.
+By \cref{thm:c4e16},
+\[
+	\| d(\cdot, y_n(\cdot)) - d(\cdot, y_0(\cdot)) \|_{L^2(\Omega)} \leq L(\tilde{M}) \cdot \| y_n - y_0 \|_{L^2(\Omega)},
+\]
+hence $d(\cdot, y_n(\cdot)) \to d(\cdot, y_0(\cdot))$ in $L^2(\Omega)$.
+It follows that for fixed $v \in H^1(\Omega)$:
+\begin{IEEEeqnarray*}{rCl}
+\int_\Omega \nabla y_n \cdot \nabla v \dx + \int_\Omega d(\cdot, y_n(\cdot)) v \dx &=& \int_\Omega u_n \cdot v \dx
+\end{IEEEeqnarray*}
+this converges to
+\[
+	\int_\Omega \nabla y_0 \cdot \nabla v \dx + \int_\Omega d(\cdot, y_0(\cdot)) v \dx = \int_\Omega u_0 \cdot v \dx.
+\]
+Therefore, $y_0 \in H^1(\Omega) \cap L^\infty(\Omega)$ is the unique state for $u_0$, and $y_0 \in H^1(\Omega) \cap C(\bar{\Omega})$ by \cref{thm:c4e9}.
+Now split
+\[
+	J(y_n, u_n) = \underbrace{ \int_\Omega \varphi(x, y_n(x)) \dx }_{F(y_n)} + \underbrace{ \int_\Omega \psi(x, u(x)) \dx }_{Q(u_n)}.
+\]
+By \cref{thm:c4e16}, since $\| y_n \|_{L^\infty(\Omega)} \leq M$, $\| y_0 \|_{L^\infty(\Omega)} \leq M$, we have
+\[
+	\varphi(\cdot, y_n(\cdot)) \to \varphi(\cdot, y_0(\cdot)) \quad \text{in } L^1(\Omega).
+\]
+Hence $F(y_n) \to F(y_0)$.
+Similarly, $Q$ is continuous on $L^r(\Omega)$. By assumption, $Q$ is convex, hence weakly sequentially lower semi-continuous on $L^r(\Omega)$ (\cref{thm:c1e13}). It follows
+\[
+	f(u_0) \leq F(y_0) + \liminf_{n \to \infty} Q(u_n) = \liminf_{n \to \infty} f(u_n) = \inf_{u \in U_{ad}} f(u).
+\]
+\end{proof}
+\subsection{Properties of the control-to-state operator}
+Let $r > \frac{N}{2}$.
+We investigate
+\begin{IEEEeqnarray*}{rCl}
+S : L^r(\Omega) &\to& H^1(\Omega) \cap C(\bar{\Omega}), \\
+u &\mapsto& y(u),
+\end{IEEEeqnarray*}
+\[
+	\left\{ \begin{IEEEeqnarraybox}[][c]{rCl"l}
+	- \lapl y + d(x, y) &=& u & \text{on } \Omega, \\
+	\partial_\nu u &=& 0 & \text{on } \Gamma
+	\end{IEEEeqnarraybox} \right.
+\]
+in detail.
+\begin{theorem} % Thm 4.23
+\label{thm:c4e23}
+Under \cref{as:c4e21} on $\Omega$ and $d$, the operator $S$ is Lipschitz continuous on $L^r(\Omega)$, $r > \frac{N}{2}$: There exists $L > 0$ \ac{st}
+\[
+	\| y_1 - y_2 \|_{H^1(\Omega)} + \| y_1 - y_2 \|_{C(\bar{\Omega})} \leq L \| u_1 - u_2 \|_{L^r(\Omega)}
+\]
+for all $u_1, u_2 \in L^r(\Omega)$, $y_1 = S u_1$, $y_2 = S u_2$.
+\end{theorem}
+\begin{proof}
+$S$ maps into $H^1(\Omega) \cap C(\bar{\Omega})$ by \cref{thm:c4e9}.
+It holds
+\[
+\left\{ \begin{IEEEeqnarraybox}[][c]{rCl"l}
+- \lapl (y_1 - y_2) + \left( d(x, y_1) - d(x, y_2) \right) &=& u_1 - u_2 & \text{in } \Omega, \\
+\partial_\nu(y_1 - y_2) &=& 0 & \text{on } \Gamma
+\end{IEEEeqnarraybox} \right.
+\]
+and
+\begin{IEEEeqnarray*}{rCl}
+d(x, y_1(x)) - d(x, y_2(x)) &=& - \int_0^1 \frac{\mathrm{d}}{\mathrm{d}s} d\left(x, y_1(x) + s\left(y_2(x) - y_1(x)\right)\right) \ds \\
+&=& \int_0^1 d_\eta \left(x, y_1(x) + s\left(y_2(x) - y_1(x)\right)\right) \ds \cdot(y_2(x) - y_1(x)) \\
+&\eqqcolon& c_0(x) \cdot (y_2(x) - y_1(x)).
+\end{IEEEeqnarray*}
+By assumption, $c_0(x) \geq 0$ for almost every $x$, and $c_0(x) \geq \lambda_d > 0$ on $E_d$.
+In other words, $y = y_1 - y_2$ and $u = u_1 - u_2$ solve
+\[
+	\left\{ \begin{IEEEeqnarraybox}[][c]{rCl}
+	- \lapl y + c_0(x) y &=& u \\
+	\partial_\nu y &=& 0
+	\end{IEEEeqnarraybox} \right.
+\]
+By \cref{thm:c4e9}, there exists $L > 0$ (independent of $u$):
+\[
+	\| y \|_{H^1(\Omega)} + \| y \|_{C(\bar{\Omega})} \leq L \| u \|_{L^r(\Omega)}.
+\]
+\end{proof}
+\begin{theorem} % Thm 4.24
+\label{thm:c4e24}
+Additionally to \cref{as:c4e21} on $\Omega$ and $d$, assume that $d_\eta(x, \eta)$ satisfies the boundedness condition and is locally Lipschitz continuous \ac{wrt}\ $\eta$ (\cref{def:c4e15}). Then for $r > \frac{N}{2}$, the control-to-state operator is Fréchet-differentiable from $L^r(\Omega)$ to $H^1(\Omega) \cap C(\bar{\Omega})$. The derivative at $u_0 \in L^r(\Omega)$ is
+\[
+	S'(u_0) h = z
+\]
+where $z$ is the weak solution of the linearized boundary-value problem at $y_0 = Su_0$:
+\begin{equation}
+\opttag{$\star\star$}
+\label{eq:c4e3-starstar}
+	\left\{ \begin{IEEEeqnarraybox}[][c]{rCl"l}
+		- \lapl z + d_\eta(x, y_0) \cdot z &=& h & \text{on } \Omega \\
+		\partial_\nu z &=& 0 & \text{on } \Gamma
+	\end{IEEEeqnarraybox} \right.
+\end{equation}
+\end{theorem}
+\begin{proof}
+Let $\tilde{y} = y(u_0 + h) = S(u_0 + h)$. Then we have
+\[
+	\begin{IEEEeqnarraybox}[][c]{rCl}
+		- \lapl y_0 + d(x, y_0) &=& u_0 \\
+		\partial_\nu y_0 &=& 0
+	\end{IEEEeqnarraybox} \;\; \text{and} \;\; \begin{IEEEeqnarraybox}[][c]{rCl}
+		- \lapl \tilde{y} + d(x, \tilde{y}) &=& u_0 + h \\
+		\partial_\nu \tilde{y} &=& 0
+	\end{IEEEeqnarraybox}
+\]
+Subtraction yields
+\[
+	\begin{IEEEeqnarraybox}[][c]{rCl}
+		- \lapl (\tilde{y} - y_0) + d(x, \tilde{y}) - d(x, y_0) &=& h \\
+		\partial_\nu (\tilde{y} - y_0) &=& 0
+	\end{IEEEeqnarraybox}
+\]
+By \cref{thm:c4e18},
+\[
+	d(x, \tilde{y}) - d(x, y_0) = d_\eta(x, y_0) \cdot (\tilde{y} - y_0) + r_d
+\]
+with
+\begin{equation}
+\label{eq:c4e3-starstarstar}
+\opttag{$\star\star\star$}
+	\frac{\| r_d \|_{L^\infty(\Omega)}}{\| \tilde{y} - y_0 \|_{C(\bar{\Omega})}} \to 0
+\end{equation}
+for $\| \tilde{y} - y_0 \|_{C(\bar{\Omega})} \to 0 $.
+
+By superposition, 
+\[
+	S(u_0 + h) - S(u_0) = \tilde{y} - y_0 = z + y_r,
+\]
+where $z$ solves \cref{eq:c4e3-starstar}, and $y_r$ is the weak solution of
+\[
+	\left\{ \begin{IEEEeqnarraybox}[][c]{rCl}
+	- \lapl y_r + d_\eta(x, y_0) y_r &=& - r_d \\
+	\partial_\nu y_r &=& 0
+	\end{IEEEeqnarraybox} \right.
+\]
+on $H^1(\Omega) \cap C(\bar{\Omega})$. By \cref{thm:c4e9}, $y_r$ is unique and
+\[
+	\| y_r \|_{H^1(\Omega)} + \| y \|_{C(\bar{\Omega})} \leq c_r \cdot \| r_d \|_L^r.
+\]
+Hence
+\begin{IEEEeqnarray*}{rCl}
+\frac{\| y_r \|_{H^1(\Omega)} + \| y_r \|_{C(\bar{\Omega})}}{\| h \|_{L^r(\Omega)}} &\leq& \frac{c_r \cdot \| r_d \|_{L^r}}{\| \tilde{y} - y_0 \|_{C(\bar{\Omega})}} \cdot \underbrace{ \frac{\| \tilde{y} - y_0 \|_{C(\bar{\Omega})}}{\| h \|_{L^r(\Omega)}} }_{\leq L \; \text{by \cref{thm:c4e23}}} \\
+&\leq& L \cdot \tilde{c}_r \cdot \frac{\| r_d \|_{L^\infty(\Omega)}}{\| \tilde{y} - y_0 \|_{C(\bar{\Omega})}}
+\end{IEEEeqnarray*}
+This expression converges to zero for $h \to 0$ by \cref{eq:c4e3-starstarstar}, since $h \to 0$ in $L^r(\Omega)$ implies
+\[
+	\tilde{y} = S(u_0 + h) \to S(u_0) = y_0
+\]
+in $C(\bar{\Omega})$ by \cref{thm:c4e23}.
+This proves that $z = S'(u_0) h$.
+\end{proof}
+\end{document}
