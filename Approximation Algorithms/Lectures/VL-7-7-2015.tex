@@ -1,0 +1,117 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+\coRP{}: For a language $L$ and $x \in L$, $\Pr[\text{TM $M$ accepts $x$}] = 1$ and for $x \notin L$ we have $\Pr[\text{TM $M$ accepts $x$}] < \frac{1}{2}$.
+
+A \emph{randomized Turing machine} is a Turing machine making random decisions in the decision tree.
+\begin{proposition} % Prop 100
+\label{thm:100}
+$P \subseteq \RP \subseteq \NP$.
+\end{proposition}
+\begin{proof}
+$P \subseteq \RP$ is clear, as we have for $x \notin L$ $\Pr[\text{TM $M$ accepts $x$}] = 0$.
+
+$\RP \subseteq \NP$: A decision tree for a problem in $\RP$ will have nodes that reject and others that accept the input. With a non-deterministic Turing machine we can test these all. 
+\end{proof}
+Let's say, we have a proof as certificate and as a verifier a random Turing machine that will operate on an input $x$, a random string $\tau$ and a proof $\pi$ (made accessible via an oracle). Based on this information, the verifier will either accept or reject the input. This is a generalization of both \coRP{} and \NP{}, because not using $\tau$ will give us a proof verifier for \NP{} and not touching the proof $\pi$ will work as a verifier for \coRP{}.
+
+We will always assume that the verifier is \emph{non-adaptive}, i.e.\ the bit positions queried from $\pi$ just depend on $x$ and $\tau$ (and not on outputs of the oracle for $\pi$).
+
+A \emph{$(r(n), q(n))$-restricted verifier} is allowed for a given input $x$ of length $n$ to read at most $\hat{r}(n) = \mathcal{O}(r(n))$ random bits from $\tau$ and at most $\hat{q}(n) = \mathcal{O}(q(n))$ bits from $\pi$.
+
+Then we define $\PCP(r(n), q(n))$ as the set of all languages $L$ \ac{st} there exists an $(r(n), q(n))$-restricted verifier $V(x, \tau, \pi)$ returning either \textit{ACCEPT} or \textit{REJECT} such that
+\begin{IEEEeqnarray*}{rClCl}
+	x \in L &\implies& \exists \pi : \Pr_{\tau} \left[ V(x, \tau, \pi) = \textit{ACCEPT} \right] &=& 1 \\
+	x \notin L &\implies& \forall \pi : \Pr_{\tau} \left[ V(x, \tau, \pi) = \textit{ACCEPT} \right] &<& \frac{1}{2}
+\end{IEEEeqnarray*}
+If we denote by $R$ and $Q$ a family of functions (e.g.\ $\poly$), we define
+\[
+	\PCP(R, Q) = \bigcup_{\substack{r \in R \\ q \in Q}} \PCP(r(\cdot), q(\cdot)).
+\]
+With this notation we have
+\begin{IEEEeqnarray*}{rCl}
+\PCP(\poly, 0) &=& \coRP \\
+\PCP(0, \poly) &=& \NP \\
+\PCP(\poly, \poly) &=& \textit{NEXPTIME}
+\end{IEEEeqnarray*}
+The result $\PCP(\poly, \poly) = \textit{NEXPTIME}$ has been proven by Babai, Fortrow, Lund \lbrack{}1991\rbrack{}.
+In Arora, Safra, Sudan, Lund and Motwani proved in 1992 that
+\[
+	\NP \subseteq \PCP(\log n, 1).
+\]
+
+For example, for \textsc{3-Sat} (in \NP), we can choose for a given formula $F$ with variables $x_1, \ldots, x_n$:
+\begin{itemize}
+\item $\pi$: Assignment of 0-1-values to variables $(0, 1, 0, 1, \ldots)$ (length $n$).
+\end{itemize}
+This cannot work as a verifier in $\PCP(\log n, 1)$: Let
+\[
+	F = (x_1 \vee x_2 \vee \overline{x_3}) \wedge \ldots \wedge \text{all possible clauses on $x_1, x_2, x_3$}.
+\]
+Assume all but the last clauses were satisfiable. We'd have to read all the variables to detect the contradiction with reading only a constant number of bits from the input.
+\begin{theorem} % Thm 101
+\label{thm:101}
+$\PCP(\log n, 1) \subseteq \NP$
+\end{theorem}
+\begin{proof}
+For a given $\pi$ we simulate the \PCP-verifier for all possible $2^{\mathcal{O}(\log n)}$ random strings, and thus have polynomial runtime.
+\end{proof}
+Why did we use the error probability $\frac{1}{2}$? One can reduce the error probability to $\frac{1}{2^k}$ by repeating the verification process $k$ times, for constant $k$.
+We define $\PCP_\varepsilon(\cdot, \cdot)$ as $\PCP$ with the error probability of $\varepsilon$. Thus
+\[
+	\PCP(\log n, 1) = \PCP_{\frac{1}{2}}(\log n, 1) = \PCP_\varepsilon(\log n, 1).
+\]
+
+Moreover, we define $\PCP(\cdot, = \! k)$ to allow the verifier to read at most $k$ bits from the proof.
+\begin{theorem} % Thm 102
+\label{thm:102}
+For all $\varepsilon > 0$ we have
+\[
+	\PCP_\varepsilon(\log n, = \! 2) = P.
+\]
+\end{theorem}
+\begin{proof}
+$P = \PCP_\varepsilon(0, 0) \subseteq \PCP_\varepsilon(\log n, = \! 2)$.
+
+Let $L$ be a language in $\PCP_\varepsilon(\log n, = \! 2)$. Let $x$ be given. Question: $x \in L$?
+For all possible $2^{\mathcal{O}(\log n)}$ random strings simulate the $(\log n, = \! 2)$-verifier to see which two bits are queried from the proof.
+By trying all possible answers to see for what values of these bits the verifier accepts the input $x$.
+
+Let $\pi = \pi_1, \pi_2, \ldots$ be the bits of $\pi$. We build a \textsc{2-Sat} formula in $\pi_{i_1}$ and $\pi_{i_2}$ (the two queried bits for a given random string) that is satisfiable if and only if the verifier accepts the input $x$. For this, we have to consider that the verifier has to be run 4 times for this and we obtain a truth table from this, which we can convert into a \textsc{2-Sat} formula.
+Hence, we take the conjunction of all these \textsc{2-Sat}-formulas for all possible random strings.
+This formula is satisfiable if and only if there exists some $\pi$ such that the verifier accepts $x$ for all possible random strings.
+\end{proof}
+One has to read $11$ bits to attain the error probability of $\frac{1}{2}$.
+\begin{theorem} % Thm 103
+\label{thm:103}
+There exists $c < 1$ such that \textsc{Max-3-Sat} cannot be approximated in polynomial time up to a factor of $c$, unless $P = \NP$.
+\end{theorem}
+\begin{proof}
+Assume for all $c < 1$ there exists a $c$-approximation algorithm for \textsc{Max-3-Sat}. Claim: $P = \NP$.
+
+Let $L$ be a language in \NP. As $\NP = \PCP(\log n, 1)$ there exists a $(\log n, 1)$-restricted verifier $V$ for $L$.
+For all possible $x$ use $V$ to construct a \textsc{3-Sat}-formula $S_x$ such that
+\begin{itemize}
+\item $x \in L$ implies $S_x$ is satisfiable.
+\item $x \notin L$ implies that at most a $(1-\varepsilon)$ fraction of all clauses in $S_x$ is satisfiable.
+\end{itemize}
+$V$ reads the proof $\pi$ and we assume the proof bits are $x_1, x_2, \ldots$. These are the variables in $S_x$.
+For a fixed random string $\tau$ the verifier $V$ queries $q \coloneqq \mathcal{O}(1)$ bits from $\pi$.
+Depending on these bits it will accept of reject input $x$.
+Then there exists a $q$\textsc{-Sat} formula $F_\tau$ such that $F_\tau$ is satisfiable if and only if there exists $\pi$ such that $V$ accepts input $x$ for $\tau$.
+$F_\tau$ hast at most $2^q$ clauses. Hence, there exists an equivalent \textsc{3-Sat} formula $F_\tau'$ with $q \cdot 2^q$ clauses.
+
+We define $S_x$ as the conjunction of $F_\tau'$ for all possible values of $\tau$.
+If $x \in L$, then there exists some $\pi$ such that $V$ accepts $x$ for all $\tau$. Thus $F_\tau$ is satisfied for all $\tau$.
+If $x \notin L$, then for all $\pi$, $V$ accepts $x$ for at most $\frac{1}{2}$ of all $\tau$. Therefore, at least $\frac{1}{2}$ of all $F_\tau'$ is not satisfied for a fixed truth assignment. If $F_\tau'$ is not satisfied, then at least 1 clause in $F_\tau'$ is not satisfied. At least $\frac{1}{q \cdot 2^q}$ of all the clauses in $F_\tau'$ are not satisfied.
+This gives us at least $\varepsilon \coloneqq \frac{1}{2 \cdot q \cdot 2^q}$ of all clauses in $S_x$ are not satisfied.
+\end{proof}
+If we set $q = 11$ (as stated before, this suffices), we obtain
+\[
+	\frac{45055}{45056} \approx 0.99998\ldots
+\]
+Hastad \lbrack{}1997\rbrack{} showed that a $\frac{7}{8} + \varepsilon$ is best possible. Thus the $\frac{7}{8}$-approximation for \textsc{Max-3-Sat} is tight.
+
+An \emph{$L$-reduction} is a reduction of problem $A$ to problem $B$, \ac{st} if we can $\alpha$-approximate $B$ then we can find a $f(\alpha)$-approximation for $A$.
+Usual \NP-completeness proofs do not have this property: For example if we search for a maximum size stable set $\alpha(G)$ and a minimum size vertex cover then $\tau(G)$, we have $\alpha + \tau = n$. However, this will not preserve approximability.
+\end{document}
