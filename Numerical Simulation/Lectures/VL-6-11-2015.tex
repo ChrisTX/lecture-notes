@@ -11,7 +11,7 @@ In the boundary control problem we have $g = 0$, $w = \beta u$, $y_0 = 0$:
 The operator
 \begin{IEEEeqnarray*}{rCl}
 	S : L^2(0, T) &\to& L^2(0, 1), \\
-	u &\mapsto& (Su)(x) = y(x, T) = \int_0^T G(x, 1, T - s) \beta(s) u(s) \ds
+	u &\mapsto& (Su)(\cdot) = y(\cdot, T) = \int_0^T G(\cdot, 1, T - s) \beta(s) u(s) \ds
 \end{IEEEeqnarray*}
 is continuous.
 \end{corollary}
@@ -57,7 +57,7 @@ is by \cref{thm:c3e1} the generalized solution of
 \[
 \left\{
 \begin{IEEEeqnarraybox}[][c]{rCl}
--\tilde{p}_t(x, t) &=& \tilde{p}_{xx}(x, t) \\
+\tilde{p}_t(x, t) &=& \tilde{p}_{xx}(x, t) \\
 \tilde{p}_x(0, t) &=& 0 \\
 \tilde{p}_x(1, t) + \alpha \tilde{p}(1, t) &=& 0 \\
 \tilde{p}_x(x, 0) &=& v(x)

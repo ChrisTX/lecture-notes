@@ -153,13 +153,13 @@ If $\lambda > 0$, then there exist unique optimal controls under unbounded const
 \begin{problem}[general elliptic problem]
 \begin{IEEEeqnarray*}{u"l}
 minimize & \begin{IEEEeqnarraybox}[][t]{rCl}
-J(y, u, v) &\coloneqq& \frac{\lambda_\Omega}{2} \| y - y_\Omega \|_{L^2(\Omega)}^2 + \frac{\lambda_\Gamma}{2} \| y - y_\Gamma \|_{L^2}^2 \\
-&& \;\; {} + \frac{\lambda_u}{2} \| u \|_{L^2(\Omega)} + \frac{\lambda_v}{2} \| v \|_{L^2(\Omega)}^2
+J(y, u, v) &\coloneqq& \frac{\lambda_\Omega}{2} \| y - y_\Omega \|_{L^2(\Omega)}^2 + \frac{\lambda_\Gamma}{2} \| y - y_\Gamma \|_{L^2(\Gamma)}^2 \\
+&& \;\; {} + \frac{\lambda_u}{2} \| u \|_{L^2(\Omega)} + \frac{\lambda_v}{2} \| v \|_{L^2(\Gamma_1)}^2
 \end{IEEEeqnarraybox} \\
 subject to & 
 \left\{ \begin{IEEEeqnarraybox}[][c]{rCl"l}
 \mathcal{A}y + c_0 y &=& \beta_\Omega u & \text{in $\Omega$}, \\
-\partial_{\nu_\mathcal{A}} y + \alpha y &=& \beta_\Gamma u & \text{on $\Gamma_1$}, \\
+\partial_{\nu_\mathcal{A}} y + \alpha y &=& \beta_\Gamma v & \text{on $\Gamma_1$}, \\
 y &=& 0 & \text{on $\Gamma_0$},
 \end{IEEEeqnarraybox} \right. \\
 and &
@@ -173,8 +173,8 @@ Assume \labelcref{thm:c2e14-i} or \labelcref{thm:c2e14-ii} hold in \cref{thm:c2e
 \end{problem}
 The reduced formulation is:
 \begin{IEEEeqnarray*}{u"rCl}
-minimize & f(u) &=& \frac{\lambda_\Omega}{2} \| S(u, v) - y_\Omega \|_{L^2}^2 + \frac{\lambda_\Gamma}{2} \| S_\Gamma(u, v) - y_\Gamma \|_{L^2} \\
-&&& \;\; {} + \frac{\lambda_u}{2} \| u \|^2 + \frac{\lambda_v}{2} \| v \|_{L^2}^2 \\
+minimize & f(u) &=& \frac{\lambda_\Omega}{2} \| S(u, v) - y_\Omega \|_{L^2(\Omega)}^2 + \frac{\lambda_\Gamma}{2} \| S_\Gamma(u, v) - y_\Gamma \|_{L^2(\Gamma)} \\
+&&& \;\; {} + \frac{\lambda_u}{2} \| u \|_{L^2(\Omega)}^2 + \frac{\lambda_v}{2} \| v \|_{L^2(\Gamma_1)}^2 \\
 subject to & (u, v) &\in& U_{ad} \times V_{ad}.
 \end{IEEEeqnarray*}
 Here
@@ -190,7 +190,7 @@ Now apply \cref{thm:c1e18} to prove the existence of optimal control $(u_0, v_0)
 State equation:
 \begin{IEEEeqnarray*}{rCl"l}
 - \nabla y &=& \beta u & \text{in } \Omega \\
-\partial_{\nu} y &=& \alpha(y_a - a) & \text{on } \Gamma. 
+\partial_{\nu} y &=& \alpha(y_a - y) & \text{on } \Gamma. 
 \end{IEEEeqnarray*}
 Here, $\alpha \in (L^\infty(\Gamma))_+$, $\int_\Gamma \alpha^2 \ds > 0$.
 It is obtained as a special case by using
@@ -201,7 +201,7 @@ It is obtained as a special case by using
 State equation:
 \begin{IEEEeqnarray*}{rCl"l}
 - \nabla y &=& 0 & \text{in } \Omega \\
-\partial_{\nu} y &=& \alpha(v - a) & \text{on } \Gamma. 
+\partial_{\nu} y &=& \alpha(v - y) & \text{on } \Gamma. 
 \end{IEEEeqnarray*}
 Again, $\alpha \in (L^\infty(\Gamma))_+$, $\int_\Gamma \alpha^2 \ds > 0$. This is obtained as a special case $u_a = u_b = 0$.
 \end{document}
