@@ -173,7 +173,7 @@ Assume \labelcref{thm:c2e14-i} or \labelcref{thm:c2e14-ii} hold in \cref{thm:c2e
 \end{problem}
 The reduced formulation is:
 \begin{IEEEeqnarray*}{u"rCl}
-minimize & f(u) &=& \frac{\lambda_\Omega}{2} \| S(u, v) - y_\Omega \|_{L^2(\Omega)}^2 + \frac{\lambda_\Gamma}{2} \| S_\Gamma(u, v) - y_\Gamma \|_{L^2(\Gamma)} \\
+minimize & f(u) &=& \frac{\lambda_\Omega}{2} \| S(u, v) - y_\Omega \|_{L^2(\Omega)}^2 + \frac{\lambda_\Gamma}{2} \| S_\Gamma(u, v) - y_\Gamma \|_{L^2(\Gamma)}^2 \\
 &&& \;\; {} + \frac{\lambda_u}{2} \| u \|_{L^2(\Omega)}^2 + \frac{\lambda_v}{2} \| v \|_{L^2(\Gamma_1)}^2 \\
 subject to & (u, v) &\in& U_{ad} \times V_{ad}.
 \end{IEEEeqnarray*}
