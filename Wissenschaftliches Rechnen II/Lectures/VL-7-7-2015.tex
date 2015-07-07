@@ -1,0 +1,106 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+
+\begin{remark}[Warnung!]\label{rem:c4e5s2}
+	Sogar im Falle $f=0$ impliziert (\ref{eqn:c4e5s6}) \underline{keine} numerische Stabilität in endlicher Arithmetik!
+\end{remark}
+
+Wir werden jetzt Stabilität beweisen unter der Annahme, dass die Zeitschrittweite $t$ klein genug ist (Quantifizierung von ``klein genug'' folgt).\newline\newline\noindent
+Wir folgen dem Rezept von \cref{rem:c4e5s1}. Das einzige Problem ist, dass $\mathcal{E}_h^{n-\frac{1}{2}}$ negativ sein kann. Der kritische Term ist dabei
+\[
+	a(u_h^n, u_h^{n+1}).
+\]
+Wir benutzen $\frac{1}{2}ab = \frac{1}{4}a^2+\frac{1}{4}b^2-\frac{1}{4}(a-b)^2$ um diesen Term umzuformen:
+\begin{IEEEeqnarray*}{rCl}
+	\frac{1}{2}a(u_h^n,u_h^{n+1}) &=& \frac{1}{4}a(u_h^n,u_h^n) + \frac{1}{4} a(u_h^{n+1},u_h^{n+1}) - \frac{1}{4} a(u_h^n-u_h^{n+1},u_h^n-u_h^{n+1})\\
+	&=& \frac{1}{4}a(u_h^n,u_h^n) + \frac{1}{4} a(u_h^{n+1},u_h^{n+1}) - \frac{1}{4} a\left(\frac{u_h^n-u_h^{n+1}}{\Delta t},\frac{u_h^n-u_h^{n+1}}{\Delta t}\right)(\Delta t)^2
+\end{IEEEeqnarray*}
+Wir haben also  mit $\frac{u_h^n-u_h^{n+1}}{\Delta t} = \dot{u}_h^{n+\frac{1}{2}}$, dass
+\begin{IEEEeqnarray*}{rCl}
+	\frac{1}{2}a(u_h^n,u_h^{n+1}) &=& \frac{1}{4} \|\nabla u_h^n\|_{L^2(\Omega)}^2 + \frac{1}{4}\|\nabla u_h^{n+1}\|_{L^2(\Omega)}^2 - \frac{1}{4} \|\nabla \dot{u}_h^{n+\frac{1}{2}} (\Delta t)^2
+\end{IEEEeqnarray*}
+Jetzt benutzen wir eine inverse Ungleichung, um die $H^1$-Norm des Gradienten von $\dot{u}_h^{n+\frac{1}{2}}$ durch die $L^2$-Norm dieses Terms abzuschätzen. Man sieht, dass
+\[
+	\|\nabla\dot{u}_h^{n+\frac{1}{2}}\|_{H^1(\Omega)} \leq \frac{C_{inv}}{h}\|\dot{u}_h^{n+\frac{1}{2}}\|_{L^2(\Omega)}.
+\]
+Deshalb haben wir zusammen mit (\ref{eqn:c4e5s5}):
+\begin{IEEEeqnarray*}{rCl}
+	\mathcal{E}_h^{n+\frac{1}{2}} &\geq& \frac{1}{2}\|\dot{u}_h^{n+\frac{1}{2}}\|_{L^2(\Omega)}^2 - \frac{1}{4}C_{inv}^2\left(\frac{\Delta t}{h}\right)^2 \|\dot{u}_h^{n+\frac{1}{2}}\|_{L^2(\Omega)}^2 + \frac{1}{4}\underbrace{\|\nabla u_h^n\|_{L^2(\Omega)}^2 + \|\nabla u_h^{n+1}\|_{L^2(\Omega)}^2}_{\geq 0}\\
+	&\geq& \underbrace{\left[\frac{1}{2}-\frac{1}{4}C_{inv}^2\left(\frac{\Delta t}{h}\right)^2\right]}_{\eqqcolon \frac{1}{4}\delta} \|\dot{u}_h^{n+\frac{1}{2}}\|_{L^2(\Omega)}^2.
+\end{IEEEeqnarray*}
+Wir machen folgende Annahme (CFL-Bedingung für explizite Zeitschrittverfahren):
+\begin{equation}\label{eqn:c4e5s7}
+	\Delta t < \frac{\sqrt{2}}{C_{inv}}h
+\end{equation}
+Unter dieser Bedingung ist $\mathcal{E}_h^{n+\frac{1}{2}}$ nicht-negativ. Insbesondere gilt
+\begin{equation}\label{eqn:c4e5s8}
+	\|\dot{u}_h^{n+\frac{1}{2}}\|_{L^2(\Omega)}^2 \leq 4\delta^{-1}\mathcal{E}_h^{n+\frac{1}{2}}.
+\end{equation}
+
+\begin{theorem}\label{thm:c4e5s3}
+	Die volldiskrete numerische Approximation der Wellengleichung (\ref{eqn:c4e5s1})-(\ref{eqn:c4e5s2}) ist stabil in folgendem Sinne:
+	\begin{equation}\label{eqn:c4e5s9}
+		\sqrt{\mathcal{E}_h^{n+\frac{1}{2}}} - \sqrt{\mathcal{E}_h^{\frac{1}{2}}} \leq \delta^{-\frac{1}{2}}\sum_{k=1}^n\|f_k\|_{L^2(\Omega)} (\Delta t), \quad n\in\mathbb{N}
+	\end{equation}
+	wobei $\delta = 2(1-\frac{1}{2}(\Delta t)^2C_{inv}^2h^{-2})$.
+\end{theorem}
+
+\begin{proof}
+	Die Kombination von (\ref{eqn:c4e5s6}) (diskrete Energieerhaltung), Cauchy-Schwarz, und (\ref{eqn:c4e5s8}) ergibt
+	\begin{IEEEeqnarray*}{rCl}
+		\mathcal{E}_h^{n+\frac{1}{2}} &=& \mathcal{E}_h^{n-\frac{1}{2}}+\frac{(\Delta t)}{2}(f_n,\dot{u}_h^{n+\frac{1}{2}}+\dot{u}_h^{n-\frac{1}{2}}) \\
+		&\leq& \mathcal{E}_h^{n-\frac{1}{2}} + \cancel{\frac{1}{2}}(\Delta t)^2 \|f_n\|_{L^2(\Omega)} \left(\cancel{2}\delta^{-\frac{1}{2}}\sqrt{\mathcal{E}_h^{n+\frac{1}{2}}}+\sqrt{\mathcal{E}_h^{n-\frac{1}{2}}}\right)\\
+	\end{IEEEeqnarray*} 
+	und daher
+	\begin{IEEEeqnarray*}{rCl}
+		\mathcal{E}_h^{n+\frac{1}{2}} - \mathcal{E}_h^{n-\frac{1}{2}} &\leq& \delta^{-\frac{1}{2}} (\Delta t)\|f_h\|_{L^2(\Omega)}\left(\sqrt{\mathcal{E}_h^{n+\frac{1}{2}}} + \sqrt{\mathcal{E}_h^{n-\frac{1}{2}}}\right)
+	\end{IEEEeqnarray*}
+	also
+	\begin{IEEEeqnarray*}{rCl}
+		\sqrt{\mathcal{E}_h^{n+\frac{1}{2}}} - \sqrt{\mathcal{E}_h^{n-\frac{1}{2}}} &\leq& \delta^{-\frac{1}{2}}\Delta t \|f_n\|_{L^2(\Omega)},\quad n\in\mathbb{N}.
+	\end{IEEEeqnarray*}
+	Daraus folgt die Behauptung
+\end{proof}
+
+Wir sollten erwähnen, dass (\ref{eqn:c4e5s9}) das diskrete Analogon zu (\ref{eqn:c4e5s4}) ist. Wir müssen aber annehmen, dass $f$ Riemann-integrierbar ist (im Gegensatz zur Lebesgue-Integrierbarkeit in (\ref{eqn:c4e5s4})).
+
+\begin{remark}
+	Die Abschätzung (\ref{eqn:c4e5s9}) explodiert für $\delta\to 0$. Das ist nicht optimal. Man kann zeigen, dass Stabilität gilt unter der Annahme $\Delta t\leq \frac{\sqrt{2}}{C_{inv}}h$ (siehe z.B. \cite{Joly}).
+\end{remark}
+
+Wir diskutieren noch kurz eine mögliche Fehler-abschätzung unter weitaus stärkeren Annahmen an die Daten. Wir betrachten den Fehler zwischen der Raum-diskretisierten Approximation $u_h(t_n)$ (kontinuierlich in der Zeit) und $u_h^n$.\newline\noindent
+Setze $e_h^n \coloneqq u_h(t_n) - u_h^n$. Dann erhalten wir 
+\begin{IEEEeqnarray}{rCl}\label{eqn:c4e5s11}
+	\left(\frac{e_h^{n+1}-2e_h^n+e_h^{n+1}}{(\Delta t)^2}\right)_{L^2(\Omega)} &+& a(e_h^n,v_h) + \ddot{u}_h(t_n) - \ddot{u}_h(t_n) \\
+	&=& \left( \underbrace{\frac{u_h(t_{n+1})-2u_h(t_n)+u_h(t_{n-1})}{(\Delta t)^2}-\ddot{u}_h(t_n)}_{\eqqcolon \varepsilon_h^n}, v_h \right)_{L^2(\Omega)}
+\end{IEEEeqnarray}
+für alle $v_h\in V_h, n\geq 2$.\newline\noindent
+Wir definieren die Energie des Fehlers durch
+\[
+	\hat{\mathcal{E}}_h^{n+\frac{1}{2}} \coloneqq \frac{1}{2} \|\dot{e}_h^{n+\frac{1}{2}}\|_{L^2(\Omega)} + \frac{1}{2}a(e_h^n,e_h^{n+1}).
+\]
+\cref{thm:c4e5s3} zeigt dann
+\begin{IEEEeqnarray*}{rCl}
+	\sqrt{\hat{\mathcal{E}}_h^{n+\frac{1}{2}}} - \sqrt{\hat{\mathcal{E}}_h^{n-\frac{1}{2}}} &\leq& 
+		\delta^{-\frac{1}{2}} \sum_{k=1}^n (\Delta t) \|\varepsilon_h^k\|_{L^2(\Omega)}.
+\end{IEEEeqnarray*}
+Unter der Annahme, dass $u_h$ glatt ist bzgl. der Zeit, folgt mit Taylor-Entwicklungen
+\[
+	\|\varepsilon_h^n\|_{L^2(\Omega)}^2 \leq C(\Delta t)^2\sup_{0\leq t\leq T} \|u_h^{(4)}(t)\|_{L^2(\Omega)},
+\]
+also
+\[
+	\sqrt{\hat{\mathcal{E}}_h^{n+\frac{1}{2}}} - \sqrt{\hat{\mathcal{E}}_h^{n-\frac{1}{2}}} \leq C(u_h,\delta,T)(\Delta t)^2.
+\]
+In der Konstante verstecken sich dann Zeitableitungen bis zur Ordnung $4$ von $u_h$!\newline\newline\noindent
+
+Wir dürfen also insgesamt erwarten, dass der Fehler unter geeigneten Glattheits-Annahmen (bestenfalls) proportional zu $h^2+(\Delta t)^2$ ist:
+\begin{IEEEeqnarray*}{rCl}
+	\|\nabla u_h^{n+\frac{1}{2}} - u(t_{n+\frac{1}{2}})\|_{L^2(\Omega)} &+& \|\dot{u}_h^{n+\frac{1}{2}} -\dot{u}(t_{n+\frac{1}{2}})\|_{L^2(\Omega)} \\
+	&\leq & C(u,T,\delta) (h^2+(\Delta t)^2).
+\end{IEEEeqnarray*}
+\textbf{Achtung:} Das war kein rigoroser Beweis!
+
+
+\end{document}
