@@ -13,7 +13,7 @@ Apply $\tilde{A}$ to the items in $\bigcup_{i=2}^{m+1} \tilde{B}_i$.
 This is a solution for $\bigcup_{i=2}^{m+1} B_i$. Add the elements of $B_1$ to this solution by using a new bin for each element in $B_1$. We have $|B_1| = k$.
 Then, due to number the copies we inserted combined with the order, we have
 \begin{IEEEeqnarray*}{rCl}
-A(I) &=& \OPT \left( \bigcup_{i=2}^{m+1} \tilde{B}_i \right) + k \\
+A(I) &\leq& \OPT \left( \bigcup_{i=2}^{m+1} \tilde{B}_i \right) + k \\
 &\leq& \OPT (I) + k
 \end{IEEEeqnarray*}
 As $a_i \geq \delta$, $\OPT(I) \geq n \cdot \delta$. Therefore,
@@ -91,7 +91,7 @@ and hence $\mathcal{P}_1, \ldots, \mathcal{P}_n$ can be computed in
 \end{proof}
 \begin{theorem} % Thm 59
 \label{thm:59}
-$\BP_{\delta, m}$ can be solved in $\mathcal{O}\left(n + q^\mathcal{O}(q) \right)$ with $q = (m+1)^\frac{1}{\delta}$.
+$\BP_{\delta, m}$ can be solved in $\mathcal{O}\left(n + q^{\mathcal{O}(q)} \right)$ with $q = (m+1)^\frac{1}{\delta}$.
 \end{theorem}
 \begin{proof}
 Let $\mathcal{P}_1 = \{ P_1, \ldots, P_q \}$, $q = (m+1)^\frac{1}{\delta}$.

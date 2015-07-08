@@ -54,7 +54,7 @@ Then $\NF(I) = 2n$, but $\OPT = n + 1$.
 \textsc{Next Fit} is ``better'' if all items are small:
 \begin{theorem} % Thm 53
 \label{thm:53}
-Let $0 < \gamma < 1$ and $I = a_1, \ldots, a_n$ be an instance with $a_1 \leq \gamma$ for all $i$.
+Let $0 < \gamma < 1$ and $I = a_1, \ldots, a_n$ be an instance with $a_i \leq \gamma$ for all $i$.
 Then
 \[
 	\NF(I) \leq \left\lceil \frac{\sum_{i=1}^n a_i}{1 - \gamma} \right\rceil \leq \left\lceil \frac{\OPT(I)}{1-\gamma} \right\rceil.
@@ -123,7 +123,7 @@ For this algorithm, we use $\FFD(I)$ to denote its number of bins used.
 \end{theorem}
 \begin{proof}
 Let $I$ be a \textsc{Bin Packing} instance and $k \coloneqq \FFD(I)$.
-Consider the $j$-th bin used by the algorithm $j \coloneqq \left\lceil \frac{2}{3} k \right\rceil$.
+Consider the $j$-th bin used by the algorithm with $j \coloneqq \left\lceil \frac{2}{3} k \right\rceil$.
 
 \underline{Case 1:} The $j$-th bin contains an item of size greater than $\frac{1}{2}$. Because of the sorting we can conclude that there was not enough space in any of the earlier bins $1, \ldots, j -1$, which have to contain at least one item of size greater than $\frac{1}{2}$. Thus, $\OPT(I) \geq j \geq \frac{2}{3} k$.
 
@@ -135,7 +135,7 @@ Hence, the bins $j, j + 1, \ldots, k$ have to contain at least $2(k-j) + 1$ item
 \]
 Hence
 \[
-	\OPT(I) \geq \sum_{i=1}^n a_i > j - 1 \left\lceil \frac{2}{3} k \right\rceil - 1,
+	\OPT(I) \geq \sum_{i=1}^n a_i > j - 1 = \left\lceil \frac{2}{3} k \right\rceil - 1,
 \]
 giving us,
 \[
