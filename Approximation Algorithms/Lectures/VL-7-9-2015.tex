@@ -1,0 +1,135 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+\begin{proposition} % Prop 104
+\label{thm:104}
+If for a constant $c$ there exists a $c$-approximation algorithm for $\omega$ then there exists a $\sqrt{c}$-approximation for the \textsc{Clique} number $\omega$, i.e.\ the size of the largest clique.
+\end{proposition}
+\begin{proof}
+Let $G$ be a graph. Then we have:
+\[
+	\omega(G[G]) = (\omega(G))^2.
+\]
+Assume $A$ is a $c$-approximation algorithm for $\omega$. By applying $A$ to $G[G]$, we obtain a clique of size at least $c \cdot \omega^2$ in $G[G]$, which implies we can find a $\sqrt{c}\cdot \omega$-sized clique in $G$.
+\end{proof}
+\begin{theorem} % Thm 105
+\label{thm:105}
+If $P \neq \NP$ then there does not exist a constant factor approximation for \textsc{Clique}.
+\end{theorem}
+\begin{proof}
+Given a \textsc{3-Sat} instance on variables $x_1, \ldots, x_n$ and clauses $C_1, \ldots, C_m$ construct a graph as follows with vertices $(i, j), \; i = 1, \ldots, m, \; j = 1, \ldots, 3$.
+Each vertex corresponds to a literal in a clause.
+We add edges $\left( (i, j), (i', j') \right)$ if and only if $i \neq i'$ and $(i, j)$ and $(i', j')$ do not correspond to the negation of each other.
+A clique of size $k$ is equivalent to $k$ clauses that can be simultaneously satisfied.
+By \cref{thm:103} we conclude that \textsc{Clique} cannot be approximated up to $(1-\varepsilon)$ for some $\varepsilon > 0$.
+Due to \cref{thm:104}, it follows that \textsc{Clique} cannot be approximated to any given constant, unless $P = \NP$.
+\end{proof}
+Another way to prove this is:
+We reduce \textsc{3-Sat} to \textsc{Clique}: Let $x_1, \ldots, x_n$, $C_1, \ldots, C_m$ be an instance that \ac{wlog}\ has exactly 3 different literals per clause.
+Add 7 vertices, one for each truth assignment for each clause. Moreover, we add edges if the truth assignments are \emph{compatible} (two clauses are compatible if they assign the same value to the variables they share).
+In this graph, a clique of size $k$ corresponds to $k$ simultaneously satisfiable clauses.
+
+This idea can be used however for a direct reduction from the \PCP-\cref{thm:101}.
+Let $L$ be an \NP-complete language. By the \PCP-\cref{thm:101}, we know there exists a $(\log n, 1)$-restricted verifier $V$ for $L$. For this verifier, we have $r(n) = \mathcal{O}(\log n)$, $q(n) = \mathcal{O}(1)$.
+To decide if $x \in L$ we construct a graph $G_x$ as follows:
+There are $2^{r(n)}$ possible random strings, we list all of the at most $2^{q(n)}$ bit values at the $q(n)$ positions queried by the verifier that results in accepting $x$ by $V$.
+Then we have at most $2^{r(n) + q(n)}$ vertices in $G_x$. As edges we take compatible assignments of bit values. Note that by construction, we cannot have any edges between vertices belonging to the same random string, as they query at least one different bit value.
+
+If $x \in L$, then there exists a $\pi$ such that
+\[
+	\Pr_{\tau} \left[ V(x, \tau, \pi) = \textit{ACCEPT} \right] = 1.
+\]
+Hence, $\omega(G_x) = 2^{r(n)}$.
+
+If $x \notin L$ then for all $\pi$ we have
+\[
+	\Pr_{\tau} \left[ V(x, \tau, \pi) = \textit{ACCEPT} \right] < \frac{1}{2}.
+\]
+This in turn implies $\omega(G_x) < \frac{1}{2} \cdot 2^{r(n)}$.
+
+Therefore, if $\omega$ can be approximated up to a factor of $\frac{1}{2}$, then $P = \NP$.
+
+We cannot use this argument to prove a $\mathcal{O}(\log n)$ non-approximability, we $r(n) = \mathcal{O}(\log^2 n)$ then, and this would not lead to a polynomial runtime.
+Thus, we want to use pseudorandom bits, generated using $\mathcal{O}(\log n)$ random bits.
+If $x \notin L$, then are at most half of the random strings deliver an erroneous output. If we find a single string such that the output, then we are done.
+Thus, construct a \emph{constant degree} expander graph on all random strings. We traverse this graph and as soon as we find a vertex that does not yield a faulty output, we are done.
+Marqulis \lbrack{}1978\rbrack{}: the construction of the expander graph can be done in polynomial time. One can show that after $\log n$ steps, the probability to have found a usable vertex is sufficiently large to prove a non-approximability result.
+
+How to prove that $\NP \subseteq \PCP(\log n, 1)$? We will prove instead that $\NP \subseteq \PCP(\poly, 1)$. For this, we ill prove that \textsc{3-Sat} is in $\PCP(n^3, 1)$.
+The \emph{arithmetization of a \textsc{3-Sat} formula} is defined as follows: For a \textsc{3-Sat} formula $F$, $\Ar(F)$ is recursively defined:
+\begin{itemize}
+\item $\Ar(x_i)$ is $x_i$ if $x_i$ is a variable.
+\item $\Ar(\bar{F}) = 1 - \Ar(F)$
+\item $\Ar(F_1 \wedge F_2) = \Ar(F_1) \cdot \Ar(F_2)$
+\end{itemize}
+These calculations are done over $\mathbb{F}_2$, where $0, 1$ correspond to \textit{true} and \textit{false}, respectively.
+Observation: $F$ is not satisfiable if and only if $\Ar(F) = 0$.
+
+Example:
+\begin{IEEEeqnarray*}{rCl}
+	\Ar(x \vee \bar{y} \vee z) &=& \Ar \left(\overline{\bar{x} \wedge y \wedge \bar{z}}\right) \\
+	&=& 1 - \Ar(\bar{x} \wedge y \wedge \bar{z}) \\
+	&=& 1 - (1-x) \cdot y \cdot (1-z)
+\end{IEEEeqnarray*}
+Given a \textsc{3-Sat} formula $F$ with variables $x_1, \ldots, x_n$ and clauses $C_1, \ldots, C_n$ (\ac{wlog}\ $n = m$), let
+\[
+	\left( \hat{C}_1, \hat{C}_2, \ldots, \hat{C}_n \right) \coloneqq \left( \Ar\left(\bar{C}_1\right), \Ar\left(\bar{C}_2\right), \ldots, \Ar\left(\bar{C}_n\right) \right).
+\]
+A vector $a \in \{ 0, 1\}^n$ is a satisfying truth assignment if
+\[
+	\left( \hat{C}_1(a), \hat{C}_2(a), \ldots, \hat{C}_n(a) \right) \equiv 0.
+\]
+How to test that $v \in \{ 0, 1 \}^n$ is the $0$-vector (recall: we can only read a constant number of bits).
+For a random vector $r \in \{ 0, 1 \}^n$, we observe
+\[
+	r \cdot v \overset{\operatorname{mod} 2}{\equiv} \begin{cases}
+	0, & \text{if } v = 0 \\
+	1, & \text{with probability $\frac{1}{2}$ if } v \neq 0
+	\end{cases}
+\]
+To compute $r \cdot v$: We are looking to obtain the product of
+\[
+	\left( \hat{C}_1(a), \hat{C}_2(a), \ldots, \hat{C}_n(a) \right)
+\]
+with $r \in \{0, 1\}^n$, which can be written as:
+\begin{IEEEeqnarray*}{rCl}
+\sum_{i=1}^n \hat{C}_i(a) \cdot r_i &\overset{\operatorname{mod} 2}{\equiv}& c(r) + \sum_{i \in S_1(r)} a_i + \sum_{(i, j) \in S_2(r)} a_i a_j + \sum_{(i, j, k) \in S_3(r)} a_i a_j a_k.
+\end{IEEEeqnarray*}
+\underline{Assumption:} For arbitrary sets $S_1, S_2, S_3$, we know the values of
+\[
+	\sum_{i \in S_1} a_i, \quad \sum_{(i, j) \in S_2} a_i a_j, \quad \sum_{(i, j, k) \in S_3} a_i a_j a_k.
+\]
+With probability $\frac{1}{2}$ we can decide whether $a$ is a satisfying truth assignment.
+We let $\pi$ be all possibilities to chose $S_1, S_2, S_3$ and values for the 3 sets for the sums. This proof has length
+\[
+	2^n + 2^{n^2} + 2^{n^3}.
+\]
+
+For $a \in \{ 0, 1 \}^n$, we define
+\begin{IEEEeqnarray*}{lCl"rCl}
+A : \mathbb{F}_2^n &\to& \mathbb{F}_2 & A(x) &\coloneqq& \sum_{i=1}^n a_i x_i \\
+B : \mathbb{F}_2^{n^2} &\to& \mathbb{F}_2 & B(y) &\coloneqq& \sum_{i=1}^n \sum_{j=1}^n a_i a_j y_{ij} \\
+C : \mathbb{F}_2^{n^3} &\to& \mathbb{F}_2 & C(z) &\coloneqq& \sum_{i=1}^n \sum_{j=1}^n \sum_{k=1}^n a_i a_j a_k z_{ijk}
+\end{IEEEeqnarray*}
+The verifier assumes that $\pi$ is a tabulation of all possible values of $A$, $B$, $C$, i.e.\
+\[
+	\pi = \tilde{A} \tilde{B} \tilde{C}.
+\]
+We have to check that:
+\begin{itemize}
+\item $\tilde{A}, \tilde{B}, \tilde{C}$ are linear functions defined by the same vector $a$
+\item $a$ is a truth assignment to $F$.
+\end{itemize}
+Functions $f, g : F \to G$ are called \emph{$\delta$-close} if $f$ and $g$ differ on less than a $\delta$-fraction of all possible inputs:
+\[
+	\Pr_x [f(x) \neq g(x)] < \delta
+\]
+\begin{lemma} % Lemma 107
+\label{thm:107}
+Let $\delta < \frac{1}{3}$ be a constant and $\tilde{g} : \mathbb{F}_2^n \to \mathbb{F}_2$ be a function such that
+\[
+	\Pr_{x, y} \left[\tilde{g}(x) + \tilde{g}(y) \neq \tilde{g}(x + y) \right] \leq \frac{\delta}{2}.
+\]
+Then there exists a vector $h \in \mathbb{F}_2^n$ such that the function $g(x) \coloneqq h^\tp \cdot x$ and $\tilde{g}$ are $\delta$-close.
+\end{lemma}
+\end{document}

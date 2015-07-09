@@ -113,5 +113,5 @@ If we set $q = 11$ (as stated before, this suffices), we obtain
 Hastad \lbrack{}1997\rbrack{} showed that a $\frac{7}{8} + \varepsilon$ is best possible. Thus the $\frac{7}{8}$-approximation for \textsc{Max-3-Sat} is tight.
 
 An \emph{$L$-reduction} is a reduction of problem $A$ to problem $B$, \ac{st} if we can $\alpha$-approximate $B$ then we can find a $f(\alpha)$-approximation for $A$.
-Usual \NP-completeness proofs do not have this property: For example if we search for a maximum size stable set $\alpha(G)$ and a minimum size vertex cover then $\tau(G)$, we have $\alpha + \tau = n$. However, this will not preserve approximability.
+Usual \NP-completeness proofs do not have this property: For example if we search for a maximum size stable set $\alpha(G)$ and a minimum size vertex cover then $\tau(G)$, we have $\alpha + \tau = n$. However, this will not preserve approximability: There is a 2-factor approximation for $\tau$, while $n^{1-\varepsilon}$ is a hard bound for $\alpha$.
 \end{document}

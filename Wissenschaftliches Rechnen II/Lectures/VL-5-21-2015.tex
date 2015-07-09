@@ -1,0 +1,104 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+
+\section{Helmholtz Problem}\label{sec:c2e8}
+
+In diesem Abschnitt betrachten wir ein nicht-koerzives Modellproblem (d.h. Resultate für koerzive Probleme sind hier nicht anwendbar). Die Schwierigkeiten, die mit dem Verlust der Koerzivität einhergehen, sind bereits in folgendem Modellproblem erkennbar:
+\begin{problem}
+	Sei $\Omega\subseteq\mathbb{R}^n$ beschränkt und konvex, $f\in L^2(\Omega;\mathbb{C})$ und $g\in L^2(\partial\Omega;\mathbb{C})$, sowie $\kappa\in\mathbb{R}, \kappa>0$. \newline\noindent
+	Finde $u\in H^1(\Omega;\mathbb{C})$ so dass
+	\begin{equation}\label{eqn:c2e8s1}
+		\left.
+		\begin{aligned}
+			-\Delta u -\kappa^2 u &=& f,\quad\text{in }\Omega\\
+			\nabla u\cdot\nu + i\kappa u &=& g,\quad\text{auf }\partial\Omega
+		\end{aligned}
+		\right\}
+	\end{equation}
+\end{problem}
+\begin{remark}
+	Die inhomogene Randbedingung in obigem Problem wird \emph{Robin Randbedingung} genannt.
+\end{remark}
+
+\cref{thm:c2e5s2} (bzw. \cref{thm:c2e5s8}) zeigt 
+\begin{IEEEeqnarray*}{rCl}
+	|u_\varepsilon - I_hu_\varepsilon|_{1,\varepsilon,\delta}^2 &\leq& \varepsilon \|\nabla(u_\varepsilon - I_hu_\varepsilon)\|_{L^2(\Omega)}^2 + 2\delta_T\|\cancel{b} \nabla(u_\varepsilon-I_hu_\varepsilon)\|_{L^2(T)} \\
+	&\leq& \sum_{T\in\mathcal{T}_h} (\varepsilon+\delta_T) C_{inf}^2\delta_T^{-2}h_T^2 \|D^2u_\varepsilon\|_{L^2(T)}^2 \\
+	&\leq& C_{inf} \delta_{\mathcal{T}_h}^{-2} \sum_{T\in\mathcal{T}_h} \left( (\varepsilon+\delta_T) h_T^2 \|D^2u_\varepsilon\|_{L^2(T)} \right)
+\end{IEEEeqnarray*}
+
+Betrachte nun 
+\[
+	\underbrace{|I_hu_\varepsilon - u_{\varepsilon,h,\delta}|_{1,\varepsilon,\delta}}_{\eqqcolon v_h}.
+\]
+\cref{thm:c2e7s6} impliziert
+\begin{IEEEeqnarray*}{rCl}
+	|v_h|_{1,\varepsilon,\delta} &\leq& a_{\varepsilon,\delta} (v_h,v_h)\\
+	&=& a_{\varepsilon,\delta}(I_hu_\varepsilon-u_\varepsilon,v_h) + a_{\varepsilon,\delta}(u_\varepsilon-u_{\varepsilon,h,\delta},v_h).
+\end{IEEEeqnarray*}
+Da $u\in H^2(\Omega)$, gilt 
+\begin{IEEEeqnarray*}{rCl}
+	a_{\varepsilon,\delta}(u_\varepsilon-u_{\varepsilon,h,v_h}) &=& \cancel{a_\varepsilon(u_\varepsilon,v_h)} + \sum_{T\in\mathcal{T}_h} \delta_T \int_T b\cdot\nabla u_\varepsilon b\cdot\nabla v_h\,dx - \cancel{\int_\Omega fv_h\,dx} - \sum_{T\in\mathcal{T}_h}\delta_T\int_T f b\cdot\nabla v_h\,dx \\
+	&=& \sum_{T\in\mathcal{T}_h} \delta_T\int_T\varepsilon\Delta u_\varepsilon b\nabla v_h\,dx \\
+	&\leq& \sum_{T\in\mathcal{T}_h} \left(\sqrt{\delta_T}\varepsilon \|u_\varepsilon\|_{L^2(T)} \right) \left( \sqrt{\delta_T}\|b\cdot\nabla v_h\|_{L^2(T)} \right) \\
+	&\leq& \underbrace{\left( \sum_{T\in\mathcal{T}_h}\delta_T\varepsilon^2\|\Delta u\|_{L^2(T)}^2 \right)^{\frac{1}{2}}}_{\leq \|D^2u\|_{L^2(T)}} \underbrace{\left( \sum_{T\in\mathcal{T}_h}\delta_T \|b\cdot\nabla v_h\|_{L^2(T)}^2 \right)^{\frac{1}{2}}}_{\leq |v_h|_{1,\varepsilon,\delta}}.
+\end{IEEEeqnarray*}
+Ferner gilt
+\begin{IEEEeqnarray*}{rCl}
+	a_{\varepsilon,\delta}(I_hu_\varepsilon-u_\varepsilon,v_h) &=& 
+		\varepsilon \int_\Omega \nabla(I_hu_\varepsilon-u_\varepsilon)\cdot\nabla v_h \,dx + \int_\Omega b\cdot\nabla(I_hu_\varepsilon-u_\varepsilon)vh\,dx \\&&+ \underbrace{\sum_{T\in\mathcal{T}_h} \delta_T\int_T b\cdot\nabla(I_hu_\varepsilon-u_\varepsilon)b\cdot\nabla v_h\,dx }_{= -\int_\Omega b\cdot\nabla v_h(I_hu_\varepsilon-u_\varepsilon)\,dx}
+\end{IEEEeqnarray*}
+
+Wir werden sehen, dass \cref{eqn:c2e8s1} ein einfaches Modell für akustische Wellenausbreitung in homogenen Materialien ist. Die Schwache Formulierung von (\cref{eqn:c2e8s1}) lautet
+\begin{problem}
+	Finde $u\in H^1(\Omega;\mathbb{C})$ so dass für $f\in L^2(\Omega;\mathbb{C}), g\in L^2(\partial\Omega;\mathbb{C})$ für alle $v\in H^1(\Omega;\mathbb{C})$ gilt
+	\begin{equation}\label{eqn:c2e8s2}
+  			\underbrace{\int_\Omega\nabla u\cdot\nabla \overline{v}\,dx - \kappa^2\int_\Omega u\overline{v}\,dx + i\kappa\int_{\partial\Omega}u\overline{u}\,dS}_{\eqqcolon a(u,v)} = \underbrace{\int_\Omega f\overline{v}\,dx + \int_{\partial\Omega} g\overline{v}\,dS}_{\eqqcolon \overline{F{v}}}.
+	\end{equation}
+\end{problem}
+
+In diesem Problem ist $a$ eine Sesquilinearfomr und $F$ ist ein lienares Funktional. Wir benutzen im Folgenden die Notation $\mathcal{H}\coloneqq H^1(\Omega;\mathbb{C})$ und statten $\mathcal{H}$ mit der Norm
+\[
+	\|u\|_{\mathcal{H}} \coloneqq \left( \|\nabla u\|_{L^2(\Omega)} + \kappa^2 \|u\|_{L^2(\Omega)}^2 \right)^{\frac{1}{2}}
+\]
+aus, die zur klassischen $H^1$-Norm äquivalent ist (mit $\kappa$-abhängigen Äquivalenz-Konstanten).\newline\noindent
+Die Sesquilinearform $a$ ist beschränkt 
+\[
+	|a(u,v)| \leq C(\Omega) \|u\|_\mathcal{H} \|v\|_\mathcal{H},\quad\forall u,v\in\mathcal{H}
+\]
+wobei $C(\Omega)$ nicht von $\kappa$ abhängt (folgt aus der Cauchy Schwarz und der Spurungleichung). Offensichtlich ist $F\in\mathcal{L}(\mathcal{H})$.\newline\noindent
+Das Modellproblem (\cref{eqn:c2e8s2}) ist vom Typ ``koerziv + kompakte Störung'', wobei die Störung $\kappa$-abhängig ist. D.h. es gibt eine Ungleichung
+\[
+	\re a(u,u) + 2\kappa^2(u,u)_{L^2(\Omega)} \geq \|u\|_{\mathcal{H}}^2,\quad u\in\mathcal{H}
+\]
+und die Einbettung $H^1(\Omega)\hookrightarrow L^2(\Omega)$ ist kompakt (Rellich). Die ``Fredholm''-Alternative zeigt, dass (\ref{eqn:c2e8s2}) eindeutig lösbar ist, wenn wir Eindeutigkeit nachweisen können. Dazu nehmen wir an, dass $u\in\mathcal{H}$ die Beziehung $a(u,v)=0$ für alle $v\in\mathcal{H}$ erfüllt. Wähle $v=u$. Dann folgt
+\[
+	\im a(u,u) = \kappa \|u\|_{L^2(\Omega)}^2 = 0,
+\]
+d.h. $u\in H^1_0(\Omega)$. Folglich gilt also 
+\[
+	\int_\Omega\nabla u\cdot\nabla \bar{v}\,dx = \kappa^2\int_\Omega u\bar{v}\,dx,\quad\forall v\in H^1_0(\Omega),
+\]
+(sogar für $v\in H^1(\Omega)$)
+d.h. $u$ ist Eigenwert von $-\Delta$ (mit homogenem Dirichlet-Rand) zum Eigenwert $\kappa^2$. Jedoch gilt für jedes $\tilde{\Omega}\supseteq\Omega$ und die stetige Fortsetzung
+\[
+	\tilde{u}(x) \coloneqq \begin{cases} u(x),&x\in\Omega\\ 0,&x\in\tilde{\Omega}\setminus\Omega\end{cases}
+\]
+und für alle $v\in H^1_0(\tilde{\Omega})$ die Beziehung
+\begin{IEEEeqnarray*}{rCl}
+	\int_{\tilde{\Omega}}\nabla\tilde{u}\cdot\nabla v\,dx &=& \int_\Omega \nabla u\cdot\nabla v\,dx \\
+	&=& \kappa^2 \int_{\tilde{\Omega}} u\bar{v}\,dx
+\end{IEEEeqnarray*}
+weshalb $\tilde{u}$ Eigenfunktion von $-\Delta$ zum Eigenwert $\kappa^2$ für alle $\tilde{\Omega}\supseteq\Omega$ ist. Ein einfaches Stabilisierungsargument zeigt, dass das nicht möglich ist (Wegen skalierung der Gradienten ändert sich auch der Eigenwert $\kappa^2 \Rightarrow$ nicht von $\Omega$ unabhängig!),
+\[
+	\min_{u\in H^1_0(\Omega)} \frac{(\nabla u,\nabla u)_{L^2}}{(u,u)} = C_F^{-1}.
+\]
+Dieser Widerspruch zeigt, dass (\ref{eqn:c2e8s2}) eine eindeutige Lösung $u\in\mathcal{H}$ besitzt (für alle $F\in\mathcal{H}'$). \newline\noindent
+Frage:
+\[
+	\|u\|_{\mathcal{H}} \leq C(\|f\|_{L^2(\Omega)} + \|g\|_{L^2(\partial\Omega)}).
+\]
+
+
+\end{document}
