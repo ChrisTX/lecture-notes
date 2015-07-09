@@ -1,0 +1,183 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+\subsection{Optimality conditions}
+The reduced formulation can be written as
+\begin{IEEEeqnarray*}{u"l}
+minimize & f(u) = F(S(u)) + G(u) \\
+subject to & u \in U_{ad}
+\end{IEEEeqnarray*}
+where
+\begin{IEEEeqnarray*}{rCl}
+F(y) &=& \int_\Omega \varphi(x, y(x)) \dx \\
+G(u) &=& \int_\Omega \psi(x, u(x)) \dx
+\end{IEEEeqnarray*}
+\begin{assumption} % As 4.25
+\label{as:c4e25}
+In addition to \cref{as:c4e21} assume that for almost every $x \in \Omega$, $\varphi_\eta(x, \eta)$ and $\psi_u(x, u)$ exists (and $d_\eta(x, \eta)$) and are measurable \ac{wrt}\ $x$.
+Further assume that $d_\eta(x, \eta)$, $\varphi_\eta(x, \eta)$, $\psi_u(x, u)$ satisfy the boundedness condition and are locally Lipschitz continuous \ac{wrt}\ $\eta$\slash{}$u$ (\cref{def:c4e15}).
+\end{assumption}
+A corollary of \cref{thm:c4e24} is
+\begin{corollary} % Cor 4.26
+\label{thm:c4e26}
+Under \cref{as:c4e25}, $S$ is Fréchet differentiable from $L^\infty$ to $H^1(\Omega) \cap C(\bar{\Omega})$. (The derivative is the same as in \cref{thm:c4e24})
+\end{corollary}
+\begin{proof}
+This follows from
+\[
+	\| u \|_{L^r(\Omega)} \leq C \cdot \| u \|_{L^\infty(\Omega)},
+\]
+for $u \in L^\infty(\Omega)$ and \cref{thm:c4e24}.
+\end{proof}
+\begin{lemma} % Lemma 4.27
+\label{thm:c4e27}
+Under \cref{as:c4e25}, the function
+\[
+	f(u) = F(S(u)) + G(u)
+\]
+is Fréchet-differentiable from $L^\infty(\Omega)$ to $\R$, and
+\[
+	f'(u)h = \int_\Omega \varphi_\eta(x, y(x)) \cdot z(x) \dx + \int_\Omega \psi_u (x, u) h(x) \dx,
+\]
+where $y = S(u)$ and $z \in H^1(\Omega) \cap C(\bar{\Omega})$ is the weak solution of
+\begin{equation}
+\opttag{$\star$}
+\label{eq:c4e3-star-again}
+	\left\{ \begin{IEEEeqnarraybox}[][c]{rCl"l}
+		- \lapl z + d_\eta(x, y) z &=& h & \text{in } \Omega \\
+		\partial_\nu z &=& 0 & \text{on } \Gamma
+	\end{IEEEeqnarraybox} \right.
+\end{equation}
+\end{lemma}
+\begin{proof}
+$F$ and $G$ are Fréchet-differentiable by \cref{thm:c4e18}, $S$ is Fréchet-differentiable by \cref{thm:c4e26}.
+The derivatives have also been stated. The result follows from the chain rule:
+\[
+f'(u) h = F'(y)[S'(u)h] + G'(u)h.
+\]
+\end{proof}
+\paragraph{Adjoint state}
+Let $y \in H^1(\Omega) \cap C(\bar{\Omega})$. We define $p \in H^1(\Omega) \cap C(\bar{\Omega})$ as weak solution of
+\[
+	\left\{ \begin{IEEEeqnarraybox}[][c]{rCl"l}
+	- \lapl p + d_\eta(x, y(x)) \cdot p &=& \varphi_\eta(x, y(x)) & \text{on } \Omega \\
+	\partial_\nu p &=& 0 & \text{on } \Gamma
+	\end{IEEEeqnarraybox} \right.
+\]
+The solution is unique by previous results and is called the \emph{adjoint state} to $y$.
+\begin{lemma} % Lemma 4.28
+\label{thm:c4e28}
+Let $h \in L^2(\Omega)$ and $z \in H^1(\Omega)$ be the solution of \cref{eq:c4e3-star-again}. Then the adjoint state satisfies
+\[
+	\int_\Omega \varphi_\eta(x, y(x)) \cdot z(x) \dx = \int_\Omega p(x) \cdot h(x) \dx.
+\]
+\end{lemma}
+\begin{proof}
+Follows from\slash{}proof is similar to \cref{thm:c3e22}: (Take $a_Q(x, t) = \varphi_\eta(x, y(x))$, $a_\Sigma = 0$, $a_\Omega = \varphi_\eta(x, y(x))$, $g(x, t) = h(x)$, $w = 0$, $y_0 = h$, $\alpha = 0$, $c_0(x) = d_\eta(x, y(x))$, $T = 1$.)
+\end{proof}
+As a result:
+\begin{equation}
+\opttag{$+$}
+\label{eq:c4e3-plus}
+f'(u)h = \int_\Omega (p(x) + \psi_u(x, u(x))) h(x) \dx
+\end{equation}
+\paragraph{Variational inequality}
+The first-order necessary conditions apply to \emph{locally optimal controls}, where $u_0 \in U_{ad}$ is called locally optimal if $f(u) \geq f(u_0)$ for all $u \in U_{ad}$ in an $L^\infty(\Omega)$-neighborhood of $u_0$.
+In the semilinear case several locally optimal controls may exist which are not globally optimal
+\begin{theorem} % Thm 4.29
+\label{thm:c4e29}
+Under \cref{as:c4e25}: If $u_0 \in U_{ad}$ is a locally optimal control for the distributed control problem, and $p_0$ is the adjoint state to the state $y_0 = S(u_0)$. Then
+\[
+	f'(u_0)(u - u_0) = \int_\Omega (p_0(x) + \psi_u(x, u_0(x))) \cdot (u(x) - u_0(x)) \geq 0 \quad \forall u \in U_{ad}.
+\]
+\end{theorem}
+\begin{proof}
+\cref{thm:c1e24} and \cref{eq:c4e3-plus}.
+\end{proof}
+As before, it follows from the form of 
+\[
+	U_{ad} = \{ u \in L^\infty \midcolon u_a(x) \leq u(x) \leq u_b(x) \; \text{\ac{ae}} \}
+\]
+that the variational inequality is equivalent to its point-wise version:
+For almost every $x \in \Omega$ it holds that
+\[
+	(p_0(x) + \psi_u(x, u_0(x))) (v - u_0(x)) \geq 0 \quad \forall v \in [u_a(x), u_b(x)]
+\] 
+Equivalently:
+\[
+	u_0(x) = \argmin_{v \in [u_a(x), u_b(x)]} (p_0(x) + \psi_u(x, u(x)))v
+\]
+``Minimum principle''.
+\paragraph{Special case:} $\psi(x, u) = \frac{\lambda}{2} u^2$, $\lambda > 0$. \\
+Then $\psi_u(x, u_0(x)) = \lambda u_0(x)$.
+Then we can resolve the minimum principle to
+\[
+	u_0(x) = \PP_{[u_a(x), u_b(x)]} \left\{ -\frac{1}{\lambda} p_0(x) \right\}
+\]
+Since $p_0 \in H^1(\Omega) \cap C(\bar{\Omega})$ we obtain valuable a-priori information:
+\begin{enumerate}
+\item If $u_a$, $u_b$ are continuous, then $u_0$ is continuous.
+\item If $u_a$, $u_b$ are in $H^1(\Omega)$, then $u_0 \in H^1(\Omega) \cap C(\bar{\Omega})$ (see \cref{thm:c2e29}).
+\end{enumerate}
+\begin{example} % 4.30
+\label{ex:c4e30}
+We conclude with the semilinear example from the beginning of the section:
+\begin{IEEEeqnarray*}{u"l}
+minimize & J(y, u) = \frac{1}{2} \| y - y_\Omega \|_{L^2(\Omega)}^2 + \frac{\lambda}{2} \| u \|_{L^2(\Omega)}^2 \\
+subject to & \left\{ \begin{IEEEeqnarraybox}[][c]{rCl"l}
+- \lapl y + y + y^3 &=& u & \text{in } \Omega \\
+\partial_\nu y &=& 0 & \text{on } \Gamma
+\end{IEEEeqnarraybox} \right. \\
+and & -2 \leq u(x) \leq 2
+\end{IEEEeqnarray*}
+Here
+\begin{IEEEeqnarray*}{rCl}
+\varphi(x, \eta) &=& \frac{1}{2} (y - y_\Omega(x))^2 \\
+\psi(x, u) &=& \frac{\lambda}{2} u^2 \\
+d(x, \eta) &=& \eta + \eta^3
+\end{IEEEeqnarray*}
+and $u_a \equiv -2$, $u_b \equiv 2$.
+If $y_\Omega \in L^\infty(\Omega)$, then all assumptions are satisfied.
+By \cref{thm:c4e22}, there exists at least one globally optimal control $u_0 \in U_{ad}$. The adjoint equation is
+\[
+	\left\{ \begin{IEEEeqnarraybox}[][c]{rCl"l}
+	- \lapl p + p + 3y^2 \cdot p &=& y - y_\Omega & \text{in } \Omega \\
+	\partial_\nu p &=& 0 & \text{on } \Gamma
+	\end{IEEEeqnarraybox} \right.
+\]
+Variational inequality:
+\[
+	\int_\Omega (\lambda u_0 + p)(u - u_0) \dx \geq 0 \quad \forall u \in U_{ad}
+\]
+In case $\lambda > 0$, then
+\[
+	u_0 = \PP_{[-2, 2]} \left\{ -\frac{1}{\lambda} p_0 \right\}
+\]
+and therefore $u_0 \in H^1(\Omega) \cap C(\bar{\Omega})$.
+If $\lambda = 0$, then
+\[
+	u_0(x) = - 2 \sgn(p_0(x)).
+\]
+\end{example}
+\paragraph{Gradient projection method}
+The method is formally the same as before:
+\[
+	u_{k+1} = \PP_{[u_a, u_b]} \left\{ u_k - \sigma_k \nabla f(u_k) \right\}.
+\]
+But new difficulties arise:
+\begin{enumerate}
+\item The evaluation of $-\nabla f(u_k)$ requires the solution of the state equation, which is nonlinear, can itself only be ``solved'' by an iterative method (like Newton). This is very expensive.
+\item The step-size $\sigma_k$ cannot be determined analytically; backtracking is again expensive, since function evaluations require the solution of the state equation. This is either expensive or one has to choose a constant, small step-size.
+\item We expect convergence to local minima; but convergence proof seems very hard.
+\end{enumerate}
+Tröltzsch (\cite{Troeltzsch}) recommends other methods like sequential quadratic programming (SQP).
+Here the basic idea is to replace in every step $f$ by its quadratic surrogate: 
+\[
+	\tilde{f}(u) = f(u_k) + f'(u_k) (u- u_k) + \frac{1}{2} f''(u_k) \left[ u-u_k, u-u_k \right]
+\]
+which is minimized over $U_{ad}$. Additionally, the control-to-state operator may be linearized: 
+\begin{IEEEeqnarray*}{rCl}
+	y_{k+1} &=& S(u_k) + S'(u_k)(u_{k+1} - u_k) \\
+	&=& y_k + S'(u_k)(u_{k+1} - u_k)
+\end{IEEEeqnarray*}
+\end{document}
