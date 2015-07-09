@@ -186,12 +186,12 @@ Wir erinnern uns an die \emph{Polare} eines Unterraumes $W\subseteq V$, welche g
 \section{Schwache Formulierung der Stokes-Gleichungen}\label{sec:c3e2}
 Wie immer sei $\Omega\subset\mathbb{R}^d$ beschränkt, offen, zusammenhängend, Lipschitz-beranded. Die Schwache Form der Stokes-Gleichungen lautet:
 \begin{problem}\label{prb:c3e2_p}
-	Gegeben $f\in L^2(\Omega)^d$, finde $u\in H^1+0(\Omega)^d$ und $p\in L^2_0(\Omega)$ so dass
+	Gegeben $f\in L^2(\Omega)^d$, finde $u\in H^1_0(\Omega)^d$ und $p\in L^2_0(\Omega)$ so dass
 	\begin{IEEEeqnarray*}{rCl}
-		\int_\Omega Du: Dv\,dx - \int_\Omega div\,v\:p\,dx &=& \int_\Omega f\:v\,dx\\
+		\int_\Omega Du: Dv\,dx - \int_\Omega div\,v\:p\,dx &=& \int_\Omega f\cdot v\,dx\\
 		\int_\Omega div\,u\:q\,dx &=& 0
 	\end{IEEEeqnarray*}
-	für alle $v\in H^1_0(\Omega)$, $q\in L^2_0(\Omega)$.
+	für alle $v\in H^1_0(\Omega)^d$, $q\in L^2_0(\Omega)$.
 \end{problem}
 \begin{remark}
 	Für $A,B\in\mathbb{R}^{d\times d}$ ist $A:B$ definiert durch
