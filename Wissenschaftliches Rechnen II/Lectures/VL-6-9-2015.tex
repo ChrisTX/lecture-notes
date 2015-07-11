@@ -79,7 +79,7 @@ d.h. es eistieren $C_a,C_b>0$ so dass $\forall v,w\in V, \mu\in M$ gilt
 \begin{problem}\label{prb:c3e1_sp} % name (SP)
 	Zu $F\in V', G\in M'$ lautet das Sattelpunktproblem: Finde $u\in V$, $\lambda\in M$, so dass
 	\begin{IEEEeqnarray*}{rCl}
-		a(u,v) + b(v,\mu) &=& F(v)\\
+		a(u,v) + b(v,\lambda) &=& F(v)\\
 		b(u,\mu) &=& G(\mu)
 	\end{IEEEeqnarray*}
 	für alle $(v,\mu)\in V\times M$
@@ -87,11 +87,11 @@ d.h. es eistieren $C_a,C_b>0$ so dass $\forall v,w\in V, \mu\in M$ gilt
 \begin{remark}
 	Addition beider Gleichung führt auf
 	\[
-		\mathcal{B}\left(  (u,\mu), (v,\lambda{mu}) \right) = F(v) + G(\mu)
+		\mathcal{B}\left(  (u,\mu), (v,\lambda) \right) = F(v) + G(\mu)
 	\]
 	für
 	\[
-		\mathcal{B}\left( (u,\mu), (v,\mu) \right) \coloneqq a(u,v) + b(v,\lambda) + b(v,\mu)
+		\mathcal{B}\left( (u,\lambda), (v,\mu) \right) \coloneqq a(u,v) + b(v,\lambda) + b(u,\mu)
 	\]
 	definiert auf $(V\times M)\times (V\times M)$. Dies lässt sich prinzipiell mit der BBN-THeorie behandeln.\newline\newline\noindent
 	Durch Ausnutzung der Sattelpunkt-Struktur des Problems kann man jedoch eine einfache Charakterisierung für Wohlgestelltheit angeben.
@@ -186,12 +186,12 @@ Wir erinnern uns an die \emph{Polare} eines Unterraumes $W\subseteq V$, welche g
 \section{Schwache Formulierung der Stokes-Gleichungen}\label{sec:c3e2}
 Wie immer sei $\Omega\subset\mathbb{R}^d$ beschränkt, offen, zusammenhängend, Lipschitz-beranded. Die Schwache Form der Stokes-Gleichungen lautet:
 \begin{problem}\label{prb:c3e2_p}
-	Gegeben $f\in L^2(\Omega)^d$, finde $u\in H^1+0(\Omega)^d$ und $p\in L^2_0(\Omega)$ so dass
+	Gegeben $f\in L^2(\Omega)^d$, finde $u\in H^1_0(\Omega)^d$ und $p\in L^2_0(\Omega)$ so dass
 	\begin{IEEEeqnarray*}{rCl}
-		\int_\Omega Du: Dv\,dx - \int_\Omega div\,v\:p\,dx &=& \int_\Omega f\:v\,dx\\
+		\int_\Omega Du: Dv\,dx - \int_\Omega div\,v\:p\,dx &=& \int_\Omega f\cdot v\,dx\\
 		\int_\Omega div\,u\:q\,dx &=& 0
 	\end{IEEEeqnarray*}
-	für alle $v\in H^1_0(\Omega)$, $q\in L^2_0(\Omega)$.
+	für alle $v\in H^1_0(\Omega)^d$, $q\in L^2_0(\Omega)$.
 \end{problem}
 \begin{remark}
 	Für $A,B\in\mathbb{R}^{d\times d}$ ist $A:B$ definiert durch

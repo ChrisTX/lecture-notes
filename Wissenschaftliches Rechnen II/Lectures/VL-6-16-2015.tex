@@ -1,0 +1,89 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+
+\begin{definition}\label{def:c3e5s6}
+	Gegeben sei $v_{CR}\in CR_0'(\mathcal{T}_h)$. Definiere
+	$J_1v_{CR}\in P^{1,0}_0(\mathcal{T}_h)$ durch ``Mittelwertbildung''
+	\[
+		J_1v_{CR} \coloneqq \sum_{z\in\mathcal{N}_h} |v_{CR}(z)|\sum_{T\in\mathcal{T}_h(z)}b_z = \sum_{z\in\mathcal{N}_h} |\mathcal{T}_h(z)|^{-1} \sum_{T\in\mathcal{T}_h(z)} v_{CR}(T)(z)b_z,
+	\]
+	wobei $b_z$ die nodale Basisfunktion ist (vgl. \cref{def:c2e3s11}), und $\mathcal{N}_h(z)\coloneqq\{T\in\mathcal{T}_h|\,z\in T\}$. Für eine Kante $E\in\mathcal{E}_h, E=conv\{x,y\}$ sei $b_E=6b_xb_y$ die Kanten-Bubble-Funktion. Definiere dann für $CR_0^1(\mathcal{T}_h)\to P^{2,0}_0(\mathcal{T}_h)$ durch 
+	\[
+		J_2v_{CR} \coloneqq J_1v_{CR} + \sum_{E\in\mathcal{E}_h} \left( \frac{1}{|E|}\int_E v_{CR}-J_1v_{CR}\,dS \right)b_E
+	\]
+	($\int_E J_2v_{CR}\,dS = \int_E v_{CR}\,dS$)\newline\noindent
+	Für jees Dreieck $T=\conv\{x,y,z\}\in\mathcal{T}_h$ definiere Element-Bubbles $b_T = 60b_xb_yb_z$. Dann ist $J_3v_{CR}\in P^{3,0}_0(\mathcal{T}_h)$ durch
+	\[
+		J_3v_{CR} \coloneqq J_2v_{CR} + \sum_{T\in\mathcal{T}_h} \frac{1}{|T|}\left( \int_T(v_{CR}-J_2v_{CR})\,dx \right)b_T
+	\]
+	($\int_T J_3v_{CR}\,dx = \int_T v_{CR}\,dx$)
+\end{definition}
+ 
+\begin{lemma}\label{thm:c3e5s7}
+	Die Operatoren $J_k:CR^1_0(\mathcal{T}_h)\to P^{k,0}_0(\mathcal{T}_h), k=1,2,3$, erfüllen die Erhaltungseigenschaften
+	\begin{IEEEeqnarray*}{rCl}
+		\int_T \nabla{nc}(v_{CR}-J_kv_{CR})\,dx &=& 0,\quad T\in\mathcal{T}_h, k=1,2;\\
+		\int_T v_{CR} - J_3v_{CR}\,dx &=& 0,\quad T\in\mathcal{T}_h.
+	\end{IEEEeqnarray*}
+	Es gelten folgende Approximations- und Stabilitätsabschätzungen
+	\begin{IEEEeqnarray*}{rCl}
+		h^{-1}\|v_{CR}-J_kv_{CR}\|_{L^2(\Omega)} + \|\nabla_{nc} (v_{CR}J_kv_{CR})\|_{L^2(\Omega)} &\leq& c_k \|\nabla_{nc} v_{CR}\|_{L^2(\Omega)}.
+	\end{IEEEeqnarray*}
+\end{lemma}
+\begin{proof}
+	Übung.
+\end{proof}
+Wir können hiermit das Bestapproximationsresultat aus \cref{thm:c3e5s2} beweisen.
+
+
+\chapter{Die Wellengleichung}\label{sec:c4}
+\section{Modellproblem}\label{sec:c4e1}
+\textbf{Notation:} Wir bezeichnen die erste bzw. zweite Ableitung von zeitahbängigen Größen nach der Zeit mit $\dot{u}$ bzw. $\ddot{u}$. Sei $\Omega$ offenes, beschränktes Gebiet in $\mathbb{R}^d$. Die lineare Wellengleichung für eine Funktion $u:[0,T]\times\Omega\to\R$ mit Quellterm $f:[0,T]\times\Omega\to\R$ lautet (mit dem Laplace-Operator im Ort '$\Delta$')
+\begin{equation}\label{eqn:c4e1s1}
+	\ddot{u}-\Delta u = f,\quad\text{in }[0,T]\times\Omega.
+\end{equation}
+Wir betrachten dieses Problem mit homogenen Dirichlet Randbedingungen
+\begin{equation}\label{eqn:c4e1s2}
+	u(t,x) = 0,\quad\forall t\in[0,T],\,\forall x\in\partial\Omega.
+\end{equation}
+Anfangsbedingungen werden für $u(0)$ und $\dot{u}(0)$ bereitgestellt:
+\begin{equation}\label{eqn:c4e1s3}
+	\left.
+	\begin{aligned}
+		u(0) &=& f,\quad\text{auf }\Omega\\
+		\dot{u}(0) &=& g,\quad\text{auf }\Omega
+	\end{aligned}
+	\right\}
+\end{equation}
+Die Gleichung (\ref {eqn:c4e1s1}) - (\ref {eqn:c4e1s3}) ist ein vereinfachtes Modell für eine vibrierende Seite $d=1$ oder Membran ($d=2$). In diesem Fall modelliert $u(t,x)$ die Auslenkung zum Zeitpunkt $t\geq 0$ im Punkt $x$. Die Wellengleichung ist eine hyperbolische PDE.
+
+\section{Funktionenräume bzgl. der Zeit} 
+Dieser Abschnitt gibt im Wesentlichen \cite[Sec. 5.9.2]{Evans} wieder. Sei $X$ ein Banachraum mit Norm $\|\cdot\|_X$.
+\begin{definition}\label{def:c4e2s1}
+	Der Raum $L^p(0,T;X)$ besteht aus allen messbaren Funktionen $u:[0,T]\to X$ mit
+	\[
+		\|u\|_{L^p(0,T;X)} \coloneqq \left( \int_0^T \|u(t)\|_X^p\,dt \right)^{\frac{1}{p}} < \infty
+	\]
+	für $1\leq p < \infty$.\newline\noindent
+	Der Raum $L^\infty(0,T;X)$ besteht aus allen messbaren Funktionen $u:[0,T]\to X$ mit 
+	\[
+		\|u\|_{L^\infty(0,T;X)} \coloneqq \esssup_{t\in[0,T]} \|u(t)\|_X < \infty.
+	\]
+\end{definition}
+
+\begin{definition}\label{def:c4e2s2}
+	Der Raum $C([0,T];X)$ enthält alle stetigen Funktionen $u:[0,T]\to X$ mit 
+	\[
+		\|u\|_{C([0,T];X)} \coloneqq \max_{t\in[0,T]} \|u(t)\|_X < \infty.
+	\]
+\end{definition}
+
+\begin{definition}\label{def:c4e2s3}
+	Sei $u\in L^1(0,T;X)$. Wir sagen $v\in L^1(0,T;X)$ ist die schwache Ableitung von $u$, falls
+	\[
+		\int_0^T u(t)\dot{\phi}(t)\,dt = - \int_0^T v(t)\phi(t)\,dt,\quad\forall\phi\in C^\infty_0(0,T).
+	\]
+\end{definition}
+
+\end{document}
