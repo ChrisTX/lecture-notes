@@ -5,18 +5,20 @@ This result gives us
 \[
 	r_k \approx 1 + \frac{1}{\log k}.
 \]
+Hence, for sufficiently large values of $k$, $k$-Steiner trees are an arbitrarily good approximation to an optimum Steiner tree. However, the computation of minimum $k$-Steiner trees is \NP-hard, as the next theorem shows. We will see approximations to $k$-Steiner trees later on.
 \begin{theorem} % Thm 74
 \label{thm:74}
 Computing a minimum $k$-Steiner tree is \NP-hard for $k \geq 4$.
 \end{theorem}
 \begin{proof}
-Use the same reduction as in \cref{thm:61}, but start with 3-\textsc{Sat}-3 (i.e.\ 3-\textsc{Sat} where each variable appears at most 3 times). We can assume each variable to appear at least once as a negated and a non-negated literal (otherwise it is superfluous). Thus, each literal vertex can only be connected to two clauses. In this case, the graph contains only Steiner vertices of degree at most 4. Moreover, all full components have size at most 4.
+Use the same reduction as in \cref{thm:61}, but start with 3-\textsc{Sat}-3 (i.e.\ 3-\textsc{Sat} where each variable appears at most 3 times). We can assume each variable to appear at least once as a negated and a non-negated literal (otherwise it is superfluous). Thus, each literal vertex can only be connected to two clauses meaning that every non-terminal has degree at most $4$ and no two of these are adjacent. Therefore, the graph contains only Steiner vertices of degree at most 4. Moreover, all full components have size at most 4.
 \end{proof}
-Let $G = (V, E)$, $R \subseteq V(G)$, $c : E(G) \to \R_+$. We define
+We will now present a first approximation algorithm for the \textsc{Steiner Tree Problem} with approximation ratio strictly smaller than 2.
+Let $G = (V, E)$, $R \subseteq V(G)$, $c : E(G) \to \R_+$ be an instance of the \textsc{Steiner Tree Problem}. We define
 \begin{itemize}
 \item $\MST(R)$: minimum spanning tree in $G_D(R)$
 \item $\mst(R)$: length of $\MST(R)$.
-\item For $t_1, t_2, \ldots, t_i \subseteq R$, let $\MST(R/t_1, \ldots, t_i)$ be a minimum spanning tree in $G_D(R)$, where all terminals within one $t_i$ are connected by edges of length $0$.
+\item For $t_1, t_2, \ldots, t_i \subseteq R$, let $\MST(R/t_1 t_2 \ldots t_i)$ be a minimum spanning tree in $G_D(R)$, where all terminals within one $t_i$ are connected by edges of length $0$.
 \end{itemize}
 \begin{algorithmbox}[Relative Greedy Algorithm]
 \begin{tabular}{@{}ll}
@@ -27,7 +29,7 @@ Let $G = (V, E)$, $R \subseteq V(G)$, $c : E(G) \to \R_+$. We define
 \vspace{-7pt}
 \begin{algorithm}[H]
 $i \coloneqq 0$\;
-\While{$\mst(R/t_1, \ldots, t_i) \neq 0$}{
+\While{$\mst(R/t_1 \ldots t_i) \neq 0$}{
 	choose $t_{i+1} \subseteq R$ with $|t_{i+1}| \leq k$ that minimizes $f_i(t_{i+1}) \coloneqq \frac{\smt(t_{i+1})}{\mst(R/t_1 \ldots t_i) - \mst(R/t_1 \ldots t_{i+1})}$\;
 	$i \coloneqq i + 1$\;
 	$i_{\max} \coloneqq i$\;
@@ -36,6 +38,7 @@ $i \coloneqq 0$\;
 \end{algorithm}
 \vspace{-7pt}
 \EndAlgorithmLine
+In order to analyze this algorithm we need two additional results:
 \begin{proposition} % Prop 75
 \label{thm:75}
 If $a_i \geq 0$, $b_i > 0$, $i = 1, \ldots, n$ then
@@ -67,7 +70,7 @@ R \\ 2
 \]
 \end{lemma}
 \begin{proof}
-Prove the statement first for single edges.
+We first prove the statement for single edges, i.e.
 \[
 e, f \in \begin{pmatrix}
 R \\ 2
@@ -76,23 +79,23 @@ R \\ 2
 We denote by $G_\alpha$ the graph resulting from $G_D(R)$ by taking all edges of length at most $\alpha$.
 Then,
 \begin{IEEEeqnarray*}{rCl}
-	\mst(R) - \mst(R/e) &=& \begin{IEEEeqnarraybox}[][t]{rl} \min_{\alpha \geq 0} \Big\{ \alpha \mathrel \Big| & \text{ in $G_\alpha$ the endpoints of $e$} \\
+	\mst(R) - \mst(R/e) &=& \begin{IEEEeqnarraybox}[][t]{rl} \min_{\alpha \geq 0} \Big\{ \alpha \mathrel \Big| & \text{ in $G_\alpha$ the endpoints of $e$} \\*[-0.2\normalbaselineskip]
 	& \text{ belong to the same connected component} \Big\} \end{IEEEeqnarraybox} \\
-	&\geq& \begin{IEEEeqnarraybox}[][t]{rl} \min_{\alpha \geq 0} \Big\{ \alpha \mathrel \Big| & \text{ in $(G/f)_\alpha$ the endpoints of $e$} \\
+	&\geq& \begin{IEEEeqnarraybox}[][t]{rl} \min_{\alpha \geq 0} \Big\{ \alpha \mathrel \Big| & \text{ in $(G/f)_\alpha$ the endpoints of $e$} \\*[-0.2\normalbaselineskip]
 	& \text{ belong to the same connected component} \Big\} \end{IEEEeqnarraybox} \\
 	&=& \mst(R/f) - \mst(R/ef).
 \end{IEEEeqnarray*}
-Thus,
+Let $A$ be an arbitrary edge set. Setting all edge lengths in $A$ to $0$ can be seen as choosing a new instance with terminal set $R'$.
 \[
-	\mst(\underbrace{R/A}_{R'}) - \mst(R/Ae) \geq \mst(R/Af) - \mst(R/Aef).
+	\mst(R/A) - \mst(R/Ae) \geq \mst(R/Af) - \mst(R/Aef).
 \]
-For $C = \{ c_1, c_2, \ldots \}$ this gives us
+For $C = \{ c_1, c_2, \ldots, c_{|C|} \}$ this gives us by successive application of this inequality:
 \begin{IEEEeqnarray*}{rCl}
 \mst(R/A) - \mst(R/Ae) &\geq& \mst(R/Ac_1) - \mst(R/Aec_1) \\
 &\vdots& \\
 &\geq& \mst(R/AC) - \mst(R/AeC).
 \end{IEEEeqnarray*}
-Therefore, for $B = \{ b_1, b_2, \ldots \}$:
+Therefore, for $B = \{ b_1, b_2, \ldots, b_{|B|} \}$:
 \begin{IEEEeqnarray*}{rCl}
 \mst(R/A) - \mst(R/AB) &=& \sum_{i=0}^{|B|-1} \mst(R/Ab_1 \ldots b_i) - \mst(R/Ab_1 \ldots b_{i+1}) \\
 &\geq& \sum_{i=0}^{|B|-1} \mst(R/Ab_1 \ldots b_i C) - \mst(R/Ab_1 \ldots b_{i+1} C) \\
@@ -109,7 +112,7 @@ Let $t_1^*, t_2^*, \ldots$ be the full components of a minimum $k$-Steiner tree 
 \[
 f_i(t) \coloneqq \frac{\smt(t)}{\mst(R/t_1 \ldots t_i) - \mst(R/t_1 \ldots t_i t)}
 \]
-For $i = 0, \ldots i_{\max} - 1$ we have
+For $i = 0, \ldots, i_{\max} - 1$ we have
 \[
 	f_i(t_{i+1}) \leq 1.
 \]
@@ -121,16 +124,16 @@ By definition and \cref{thm:76}:
 	&\leq& \frac{\sum_{j} \smt(t_j^*)}{\sum_j \mst(R/t_1 \ldots t_i t_1^* \ldots t_{j-1}^*) - \mst(R/t_1 \ldots t_i t_1^* \ldots t_j^*)} \\
 	&=& \frac{\smt_k}{\mst(R/t_1 \ldots t_i)}
 \end{IEEEeqnarray*}
-The $m_i \coloneqq \mst(R/t_1 \ldots t_i)$ are monotonically decreasing in $i$ and
+The $m_i \coloneqq \mst(R/t_1 \ldots t_i)$ are monotonically decreasing in $i$ and by the definition of $f$ we have
 \begin{IEEEeqnarray*}{rCl}
 \smt(t_i) &=& f_{i-1}(t_i) \cdot \left( \mst(R/t_1 \ldots t_{i-1}) - \mst(R/t_1 \ldots t_i) \right).
 \end{IEEEeqnarray*}
-This gives us
+This gives us the following bound for the solution returned by the \textsc{Relative Greedy Algorithm}:
 \begin{IEEEeqnarray*}{rCl}
 \sum_{i=1}^{i_{\max}} \smt(t_i) &=& \sum_{i=1}^{i_{\max}} f_{i-1}(t_i) \cdot \left( \mst(R/t_1 \ldots t_{i-1}) - \mst(R/t_1 \ldots t_i) \right) \\
 &\leq& \sum_{i=1}^{i_{\max}} \min \left( 1, \frac{\smt_k}{\mst(R/t_1 \ldots t_{i-1})} \right) \cdot \left( \mst(R/t_1 \ldots t_{i-1}) - \mst(R/t_1 \ldots t_i) \right) \\
 &\leq& \int_0^{\mst(R)} \min \left( 1, \frac{\smt_k}{x} \right) \dx \\
-&=& \int_0^{\mst_k} 1 \dx + \int_{\smt_k}^{\mst(R)} \frac{\smt_k}{x} \dx \\
+&=& \int_0^{\smt_k} 1 \dx + \int_{\smt_k}^{\mst(R)} \frac{\smt_k}{x} \dx \\
 &=& \smt_k + \smt_k \cdot \ln \frac{\mst(R)}{\smt_k} \\
 &\leq& (1 + \ln 2) \cdot \smt_k,
 \end{IEEEeqnarray*}

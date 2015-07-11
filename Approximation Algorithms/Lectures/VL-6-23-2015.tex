@@ -6,9 +6,9 @@
 For any fixed $\varepsilon > 0$, a $(1 + \varepsilon)$-approximation solution to DCR can be computed in polynomial time
 \end{lemma}
 \begin{proof}
-Set $k \coloneqq 2^{\lceil 1/\varepsilon \rceil}$ and solve $k$-DCR. This yields an $r_k$-approximation to DCR ($r_k \leq 1 + \varepsilon$).
-Let $(x, \mathscr{C})$ be an optimum solution to DCR. Replace each $C \in \mathscr{C}$ by a $k$-Steiner tree. Adjust $x$.
-Direct the full components towards the root of $C$.
+Set $k \coloneqq 2^{\lceil 1/\varepsilon \rceil}$ and solve $k$-DCR. This yields an $r_k$-approximation to DCR ($r_k \leq 1 + \varepsilon$):
+Let $(x, \mathscr{C})$ be an optimum solution to DCR. By \cref{thm:73}, we can replace each $C \in \mathscr{C}$ by a full component of size at most $k$ such that $\bigcup_i C_i$ is a $k$-Steiner tree for the terminal set of $C$ and is at most by a factor of $k$ longer than $C$. Direct all edges of the $C_i$ towards the sink of $C$ and increase the value of $x_{C_i}'$ by $x_C$ for each $C_i$. The resulting solution $(x, \mathscr{C}')$ is a solution of $k$-DCR that is at most by a factor of $r_k$ larger than $(x, \mathscr{C})$.
+Again from \cref{thm:73} we have $r_k \leq 1 + \varepsilon$.
 \end{proof}
 \begin{algorithmbox}[BGRS Algorithm]
 \begin{tabular}{@{}ll}
@@ -19,13 +19,13 @@ Direct the full components towards the root of $C$.
 \vspace{-7pt}
 \begin{algorithm}[H]
 $i \coloneqq 0$\;
-\Repeat{a single terminal ist left}{
+\Repeat{a single terminal remains}{
 	$i \coloneqq i + 1$\;
 	$i_{\max} = i$\;
 	compute a $\left( 1 + \frac{\varepsilon}{2} \right)$ approximate solution $(x, \mathscr{C})$ to DCR\;
 	select $C_i \in \mathscr{C}$ with probability proportional to $x_{C_i}$\;
 	contract $C_i$\;
-}\;
+}
 \Return $\bigcup_{i=1}^{i_{\max}} C_i$\;
 \end{algorithm}
 \vspace{-7pt}
@@ -55,7 +55,7 @@ A Hamiltonian cycle in $K_n$ is called a \emph{tour}.
 TSP is \NP-hard.
 \end{theorem}
 \begin{proof}
-Let $G = (V, E)$ be an instance of \textsc{Hamiltonian circuit}.
+Let $G = (V, E)$ be an instance of \textsc{Hamiltonian Cycle}.
 Define
 \[
 	G' = \left( V, \begin{pmatrix}

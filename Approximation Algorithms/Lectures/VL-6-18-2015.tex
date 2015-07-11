@@ -1,19 +1,20 @@
 \documentclass[../skript.tex]{subfiles}
 
 \begin{document}
+Using a different strategy to choose the full components, we can improve the approximation ratio. \ac{wlog}\ let $T$ be a Steiner tree where every Steiner vertex has degree exactly 3.
 For a Steiner tree $T$ we define $\Loss(T)$ as the shortest spanning subgraph of $T$ where each connected component contains at least one terminal. Moreover, we define $\loss(T)$ as the length of $\Loss(T)$.
 \begin{lemma} % Lemma 78
 \label{thm:78}
-For all Steiner trees $T$:
+For every Steiner trees $T$ it holds that
 \[
 	\loss(T) \leq \frac{1}{2} c(E(T)).
 \]
 \end{lemma}
 \begin{proof}
-Assume $T$ is a binary tree. Select for each Steiner vertex one child using a least cost edge. Then the total weight is at most $\frac{1}{2} c(E(T))$. (Considering a path of length 2 whose endpoints are terminals demonstrates tightness)
+\ac{wlog}\ let $T$ be a binary tree. Select for each Steiner vertex the shorter one of the two edges to its children. Then the total weight is at most $\frac{1}{2} c(E(T))$. Moreover each connected component ends in a terminal. (Considering a path of length 2 whose endpoints are terminals demonstrates the tightness of the bound).
 \end{proof}
 $\Loss(T)$ can be computed in polynomial time: By adding an additional vertex connected to all terminals, it can be computed for instance by \textsc{Prim's Algorithm}.
-We define $\mst(R/\Loss(t_1 \ldots t_i))$ as the length of a minimum spanning tree in $G_D(R)$ after contracting the loss of $t_1 \ldots t_i$ in $G$ (note that this value depends on the specific choice of the $\Loss(t_1 \ldots t_i)$, but this is not relevant to the algorithm).
+We define $\mst(R/\Loss(t_1 \ldots t_i))$ as the length of a minimum spanning tree in $G_D(R)$ after contracting the loss of $t_1 \ldots t_i$ in $G$ and adjusting the edge lengths in $G_D(R)$ accordingly (note that this value depends on the specific choice of the $\Loss(t_1 \ldots t_i)$, but this is not relevant to the algorithm).
 \begin{samepage}
 \begin{algorithmbox}[Loss Contraction Algorithm]
 \begin{tabular}{@{}ll}
@@ -24,7 +25,7 @@ We define $\mst(R/\Loss(t_1 \ldots t_i))$ as the length of a minimum spanning tr
 \vspace{-7pt}
 \begin{algorithm}[H]
 $i \coloneqq 0$\;
-\While{$\exists t_{i+1} \subseteq \R$ such that $3 \leq |t_{i+1}| \leq k$ and $f_i(t_{i+1}) < 1$}{
+\While{$\exists t_{i+1} \subseteq R$ such that $3 \leq |t_{i+1}| \leq k$ and $f_i(t_{i+1}) < 1$}{
 	choose $t_{i+1} \subseteq R$ with $3 \leq |t_{i+1}| \leq k$ that minimizes $f_i(t_{i+1}) \coloneqq \frac{\loss(t_{i+1})}{\mst(R/\Loss(t_1 \ldots t_i)) - \mst(R/\Loss(t_1 \ldots t_{i+1}))}$\;
 	$i \coloneqq i + 1$\;
 	$i_{\max} \coloneqq i$\;
@@ -42,111 +43,115 @@ The \textsc{Loss Contraction\\Algorithm} has approximation ratio
 \]
 \end{theorem}
 \begin{proof}
-We need modified version of the contraction Lemma: The edge lengths in $A, B, C$ are not set to 0, but just to some value smaller than the current value.
-Let $t_1^*, t_2^*, \ldots, t_p^*$ be the full components of an optimum solution, i.e.\ a minimum $k$-Steiner tree and set
+The proof is similar to the one of \cref{thm:77}.
+We need modified version of the Contraction \cref{thm:76}: The edge lengths in $A, B, C$ are not set to 0, but just to some arbitrary shorter length. It is easily seen that this does not invalidate the statement of the Lemma.
+
+Let $t_1^*, t_2^*, \ldots, t_p^*$ be the full components of a minimum $k$-Steiner tree and set
 \begin{IEEEeqnarray*}{rCl}
 f_i(t) &\coloneqq& \frac{\loss(t)}{\mst(R/\Loss(t_1 \ldots t_i)) - \mst(R/\Loss(t_1 \ldots t_i t))} \\
-G_i &=& \mst(R/\Loss(t_1 \ldots t_i)) - \smt_k + \loss_k.
+G_i &\coloneqq& \mst(R/\Loss(t_1 \ldots t_i)) - \smt_k + \loss_k.
 \end{IEEEeqnarray*}
 Here, $\loss_k \coloneqq \loss(t_1^* \ldots t_p^*)$. We have $f_i(t_{i+1}) < 1$, $i = 0, \ldots, i_{\max} - 1$.
-Then
+
+Then we have for $i = 0, \ldots, i_{\max}$:
 \begin{IEEEeqnarray*}{rCl}
 \min_j f_i(t_j^*) &=& \min_j \frac{\loss(t_j^*)}{\mst(R/\Loss(t_1 \ldots t_i)) - \mst(R/\Loss(t_1 \ldots t_i t_j^*))} \\
 &\leq& \min_j \frac{\loss(t_j^*)}{\mst(R/\Loss(t_1 \ldots t_i t_1^* \ldots t_{j-1}^*)) - \mst(R/\Loss(t_1 \ldots t_i t_1^* \ldots t_j^*))} \\
-&\leq& \min_j \frac{\sum_{j=1}^p \loss(t_j^*)}{\sum_{j=1}^p \mst(R/\Loss(t_1 \ldots t_i t_1^* \ldots t_{j-1}^*)) - \mst(R/\Loss(t_1 \ldots t_i t_1^* \ldots t_j^*))} \\
+&\leq& \frac{\sum_{j=1}^p \loss(t_j^*)}{\sum_{j=1}^p \mst(R/\Loss(t_1 \ldots t_i t_1^* \ldots t_{j-1}^*)) - \mst(R/\Loss(t_1 \ldots t_i t_1^* \ldots t_j^*))} \\
 &\leq& \frac{\loss_k}{\mst(R/\Loss(t_1 \ldots t_i)) - \mst(R/\Loss(t_1^* \ldots t_p^*))} \\
 &=& \frac{\loss_k}{G_i}
 \end{IEEEeqnarray*}
-By the choice in the algorithm, we get
+By the choice of $t_{i+1}$ in the algorithm, we get for $i = 0, \ldots, i_{\max} - 1$:
 \[
-	f_i(t_{i+1}) \leq \frac{\loss_k}{G_i}.
+	f_i(t_{i+1}) \leq \min_j f_i(t_j^*) \leq \frac{\loss_k}{G_i}.
 \]
-Moreover, the following bounds hold:
+Moreover, the following bounds for $G_0$ and $G_{i_{\max}}$ hold:
 \begin{IEEEeqnarray*}{rClCl}
 G_0 &=& \mst(R) - \smt_k + \loss_k &\geq& \loss_k
 \end{IEEEeqnarray*}
-By what we just derived:
+and by what we just derived:
 \[
 1 \leq \min_j f_{i_{\max}} (t_j^*) \leq \frac{\loss_k}{G_{i_{\max}}},
 \]
 implying $G_{i_{\max}} \leq \loss_k$.
-$\mst(R/\Loss(t_1 \ldots t_i))$ is monotonically decreasing in $i$:
+
+The values $\mst(R/\Loss(t_1 \ldots t_i))$ are monotonically decreasing in $i$. This gives us the following bound for the loss of the Steiner tree returned by the \textsc{Loss Contraction Algorithm}:
 \begin{IEEEeqnarray*}{rCl}
 \sum_{i=1}^{i_{\max}} \loss(t_i) &=& \sum_{i=1}^{i_{\max} - 1} f_i(t_{i+1}) \cdot \left( \mst(R/\Loss(t_1 \ldots t_{i-1})) - \mst(R/\Loss(t_1 \ldots t_i)) \right) \\
 &\leq& \sum_{i=0}^{i_{\max} - 1} \min \left(1, \frac{\loss_k}{G_i} \right) \left( G_i - G_{i+1} \right) \\
-&\leq& \sum_{i=0}^{i_{\max} - 1} \int_{G_{i_{\max}}}^{G_i} \min \left(1, \frac{\loss_k}{x}\right) \dx \\
+&\leq& \int_{G_{i_{\max}}}^{G_0} \min \left(1, \frac{\loss_k}{x}\right) \dx \\
 &=& \int_{G_{i_{\max}}}^{\loss_k} 1 \dx + \int_{\loss_k}^{G_0} \frac{\loss_k}{x} \dx \\
-&=& \loss_k - G_{i_{\max}} + \loss_k \cdot \ln \frac{G_0}{\loss_k}
+&=& \mathrm{loss}_k - G_{i_{\max}} + \loss_k \cdot \ln \frac{G_0}{\loss_k}
 \end{IEEEeqnarray*}
-Hence, we have
+Hence, we have for the total length of the solution returned by the \textsc{Loss Contraction Algorithm}:
 \begin{IEEEeqnarray*}{rCl}
 \mst(R/\Loss(t_1 \ldots t_{i_{\max}})) + \sum_{i=1}^{i_{\max}} \loss(t_i) &\leq& G_{i_{\max}} + \smt_k - \loss_k + \loss_k \\
 && \quad {} - G_{i_{\max}} + \loss_k \cdot \ln \frac{G_0}{\loss_k} \\
 &=& \smt_k + \loss_k \cdot \ln \frac{G_0}{\loss_k} \\
-&=& \smt_k + \loss_k \cdot \frac{\mst(R) - \smt_k + \loss_k}{\loss_k} \\
+&=& \smt_k + \loss_k \cdot \ln \frac{\mst(R) - \smt_k + \loss_k}{\loss_k} \\
 &\leq& \smt_k \left( 1 + \frac{\loss_k}{\smt_k} \cdot \ln \left( 1 + \frac{\smt_k}{\loss_k} \right) \right) \\
 &\leq& \smt_k \left( 1 + \max_{0 \leq x \leq \frac{1}{2}} x \cdot\ln \left( 1 + \frac{1}{x} \right) \right) \\
 &=& \smt_k \cdot \left( 1 + \frac{1}{2} \cdot \ln 3 \right).
 \end{IEEEeqnarray*}
 The maximum's bounds are due to \cref{thm:78}.
 \end{proof}
-For $G = (V, E)$, $R \subseteq V(G)$, $c : E(G) \to \R_+$ we define a \emph{directed full Steiner tree} as a full Steiner tree with some root vertex $r$ such that all edges are directed to $r$. All other vertices are called sources, and we also call $r$ the sink.
-We define $\mathscr{C}_k$ as the set of all directed full components of size at most $k$ with minimum length. Then $|\mathscr{C}_k| \leq \mathcal{O}(n^k \cdot k)$.
+For $G = (V, E)$, $R \subseteq V(G)$, $c : E(G) \to \R_+$ we define a \emph{directed full Steiner tree} as a full Steiner tree with some root vertex $r$ such that all edges are directed to $r$. All other vertices are called \emph{sources}, and we also call $r$ the \emph{sink}.
+We define $\mathscr{C}_k$ as the set of all \emph{directed} minimum full Steiner trees in $G$ for all subsets of $R$ with at most $k$ terminals. Then $|\mathscr{C}_k| \leq \mathcal{O}(n^k \cdot k)$, as there exist $\mathcal{O}(n^k)$ subsets of $R$ of size $k$ and there are at most $k$ orientations per tree.
 We say $C \in \mathscr{C}_k$ \emph{crosses} $U \subseteq R$ if $C$ has at least one source in $U$ and the sink in $R\setminus U$.
 Set 
 \[
-	\delta_k^+(U) = \{ C \in \mathscr{C}_k \midcolon C \text{ crosses } U \}.
+	\delta_k^+(U) = \{ C \in \mathscr{C}_k \midcolon C \text{ crosses } U \}
 \]
-Assume $\mathscr{C}_k = \{ C_1, C_2, \ldots \}$ and fix some $r \in R$: \\
-Directed-Cut-Formulation ($k$-DCR):
+and assume $\mathscr{C}_k = \{ C_1, C_2, \ldots \}$. Then we obtain the following \emph{directed cut relaxation} ($k$-DCR) by choosing an arbitrary terminal $r \in R$ as a \emph{root}:
 \begin{IEEEeqnarray*}{l}
 \min \sum_{j} c(C_j) \cdot x_j \\
 \text{\ac{st}} \quad \begin{IEEEeqnarraybox}[][t]{rCl"l}
 \sum_{C_j \in \delta_k^+(U)} x_j &\geq& 1 & \forall \emptyset \subset U \subseteq R \setminus \{ r \} \\
-x_j &\geq& 0
+x_j &\geq& 0 & \forall j
 \end{IEEEeqnarraybox}
 \end{IEEEeqnarray*}
-$k$-DCR is a relaxation of the $k$-Steiner tree problem: Take $\SMT_k$, select a root $r \in R$, direct all edges towards $r$. Assign 1 to all these directed full components (of size at most $k$).
+$k$-DCR is a relaxation of the $k$-Steiner tree problem: Take $\SMT_k$, select a root $r \in R$, direct all edges towards $r$. Set $x_i$ to 1 to all these directed full components (of size at most $k$) and set it to 0 for all other elements of $\mathscr{C}_k$.
 \begin{lemma} % Lemma 80
 \label{thm:80}
 The LP $k$-DCR can be solved in polynomial time for fixed $k$.
 \end{lemma}
 \begin{proof}
-It is enough to solve the separation problem, i.e.\ given $x$ find
+It is enough to solve the separation problem, i.e.\ given a vector $x$ that does not satisfy
+\[
+	\sum_{C_j \in \delta_k^+(U)} x_j \geq 1
+\]
+find a set $U$ with
 \[
 	\emptyset \subset U \subseteq R \setminus \{ r \} \;\; \text{\ac{st}} \;\; \sum_{C_j \in \delta_k^+(U)} x_j < 1.
 \]
 We will show: We can find $U$ that minimizes $\sum_{C_j \in \delta_k^+(U)} x_j$.
 
-Let $G = (V, E)$, $R \subseteq V(G)$, $c : E(G) \to \R_+$. Set
+Let $G = (V, E)$, $R \subseteq V(G)$, $c : E(G) \to \R_+$. We create a new graph $G'$ by setting
 \[
 	G' = (V', E'), \quad V' \coloneqq R \cup \{ C_j \mid C_j \in \mathscr{C}_k \}.
 \]
-For each $C_j$: add edges $(u, C_j)$ if $u$ is a source of $C_j$ and edges $e_j = (C_j, v)$ if $v$ is a sink of $C_j$.
+For each $C_j$ we add edges $(u, C_j)$ if $u$ is a source of $C_j$ and edges $e_j = (C_j, v)$ if $v$ is a sink of $C_j$.
 The edges $e_j$ are of weight $x_j$, all other edges have infinite weight.
 
 For all $s \in R \setminus \{ r \}$ compute the minimum $s$-$r$-cuts in $G'$.
 Let $\delta^+(X)$ be a minimum capacity cut among these $|R| - 1$ cuts.
 
 \underline{Claim:} $U \coloneqq R \cap X$ minimizes $\sum_{C_j \in \delta_k^+(U)} x_j$. \\
-$\delta^-(r)$ is an $s$-$r$-cut of finite weight.
+$\delta^-(r)$ is an $s$-$r$-cut of finite weight, therefore a minimum $s$-$r$-cut contains only edges of finite weight.
 Let $\delta^+(X)$ be a minimum $s$-$r$-cut \ac{st} $|X|$ is smallest possible.
 We set
 \[
 	R' \coloneqq X \cap R, \quad \mathscr{C}_k' \coloneqq \mathscr{C}_k \cap X.
 \]
 Let $e \in \delta^+(X)$, then $w(e) < \infty$. Thus $e = (x, y)$ with $x \in \mathscr{C}_k'$ and $y \notin R'$.
-If for some $x \in \mathscr{C}_k'$ no $(z, x)$-edge exists with $z \in R'$, then
-\[
-	\left( R' \cup \mathscr{C}_k' \right) \setminus \{ x \}
-\]
-contradicts the choice of $X$.
+If for some $x \in \mathscr{C}_k'$ no $(z, x)$-edge exists with $z \in R'$, then $\left( R' \cup \mathscr{C}_k' \right) \setminus \{ x \}$ contradicts the choice of $X$.
 This implies $\delta^+(X)$ contains exactly the edges $e_j$ for which $C_j$ crosses $R'$.
 Then in turn,
 \[
-	\min_{\emptyset \subset U \subseteq R \setminus \{ r\}} \sum_{C_j \in \delta_k^+(U)} x_j \leq \min_{S \in R \setminus \{ r\}} \{ \text{capacity of an $s$-$r$-cut in $G$} \}.
+	\min_{\emptyset \subset U \subseteq R \setminus \{ r\}} \sum_{C_j \in \delta_k^+(U)} x_j \leq \min_{S \in R \setminus \{ r\}} \{ \text{capacity of an $s$-$r$-cut in $G'$} \}.
 \]
-For a given $U$ with $\emptyset \subset U \subseteq R \setminus \{ r \}$ that minimizes $\sum_{C_j \in \delta_k^+(U)} x_j$ set
+For the other direction let $U$ with $\emptyset \subset U \subseteq R \setminus \{ r \}$ minimizing $\sum_{C_j \in \delta_k^+(U)} x_j$.
+Set
 \[
 	X \coloneqq U \cup \left\{ C_j \midcolon (x, C_j) \in E(G') \text{ for } x \in U \right\}.
 \]
@@ -162,5 +167,5 @@ In the last step, we used that
 as $X$ contains by definition all $C_j$ that cross $U$.
 By the definition of $X$, no edge of $\delta^+(U)$ is in $\delta^+(X)$. Hence, $\delta^+(X)$ are the edges crossing $U$.
 \end{proof}
-Find an approximate solution to DCR (defined as $n$-DCR).
+Next we consider solutions for $n$-DCR (or just DCR). This has an exponential number of variables and constraints, but it is nevertheless possible to compute arbitrarily good approximations for it.
 \end{document}
