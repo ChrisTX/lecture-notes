@@ -36,7 +36,7 @@ This bound is tight as well, which can be seen by using a set of triangles, so t
 \vspace{-7pt}
 \begin{algorithm}[H]
 choose an arbitrary TSP-tour $T$\;
-\While{$\exists A \subseteq E(T), B \subseteq E(K_n), |A| = |B| = k$ and $c(B) \subset c(A)$ and $(T\setminus A) \cup B$ is a tour}{
+\While{$\exists A \subseteq E(T), B \subseteq E(K_n), |A| = |B| = k$ and $c(B) < c(A)$ and $(T\setminus A) \cup B$ is a tour}{
 	$T \coloneqq (T \setminus A) \cup B$\;
 }
 \end{algorithm}
@@ -81,7 +81,7 @@ As $p \geq \sqrt{k}$, we conclude that an optimum tour on $a_{i_1}, \ldots, a_{i
 	p \cdot 2 \cdot \frac{c(T^*)}{\sqrt{k}} \geq 2 \cdot (T^*).
 \]
 A subtour of an optimum tour cannot be longer than the tour itself, so we have a contradiction.
-Thus we know that for all $x \in V(G)$ less than $\sqrt{k}$ of the $b_i$ has distance at most $\frac{c(T^*)}{\sqrt{k}}$ to $x$.
+Thus we know that for all $x \in V(G)$ less than $\sqrt{k}$ of the $b_i$ have distance at most $\frac{c(T^*)}{\sqrt{k}}$ to $x$.
 Select an arbitrary $b_i$ and consider all vertices $b_j$ with distance at most $\frac{c(T^*)}{\sqrt{k}}$. We know that less than $\sqrt{k}$ many of these exist, so we remove them all.
 Iterate this process of selecting $b_i$'s and removing $b_j$'s. By assumption, $|E_k| \geq k$ and thus we have more than $\sqrt{k}$ iterations until all vertices $b_j$ have been removed. Hence, more than $\sqrt{k}$ $b_i$'s (selected ones) with pairwise distance larger than $\frac{c(T^*)}{\sqrt{k}}$. This implies that an optimum tour through all selected $b_i$'s has length larger than
 \[
@@ -104,7 +104,7 @@ c(T) &=& \sum_{i=1}^n c(e_i) \\
 \end{IEEEeqnarray*}
 This proves the result.
 \end{proof}
-Englert, Röglin, Vöcking [2014]: For all $k$, there exists \textsc{Metric TSP} instances for which $k$-$\OPT$ needs an exponential number of steps.
+Englert, Röglin, Vöcking [2014]: For all $k$, there exist \textsc{Metric TSP} instances for which $k$-$\OPT$ needs an exponential number of steps.
 \paragraph{Local Search Algorithm}
 How to decide whether a given tour is optimum?
 \begin{problem}[Restricted Hamiltonian Cycle]
@@ -118,7 +118,7 @@ How to decide whether a given tour is optimum?
 The \textsc{Restricted Hamiltonian Cycle} is \NP-complete.
 \end{theorem}
 \begin{proof}
-Reduction from \textsc{Hamiltonian Cycle}: Let $V(G) = \{ 1, \ldots, n\}$. Replace each vertex of $G$ by the following gadget: Use 8 vertices arranged in a square with its middle points present. We call the corner vertices $W_i$, $N_i$, $E_i$ and $S_i$. In addition to the edges connecting the square, connect two of the opposing midpoints, namely the one between $W_i$ and $S_i$ with the one between $N_i$ and $E_i$. We add edges $\{ S_i, N_i \}$ for $i = 1, \ldots, n - 1$ and call the resulting graph $H$. Then $H$ contains a Hamiltonian path.
+Reduction from \textsc{Hamiltonian Cycle}: Let $V(G) = \{ 1, \ldots, n\}$. Replace each vertex of $G$ by the following gadget: Use 8 vertices arranged in a square with its middle points present. We call the corner vertices $W_i$, $N_i$, $E_i$ and $S_i$. In addition to the edges connecting the square, connect two of the opposing midpoints, namely the one between $W_i$ and $S_i$ with the one between $N_i$ and $E_i$. We add edges $\{ S_i, N_{i+1} \}$ for $i = 1, \ldots, n - 1$ and call the resulting graph $H$. Then $H$ contains a Hamiltonian path.
 Add edges $\{ W_i, E_j \}$ as follows: Add $\{ W_i, E_j\}$ and $\{ W_j, E_i \}$ if and only if $\{ i, j\} \in E(G)$.
 
 \underline{Claim:} $H$ is Hamiltonian if and only if $G$ is Hamiltonian. \\

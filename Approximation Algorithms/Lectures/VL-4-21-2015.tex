@@ -47,7 +47,7 @@ There exists a \textsc{Vertex Cover} \ac{iff} there exists a \textsc{Set Cover} 
 \begin{proof}
 The problem is in \NP: We know (from linear optimization) there always exists a solution $x$ with polynomially bounded size, if any solution exists.
 
-Reduce \textsc{3Sat} to \textsc{Integer Linear Inequalities}: Let $F = C_1 \wedge \ldots \wedge C_q$ be a \textsc{3Sat} formula in $x_1, \ldots, x_n$.
+Reduce \textsc{3-Sat} to \textsc{Integer Linear Inequalities}: Let $F = C_1 \wedge \ldots \wedge C_q$ be a \textsc{3-Sat} formula in $x_1, \ldots, x_n$.
 Use $2n$ variables $x_1, \overline{x_1}, \ldots, x_n, \overline{x_n}$ and the system
 \begin{IEEEeqnarray*}{rCl}
 - x_i - \overline{x_i} &\leq& -1 \\
@@ -78,7 +78,7 @@ This problem generalizes bipartite perfect matching and is a special case of \te
 \end{theorem}
 \begin{proof}
 This problem is obviously in \NP.
-Reduce \textsc{3Sat} to \textsc{3DM}. Let $F = C_1 \wedge \ldots \wedge C_k$ be a \textsc{3Sat} formula in variables $x_1, \ldots, x_n$.
+Reduce \textsc{3-Sat} to \textsc{3-DM}. Let $F = C_1 \wedge \ldots \wedge C_k$ be a \textsc{3-Sat} formula in variables $x_1, \ldots, x_n$.
 First construct variable gadgets:
 For each variable $x$, we use $4k$ vertices $a_1^x, \ldots, a_{2k}^x$, $b_1^x, \ldots, b_{2k}^x$.
 Define
@@ -93,7 +93,7 @@ For a clause $C_i$, we add vertices $c_i$ and $c_i'$ and add triples to connect 
 	(c_i, c_i', b_{2i-1}^x) & \text{if } C_i \text{ contains the literal } \bar{x}.
 \end{IEEEeqnarray*}
 Add \emph{cleanup} triples $(q_i, q_i', b_j^x)$ for $i = 1, \ldots, (n-1)k$, $j = 1, \ldots, 2k$.
-This gives us $2nk$ tips:
+This gives us $2nk$ tips:got 
 \begin{itemize}
 \item $nk$ are covered by variables,
 \item $k$ are covered by clauses,

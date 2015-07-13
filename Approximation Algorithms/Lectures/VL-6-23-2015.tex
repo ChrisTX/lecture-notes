@@ -129,7 +129,7 @@ This implies
 \]
 Since $c(\OPT) \geq c(\OPT(X_k))$, we get
 \[
-	\sum_{j=0}^{\lceil \log n \rceil - 1} c(\OPT) \geq \sum_{j=0}^{\lceil \log \rceil - 1} 2 \cdot \sum_{i=2^j + 1}^{\min\{2^{j+1}, n\}} f(x_i) = c(NN) - f(x_1).
+	\sum_{j=0}^{\lceil \log n \rceil - 1} c(\OPT) \geq \sum_{j=0}^{\lceil \log n \rceil - 1} 2 \cdot \sum_{i=2^j + 1}^{\min\{2^{j+1}, n\}} f(x_i) = c(NN) - f(x_1).
 \]
 On the right hand side, each $x_i$ appears exactly once for $i = 2, \ldots, n$. Additionally, we know $f(x_1) \leq \frac{1}{2} \OPT$.
 Overall we get
@@ -137,7 +137,7 @@ Overall we get
 	c(NN) \leq \left( \lceil \log n \rceil + \frac{1}{2} \right) \cdot \OPT.
 \]
 
-$\Omega(\log n)$: We define a partial Nearest-Neighbor-tour as a subtour on a subset of the vertices that can be found by the \textsc{Nearest-Neighbor-Algorithm}. We construct a \textsc{Metric TSP} instance: Let the vertices $V_k$ be the points in a $2 \times (8 2^k - 3)$ grid. The edge lengths are given by the Euclidean metric, rectilinear metric or graphic TSP metric on a graph with edge length 1.
+$\Omega(\log n)$: We define a partial Nearest-Neighbor-tour as a subtour on a subset of the vertices that can be found by the \textsc{Nearest-Neighbor-Algorithm}. We construct a \textsc{Metric TSP} instance: Let the vertices $V_k$ be the points in a $2 \times (8 \cdot 2^k - 3)$ grid. The edge lengths are given by the Euclidean metric, rectilinear metric or graphic TSP metric on a graph with edge length 1.
 Then, $|V_k| = 16 \cdot 2^k - 6$. We call the graph $G_k$ and denote by $l_i$ the lower-left vertex in the instance $G_i$ and by $m_i$ the middle vertex in the topmost row.
 
 \underline{Claim:} Let the vertices of $G_k$ be embedded into $G_m$ with $m > k$. Then there exists a partial Nearest-Neighbor-tour in $G_m$ that
@@ -146,7 +146,11 @@ Then, $|V_k| = 16 \cdot 2^k - 6$. We call the graph $G_k$ and denote by $l_i$ th
 \item starts in $l_k$ and ends in $m_k$
 \item has length exactly $(12 + 4k) \cdot 2^k - 3$
 \end{enumerate}
-The case $k = 0$ is trivial. For $k \to k + 1$: $|V_{k+1}| = 16 \cdot 2^{k+1} - 6 = 2 \cdot |V_k| + 6$. This means we can construct $G_{k+1}$ by taking two copies of $G_k$ and 6 vertices in between. It is easily seen that by considering the tours on the $G_k$, we can construct an appropriate tour by going from the middle vertex of the first instance to the upper left of the additional vertices and from there on to the lower left corner of the right block. We take the tour for the right block and go from the middle vertex to the two remaining vertices, ending in the middle one.
+The case $k = 0$ is trivial. For $k \to k + 1$ we have
+\[
+	|V_{k+1}| = 16 \cdot 2^{k+1} - 6 = 2 \cdot |V_k| + 6.
+\]
+This means we can construct $G_{k+1}$ by taking two copies of $G_k$ and 6 vertices in between. It is easily seen that by considering the tours on the $G_k$, we can construct an appropriate tour by going from the middle vertex of the first instance to the upper left of the additional vertices and from there on to the lower left corner of the right block. We take the tour for the right block and go from the middle vertex to the two remaining vertices, ending in the middle one.
 The length of this tour is then:
 \[
 	2 \cdot \left( (12 + 4k) \cdot 2^k - 3 \right) + 5 + \frac{1}{2} |V_k| + 1 = (12 + 4{(k+1)}) \cdot 2^{(k+1)} - 3.

@@ -55,7 +55,7 @@ If $x \notin L$, then are at most half of the random strings deliver an erroneou
 Thus, construct a \emph{constant degree} expander graph on all random strings. We traverse this graph and as soon as we find a vertex that does not yield a faulty output, we are done.
 Marqulis \lbrack{}1978\rbrack{}: the construction of the expander graph can be done in polynomial time. One can show that after $\log n$ steps, the probability to have found a usable vertex is sufficiently large to prove a non-approximability result.
 
-How to prove that $\NP \subseteq \PCP(\log n, 1)$? We will prove instead that $\NP \subseteq \PCP(\poly, 1)$. For this, we ill prove that \textsc{3-Sat} is in $\PCP(n^3, 1)$.
+How to prove that $\NP \subseteq \PCP(\log n, 1)$? We will prove instead that $\NP \subseteq \PCP(\poly, 1)$. For this, we shall prove that \textsc{3-Sat} is in $\PCP(n^3, 1)$.
 The \emph{arithmetization of a \textsc{3-Sat} formula} is defined as follows: For a \textsc{3-Sat} formula $F$, $\Ar(F)$ is recursively defined:
 \begin{itemize}
 \item $\Ar(x_i)$ is $x_i$ if $x_i$ is a variable.

@@ -9,7 +9,7 @@ If $a$ and $b$ are randomly chosen from $\{ 0, 2, \ldots, 2^N - 2 \}$, then with
 \begin{proof}
 Let $T$ be an optimum TSP tour for $V$. Add a Steiner point whenever we cross a grid line.
 Move the Steiner points to portals.
-The nearest portal for a grid line in level $i$ has distance at most $\frac{2^{N-i-1}}{p}$.
+The nearest portal for a grid line in level $i$ has distance at most $\frac{2^{N-i-1}}{P}$.
 Consider a line $\ell \in G_{N-1}$ which is in level $i$ with probability
 \[
 	p(\ell, i) \coloneqq \begin{cases}
@@ -21,46 +21,50 @@ In $G_i$, there are $2^i$ lines, of which half are in the $i$th level, thus we h
 \[
 	\frac{2^{i-1}}{2^{N-1}} = 2^{i-N}.
 \]
-The expected increase of the length for a line $\ell$ is:
+The expected increase of the length for a line $\ell$ by moving all Steiner points on $\ell$ to portals is at most:
 \begin{IEEEeqnarray*}{rCl}
-\sum_{i=1}^{N-1} p(\ell, i) \cdot \crossings(T, \ell) \cdot 2 \cdot \frac{2^{N-i-1}}{p} &=& N \cdot \frac{\crossings(T, \ell)}{p}
+\sum_{i=1}^{N-1} p(\ell, i) \cdot \crossings(T, \ell) \cdot 2 \cdot \frac{2^{N-i-1}}{P} &=& N \cdot \frac{\crossings(T, \ell)}{P}
 \end{IEEEeqnarray*}
-
-Next modification to get a light Steiner tour:
+Now we modify the Steiner tour so that it becomes light:
 We define as \emph{segment} of a horizontal or vertical line in $G_i^{(a, b)}$ the segment between
 \[
 	\left(a + j \cdot 2^{N-i}, b + k \cdot 2^{N-i} \right)
 \]
-and
+and the point
 \[
 	\left( a + (j + 1) \cdot 2^{N-i}, b + k \cdot 2^{N-i} \right)
 \]
-taken $\operatorname{mod} 2$.
+or
+\[
+	\left( a + j \cdot 2^{N-i}, b + (k + 1) \cdot 2^{N-i} \right),
+\]
+respectively (all coordinates must be taken $\operatorname{mod} 2$), for $j, k \in \{ 0, \ldots, 2^i - 1\}$.
+Note that such a segment can consist of two separate line segments.
 
 \begin{samepage}
 \EndAlgorithmLine
 \begin{algorithm}[H]
 \For{$i \coloneqq N - 1$ \KwSty{down to} $1$}{
 	apply the Patching \cref{thm:95} to each segment of a horizontal line of $G_i^{(a, b)}$ that contains more than $C - 4$ crossings\;
-	perform the same action for vertical segments\;
+	apply the Patching \cref{thm:95} to each segment of a vertical line of $G_i^{(a, b)}$ that contains more than $C - 4$ crossings\;
 }
 \end{algorithm}
 \end{samepage}
 \EndAlgorithmLine
 \textit{Remark:} For segments consisting of $2$ parts, we apply the Patching \cref{thm:95} twice. This gives at most $4$ crossings.
 
-For each line $\ell$ the Patching \cref{thm:95} is applied at most $\frac{\crossings(T, \ell)}{C - 7}$.
+For each line $\ell$ the Patching \cref{thm:95} is applied at most $\frac{\crossings(T, \ell)}{C - 7}$, since each time the number of crossings decreases by at least $C - 7$ (at least $C-3$ crossing are replaced by at most $4$).
 Let for a line $\ell$ in $G_{N-1}^{(a, b)}$ denote $c(\ell, i, a, b)$ the number of applications of the Patching \cref{thm:95} in iteration $i$.
 Then, $c(\ell, i, a, b) = 0$ if the level of $\ell$ is greater than $i$.
 Hence, the total increase in the length of a tour for line $\ell$ is:
 \begin{IEEEeqnarray*}{rCl}
-\sum_{i \geq \level(\ell)} c(\ell, i, a, b) \cdot 6 \cdot 2^{N-i}
+\sum_{i \geq \level(\ell)} c(\ell, i, a, b) \cdot 6 \cdot 2^{N-i}.
 \end{IEEEeqnarray*}
-and
+Furthermore, note that
 \[
 	\sum_{i \geq \level(\ell)} c(\ell, i, a, b) \leq \frac{\crossings(T, \ell)}{C - 7}.
 \]
-Recall that $p(\ell, j)$ was the probability that $\ell$ is in level $j$. This gives us that the total increase is at most
+Recall that $p(\ell, j)$ was the probability that $\ell$ is in level $j$. This gives us that the expected total increase is at most
 \begin{IEEEeqnarray*}{rCl}
 	\sum_{j=1}^{N-1} p(\ell, j) \cdot \sum_{i \geq j} c(\ell, i, a, b) \cdot 6 \cdot 2^{N-i} &=& 6 \cdot \sum_{i=1}^{N-1} c(\ell, i, a, b) \cdot 2^{N-i} \cdot \underbrace{ \sum_{j=1}^i p(\ell, j) }_{\leq 2 \cdot p(\ell, i)} \\
 	&\leq& 12 \cdot \frac{\crossings(T, \ell)}{C - 7}
@@ -72,7 +76,7 @@ By \cref{thm:94} we have:
 \end{IEEEeqnarray*}
 Our total increase of the previous steps can be bounded with this result:
 \begin{IEEEeqnarray*}{rCl}
-\sum_{\ell \in G_{N-1}} N \cdot \frac{\crossings(T, \ell)}{p} + \sum_{\ell \in G_{N-1}} \frac{12 \cdot \crossings(T, \ell)}{C - 7} &\leq& \OPT(V) \cdot \left( \frac{N}{p} + \frac{12}{C - 7} \right) \\
+\sum_{\ell \in G_{N-1}} N \cdot \frac{\crossings(T, \ell)}{P} + \sum_{\ell \in G_{N-1}} \frac{12 \cdot \crossings(T, \ell)}{C - 7} &\leq& \OPT(V) \cdot \left( \frac{N}{P} + \frac{12}{C - 7} \right) \\
 &\leq& \OPT(V) \cdot \frac{\varepsilon}{2}.
 \end{IEEEeqnarray*}
 Hence, by Markov's inequality
@@ -81,7 +85,7 @@ Hence, by Markov's inequality
 \]
 \end{proof}
 A region has at most $4 \cdot C$ portals used by the light Steiner tour.
-There are $P + 2$ possibilities for a portal: Within a region there are $p + 1 \leq (p+2)^{C4}$ possibilities to choose the portal.
+There are $P + 2$ possibilities for a portal: Within a region there are $P + 1 \leq (P+2)^{4C}$ possibilities to choose the portal.
 Hence, there are $(4C)!$ possibilities to run through the portals.
 \begin{algorithmbox}[Arora's Algorithm]
 \begin{tabular}{@{}ll}
@@ -96,7 +100,7 @@ Choose $a$ and $b$ randomly from $\{ 0, 2, \ldots, 2^N - 2 \}$.\;
 Set $R_0 \coloneqq \{ ([0, 2^N] \times [0, 2^N], V) \}$.\;
 \For{$i \coloneqq 1$ \KwTo $N-1$}{
 	Compute $G_i^{(a, b)}$, set $R_i \coloneqq \emptyset$.\;
-	\For{$(r, Vr) \in R_i$ \KwSty{with} $|V_r| \geq 2$}{
+	\For{$(r, V_r) \in R_{i-1}$ \KwSty{with} $|V_r| \geq 2$}{
 		add $4$ subregions of $r$ to $R_i$\;
 	}
 }
@@ -131,7 +135,7 @@ We have $(P+2)^{4C}$ possibilities and there are $(8C)!$ possibilities for a tou
 
 For each region the runtime is at most
 \[
-	(P+2)^{4C} \cdot (4C)! \cdot (P+2)^{4c} \cdot (8C)!.
+	(P+2)^{4C} \cdot (4C)! \cdot (P+2)^{4C} \cdot (8C)!.
 \]
 We have as already discusses, at most $\frac{5}{2} \cdot N \cdot n$ many regions and had
 \[
@@ -151,7 +155,7 @@ For $a$ and $b$ there are $\mathcal{O} \left( \frac{n^2}{\varepsilon^2} \right)$
 \end{proof}
 This can be generalized to the $d$-dimensional case:
 \[
-	\mathcal{O}(n \log n^{\mathcal{O} \left( d \cdot \frac{1}{\varepsilon} \right)^d}).
+	\mathcal{O}\left(n \log n^{\mathcal{O} \left( d \cdot \frac{1}{\varepsilon} \right)^d}\right).
 \]
 This approach also works for the \textsc{Steiner Tree Problem}.
 \chapter{The \texorpdfstring{\PCP{}}{PCP} Theorem} % Ch 7
