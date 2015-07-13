@@ -105,7 +105,7 @@ The task is to find an \emph{optimal control} \ac{wrt}\ some cost function.
 minimize & J(y, u) = \frac{1}{2} \| y - y_\Omega \|_{L^2(\Omega)}^2 + \frac{\lambda}{2} \| u \|_{L^2(\Omega)}^2 \\
 subject to & \left\{
 \begin{IEEEeqnarraybox}[][c]{rCl"l}
-- \nabla y &=& \beta u & \text{in } \Omega \\
+- \lapl y &=& \beta u & \text{in } \Omega \\
 y &=& 0 & \text{on } \Gamma
 \end{IEEEeqnarraybox} \right. \\
 and & u_a(x) \leq u(x) \leq u_b(x) \quad \text{\ac{ae} in } \Omega.
@@ -189,7 +189,7 @@ Now apply \cref{thm:c1e18} to prove the existence of optimal control $(u_0, v_0)
 \textit{Optimal stationary heating with prescribed boundary temperature:} \\
 State equation:
 \begin{IEEEeqnarray*}{rCl"l}
-- \nabla y &=& \beta u & \text{in } \Omega \\
+- \lapl y &=& \beta u & \text{in } \Omega \\
 \partial_{\nu} y &=& \alpha(y_a - y) & \text{on } \Gamma. 
 \end{IEEEeqnarray*}
 Here, $\alpha \in (L^\infty(\Gamma))_+$, $\int_\Gamma \alpha^2 \ds > 0$.
@@ -200,7 +200,7 @@ It is obtained as a special case by using
 \textit{Optimal stationary boundary heating:} \\
 State equation:
 \begin{IEEEeqnarray*}{rCl"l}
-- \nabla y &=& 0 & \text{in } \Omega \\
+- \lapl y &=& 0 & \text{in } \Omega \\
 \partial_{\nu} y &=& \alpha(v - y) & \text{on } \Gamma. 
 \end{IEEEeqnarray*}
 Again, $\alpha \in (L^\infty(\Gamma))_+$, $\int_\Gamma \alpha^2 \ds > 0$. This is obtained as a special case $u_a = u_b = 0$.
