@@ -1,0 +1,177 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+\begin{proof}
+The proof is by construction.
+We will show that the function $g$ given by
+\[
+	g(x) \coloneqq \operatorname*{majority}_y \left\{ \tilde{g}(x + y) + \tilde{g}(y) \right\}
+\]
+(solve ties arbitrarily) has the desired properties.
+
+\underline{Claim:} $g$ and $\tilde{g}$ are $\delta$-close.\\
+If not, then
+\[
+	\Pr_x \left[ \tilde{g}(x) \neq g(x) \right] > \delta.
+\]
+By by definition of $g$ we have
+\[
+	\Pr_y \left[ g(x) = \tilde{g}(x + y) - \tilde{g}(y) \right] \geq \frac{1}{2}.
+\]
+Thus
+\[
+	\Pr_{x, y} \left[ \tilde{g}(x) \neq \tilde{g}(x + y) - \tilde{g}(y) \right] > \frac{\delta}{2},
+\]
+contradicting the assumption in the Lemma.
+
+For the following, let
+\[
+	p_a \coloneqq \Pr_x \left[ g(a) = \tilde{g}(a + x) - \tilde{g}(x) \right].
+\]
+By definition we have $p_a \geq \frac{1}{2}$.
+Fix $a \in \mathbb{F}_2^n$. By assumption of the Lemma we have
+\begin{IEEEeqnarray*}{rCl}
+\Pr_{x, y} \left[ \tilde{g}(x + a) + \tilde{g}(y) \neq \tilde{g}(x + a + y) \right] &\leq& \frac{\delta}{2} \\
+\Pr_{x, y} \left[ \tilde{g}(x) + \tilde{g}(y + a) \neq \tilde{g}(x + a + y) \right] &\leq& \frac{\delta}{2} 
+\end{IEEEeqnarray*}
+This implies
+\begin{IEEEeqnarray*}{rCl}
+1 - \delta &\leq& \Pr_{x, y} \left[ \tilde{g}(x + a) + \tilde{g}(y) = \tilde{g}(x) + \tilde{g}(a + y) \right] \\
+&=& \sum_{z \in \mathbb{F}_2} \left( \Pr_x \left[ \tilde{g}(x + a) - \tilde{g}(x) = z \right]  \right)^2 \\
+&=& p_a^2 + (1 - p_a)^2 \\
+&\leq& p_a^2 + p_a( 1- p_a) \\
+&=& p_a 
+\end{IEEEeqnarray*}
+This means we do not only know that $p_a \geq \frac{1}{2}$, but we can conclude $p_a \geq 1 - \delta$.
+
+To show that $g$ is a linear function, fix $a, b \in \mathbb{F}_2^n$. Because of $p_a \geq 1- \delta$ we have:
+\begin{IEEEeqnarray*}{rCl}
+\Pr_x \left[ g(a) + g(b) + \tilde{g}(x) \neq \tilde{g}(a + x) + g(b) \right] &\leq& \delta \\
+\Pr_x \left[ g(a) + \tilde{g}(b) \neq \tilde{g}(a + x + b) \right] &\leq& \delta \\
+\Pr_x \left[ \tilde{g}(a + x + b) \neq g(a + b) + \tilde{g}(x) \right] &\leq& \delta
+\end{IEEEeqnarray*}
+Combining these we obtain
+\[
+	\Pr_x \left[ g(a) + g(b) + \tilde{g}(x) = g(a + b) + \tilde{g} \right] \geq 1 - 3 \delta > 0.
+\]
+The equation
+\[
+	g(a) + g(b) + \tilde{g}(x) = g(a + b) + \tilde{g}(x)
+\]
+is independent of $x$ and holds with probability strictly larger than 0.
+Therefore it must always hold.
+This proves $g(a) + g(b) = g(a + b)$ holds for all $a, b \in \mathbb{F}_2^n$.
+Thus, $g$ is a homogeneous linear function and the vector $h \in \mathbb{F}_2^n$ exists.
+\end{proof}
+\begin{problem}[Linearity Test]
+\begin{tabular}{@{}l}
+randomly choose $x, x' \in \mathbb{F}_2^n$ and verify that $\tilde{A}(x) + \tilde{A}(x') = \tilde{A}(x + x')$. \\
+randomly choose $y, y' \in \mathbb{F}_2^{n^2}$ and verify that $\tilde{B}(y) + \tilde{B}(y') = \tilde{B}(y + y')$. \\
+randomly choose $z, z' \in \mathbb{F}_2^{n^3}$ and verify that $\tilde{C}(z) + \tilde{C}(z') = \tilde{C}(z + z')$.
+\end{tabular}
+\end{problem}
+\begin{corollary} % Cor 108
+\label{thm:108}
+Let $\delta < \frac{1}{3}$. If $\tilde{A}, \tilde{B}, \tilde{C}$ are not $\delta$-close to a linear function, then by reading 3 bits from $\pi$ the linearity test detects this with probability at least $\frac{\delta}{2}$ in each case.
+\end{corollary}
+\begin{proof}
+If $\tilde{A}$ is not $\delta$-close to a linear function then by \cref{thm:107} we have
+\[
+\Pr_{x, y} \left[ \tilde{A}(x) + \tilde{A}(y) \neq \tilde{A}(x + y) \right] > \frac{\delta}{2}.
+\]
+This proves the statement for $\tilde{A}$. For $\tilde{B}$ and $\tilde{C}$ the result follows similarly.
+\end{proof}
+To check that all tabulations are consistent to the same truth assignment, we make the following calculations.
+For $x, x' \in \mathbb{F}_2^n$, we define the outer product $x \circ x' \eqqcolon y \in \mathbb{F}_2^{n^2}$ by
+\[
+	y_{ij} \coloneqq x_i x_j'.
+\]
+If we write $A(x) = a^\tp \cdot x$, $B(y) = b^\tp \cdot y$, then the consistency we have to show can be expressed as
+\[
+	A(x) \cdot A(x') = B(x \circ x') \quad \forall x, x' \in \mathbb{F}_2^n
+\]
+(which is equivalent to $b = a \circ a$).
+Similarly, for $C$ we obtain
+\[
+	A(x) \cdot B(y) = C(x \circ y) \quad \forall x\in \mathbb{F}_2^n, y \in \mathbb{F}_2^{n^2}.
+\]
+We want to proceed similarly as in the linearity check and randomly select inputs.
+For $x$ and $x'$ we have $2^n$ possible arguments, but $B$ can overall accept $2^{n^2}$ inputs.
+In order to repair this, we define for randomly chosen $r$ the following function
+\[
+	SC - \tilde{B} \coloneqq \tilde{B}(x + r) - \tilde{B}(r).
+\]
+$SC$ stands for \emph{self correcting}.
+\begin{proposition} % Prop 109
+\label{thm:109}
+If $\tilde{A}(x)$ is a function that is $\delta$-close to a linear function $A : \mathbb{F}_2^n \to \mathbb{F}_2$, then
+\[
+	\Pr \left[ SC - \tilde{A}(x) \neq A(x) \right] < 2 \delta \quad \forall x \in \mathbb{F}_2^n.
+\]
+\end{proposition}
+\begin{problem}[Consistency Test]
+\begin{tabular}{@{}l}
+randomly choose $x, x' \in \mathbb{F}_2^n$ and verify that $\tilde{A}(x) \cdot \tilde{A}(x') = SC - \tilde{B}(x \circ x')$ \\
+randomly choose $x \in \mathbb{F}_2^n, y \in \mathbb{F}_2^{n^2}$ and verify that $\tilde{A}(x) \cdot \tilde{B}(x') = SC - \tilde{C}(x \circ x')$
+\end{tabular}
+\end{problem}
+\begin{lemma} % Lemma 110
+If $\tilde{A}, \tilde{B}, \tilde{C}$ are each $\delta$-close to a linear function, but are not consistent, then the \textsc{Consistency Test} detects this in each case with probability at least $\frac{1}{4} - 2 \delta$ by reading 4 bits of $\pi$.
+\end{lemma}
+\begin{proof}
+Let $\tilde{A}$ be $\delta$-close to $A(x) = a^\tp \cdot x$ and $\tilde{B}$ be $\delta$-close to $B(y) = b^\tp \cdot y$.
+Assume $b \neq a \circ a$. If $\alpha \neq \hat{\alpha} \in \mathbb{F}_2^n$, then we have
+\[
+\Pr_x \left[ \alpha^\tp \cdot x \neq \hat{\alpha}^\tp \cdot x \right] = \Pr_x \left[ \left( \alpha^\tp - \hat{\alpha}^\tp \right) \cdot x \neq 0 \right] = \frac{1}{2}.
+\]
+Similarly for $\beta \neq \hat{\beta} \in \mathbb{F}_2^{n^2}$ it holds that
+\[
+	\Pr_{x \in \mathbb{F}_2^n} \left[ \beta^\tp \cdot x \neq \hat{\beta}^\tp \cdot x \right] \geq \frac{1}{4},
+\]
+as two different matrices are different in at least one column and we can use the statement derived just before.
+Thus, as $b \neq a \circ a$,
+\[
+	\Pr_{x, x' \in \mathbb{F}_2^n} \left[ x^\tp (a \circ a)^\tp x' \neq x^\tp \cdot b \cdot x' \right] \geq \frac{1}{4}.
+\]
+As we have
+\begin{IEEEeqnarray*}{rCl}
+x^\tp (a \circ a)^\tp x' &=& A(x) \cdot A(x') \\
+x^\tp \cdot b \cdot x' &=& B(x \circ x')
+\end{IEEEeqnarray*}
+we conclude
+\[
+	\Pr_{x, x' \in \mathbb{F}_2^n} \left[ \tilde{A}(x) \cdot \tilde{A}(x') \neq SC - \tilde{B}(x \circ x') \right] \geq \frac{1}{4} - 2 \delta.
+\]
+\end{proof}
+After these tests, we know that we have consistent, linear functions. It just remains to verify that we actually satisfy the \textsc{Sat} formula.
+\begin{problem}[Satisfiability Test]
+randomly choose $r \in \mathbb{F}_2^n$ and compute $c(r) \in \mathbb{F}_2$, $S_1(r) \in \mathbb{F}_2^n$, $S_2(r) \in \mathbb{F}_2^{n^2}$, $S_3(r) \in \mathbb{F}_2^{n^3}$ and verify
+\[
+	0 = c(r) + SC - \tilde{A}(S_1(r)) + SC - \tilde{B}(S_2(r)) + SC - \tilde{C}(S_3(r)).
+\]
+\end{problem}
+\begin{theorem} % Thm 111
+\textsc{3-Sat} is contained in $\PCP(n^3, 1)$ and the verifier has to read at most 719 bits from $\pi$.
+\end{theorem}
+\begin{proof}
+We need:
+\begin{itemize}
+\item 50 linearity tests
+\item 31 consistency tests
+\item 7 satisfiability tests
+\end{itemize}
+This implies the error probability is at most
+\[
+	3 \left( 1 - \frac{\delta}{2} \right)^{50} + 2 \left( 1 - \frac{1}{4} - 2 \delta \right)^{31} + \left( \frac{1}{2} \right)^7 < \frac{1}{7}
+\]
+For this we have to choose $\delta \coloneqq 0.083$.
+As for the total number of bits, we obtain
+\[
+	50 \cdot 3 \cdot 3 + 31 \cdot 4 \cdot 2 + 7 \cdot 3 = 719
+\]
+\end{proof}
+\begin{remark}
+The constant 719 can be reduced to 11 with much more effort.
+\end{remark}
+The reason why we ended up in $n^3$ is that the exponential length of the proof requires an cubic number of random bits. In order to obtain a result like $\log n$, one has to compress the proof.
+\end{document}

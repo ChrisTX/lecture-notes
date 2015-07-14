@@ -71,6 +71,11 @@ Example:
 	&=& 1 - \Ar(\bar{x} \wedge y \wedge \bar{z}) \\
 	&=& 1 - (1-x) \cdot y \cdot (1-z)
 \end{IEEEeqnarray*}
+\begin{proposition} % Prop 106
+\label{prop:106}
+A \textsc{Sat} formula $F$ is satisfiable if and only if its arithmetization $\Ar(F)$ is not identical to 0.
+\end{proposition}
+\begin{proof}
 Given a \textsc{3-Sat} formula $F$ with variables $x_1, \ldots, x_n$ and clauses $C_1, \ldots, C_n$ (\ac{wlog}\ $n = m$), let
 \[
 	\left( \hat{C}_1, \hat{C}_2, \ldots, \hat{C}_n \right) \coloneqq \left( \Ar\left(\bar{C}_1\right), \Ar\left(\bar{C}_2\right), \ldots, \Ar\left(\bar{C}_n\right) \right).
@@ -79,6 +84,7 @@ A vector $a \in \{ 0, 1\}^n$ is a satisfying truth assignment if
 \[
 	\left( \hat{C}_1(a), \hat{C}_2(a), \ldots, \hat{C}_n(a) \right) \equiv 0.
 \]
+\end{proof}
 How to test that $v \in \{ 0, 1 \}^n$ is the $0$-vector (recall: we can only read a constant number of bits).
 For a random vector $r \in \{ 0, 1 \}^n$, we observe
 \[
@@ -120,7 +126,7 @@ We have to check that:
 \item $\tilde{A}, \tilde{B}, \tilde{C}$ are linear functions defined by the same vector $a$
 \item $a$ is a truth assignment to $F$.
 \end{itemize}
-Functions $f, g : F \to G$ are called \emph{$\delta$-close} if $f$ and $g$ differ on less than a $\delta$-fraction of all possible inputs:
+Two functions $f, g : F \to G$ are called \emph{$\delta$-close} if $f$ and $g$ differ on less than a $\delta$-fraction of all possible inputs:
 \[
 	\Pr_x [f(x) \neq g(x)] < \delta
 \]
