@@ -62,7 +62,7 @@ For each clause $\alpha_1 \vee \alpha_2 \vee \alpha_3$ with literals $\alpha_i$ 
 \]
 Thus, each clause contains at least one \textit{true} literal. Here we identify \textit{true} with 1 and \textit{false} with 0.
 \end{proof}
-\begin{problem}[3-Dimensional Matching Problem (3-DM)]
+\begin{problem}[3-Dimensional Matching Problem (3DM)]
 \begin{tabular}{@{}ll}
 \textit{Input:} & Disjoint sets $X, Y, Z$, each of size $n$ and $T \subseteq X \times Y \times Z$. \\
 \textit{Question:} & Is there an $M \subseteq T$, $|M|= n$ \ac{st} \\
@@ -78,7 +78,7 @@ This problem generalizes bipartite perfect matching and is a special case of \te
 \end{theorem}
 \begin{proof}
 This problem is obviously in \NP.
-Reduce \textsc{3-Sat} to \textsc{3-DM}. Let $F = C_1 \wedge \ldots \wedge C_k$ be a \textsc{3-Sat} formula in variables $x_1, \ldots, x_n$.
+Reduce \textsc{3-Sat} to \textsc{3DM}. Let $F = C_1 \wedge \ldots \wedge C_k$ be a \textsc{3-Sat} formula in variables $x_1, \ldots, x_n$.
 First construct variable gadgets:
 For each variable $x$, we use $4k$ vertices $a_1^x, \ldots, a_{2k}^x$, $b_1^x, \ldots, b_{2k}^x$.
 Define
@@ -93,7 +93,7 @@ For a clause $C_i$, we add vertices $c_i$ and $c_i'$ and add triples to connect 
 	(c_i, c_i', b_{2i-1}^x) & \text{if } C_i \text{ contains the literal } \bar{x}.
 \end{IEEEeqnarray*}
 Add \emph{cleanup} triples $(q_i, q_i', b_j^x)$ for $i = 1, \ldots, (n-1)k$, $j = 1, \ldots, 2k$.
-This gives us $2nk$ tips:got 
+This gives us $2nk$ tips:
 \begin{itemize}
 \item $nk$ are covered by variables,
 \item $k$ are covered by clauses,
@@ -211,7 +211,7 @@ Thus we get an $\mathcal{O}(n^2)$ algorithm.
 \end{theorem}
 \begin{proof}
 It is obviously in \NP.
-Reduction from \textsc{3Sat}.
+Reduction from \textsc{3-Sat}.
 
 Use three colors: Identify red with \textit{false}, green with \textit{true} and black with \textit{illegal}. For two vertices, $x \vee y$, create a gadget out of a 3-clique and connect two additional vertices $x$ and $y$ to it. The other vertex is called $z$. Then $z$ has to be \textit{false} \ac{iff} $x$ and $y$ are false.
  By chaining this gadget, we can model $x \vee y \vee w$.

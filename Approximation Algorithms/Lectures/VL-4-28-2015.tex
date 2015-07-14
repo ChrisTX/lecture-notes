@@ -200,8 +200,8 @@ Set $\tilde{w}(C) \coloneqq w(C)/2^{|C|}$ for $C \in \mathscr{C}$.\;
 \end{itemize}
 Let $F \subseteq \mathscr{C}$ be the set of clauses not satisfied by the algorithm at termination. Then
 \begin{IEEEeqnarray*}{rCl}
-\sum_{C \in \mathscr{C}} \tilde{w}(C) &=& \sum_{F \subseteq \mathscr{C}} \tilde{w}(C) \\
-&=& \sum_{F \subseteq \mathscr{C}} w(C) \\
+\sum_{C \in F} w(C) &=& \sum_{C \subseteq F} \tilde{w}(C) \\
+&=& \sum_{C \subseteq \mathscr{C}} w(C) \\
 &\leq& \sum_{C \in \mathscr{C}} \frac{w(C)}{2^{|C|}} \\
 &\leq& 2^{-p} \sum_{C \in \mathscr{C}} w(C).
 \end{IEEEeqnarray*}
