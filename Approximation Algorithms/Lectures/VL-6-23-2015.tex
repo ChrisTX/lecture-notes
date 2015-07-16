@@ -156,9 +156,12 @@ The length of this tour is then:
 	2 \cdot \left( (12 + 4k) \cdot 2^k - 3 \right) + 5 + \frac{1}{2} |V_k| + 1 = (12 + 4{(k+1)}) \cdot 2^{(k+1)} - 3.
 \]
 We have $n \coloneqq 16 \cdot 2^k - 6$, but $\OPT = n$. This gives us a ratio of
-\[
-	\frac{(12 + 4k) \cdot 2^k -3}{16 \cdot 2^k - 6} \geq \frac{3 + \log \left( \frac{n+6}{16} \right)}{4} \geq \frac{1}{4} \left( \log n - 1 \right).
-\]
+\begin{IEEEeqnarray*}{rCl}
+	\frac{(12 + 4k) \cdot 2^k -3}{16 \cdot 2^k - 6} &\geq& \frac{12 + 4k}{16} \\
+	&=& \frac{3+k}{4} \\
+	&=& \frac{3 + \log \left( \frac{n+6}{16} \right)}{4} \\
+	&\geq& \frac{1}{4} \left( \log n - 1 \right).
+\end{IEEEeqnarray*}
 This, $\Theta(\log n)$ is tight (it can be proven to be $\frac{1}{2} \log n + \smallo(\log n)$).
 \end{proof}
 \begin{remark}

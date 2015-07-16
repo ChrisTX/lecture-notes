@@ -138,11 +138,11 @@ Hence,
 \]
 
 \underline{Case 2:} $\pi(x_i) = \textit{false}$. \\
-The algorithm and $\pi$ disagree on $x_i$. No clause in $F_{i-1}^\pi$ contains $\overline{x_i}$. No clause in $F_i^\pi$ contains $x_i$. If a clause contains neither $x_i$ nor $\overline{x_i}$ then it's in both sets $F_{i-1}^\pi$ and $F_i^\pi$ or in none.
+The algorithm and $\pi$ disagree on $x_i$. No clause in $F_{i-1}^\pi$ contains $\overline{x_i}$. No clause in $F_i^\pi$ contains $x_i$. If a clause contains neither $x_i$ nor $\overline{x_i}$ then it's in both sets $F_{i-1}^\pi$ and $F_i^\pi$ or in neither one.
 Therefore,
 \begin{IEEEeqnarray*}{rCl}
-	w_i \left( F_i^\pi \right) - w_{i-1} \left( F_{i-1}^\pi \right) &=& \sum_{\substack{C \in F_i^\pi, \\ \overline{x_i} \in C }} w_i(C) - \sum_{\substack{C \in F_{i-1}^\pi, \\ x_i \in C}} w_{i-1}(C) \\
-	&=& 2 \cdot \sum_{\substack{C \in F_i^\pi, \\ \overline{x_i} \in C}} w_{i-1}(C) - \sum_{\substack{C \in F_{i-1}^\pi, \\ x_i \in C}} w_{i-1}(C) \\
+	w_i \left( F_i^\pi \right) - w_{i-1} \left( F_{i-1}^\pi \right) &=& \sum_{\substack{C \in F_i^\pi \\ \overline{x_i} \in C }} w_i(C) - \sum_{\substack{C \in F_{i-1}^\pi \\ x_i \in C}} w_{i-1}(C) \\
+	&=& 2 \cdot \sum_{\substack{C \in F_i^\pi \\ \overline{x_i} \in C}} w_{i-1}(C) - \sum_{\substack{C \in F_{i-1}^\pi \\ x_i \in C}} w_{i-1}(C) \\
 	&\leq& 2 \cdot \sum_{\overline{x_i} \in C} w_{i-1}(C) - \sum_{x_i \in C} w_{i-1}(C) \\
 	&\leq& \sum_{\overline{x_i} \in C} w_{i-1}(C).
 \end{IEEEeqnarray*}

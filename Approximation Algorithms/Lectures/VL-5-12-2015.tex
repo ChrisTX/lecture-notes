@@ -96,14 +96,17 @@ Combining these, we get
 &\leq& \sum_{i \in X'} c_i - \frac{c_{a_m}}{w_{a_m}} \cdot \sum_{i \in X' \setminus X^*} w_i + \frac{c_{a_m}}{w_{a_m}} \cdot \sum_{i=m}^t w_{a_i} \\
 &\leq& \sum_{i \in X'} c_i + \frac{c_{a_m}}{w_{a_m}} \cdot \underbrace{ \left( W - \sum_{i=1}^{m-1} w_{a_i} - \sum_{i \in X' \setminus X^*} w_i \right) }_{\leq w_{a_m}, \; \text{by \cref{eq:thm-48-1}}}
 \end{IEEEeqnarray*}
-This again gives us:
-\begin{IEEEeqnarray*}{r"rCl}
-& \sum_{i \in X'} w_i &=& \sum_{i=1}^{m-1} w_{a_i} + \sum_{i \in X' \setminus X^*} w_i \\
-\Longrightarrow & \sum_{i \in X^*} c_i &\leq& \sum_{i \in X'} c_i + c_{a_m}.
-\end{IEEEeqnarray*}
+We have
+\[
+	\sum_{i \in X'} w_i = \sum_{i=1}^{m-1} w_{a_i} + \sum_{i \in X' \setminus X^*} w_i 
+\]
+which implies with \cref{eq:thm-48-1} that the previous equation can be estimated as
+\[
+\sum_{i \in X^*} c_i \leq \sum_{i \in X'} c_i + \frac{c_{a_m}}{w_{a_m}} w_{a_m} = \sum_{i \in X'} c_i + c_{a_m}.
+\]
 We have $c_{a_1} \geq c_{a_2} \geq \ldots \geq c_{a_k} \geq c_{a_m}$ and therefore
 \[
-	c_{a_m} \leq \frac{1}{k} \sum_{i=1}^k c_{a_i}.
+	c_{a_m} \leq \frac{1}{k} \sum_{i=1}^k c_{a_i} \leq \frac{1}{k} \sum_{i \in X^*} c_i.
 \]
 Plugging this into the previous equation:
 \begin{IEEEeqnarray*}{r"rCl}

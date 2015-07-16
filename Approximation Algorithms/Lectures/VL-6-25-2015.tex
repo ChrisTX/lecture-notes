@@ -51,7 +51,7 @@ One can prove that there exist \textsc{Metric TSP} instances, where $k$-$\OPT$ f
 For $k = 2$, for \textsc{Metric TSP} the approximation ratio lies between $\frac{1}{4} \sqrt{n}$ and $4 \sqrt{n}$. For Euclidean TSP, we get a bound by $c \frac{\log n}{\log \log n}$ and $\log n$, respectively.
 \begin{theorem}[Chandra, Karloff, Tovey \lbrack{}1999\rbrack{}] % Thm 89
 \label{thm:89}
-A 2-optimal TSP tour in a \\\textsc{Metric TSP} instance is at most by a factor of $4 \cdot \sqrt{n}$ longer than an optimum tour on $n$ vertices.
+A 2-optimal TSP tour in a \\\textsc{Metric TSP} instance is at most by a factor of $4 \sqrt{n}$ longer than an optimum tour on $n$ vertices.
 \end{theorem}
 \begin{proof}
 Let $K_n, c: E(K_n) \to \R_+$ be a \textsc{Metric TSP} instance. Let $T$ be a 2-optimal tour and $T^*$ an optimal tour.
@@ -63,7 +63,7 @@ For $k = 1, \ldots, n$ we define
 Assume there exists $k$ with $|E_k| \geq k$. Take an arbitrary orientation of $T$. Set $r \coloneqq |E_k|$ and let $(a_1, b_1), (a_2, b_2), \ldots, (a_r, b_r)$ be the oriented edges in $E_k$.
 We prove now that for each $x \in V(K_n)$ there are less than $\sqrt{k}$ of the $b_i$ that have distance at most $\frac{c(T^*)}{\sqrt{k}}$ to $x$.
 Assume there exist vertices $b_{i_1}, \ldots, b_{i_p}$, $p \geq \sqrt{k}$ such that all these vertices have distance at most $\frac{c(T^*)}{\sqrt{k}}$ from some $x \in V(K_n)$.
-This implies
+By the triangle inequality, we have
 \[
 \dist(b_{i_l}, b_{i_m}) \leq 2 \cdot \frac{c(T^*)}{\sqrt{k}}
 \]

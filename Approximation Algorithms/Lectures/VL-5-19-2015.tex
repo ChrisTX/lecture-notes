@@ -63,9 +63,9 @@ Then
 \begin{proof}\tabularnewline
 We have
 \[
-	\sum_{i \midcolon f(i) = j} a_i > 1-\gamma \quad \text{for } j = 1, \ldots, \NF(I) -1,
+	\sum_{i \midcolon f(i) = j} a_i > 1-\gamma \quad \text{for } j = 1, \ldots, \NF(I) -1.
 \]
-and thus
+This implies
 \[
 	\sum_{i=1}^n a_i > (\NF(I) - 1)(1-\gamma),
 \]
@@ -74,7 +74,8 @@ and thus
 	\NF(I) - 1 < \left\lceil \frac{\sum_{i=1}^n a_i}{1-\gamma} \right\rceil.
 \]
 \end{proof}
-Is \textsc{Bin Packing} hard if $a_i < \gamma$ for all $i$, $\gamma$ fixed? No, it remains \NP-hard,\footnote{This can be easily seen by scaling the $a_i$ and adding several larger items such that each bin's total size is effectively scaled, too} however:
+Is \textsc{Bin Packing} hard if $a_i < \gamma$ for all $i$, $\gamma$ fixed? No, it remains \NP-hard: Use a reduction from \textsc{Partition} as in the proof of \cref{thm:50}. Scale all $a_i$ by $\frac{1}{8k + 2}$ for some integer $k$ and add $2k$ items of size $\frac{4}{4k+1}$ each. Then the total size of all items is 2, each item has size at most $\frac{4}{4k + 1}$ and the \textsc{Partition} instance has a solution if any only if the \textsc{Bin Packing} instance has a solution with 2 bins.
+
 \underline{Exercise:} \textsc{Bin Packing} is in $P$ if $a_i \geq \frac{1}{3}$. For $a_i > \frac{1}{2}$ it is obviously solvable in linear time.
 \begin{samepage}
 \begin{algorithmbox}[First Fit]
