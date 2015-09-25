@@ -86,12 +86,12 @@ ausgedrückt. Offensichtlich ist $|\cdot|_{1,\varepsilon,\delta}$ wohldefiniert 
 	\begin{IEEEeqnarray*}{rCl}
 		|u_\varepsilon-I_hu_\varepsilon|_{1,\varepsilon,\delta}^2 &=& \varepsilon\|\nabla(u_\varepsilon-I_h u_\varepsilon)\|_{L^2(\Omega)}^2 + \sum_{T\in\mathcal{T}_h}\delta_T\|b\cdot\nabla(u_\varepsilon-I_h u_\varepsilon)\|_{L^2(T)}^2 \\
 		&\leq& \sum_{T\in\mathcal{T}_h} (\varepsilon+\delta_T)C_{int}^2\delta_T^{-2}h_T^2\|D^2u_\varepsilon\|_{L^2(T)}^2\\
-		&\leq& C_{int}^2\delta_{\mathcal{T}_h}^{-2}\sum_{T\in\mathcal{T}_h} (\varepsilon+\delta_T)h_T^2\|D^2u\|_{L^2(T)}.
+		&\leq& C_{int}^2\delta_{\mathcal{T}_h}^{-2}\sum_{T\in\mathcal{T}_h} (\varepsilon+\delta_T)h_T^2\|D^2u\|_{L^2(T)}^2.
 	\end{IEEEeqnarray*}
 	Für die Untersuchung des anderen Terms $|I_hu_\varepsilon - u_{\varepsilon,h,\delta}|_{1,\varepsilon,\delta}$ setzen wir $v_h \coloneqq I_hu_\varepsilon - u_{\varepsilon,h,\delta}$.
 	\cref{thm:c2e7s6} impliziert
 	\[
-		|v_h|_{1,\varepsilon,\delta}\leq a_{\varepsilon,\delta}(v_h,v_h) = a_{\varepsilon,\delta}(I_hu_\varepsilon-u_\varepsilon,v_h) + a_{\varepsilon,\delta}(u_\varepsilon-u_{\varepsilon,h,\delta},v_h).
+		|v_h|_{1,\varepsilon,\delta}^2\leq a_{\varepsilon,\delta}(v_h,v_h) = a_{\varepsilon,\delta}(I_hu_\varepsilon-u_\varepsilon,v_h) + a_{\varepsilon,\delta}(u_\varepsilon-u_{\varepsilon,h,\delta},v_h).
 	\]
 	Da $u\in H^2(\Omega)$ angenommen wurde, gilt
 	\begin{IEEEeqnarray*}{rCl}

@@ -11,7 +11,7 @@
 \begin{corollary}\label{cor:c2e5s5}
 	Sei $\{\mathcal{T}_h\}_{h>0}$ eine Familie regulärer Triangulierungen, die der Maximalwinkelbedingung genüge, mit $\omega_{max}<\pi$. Dann gilt für jedes $h$ und jedes $v\in H^2(\Omega)$ die Beziehung
 	\begin{IEEEeqnarray*}{rCl}
-		\|v-I_hv\|_{H^1(\Omega)} &\leq& \omega_{max} c(\omega_{max})\left( \sum_{T\in\mathcal{T}_h} h_T^2\|D^2v\|^2_{L^2(T)} \right)^{\frac{1}{2}} \\
+		|v-I_hv|_{H^1(\Omega)} &\leq& c(\omega_{max})\left( \sum_{T\in\mathcal{T}_h} h_T^2\|D^2v\|^2_{L^2(T)} \right)^{\frac{1}{2}} \\
 		&\leq& c(\omega_{max}) h\|D^2v\|_{L^2(\Omega)}.
 	\end{IEEEeqnarray*}
 \end{corollary}
@@ -54,7 +54,7 @@ Sei $H^m(\Omega)$ ($m\in\N$) der Sobolevraum von $L^2$-Funktionen mit schwachen 
 	\|u\|_{H^m(\Omega)} \coloneqq \sqrt{\sum_{k=0}^m\|D^k u\|^2_{L^2(\Omega)}}.
 \]
 \begin{theorem}\label{thm:c2e5s8}
-	Seo $\mathcal{T}_h$ eine reguläre Triangulierung von $\Omega$ und $k\in\N$. Dann gilt für alle $T\in\mathcal{T}_h$ und $v\in H^{k+1}(T)$, dass
+	Sei $\mathcal{T}_h$ eine reguläre Triangulierung von $\Omega$ und $k\in\N$. Dann gilt für alle $T\in\mathcal{T}_h$ und $v\in H^{k+1}(T)$, dass
 	\[
 		\|D^m(v-I_hv)\|_{L^2(T)} \leq C_{int}\left(\frac{h_T}{\varrho_T}\right)^k h_T^{k+1}\|D^k+1 v\|_{L^2}
 	\]

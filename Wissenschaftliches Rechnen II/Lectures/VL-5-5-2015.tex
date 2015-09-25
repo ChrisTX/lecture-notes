@@ -13,7 +13,7 @@ Wir erinnern uns
 \]
 wobei $\Sigma_k(\mathcal{T}_k)$ die Menge der Knoten (siehe \cref{cor:c2e3s10}), und $b_j$ die nodalen Basisfunktionen sind. Nummeriere die Knoten $z_1,\ldots,z_N$, wobei $N \coloneqq |\Sigma_k(\mathcal{T}_k)\setminus\Gamma_D| = \dim P^{k,0}_D(\mathcal{T}_k)$. Jedes $u_h\in P^{k,0}_D(\mathcal{T}_k)$ ist eine Linearkombination der $b_j$:
 \[
-	u_h(x) = \sum_{j=1}^k u_h(z_j)b_j(x),\quad x\in\bar{\Omega}.
+	u_h(x) = \sum_{j=1}^N u_h(z_j)b_j(x),\quad x\in\bar{\Omega}.
 \]
 \pagebreak
 Somit ist \cref{prb:c2e4s1} äquivalent zu folgendem linearen Gleichungssystem:
@@ -63,7 +63,7 @@ Wir nehmen jetzt zunächst an, dass $d=2$ und $k=1$, d.h.\ wir betrachten die $P
 \begin{theorem}[Interpolationsfehlerabschätzung]\label{thm:c2e5s2}
 	Sei $T$ ein Dreieck mit Durchmesser $h_T$ (Länge der längsten Seite) und größtem Innenwinkel $0 < \omega < \pi$. Dann existieren Konstanten 
 	\[
-		c_0,\;c_1(\omega)\coloneqq\frac{\sqrt{{1}{4}+\frac{2}{\pi^2}}}{\sqrt{1-|\cos{\omega}|}},\; c_2(\omega) = 1,
+		c_0,\;c_1(\omega)\coloneqq\frac{\sqrt{\frac{\pi}{4}+\frac{2}{\pi^2}}}{\sqrt{1-|\cos{\omega}|}},\; c_2(\omega) = 1,
 	\]
 	sodass für alle $v\in H^2(\Omega)$ gilt
 	\[
@@ -109,8 +109,8 @@ Wir nehmen jetzt zunächst an, dass $d=2$ und $k=1$, d.h.\ wir betrachten die $P
 	und
 	\begin{IEEEeqnarray*}{rCl}
 		\left\| \fint_\Omega f_j \dx \right\|_{L^2(T)}^2 &=& \left| \frac{1}{| T|}\int_T f_j \dx \right|^2 \|1\|_{L^2(T)}^2 \\
-		&=& \frac{| T|}{| T|^2}\left|\int_T f_j \dx \right|^2 \\
-		&\leq& \frac{1}{2}h_T^2,
+		&=& \left|\int_T f_j \dx \right|^2 \\
+		&\leq& \frac{\pi}{8}h_T^2 \|\nabla f_j\|_{L^2(T)},
 	\end{IEEEeqnarray*}
 	dass
 	\begin{IEEEeqnarray*}{rCl}
@@ -118,9 +118,9 @@ Wir nehmen jetzt zunächst an, dass $d=2$ und $k=1$, d.h.\ wir betrachten die $P
 		&=& 
 			\left\| f_j - \fint_T f_j \dx  \right\|_{L^2(T)}^2 + \left\|\fint_T f_j \dx \right\|_{L^2(T)}^2\\
 		&\leq&
-			\frac{h_T^2}{\pi^2} \|\nabla f_j\|_{L^2(T)}^2 + \frac{1}{4}\|\nabla f_j\|_{L^2(T)}^2 \frac{h_T^2}{2} \\
+			\frac{h_T^2}{\pi^2} \|\nabla f_j\|_{L^2(T)}^2 + \frac{\pi}{8} h_T^2 \|\nabla f_j\|_{L^2(T)}^2 \\
 		&\leq&
-			\left( \frac{1}{\pi^2}+\frac{1}{8} \right)h_T^2 \|\nabla f_j\|_{L^2(T)}^2.
+			\left( \frac{1}{\pi^2}+\frac{\pi}{8} \right)h_T^2 \|\nabla f_j\|_{L^2(T)}^2.
 	\end{IEEEeqnarray*}
 	\emph{Zusammenfassung:} Wir haben gezeigt
 	\begin{IEEEeqnarray*}{rCl}
@@ -128,7 +128,7 @@ Wir nehmen jetzt zunächst an, dass $d=2$ und $k=1$, d.h.\ wir betrachten die $P
 		&\leq& 
 			\frac{1}{| 1-\cos{\omega}|}\left( \|f_1\|_{L^2(T)}^2 + \| f_2\|_{L^2(T)}^2 \right)\\
 		&\leq& 
-			\frac{1}{| 1-\cos{\omega}|}\underbrace{\left(\frac{2}{\pi^2} + \frac{1}{4}\right)}_{c_1(\omega)} \frac{1}{2} h_T^2 \underbrace{\left( \|\nabla f_1\|_{L^2(T)}^2 + \|\nabla f_2\|_{L^2(T)}^2 \right)}_{\leq 2\|D^2v\|_{L^2(T)}^2}
+			\frac{1}{| 1-\cos{\omega}|}\underbrace{\left(\frac{2}{\pi^2} + \frac{\pi}{4}\right)}_{c_1(\omega)} \frac{1}{2} h_T^2 \underbrace{\left( \|\nabla f_1\|_{L^2(T)}^2 + \|\nabla f_2\|_{L^2(T)}^2 \right)}_{\leq 2\|D^2v\|_{L^2(T)}^2}
 	\end{IEEEeqnarray*}
 	Die Abschätzung für die $L^2$-Norm von $f_1$ und $f_2$ folgt, da die partiellen Ableitungen zweiter Ordnung des Interpolators $I_h^1$ in alle Richtungen verschwinden.
 
