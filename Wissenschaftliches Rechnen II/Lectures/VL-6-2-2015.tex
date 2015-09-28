@@ -31,9 +31,9 @@ mit
 \end{IEEEeqnarray*}
 
 \begin{theorem}[Erinnerung: $\Omega$ konvex und planar]\label{thm:c2e8s1}
-	Es gibt eine Konstante $C(\Omega) > 0$ die nur von $\Omega$ (und nicht von $\kappa$) abhängt, so dass für alle $f\in L^2(\Omega,\mathbb{C})$ und $g\in L^2(\Omega,\mathbb{C})$ und die eindeutige schwache Lösung $u\in\mathcal{H}$ von (\ref{eqn:c2e8s2}) gilt:
+	Es gibt eine Konstante $C(\Omega) > 0$ die nur von $\Omega$ (und nicht von $\kappa$) abhängt, so dass für alle $f\in L^2(\Omega,\mathbb{C})$ und $g\in L^2(\partial\Omega,\mathbb{C})$ und die eindeutige schwache Lösung $u\in\mathcal{H}$ von (\ref{eqn:c2e8s2}) gilt:
 	\[
-		\| u\|_{\mathcal{H}} \leq C(\Omega)\left( \|f\|_{L^2(\Omega)} + \|g\|_{L^2(\Omega)} \right)
+		\| u\|_{\mathcal{H}} \leq C(\Omega)\left( \|f\|_{L^2(\Omega)} + \|g\|_{L^2(\partial\Omega)} \right)
 	\]
 \end{theorem}
 
@@ -42,28 +42,29 @@ mit
 	Wähle $v=u$ in (\ref{eqn:c2e8s2}). Dann folgt
 	\begin{IEEEeqnarray}{rCl}\label{eqn:c2e8s4}
 		\re{a(u,u)} &=& \| \nabla u\|_{L^2(\Omega)}^2 -\kappa^2\|u\|_{L^2(\Omega)}^2 \\
-		&\overset{\text{Youngsche UGL}}\leq& \left| \int_\Omega f\overline{u}\,dx + \int_{\partial\Omega} g\overline{u}\,dS \right|
+		&\leq& \left| \int_\Omega f\overline{u}\,dx + \int_{\partial\Omega} g\overline{u}\,dS \right|
 	\end{IEEEeqnarray}
-		mit der Youngschen Ungleichung $ab\leq \frac{1}{2}a^2+\frac{1}{2}b^2$, und
+		mit der Youngschen Ungleichung $ab\leq \frac{1}{2\varepsilon}a^2+\frac{\varepsilon}{2}b^2$, und
 	\begin{IEEEeqnarray*}{rCl}\label{eqn:c2e8s5}
-		\im{a(u,u)} &=& \kappa\|u\|_{L^2(\Omega)}^2\\
+		\im{a(u,u)} &=& \kappa\|u\|_{L^2(\partial\Omega)}^2\\
 		&\leq& \left| \int_\Omega f\overline{u}\,dx + \int_{\partial\Omega} g\overline{u}\,dS \right|\\
 		&\leq&\frac{1}{2\varepsilon k}\|f\|_{L^2(\Omega)}^2 + \frac{\varepsilon\kappa}{2}\|u\|_{L^2(\Omega)}^2 + \frac{1}{2\kappa}\|g\|_{L^2(\partial\Omega)}^2 + \frac{\kappa}{2}\|u\|_{L^2(\partial\Omega)}^2
 	\end{IEEEeqnarray*}
+	%Auf g und u sollte man auch die Young-Ungleichung für ein delta anwenden. Das setzt man erstmal auf 1 und später (bei \|\nabla u\|) auf kappa
 	mit $\varepsilon > 0$. Dann folgt
 	\begin{equation}\label{eqn:c2e8s*} %GLEICHUNG *
-		\frac{\kappa^2}{2}\|u\|_{L^2(\partial\Omega)}^2 \leq \frac{1}{2\varepsilon}\|f\|_{L^2(\Omega)}^2 + \frac{\varepsilon\kappa^2}{2}\|u\|_{L^2(\Omega)}^2 + \frac{1}{2}\|g\|_{L^2(\partial\Omega)}^2
+		\frac{\kappa^2}{2}\|u\|_{L^2(\partial\Omega)}^2 \leq \frac{1}{2\varepsilon}\|f\|_{L^2(\Omega)}^2 + \frac{\varepsilon\kappa^2}{2}\|u\|_{L^2(\Omega)}^2 + \frac{1}{2\kappa}\|g\|_{L^2(\partial\Omega)}^2
 	\end{equation}
 
 	Dann folgt aus (\ref{eqn:c2e8s4}):
 	\begin{IEEEeqnarray*}{rCll}
 		(\ref{eqn:c2e8s4})\Rightarrow \|\nabla u\|^2 
-			&\leq& \kappa^2\|u\|_{L^2(\Omega)}^2 + \frac{1}{2\kappa^2}\|f\|_{L^2(\Omega)}^2 + \frac{\kappa^2}{2}\|u\|_{L^2(\Omega)}^2\\&& + \frac{1}{2\kappa^2}\|g\|_{L^2(\Omega)}^2 + \frac{\kappa^2}{2}\|u\|_{L^2(\partial\Omega)}^2\\
-			&\overset{\varepsilon=1,(\ref{eqn:c2e8s*})}\leq& 2\kappa^2\|u\|_{L^2(\Omega)}^2 + \frac{1}{2}(1+\kappa^2)\left( \|f\|_{L^2(\Omega)}^2 + \|g\|_{L^2(\partial\Omega)}^2 \right).
+			&\leq& \kappa^2\|u\|_{L^2(\Omega)}^2 + \frac{1}{2\kappa^2}\|f\|_{L^2(\Omega)}^2 + \frac{\kappa^2}{2}\|u\|_{L^2(\Omega)}^2\\&& + \frac{1}{2\kappa^2}\|g\|_{L^2(\partial\Omega)}^2 + \frac{\kappa^2}{2}\|u\|_{L^2(\partial\Omega)}^2\\
+			&\overset{\varepsilon=1,(\ref{eqn:c2e8s*})}\leq& 2\kappa^2\|u\|_{L^2(\Omega)}^2 + \frac{1}{2}(1+\kappa^{-2})\left( \|f\|_{L^2(\Omega)}^2 + \|g\|_{L^2(\partial\Omega)}^2 \right).
 	\end{IEEEeqnarray*}
 
 	Jetzt benötigen wir einen Trick!\par
-	Wähle
+	Da $u\in H^2(\Omega)$, wähle
 	\[
 		v(x) \coloneqq \underbrace{\nabla u\cdot x}_{\in\mathcal{H}}
 	\]
@@ -82,32 +83,35 @@ mit
 	\end{IEEEeqnarray*}
 	Jetzt erhalten wir
 	\begin{IEEEeqnarray*}{rCl}\label{eqn:c2e8s**}
-		\re{a(u,v)} &=& \re \int_\Omega\nabla u\cdot(\nabla u + D^2\overline{u}x)\,dx - \kappa^2 \int_\Omega\underbrace{\re{(u\nabla\overline{u})}}_{\frac{1}{2}\nabla|u|^2}  \cdot x\,dx \\&&+ \re i\kappa\int_{\partial\Omega}u\nabla\overline{u}\cdot x\,dS\\
+		\re{a(u,v)} &=& \re \int_\Omega\nabla u\cdot(\nabla \overline{u} + D^2\overline{u}x)\,dx - \kappa^2 \int_\Omega\underbrace{\re{(u\nabla\overline{u})}}_{\frac{1}{2}\nabla|u|^2}  \cdot x\,dx \\&&+ \re i\kappa\int_{\partial\Omega}u\nabla\overline{u}\cdot x\,dS\\
 		&=& \int_\Omega |\nabla u|^2\,dx + \frac{1}{2}\int_\Omega\nabla\left( |\nabla u|^2 \right)\cdot x\,dx - \frac{\kappa^2}{2}\int_\Omega\nabla|u|^2\cdot x\,dx \\&&+ \re i\kappa \int_{\partial\Omega} u\nabla\overline{u}\cdot x\,dS\nonumber\\
-		&\overset{P.I.}=& \underbrace{\|\nabla u\|_{L^2(\Omega)}^2 - \int_\Omega |\nabla u|^2\,dx}_{=0} + \kappa^2\int_\Omega|u|^2\,dx +\frac{1}{2}\int_{\partial\Omega}|\nabla u|^2x\cdot\nu\,dS \\&&-\frac{\kappa^2}{2}\int_{\partial\Omega}|u|^2x\cdot\nu\,dS \IEEEyesnumber
+	%Beachte dim Omega=2. Daher div x=2.
+		&\overset{P.I.}=& \underbrace{\|\nabla u\|_{L^2(\Omega)}^2 - \int_\Omega |\nabla u|^2\,dx}_{=0} + \kappa^2\int_\Omega|u|^2\,dx +\frac{1}{2}\int_{\partial\Omega}|\nabla u|^2x\cdot\nu\,dS \\&&-\frac{\kappa^2}{2}\int_{\partial\Omega}|u|^2x\cdot\nu\,dS + \re i\kappa \int_{\partial\Omega} u\nabla\overline{u}\cdot x\,dS \IEEEyesnumber
 	\end{IEEEeqnarray*}
 	(P.I. = partielle Integration). Dann gilt weiter
 	\begin{IEEEeqnarray*}{rCl}
 		(\ref{eqn:c2e8s**}) &=& \re\left( \int_\Omega f\nabla\overline{u}\cdot x\,dx + \int_{\partial\Omega} g\nabla\overline{u}\cdot x\,dS \right).
 	\end{IEEEeqnarray*}
-	Da $\Omega$ konvex ist gilt damit
+	Da $\Omega$ konvex ist, gilt damit
 	\begin{IEEEeqnarray*}{rCl}
 		\kappa^2\|u\|_{L^2(\Omega)}^2 + \frac{\gamma}{2}\|\nabla u\|_{L^2(\partial\Omega)}^2\\
 		&\overset{2x\,C.S.U}\leq& \diam{\Omega} \left( \underbrace{\|f\|_{L^2(\Omega)}\|\nabla u\|_{L^2(\Omega)} + \|g\|_{L^2(\partial\Omega)}\|\nabla u\|_{L^2(\partial\Omega)}}_{\eqqcolon A}\right)\\ &&+ \diam{\Omega}\left(\underbrace{\frac{\kappa^2}{2}\|u\|_{L^2(\partial\Omega)}^2}_{\eqqcolon B}\right)\\
-		&& + \diam{\Omega}\left(\underbrace{\kappa\|u\|_{L^2(\partial\Omega)}\|\nabla u\|_{L^2(\partial\Omega)}}_{\leq\underbrace{\frac{1}{2\delta}\kappa^2\|u\|_{L^2(\partial\Omega)}}_{\eqqcolon C}+\frac{\delta}{2}\|\nabla u\|_{L^2(\partial\Omega)}^2} \right).
+		&& + \diam{\Omega}\left(\underbrace{\kappa\|u\|_{L^2(\partial\Omega)}\|\nabla u\|_{L^2(\partial\Omega)}}_{\leq\underbrace{\frac{1}{2\delta}\kappa^2\|u\|^2_{L^2(\partial\Omega)}}_{\eqqcolon C}+\frac{\delta}{2}\|\nabla u\|_{L^2(\partial\Omega)}^2} \right).
 	\end{IEEEeqnarray*}
+
+	% Man muss auf \|g\| \|\Nabla u\| auch Young anwenden und wählt $\delta = \frac{\gamma}{2 \diam{\Omega}}$
 	Mit $\delta = \frac{\gamma}{\diam{\Omega}}$ folgt
-	\begin{equation}{rCl}\label{eqn:c2e8s8}
+	\begin{equation}\label{eqn:c2e8s8}
 		\kappa^2\|u\|_{L^2(\Omega)}^2\leq\diam{\Omega}(A+B+C).
 	\end{equation}
 	Die Kombination von
 	\begin{IEEEeqnarray}{rCl}\label{eqn:c2e8s6}
-		\frac{1}{2}\kappa^2\|u\|_{L^2(\Omega)}^2
+		\frac{1}{2}\kappa^2\|u\|_{L^2(\partial\Omega)}^2
 		&\leq&\frac{1}{2\varepsilon}\|f\|_{L^2(\Omega)}^2 + \frac{\varepsilon}{2}\kappa^2\|u\|_{L^2(\Omega)}^2 + \frac{1}{2\kappa}\|g\|_{L^2(\partial\Omega)}^2
 	\end{IEEEeqnarray}
 	mit 
 	\begin{IEEEeqnarray}{rCl}\label{eqn:c2e8s7}
-		\|\nabla u\|_{L^2(\Omega)}^2 &\leq& 2\kappa^2 \|u\|_{L^2(\Omega)}^2 + \frac{1}{2}(1+\kappa^2)(\|f\|_{L^2}^1+\|g\|_{L^2}^2)
+		\|\nabla u\|_{L^2(\Omega)}^2 &\leq& 2\kappa^2 \|u\|_{L^2(\Omega)}^2 + \frac{1}{2}(1+\kappa^{-2})(\|f\|_{L^2}^2+\|g\|_{L^2}^2)
 	\end{IEEEeqnarray}
 	und (\ref{eqn:c2e8s8}) beweist die Behauptung
 \end{proof}
@@ -120,16 +124,16 @@ mit
 \end{corollary}
 \begin{proof}
 	Gegeben sei $u\in\mathcal{H}$. Sei $z_u\in\mathcal{H}$ die Lösung von
-	\[
+	\begin{equation*}
 		a(z_u,w) = 2\kappa^2\int_\Omega\overline{u}\overline{w}\,dx,\quad w\in\mathcal{H}.
-	\]
+	\end{equation*}
 	Dann gilt 
-	\[
+	\begin{equation*}
 		\|z_u\|_\mathcal{H} \leq C(\Omega)2\kappa^2\|u\|_{L^2(\Omega)}\leq 2C(\Omega)\kappa\|u\|_\mathcal{H}.
-	\]
-	Setze $v\coloneqq u+\overline{z_u}$ und beobachte
+	\end{equation*}
+	Setze $v\coloneqq u+\overline{z_u}$. Dann gilt $\|v\|_\mathcal{H} \le \left( 1 + 2C(\Omega)\kappa\right)\|u\|_\mathcal{H}$ und  
 	\begin{IEEEeqnarray*}{rCl}
-		|a(u,v)|&\geq&\re{a(u,v)} \\&=& \re{a(u,u)}-\re{\underbrace{a(u,\overline{z_u})}_{=a(z_u,\overline{u})}},
+		|a(u,v)|&\geq&\re{a(u,v)} \\&=& \re{a(u,u)}+\re{\underbrace{a(u,\overline{z_u})}_{=a(z_u,\overline{u})}},
 	\end{IEEEeqnarray*}
 	und 
 	\begin{IEEEeqnarray*}{rCl}
@@ -140,16 +144,16 @@ mit
 	\begin{IEEEeqnarray*}{rCl}
 		|a(u,v)|&\geq& \kappa^2\|u\|_{L^2(\Omega)}^2 + \|\nabla u\|_{L^2(\Omega)}^2\\
 		&=&\|u\|_\mathcal{H}\|u\|_\mathcal{H}\\
-		&\geq&\frac{1}{2C(\Omega)\kappa}\|u\|_\mathcal{H}\|z_u\|_\mathcal{H}. 
+		&\geq&\frac{1}{1 + 2C(\Omega)\kappa}\|u\|_\mathcal{H}\|v\|_\mathcal{H}. 
 	\end{IEEEeqnarray*}
 \end{proof}
 
 Betrachte jetzt die Standard-FEM für (\ref{eqn:c2e8s2}):\par
 Sei $\Omega$ konvex, polygonal und $\{\mathcal{T}_h\}_{h>0}$ eine Familie formregulärer Gitter / Triangulierungen (2D: maximale Winkel sind uniform beschränkt) von $\Omega$. Wir erinnern uns: \cref{thm:c2e5s2} und \cref{thm:c2e5s8} zeigten die Existenz eines $C_{int}>0$, welches nur vom maximalen Winkel ahbähngt, so dass
 \begin{IEEEeqnarray*}{rCl}
-	\sup_{v\in H^2(\Omega)}\inf_{v_h\in\mathcal{P}^{1,0}(\mathcal{T}_h)}\left( \|v-v_h\|_{L^2(\Omega)} + h\|\nabla(v-\underbrace{v_h}_{=I_h^1v})\|_{L^2(\Omega)} \right) \leq C_{int}h\|D^2\|_{L^2(\Omega)}.
+	\sup_{v\in H^2(\Omega)}\inf_{v_h\in\mathcal{P}^{1,0}(\mathcal{T}_h)}\left( \|v-v_h\|_{L^2(\Omega)} + h\|\nabla(v-\underbrace{v_h}_{=I_h^1v})\|_{L^2(\Omega)} \right) \leq C_{int}h^2\|D^2v\|_{L^2(\Omega)}.
 \end{IEEEeqnarray*}
-Die Regularitätstheorie für $-\Delta$ zeigt, dass Lösungen von (\ref{eqn:c2e8s8}) in in $H^2(\Omega)$ liegen, und dass
+Die Regularitätstheorie für $-\Delta$ zeigt, dass Lösungen von (\ref{eqn:c2e8s8}) in $H^2(\Omega)$ liegen, und dass
 \begin{IEEEeqnarray*}{rCl}
 	\|D^2u\|_{L^2(\Omega)}&\leq& \tilde{C}(\Omega)\left( \|f-\kappa^2u\|_{L^2(\Omega)} + \|\underbrace{\nabla u\cdot\nu}_{=g-i\kappa u}\|_{H^{1/2}(\partial\Omega)} \right)\\
 	&\overset{\cref{thm:c2e8s1} + Trace\,UG}\leq& C(\Omega)\left(\kappa\|f\|_{L^2(\Omega)} + \kappa\|g\|_{L^2(\partial\Omega)}+\|g\|_{H^{1/2}(\partial\Omega)} \right)
@@ -160,7 +164,7 @@ FEM sucht $u_h\in \mathcal{P}^{1,0}(\mathcal{T}_h):\forall v_h\in \mathcal{P}^{1
 \begin{theorem}\label{thm:c2e8s3}
 	Es gibt Konstanten $C_1,C_2>0$ (die nur von $\Omega$) abhängen, so dass unter der Annahme $\kappa^2h\leq C_1 < 1$ gilt:
 	\[
-		\inf_{0\not=u_h\in\mathcal{P}^{1,0}(\mathcal{T}_h)}\sup_{0\not=v_h\in\mathcal{P}^{1,0}(\mathcal{T}_h)} \frac{a(u_h,v_h)}{\|u_h\|_\mathcal{H}\|v_h\|_\mathcal{H}} \geq C_2\kappa^{-2}
+		\inf_{0\not=u_h\in\mathcal{P}^{1,0}(\mathcal{T}_h)}\sup_{0\not=v_h\in\mathcal{P}^{1,0}(\mathcal{T}_h)} \frac{a(u_h,v_h)}{\|u_h\|_\mathcal{H}\|v_h\|_\mathcal{H}} \geq C_2\kappa^{-1}
 	\]
 	bzw. analog für die umgekehrte \emph{inf-sup} Bedingung.
 \end{theorem} 
@@ -175,6 +179,7 @@ FEM sucht $u_h\in \mathcal{P}^{1,0}(\mathcal{T}_h):\forall v_h\in \mathcal{P}^{1
 		\|z\|_\mathcal{H} &\leq& C(\Omega)\kappa\|u_h\|_\mathcal{H};\\
 		\|D^2z\|_{L^2(\Omega)} &\leq& C(\Omega)\kappa^2\|u_h\|_\mathcal{H}.
 	\end{IEEEeqnarray*}
+	%Aus Satz 2.58
 	Aus (\ref{thm:c2e8s3}) folgt die Existenz eines $z_h\in\mathcal{P}^{1,0}(\mathcal{T}_h)$ mit 
 	\[
 		\|z-z_h\|_\mathcal{H}\leq C(\Omega)(\kappa h^2 + h)\kappa^2\|u_h\|_\mathcal{H}.
@@ -182,14 +187,15 @@ FEM sucht $u_h\in \mathcal{P}^{1,0}(\mathcal{T}_h):\forall v_h\in \mathcal{P}^{1
 	Das bedeutet, dass $z_h$ nahe genug an $z$ ist, falls $(\kappa h^2 + h)\kappa^2$ klein genug ist.\par
 	Mit $v_h\coloneqq u_h + \overline{z_h}$ folgt
 	\begin{IEEEeqnarray*}{rCl}
-		\re{a(u,v)} &=& \underbrace{\re{a(u_h,u_h+\overline{z})}}_{\underset{Beweis\,\ref{thm:c2e8s1}}\geq \|u_h\|_\mathcal{H}^2} - \underbrace{\re{a(u_h,z-z_h)}}_{\leq C(\Omega)\|u_h\|_\mathcal{H}^2(\kappa h^2+h)\kappa^2}
+		\re{a(u,v)} &=& \underbrace{\re{a(u_h,u_h+\overline{z})}}_{\underset{Beweis\,\ref{cor:c2e8s}}\geq \|u_h\|_\mathcal{H}^2} - \underbrace{\re{a(u_h,z-z_h)}}_{\leq C(\Omega)\|u_h\|_\mathcal{H}^2(\kappa h^2+h)\kappa^2}
 		\\
 		&\geq& (1-C(\Omega)(\kappa h^2+h)\kappa^2)\|u_h\|_\mathcal{H}^2.
 	\end{IEEEeqnarray*}
-	Wähle $C_1\geq\frac{1}{2(1-\C(\Omega))}$. Dann folgt 
-	\[
+	% Bemerkung: Beachte kappa^3h^2 <= h kappa <= h kappa^2, da kappa >=1 und kappa^2 <= C_1 <= 1
+	Wähle $C_1\leq\frac{1}{4\C(\Omega)}$. Dann folgt 
+	\begin{equation*}
 		\re a(u_h,v_h) \geq\frac{1}{2}\|u_h\|_\mathcal{H}^2.
-	\]
+	\end{equation*}
 	Die Behauptung folgt dann aus
 	\begin{IEEEeqnarray*}{rCl}
 		\|v_h\|_\mathcal{H} &\leq&\|u_h\|_\mathcal{H} + \|z_h-z\|_\mathcal{H} + \|z\|_\mathcal{H}\\

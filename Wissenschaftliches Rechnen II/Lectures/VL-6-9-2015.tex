@@ -33,7 +33,7 @@ Hierzu einige Bemerkungen:
 	\]
 	für $C(\Omega)$ unabhänging von $\kappa$. Dann ist 
 	\begin{IEEEeqnarray*}{rCl}
-		\kappa^2\|e\|_{L^2(\Omega)} &=& a(z,e) = a(e,z) \\
+		\kappa^2\|e\|_{L^2(\Omega)}^2 &=& a(z,e) = a(e,z) \\
 		&\overset{\text{Galerkin}}=& a(e,z-z_h)\\
 		&\leq& C(\Omega) \|e\|_\mathcal{H}\|z-z_h\|_\mathcal{H} \\
 		&\overset{\ref{eqn:c2e8s9}}\leq& \tilde{C}(\Omega) (\kappa^3h^2+h\kappa^2) \|e\|_\mathcal{H}^2
@@ -42,12 +42,12 @@ Hierzu einige Bemerkungen:
 	\begin{IEEEeqnarray*}{rCl}
 		\|e\|_\mathcal{H}^2 &=& \re a(e,e) + 2\kappa^2\|e\|_{L^2(\Omega)}^2\\
 		&=& \re a(e,u-v_h) + 2\kappa^2\|e\|_{L^2(\Omega)}^2\\
-		&\leq& C(\Omega) \|e\|_\mathcal{H} \|u-v_h\|_\mathcal{H} + \underbrace{2\tilde{C}(\Omega)(\kappa^3 h^2 + h\kappa^2)\|e\|_\mathcal{H}^2}_{\leq 4\tilde{C}(\Omega)C_3}
+		&\leq& C(\Omega) \|e\|_\mathcal{H} \|u-v_h\|_\mathcal{H} + \underbrace{2\tilde{C}(\Omega)(\kappa^3 h^2 + h\kappa^2)}_{\leq 4\tilde{C}(\Omega)C_3}\|e\|_\mathcal{H}^2
 	\end{IEEEeqnarray*}
 	Die Wahl $C_3\leq \frac{1}{8\tilde{C}(\Omega)}$ ergibt die Aussage mit $C_4 = 2 C(\Omega)$.
 \end{proof}
 
-Insgesamt wissen wir jetzt alsos, dass
+Insgesamt wissen wir jetzt also, dass 
 \[
 	\|u-u_h\|_\mathcal{H} \leq C(\Omega)\kappa h \left( \|f\|_{L^2(\Omega)} + \|g\|_{L^2(\partial\Omega)} + \kappa^{-1} \|g\|_{H^{1/2}(\partial\Omega)} \right)
 \]

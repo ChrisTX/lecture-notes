@@ -21,35 +21,6 @@ In diesem Abschnitt betrachten wir ein nicht-koerzives Modellproblem (d.h. Resul
 	Die inhomogene Randbedingung in obigem Problem wird \emph{Robin Randbedingung} genannt.
 \end{remark}
 
-\cref{thm:c2e5s2} (bzw. \cref{thm:c2e5s8}) zeigt 
-\begin{IEEEeqnarray*}{rCl}
-	|u_\varepsilon - I_hu_\varepsilon|_{1,\varepsilon,\delta}^2 &\leq& \varepsilon \|\nabla(u_\varepsilon - I_hu_\varepsilon)\|_{L^2(\Omega)}^2 + 2\delta_T\|\cancel{b} \nabla(u_\varepsilon-I_hu_\varepsilon)\|_{L^2(T)} \\
-	&\leq& \sum_{T\in\mathcal{T}_h} (\varepsilon+\delta_T) C_{inf}^2\delta_T^{-2}h_T^2 \|D^2u_\varepsilon\|_{L^2(T)}^2 \\
-	&\leq& C_{inf} \delta_{\mathcal{T}_h}^{-2} \sum_{T\in\mathcal{T}_h} \left( (\varepsilon+\delta_T) h_T^2 \|D^2u_\varepsilon\|_{L^2(T)} \right)
-\end{IEEEeqnarray*}
-
-Betrachte nun 
-\[
-	\underbrace{|I_hu_\varepsilon - u_{\varepsilon,h,\delta}|_{1,\varepsilon,\delta}}_{\eqqcolon v_h}.
-\]
-\cref{thm:c2e7s6} impliziert
-\begin{IEEEeqnarray*}{rCl}
-	|v_h|_{1,\varepsilon,\delta} &\leq& a_{\varepsilon,\delta} (v_h,v_h)\\
-	&=& a_{\varepsilon,\delta}(I_hu_\varepsilon-u_\varepsilon,v_h) + a_{\varepsilon,\delta}(u_\varepsilon-u_{\varepsilon,h,\delta},v_h).
-\end{IEEEeqnarray*}
-Da $u\in H^2(\Omega)$, gilt 
-\begin{IEEEeqnarray*}{rCl}
-	a_{\varepsilon,\delta}(u_\varepsilon-u_{\varepsilon,h,v_h}) &=& \cancel{a_\varepsilon(u_\varepsilon,v_h)} + \sum_{T\in\mathcal{T}_h} \delta_T \int_T b\cdot\nabla u_\varepsilon b\cdot\nabla v_h\,dx - \cancel{\int_\Omega fv_h\,dx} - \sum_{T\in\mathcal{T}_h}\delta_T\int_T f b\cdot\nabla v_h\,dx \\
-	&=& \sum_{T\in\mathcal{T}_h} \delta_T\int_T\varepsilon\Delta u_\varepsilon b\nabla v_h\,dx \\
-	&\leq& \sum_{T\in\mathcal{T}_h} \left(\sqrt{\delta_T}\varepsilon \|u_\varepsilon\|_{L^2(T)} \right) \left( \sqrt{\delta_T}\|b\cdot\nabla v_h\|_{L^2(T)} \right) \\
-	&\leq& \underbrace{\left( \sum_{T\in\mathcal{T}_h}\delta_T\varepsilon^2\|\Delta u\|_{L^2(T)}^2 \right)^{\frac{1}{2}}}_{\leq \|D^2u\|_{L^2(T)}} \underbrace{\left( \sum_{T\in\mathcal{T}_h}\delta_T \|b\cdot\nabla v_h\|_{L^2(T)}^2 \right)^{\frac{1}{2}}}_{\leq |v_h|_{1,\varepsilon,\delta}}.
-\end{IEEEeqnarray*}
-Ferner gilt
-\begin{IEEEeqnarray*}{rCl}
-	a_{\varepsilon,\delta}(I_hu_\varepsilon-u_\varepsilon,v_h) &=& 
-		\varepsilon \int_\Omega \nabla(I_hu_\varepsilon-u_\varepsilon)\cdot\nabla v_h \,dx + \int_\Omega b\cdot\nabla(I_hu_\varepsilon-u_\varepsilon)vh\,dx \\&&+ \underbrace{\sum_{T\in\mathcal{T}_h} \delta_T\int_T b\cdot\nabla(I_hu_\varepsilon-u_\varepsilon)b\cdot\nabla v_h\,dx }_{= -\int_\Omega b\cdot\nabla v_h(I_hu_\varepsilon-u_\varepsilon)\,dx}
-\end{IEEEeqnarray*}
-
 Wir werden sehen, dass \cref{eqn:c2e8s1} ein einfaches Modell für akustische Wellenausbreitung in homogenen Materialien ist. Die Schwache Formulierung von (\cref{eqn:c2e8s1}) lautet
 \begin{problem}
 	Finde $u\in H^1(\Omega;\mathbb{C})$ so dass für $f\in L^2(\Omega;\mathbb{C}), g\in L^2(\partial\Omega;\mathbb{C})$ für alle $v\in H^1(\Omega;\mathbb{C})$ gilt
