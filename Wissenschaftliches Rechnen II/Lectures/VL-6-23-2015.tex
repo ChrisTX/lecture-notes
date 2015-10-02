@@ -57,8 +57,8 @@
 			\[
 				\frac{d}{dt} \|u(t)\|_{L^2(\Omega)}^2  = \left\langle \dot{u}(t),u(t)\right\rangle_{H^{-1}(\Omega)\times H^1_0(\Omega)},
 			\]
-			für fast alle $0\leq t\leq T$
-		\item außerdem
+			für fast alle $0\leq t\leq T$.
+		\item und außerdem
 			\[ 
 				\max_{0\leq t\leq T} \|u(t)\|_{L^2(\Omega)} \leq C\left( \|u\|_{L^2(0,T;H^1_0(\Omega))} + \|\dot{u}\|_{L^2(0,T;H^{-1}(\Omega))} \right),
 			\]
@@ -79,13 +79,13 @@ Wir nehmen an, dass
 
 \textbf{Erinnerung: } Für $u,v\in H^1_0(\Omega)$ war 
 \[
-	a(u,v) \coloneqq \int_\Omega \nabla u\cdot\nabla v\,dx.
+	a(u,v) \coloneqq \int_\Omega \nabla u\cdot\nabla v\dx.
 \]
 
 \begin{definition}[Schwache Lösung]\label{def:c4e3s1}
-	Wir sagen $u\in L^2(0,T;H^1_0(\Omega))$ mit $\dot{u}\in L^2(0,T;L^2(\Omega))$ und $\ddot{u}\in L^2(0,T;H^{-1}(\Omega))$ ist eine \emph{schwache Lösung} von (\ref{eqn:s4e1s1}) - (\ref{eqn:c4e1s3}), falls
+	Wir sagen $u\in L^2(0,T;H^1_0(\Omega))$ mit $\dot{u}\in L^2(0,T;L^2(\Omega))$ und $\ddot{u}\in L^2(0,T;H^{-1}(\Omega))$ ist eine \emph{schwache Lösung} von (\ref{eqn:c4e1s1}) - (\ref{eqn:c4e1s3}), falls
 	\begin{equation}\label{eqn:c4e3s2}
-		\langle\ddot{u}(t),v\rangle_{H^{-1}\times H^1_0} + a(u(t),v) = \int_\Omega f(t)v\,dx
+		\langle\ddot{u}(t),v\rangle_{H^{-1}\times H^1_0} + a(u(t),v) = \int_\Omega f(t)v\dx
 	\end{equation}
 	für jedes $v\in H^1_0(\Omega)$ und fast alle $0\leq t\leq T$, und 
 	\begin{equation}\label{eqn:c4e3s3}
@@ -108,9 +108,9 @@ Wir nehmen an, dass
 		\lim_{h\to 0}\inf_{v_h\in V_h} \|\nabla(v-v_h)\|_{L^2(\Omega)} = 0
 	\]	
 	[z.B. sei $V_h = P^{1,0}_0(\mathcal{T}_h)$ für eine Folge regulärer quasiuniformer Triangulierungen $\mathcal{T}_h$]\newline\noindent
-	Wir suchen zugehörige Funktionen $u_h\in C^2([0,T];V_h)$ (wir werden $u_h$ als Lösung einer gewöhnlichen Dgl zweiter Ordnung erhalten, also $C^2$ für Lösung erwartet), so dass 
+	Wir suchen zugehörige Funktionen $u_h\in C^2([0,T];V_h)$ (wir werden $u_h$ als Lösung einer gewöhnlichen DGL zweiter Ordnung erhalten, also $C^2$ für Lösung erwartet), so dass 
 	\begin{equation}\label{eqn:c4e3s4}
-		(\ddot{u}_h (t), v_h)_{L^2(\Omega)} + a(u_h(t),v) = \int_\Omega f(t)v\,dx
+		(\ddot{u}_h (t), v_h)_{L^2(\Omega)} + a(u_h(t),v) = \int_\Omega f(t)v\dx
 	\end{equation}
 	für jedes $v_h\in V_h$ und alle $0\leq t\leq T$, und 
 	\begin{equation}\label{eqn:c4e3s5}
@@ -124,15 +124,15 @@ Wir nehmen an, dass
 	\[
 		u_h(t) = \sum_{j=1}^{\dim{V_h}} d_{h,j}(t)\lambda_{h,j},
 	\]
-	wobei $\{\lambda_{h,j}|\,1\leq j\leq\dim{V_h}\}$ eine Basis von $V_h$ ist. Das System gewöhnlicher Dgl lautet
+	wobei $\{\lambda_{h,j}\mid 1\leq j\leq\dim{V_h}\}$ eine Basis von $V_h$ ist. Das System gewöhnlicher DGL lautet
 	\begin{equation}\label{eqn:c4e3s7}
 		M_h \ddot{d}_h(t) + A_h d_h(t) = F_h(t),
 	\end{equation} 
 	wobei 
 	\[
-		(M_h)_{i,j} \coloneqq \int_\Omega \lambda_{h,i}\lambda_{h,j}\,dx,\quad (A_h)_{i,j} \coloneqq \int_\Omega \nabla\lambda_{h,i} \cdot \nabla\lambda_{h,j}\,dx,\quad (F_h(t))_j \coloneqq \int_\Omega f(t)\lambda_{h,j} \,dx.
+		(M_h)_{i,j} \coloneqq \int_\Omega \lambda_{h,i}\lambda_{h,j}\dx,\quad (A_h)_{i,j} \coloneqq \int_\Omega \nabla\lambda_{h,i} \cdot \nabla\lambda_{h,j}\dx,\quad (F_h(t))_j \coloneqq \int_\Omega f(t)\lambda_{h,j} \dx.
 	\]
-	Die Theorie gewöhnlicher Dgl. garantiert die Existenz einer eindeutigen Lösung 
+	Die Theorie gewöhnlicher DGL garantiert die Existenz einer eindeutigen Lösung 
 	\[
 		d_h(t) = \left( d_{h,1}(t),...,d_{h,\dim{V_h}} \right) \in C^2([0,T];\mathbb{R}^{\dim{V_h}})
 	\]
@@ -148,13 +148,13 @@ Wir nehmen an, dass
 	\[
 		u_h(t) = \sum_{j=1}^{\dim{V_h}} d_{h,j}\lambda_{h,j}
 	\]
-	das System (\ref{eqn:c4e3s4}) - (\ref{c4e3s5}) und $u_h\in C^2([0,T];V_h)$.\newline\newline\noindent
+	das System (\ref{eqn:c4e3s4}) - (\ref{eqn:c4e3s5}) und $u_h\in C^2([0,T];V_h)$.\newline\newline\noindent
 	$\rightsquigarrow$ Wenn wir im Ort diskretisieren, erhalten wir eine eindeutige Lösung!\newline\newline\noindent
 	Hängt die Lösung stetig von den Daten ab?\newline\newline\noindent
 
 	\textbf{(b) Energieabschätzung  } Wir müssen die richtige Testfunktion in (\ref{eqn:c4e3s4}) wählen: $v_h = \dot{u}_h(t)$. Damit erhalten wir 
 	\begin{equation}
-		(\ddot{u}_h(t),\dot{u}_h)_{L^2(\Omega)} + a(u_h(t),\dot{u}_h(t)) = \int_\Omega f(t)\dot{u}_h(t)\,dx.\label{eqn:c4e3s_(*)}\tag{(*)}
+		(\ddot{u}_h(t),\dot{u}_h)_{L^2(\Omega)} + a(u_h(t),\dot{u}_h(t)) = \int_\Omega f(t)\dot{u}_h(t)\dx.\label{eqn:c4e3s_(*)}\tag{$\star$}
 	\end{equation}
 	Es gilt
 	\[
@@ -164,9 +164,9 @@ Wir nehmen an, dass
 	\[
 		a(u_h(t),\dot{u}_h(t)) = \frac{1}{2}\frac{d}{dt} a(u_h(t),u_h(t)).	
 	\]
-	Diese Terme können wir in \ref{eqn:c4e3s_(*)} einsetzen:
+	Diese Terme können wir in \eqref{eqn:c4e3s_(*)} einsetzen:
 	\[
-		\frac{d}{dt}\left( \underbrace{\frac{1}{2}\|\dot{u}_h(t)\|_{L^2(\Omega)}^2 + \frac{1}{2}a(u_h(t), u_h(t))}_{\eqqcolon\mathcal{E}(u_h)(t)} \right) = \int_\Omega f(t)\dot{u}_h(t)\,dx.
+		\frac{d}{dt}\Bigg( \underbrace{\frac{1}{2}\|\dot{u}_h(t)\|_{L^2(\Omega)}^2 + \frac{1}{2}a(u_h(t), u_h(t))}_{\eqqcolon\mathcal{E}(u_h)(t)} \Bigg) = \int_\Omega f(t)\dot{u}_h(t)\dx.
 	\]
 	Die Größe
 	\[
@@ -176,7 +176,7 @@ Wir nehmen an, dass
 
 	Mit dieser Notation und der Young'schen-Ungleichung
 	\[
-		\int_\Omega f(t)\dot{u}_h(t)\,dx \leq \frac{1}{2}\|f(t)\|_{L^2(\Omega)}^2 + \underbrace{\frac{1}{2}\|\dot{u}_h(t)\|_{L^2(\Omega)}^2}_{\leq \mathcal{E}(u_h)(t)}
+		\int_\Omega f(t)\dot{u}_h(t)\dx \leq \frac{1}{2}\|f(t)\|_{L^2(\Omega)}^2 + \underbrace{\frac{1}{2}\|\dot{u}_h(t)\|_{L^2(\Omega)}^2}_{\leq \mathcal{E}(u_h)(t)}
 	\]
 	 folgt
 	\begin{IEEEeqnarray*}{rCl}
@@ -201,7 +201,7 @@ Wir nehmen an, dass
 	\begin{IEEEeqnarray*}{rCl}
 		\langle\ddot{u}_h(t),v\rangle_{H^{-1}\times H^1_0} &=& (\ddot{u}_h(t),\underbrace{v}_{=v-v_h+v_h})_{L^2(\Omega)} \\
 		&=& (\ddot{u}_h(t),v_h)_{L^2(\Omega)}\\
-		&\overset{(\ref{eqn:c4e3s4})}=& \int_\Omega f(t)v_h\,dx - a(u_h(t),v_h).
+		&\overset{(\ref{eqn:c4e3s4})}=& \int_\Omega f(t)v_h\dx - a(u_h(t),v_h).
 	\end{IEEEeqnarray*}
 
 	Daraus folgt
@@ -210,7 +210,7 @@ Wir nehmen an, dass
 		\begin{aligned}
 				\|\ddot{u}(t)\|_{H^{-1}(\Omega)} 
 			&\leq&
-				\sup_{v_h\in H^1_0(\Omega)} \frac{\left| \int_\Omega f(t)v_h\,dx - a(u_h(t),v_h) \right|}{\nabla v\|_{L^2(\Omega)}} 
+				\sup_{v_h\in H^1_0(\Omega)} \frac{\left| \int_\Omega f(t)v_h\dx - a(u_h(t),v_h) \right|}{\nabla v\|_{L^2(\Omega)}} 
 			\\
 			&\leq&
 				\frac{
@@ -228,8 +228,7 @@ Wir nehmen an, dass
 	\[
 		\exists C: \quad \|\nabla v_h\|_{L^2(\Omega)} \leq C\|\nabla v\|_{L^2(\Omega)}
 	\]
-	mit $C$ abhängig von der Uniformität des Gitters.\newline\newline\noindent
-
+	mit $C$ abhängig von der Uniformität des Gitters.
 \end{proof}
 
 

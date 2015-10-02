@@ -47,7 +47,7 @@ Hierzu einige Bemerkungen:
 	Die Wahl $C_3\leq \frac{1}{8\tilde{C}(\Omega)}$ ergibt die Aussage mit $C_4 = 2 C(\Omega)$.
 \end{proof}
 
-Insgesamt wissen wir jetzt alsos, dass
+Insgesamt wissen wir jetzt also, dass
 \[
 	\|u-u_h\|_\mathcal{H} \leq C(\Omega)\kappa h \left( \|f\|_{L^2(\Omega)} + \|g\|_{L^2(\partial\Omega)} + \kappa^{-1} \|g\|_{H^{1/2}(\partial\Omega)} \right)
 \]
@@ -56,14 +56,14 @@ Insgesamt wissen wir jetzt alsos, dass
 Die Beschreibung von Strömungen führt in der einfachsten Form auf die Gleichung
 \begin{problem}
 	Suche $u\in H^1_0(\Omega)$ und $p\in L^2_0(\Omega)\coloneqq\{v\in L^2(\Omega)|\,\int_\Omega v\,dx = 0\}$ so, dass
-	\begin{IEEEeqnarray*}{rCll}
+	\begin{IEEEeqnarray*}{rCl"l}
 		-\Delta u + \nabla p &=& f & \text{in }\Omega\\
-		div\:u &=& 0&\text{in}\Omega\\
+		\dive u &=& 0&\text{in }\Omega\\
 		u &=& 0&\text{auf }\partial\Omega
 	\end{IEEEeqnarray*}
-	für gegebenes $f\in L^2(\Omega)$. Hierbei ist $u$ das Geschwindigkeitsfeld, $p$ der Druck, und die Divergenzbedingung entspricht der Massenerhaltung
+	für gegebenes $f\in L^2(\Omega)$. Hierbei ist $u$ das Geschwindigkeitsfeld, $p$ der Druck, und die Divergenzbedingung entspricht der Massenerhaltung.
 \end{problem}
-Diese Art von Problem führt auf \emph{Sattelpunktprobleme}
+Diese Art von Problem führt auf \emph{Sattelpunktprobleme}.
 
 \section{Abstrakte Sattelpunktprobleme und Brezzi's Splitting Theorem}\label{sec:c3e1}
 Es seien $V,M$ Hilberträume. Definiere \emph{beschränkte Blinearformen}
@@ -71,7 +71,7 @@ Es seien $V,M$ Hilberträume. Definiere \emph{beschränkte Blinearformen}
 	a:V\times V &\to&\mathbb{R}\\
 	b:V\times M &\to&\mathbb{R}
 \end{IEEEeqnarray*}
-d.h. es eistieren $C_a,C_b>0$ so dass $\forall v,w\in V, \mu\in M$ gilt
+d.h. es existieren $C_a,C_b>0$, sodass $\forall v,w\in V, \mu\in M$ gilt
 \begin{IEEEeqnarray*}{rCl}
 	a(v,w) &\leq & C_a\|v\|_V\|w\|_V;\\
 	b(v,\mu) &\leq& C_b\|v\|_V\|\mu\|_M.
@@ -82,10 +82,10 @@ d.h. es eistieren $C_a,C_b>0$ so dass $\forall v,w\in V, \mu\in M$ gilt
 		a(u,v) + b(v,\lambda) &=& F(v)\\
 		b(u,\mu) &=& G(\mu)
 	\end{IEEEeqnarray*}
-	für alle $(v,\mu)\in V\times M$
+	für alle $(v,\mu)\in V\times M$.
 \end{problem}
 \begin{remark}
-	Addition beider Gleichung führt auf
+	Addition beider Gleichungen führt auf
 	\[
 		\mathcal{B}\left(  (u,\mu), (v,\lambda) \right) = F(v) + G(\mu)
 	\]
@@ -93,18 +93,18 @@ d.h. es eistieren $C_a,C_b>0$ so dass $\forall v,w\in V, \mu\in M$ gilt
 	\[
 		\mathcal{B}\left( (u,\lambda), (v,\mu) \right) \coloneqq a(u,v) + b(v,\lambda) + b(u,\mu)
 	\]
-	definiert auf $(V\times M)\times (V\times M)$. Dies lässt sich prinzipiell mit der BBN-THeorie behandeln.\newline\newline\noindent
+	definiert auf $(V\times M)\times (V\times M)$. Dies lässt sich prinzipiell mit der BNB-Theorie behandeln.\newline\newline\noindent
 	Durch Ausnutzung der Sattelpunkt-Struktur des Problems kann man jedoch eine einfache Charakterisierung für Wohlgestelltheit angeben.
 \end{remark}
 
 Die Form $b:V\times M\to\mathbb{R}$ definiert die linearen Abbildungen
-\begin{IEEEeqnarray*}{rl}
+\begin{IEEEeqnarray*}{r"l}
 	B:V\to M',& v\mapsto b(v,\cdot)\in M'\\
 	B':M\to V',& \mu\mapsto b(\cdot,\mu)\in V'.
 \end{IEEEeqnarray*}
 Definiere den Kern von $B$ durch
 \[
-	Z \coloneqq ker(B) = \{v\in V:\,\forall \mu\in M\,b(v,\mu) = 0\}.
+	Z \coloneqq \ker(B) = \{v\in V:\,\forall \mu\in M\;\;b(v,\mu) = 0\}.
 \]
 Zentrale Bedingung:
 \begin{equation}\label{eqn:c3e1s1} %In Vorlesung: (1)
@@ -120,7 +120,7 @@ für $\alpha,\beta>0$.
 \end{remark}
 Wir erinnern uns an die \emph{Polare} eines Unterraumes $W\subseteq V$, welche gegeben sind durch
 \[
-	W^0 \coloneqq \left\{ L\in V'|\,\forall w\in W: L(w) = 0 \right\} \subseteq V'.
+	W^0 \coloneqq \left\{ L\in V' \gmid \forall w\in W: L(w) = 0 \right\} \subseteq V'.
 \]
 \begin{lemma}\label{thm:c3e1s1}
 	\begin{enumerate}
@@ -188,8 +188,8 @@ Wie immer sei $\Omega\subset\mathbb{R}^d$ beschränkt, offen, zusammenhängend, 
 \begin{problem}\label{prb:c3e2_p}
 	Gegeben $f\in L^2(\Omega)^d$, finde $u\in H^1_0(\Omega)^d$ und $p\in L^2_0(\Omega)$ so dass
 	\begin{IEEEeqnarray*}{rCl}
-		\int_\Omega Du: Dv\,dx - \int_\Omega div\,v\:p\,dx &=& \int_\Omega f\cdot v\,dx\\
-		\int_\Omega div\,u\:q\,dx &=& 0
+		\int_\Omega Du: Dv \dx - \int_\Omega \dive v\:p \dx &=& \int_\Omega f\cdot v \dx\\
+		\int_\Omega \dive u\:q \dx &=& 0
 	\end{IEEEeqnarray*}
 	für alle $v\in H^1_0(\Omega)^d$, $q\in L^2_0(\Omega)$.
 \end{problem}
@@ -199,28 +199,25 @@ Wie immer sei $\Omega\subset\mathbb{R}^d$ beschränkt, offen, zusammenhängend, 
 		A:B \coloneqq \sum_{j,k=1}^d A_{j,k}B_{j,k}.
 	\]
 \end{remark}
-\underline{Ziel: } Wohlgestelltheit von \cref{prb:c3e2_p} analysieren mittells Brezzi Theorem aus \cref{sec:c3e1}. Definiere $V\coloneqq H^1_0(\Omega)$ und $M\coloneqq L^2_0(\Omega)$ und für alle $v,w\in V, q\in M$
+\underline{Ziel:} Wohlgestelltheit von \cref{prb:c3e2_p} analysieren mittels Brezzi Theorem aus \cref{sec:c3e1}. Definiere $V\coloneqq H^1_0(\Omega)$ und $M\coloneqq L^2_0(\Omega)$ und für alle $v,w\in V, q\in M$
 \begin{IEEEeqnarray*}{rCl}
-	a(v,w) &\coloneqq& \int_\Omega Dv: Dw\,dx;\\
-	b(v,q) &\coloneqq& -\int_\Omega div\:v\:q\,dx;\\
-	F(v) &\coloneqq& \int_\Omega f\:v\,dx;\\
+	a(v,w) &\coloneqq& \int_\Omega Dv: Dw \dx ;\\
+	b(v,q) &\coloneqq& -\int_\Omega \dive v\:q \dx ;\\
+	F(v) &\coloneqq& \int_\Omega f\:v \dx ;\\
 	G &\coloneqq& 0.
 \end{IEEEeqnarray*}
 Damit ist \cref{prb:c3e2_p} äquivalent zu \cref{prb:c3e1_sp}. Es ist klar, dass $a(\cdot,\cdot)$ Bedingung (\ref{eqn:c3e1s1}) erfüllt, denn $a(\cdot,\cdot)$ ist sogar Skalarprodukt auf $V$ (bzw. siehe Friedrichs-Ungleichung). Es muss (\ref{eqn:c3e1s2}) verifiziert werden, d.h.
 \[
-	\inf_{q\in L^2_0(\Omega),\|q\|_{L_2(\Omega)}=1} \sup_{v\in H^1_0{\Omega}^d, \|v\|_{H^1(\Omega)} = 1} \int_\Omega q\:div\: v\,dx \geq \beta > 0.
+	\inf_{q\in L^2_0(\Omega),\|q\|_{L_2(\Omega)}=1} \sup_{v\in H^1_0(\Omega)^d, \|v\|_{H^1(\Omega)} = 1} \int_\Omega q \dive v\dx \geq \beta > 0.
 \]
 
 
 \begin{theorem}[Ladyzhenskaya-Lemma]\label{thm:c3e2s1}
-	\[
-		\forall q\in L^2_0(\Omega)\:\exists v\in H^1_0(\Omega)^d
-	\]
-	derart, dass $div\:v = q$ und
+	$\forall q\in L^2_0(\Omega)\:\exists v\in H^1_0(\Omega)^d$ derart, dass $\dive v = q$ und
 	\[
 		\|v\|_{H^1(\Omega)} \leq C(\Omega)\|q\|_{L^2(\Omega)},
 	\]
-	d.h. $div(\cdot)$ ist surjektiv auf $L^2_0(\Omega)$ und hat eine stetige Rechtsinverse.
+	d.h. $\dive(\cdot)$ ist surjektiv auf $L^2_0(\Omega)$ und hat eine stetige Rechtsinverse.
 \end{theorem}
 \begin{proof}
 	Später.
@@ -239,9 +236,9 @@ Damit ist \cref{prb:c3e2_p} äquivalent zu \cref{prb:c3e1_sp}. Es ist klar, dass
 
 \begin{proof}
 	Brezzi-Theorem anwenden: (\ref{eqn:c3e1s1}) gilt offenbar, (\ref{eqn:c3e1s2}) folgt aus \cref{thm:c3e2s1}:\newline\noindent
-	Zu $q\in M$ existiert $v$ mit $div\:v = q$ und $\|v\|_V\leq C(\Omega)\|q\|_{L^2(\Omega)}$
+	Zu $q\in M$ existiert $v$ mit $\dive v = q$ und $\|v\|_V\leq C(\Omega)\|q\|_{L^2(\Omega)}$
 	\begin{IEEEeqnarray*}{rCl}
-		b(v,q) &=& \int_\Omega (div\:v)\:q\,dx = \|q\|_{L^2(\Omega)}^2\\
+		b(v,q) &=& \int_\Omega (\dive v)\:q\dx = \|q\|_{L^2(\Omega)}^2\\
 		&\geq& \|q\|_{L^2(\Omega)}\frac{1}{C(\Omega)}\|v\|_{H^1(\Omega)}
 	\end{IEEEeqnarray*}
 	$\Rightarrow$ inf über $q$, sup über $v$ liefert (\ref{eqn:c3e1s2})

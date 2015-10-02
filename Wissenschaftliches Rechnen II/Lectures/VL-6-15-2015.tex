@@ -15,19 +15,19 @@
 \end{remark}
 
 \begin{IEEEeqnarray*}{rCl}
-	\int \nabla u_h\::\:\nabla v_h - \int p_hdiv\:v_h &=& \int f v_h\\
-	\int q_h div\:u_h &=& 0
+	\int \nabla u_h\::\:\nabla v_h - \int p_h \dive v_h &=& \int f v_h\\
+	\int q_h  \dive u_h &=& 0
 \end{IEEEeqnarray*}
-Für alle $v_h\in\left[ P^{1,0)}_0(\mathcal{T}_h) \right]^d, \forall q_h\in P^{k,0}(\mathcal{T}_h)\cap L^2_0(\mathcal{T}_h)$.
+Für alle $v_h\in\left[ P^{1,0}_0(\mathcal{T}_h) \right]^d, \forall q_h\in P^{k,0}(\mathcal{T}_h)\cap L^2_0(\mathcal{T}_h)$.
 
 \section{Das Crouzieux-Raviart-Element}\label{sec:c3e5}
 Manchmal ist es nützlich Konformität aufzugeben (um Stabilität zu verbessern)!
 
-\begin{definition}[Crouzeix-Raviart-Element]\label{def:c3e5s1}
+\begin{definition}[Crouzieux-Raviart-Element]\label{def:c3e5s1}
 	Gegeben sei eine reguäre Triangulierung $\mathcal{T}_h$. Definiere
 	\begin{IEEEeqnarray*}{rCl}
-		CR^1(\mathcal{T}_h) &\coloneqq& \left\{ v\in P^{1,-1}(\mathcal{T}_h)|\,v\text{ ist stetig  in den Kanten-/ Seitenmittelpunkten} \right\}\\
-		CR^1_0(\mathcal{T}_h) &\coloneqq& \left\{ v\in CR^1(\mathcal{T}_h)|\,v\text{ ist Null im Mittelpunkt von Randkanten} \right\}
+		CR^1(\mathcal{T}_h) &\coloneqq& \left\{ v\in P^{1,-1}(\mathcal{T}_h) \gmid v\text{ ist stetig  in den Kanten-\slash{}Seitenmittelpunkten} \right\}\\
+		CR^1_0(\mathcal{T}_h) &\coloneqq& \left\{ v\in CR^1(\mathcal{T}_h) \gmid v\text{ ist Null im Mittelpunkt von Randkanten} \right\}
 	\end{IEEEeqnarray*}
 \end{definition}
 
@@ -38,10 +38,10 @@ Manchmal ist es nützlich Konformität aufzugeben (um Stabilität zu verbessern)
 	\]
 \end{remark}
 
-Wir definieren \emph{stückweise Ableitungen} $D_{nc}$ (\emph{NC} = `non-conformal'), $div_{nc}$ für $CR$-Funktionen, durch
+Wir definieren \emph{stückweise Ableitungen} $D_{nc}$ (\emph{NC} = `non-conformal'), $\dive_{nc}$ für $CR$-Funktionen, durch
 \begin{IEEEeqnarray*}{rCl}
 	D_{nc}v_{CR} &\coloneqq& \sum_{T\in\mathcal{T}_h} Dv_{CR}|_T\\
-	div_{nc} v_{CR} &\coloneqq& \sum_{T\in\mathcal{T}_h} (div\:v_{CR})|_T
+	\dive_{nc} v_{CR} &\coloneqq& \sum_{T\in\mathcal{T}_h} (\dive v_{CR})|_T
 \end{IEEEeqnarray*}
 und zwar für alle $v_{CR}\in CR^1(\mathcal{T}_h)^d$.\newline\noindent
 Die \emph{Crouzeix-Raviart-Methode} beruht auf der Paarung
@@ -55,8 +55,8 @@ Da der Druck nur im Gradienten vorkommt, kann er um eine Konstante geändert wer
 %DAS HAT LABEL P_{CR}
 \begin{equation}
 	\begin{aligned}
-		\int_\Omega D_{nc}\::\: D_{nc}v_h\,dx + \int_\Omega p_h\,div_{nc}\:v_h\,dx &=& \int_\Omega f\cdot v_h\,dx\\
-		\int_\Omega p_h\:div_{nc}\:u_h\,dx &=& 0. 
+		\int_\Omega D_{nc}\::\: D_{nc}v_h\dx + \int_\Omega p_h\dive_{nc}\:v_h\dx &=& \int_\Omega f\cdot v_h\dx\\
+		\int_\Omega p_h\dive_{nc}\:u_h\dx &=& 0. 
 	\end{aligned}\tag{P-CR}\label{eqn:c3e5s_P_CR}
 \end{equation}
 
@@ -75,20 +75,20 @@ Die Stabilitäts- und Fehleranalysis der vorangegangenen Abschnitte ist hier \un
 \end{proof}
 
 \begin{remark}\label{rem:c3e5s3}
-	Die CR-LÖsung $u_h$ von (\ref{eqn:c3e5s_P_CR}) erfüllt
+	Die CR-Lösung $u_h$ von (\ref{eqn:c3e5s_P_CR}) erfüllt
 	\[
-		div_{nc}\:u_h = 0.
+		\dive_{nc}\:u_h = 0.
 	\]
-	D.h. die Bedingung, die für die tatsächliche Lösung gilt (Massenerhaltung), gilt auch auf dieskretem Level. Dies ist in etwa das, was das Ladyzhenskaya-Lemma besagte: Die Divergenz ist im Falle der Crouzeix-Raviart FEM surjektiv und bildet auf alle stückweisen Konstanten ab. Dies ist insbesondere relevant für zeitabhängige Probleme. Auf dem Mini-Element kann diese Bedingung nicht garantiert werden!
+	D.h. die Bedingung, die für die tatsächliche Lösung gilt (Massenerhaltung), gilt auch auf diskretem Level. Dies ist in etwa das, was das Ladyzhenskaya-Lemma besagte: Die Divergenz ist im Falle der Crouzeix-Raviart FEM surjektiv und bildet auf alle stückweisen Konstanten ab. Dies ist insbesondere relevant für zeitabhängige Probleme. Auf dem Mini-Element kann diese Bedingung nicht garantiert werden!
 \end{remark}
 
 \text{Wir beschränken uns von hier an auf den Fall $d=2$!}
 
 \begin{remark}[Basis]\label{rem:c3e5s4}
 	Der Druck besteht aus Stückweise Konstanten Funktionen, d.h. die Basis des Druckraumes ist einfach die Menge der charakteristischen Funktionen auf den Elementen.\newline\noindent
-	Die Freiheitsgrade der CR-FEM für die geschwindigkeit sind den Kantenmittelpunkten zugeordnet. Für eine Kante $E\in\mathcal{E}(\mathcal{T}_h)= E_h$ definieren wir mit $\Psi_E$ die Kantenbasisfunktion die durch
+	Die Freiheitsgrade der CR-FEM für die Geschwindigkeit sind den Kantenmittelpunkten zugeordnet. Für eine Kante $E\in\mathcal{E}(\mathcal{T}_h)= E_h$ definieren wir mit $\Psi_E$ die Kantenbasisfunktion die durch
 	\[
-		\Psi_E(mid(F)) \coloneqq \begin{cases}1,&E=F\\0,&\text{sonst}\end{cases}
+		\Psi_E(\operatorname{mid}(F)) \coloneqq \begin{cases}1,&E=F\\0,&\text{sonst}\end{cases}
 	\]
 	für $F\in\mathcal{E}_h$ definiert ist.
 \end{remark}
@@ -96,7 +96,7 @@ Die Stabilitäts- und Fehleranalysis der vorangegangenen Abschnitte ist hier \un
 \begin{definition}[Nichtkonforme Interpolation]\label{def:c3e5s5}
 	$\mathcal{T}_h$ sei eine reguäre Triangulierung von $\Omega\subseteq\mathbb{R}^2$ und $\mathcal{E}_h$ bezeichnet die Menge der Kanten von $\mathcal{T}_h$. Für $v\in H^1(\Omega)$, ist die nichtkonforme Interpolation $I_{CR}v$ durch 
 	\[
-		I_{CR}v \coloneqq \sum_{E\in\mathcal{E}_h} \left( \frac{1}{|E|} \int_E v\,dS \right)\underbrace{\Psi_E}_{\text{Kantenbasis}}.
+		I_{CR}v \coloneqq \sum_{E\in\mathcal{E}_h} \left( \frac{1}{|E|} \int_E v\:\mathrm{d}S \right)\underbrace{\Psi_E}_{\text{Kantenbasis}}.
 	\]
 	definiert.
 \end{definition}
@@ -106,21 +106,22 @@ Die Schlüsseleigenschaft von $I_{CR}$ ist die Folgende:
 \begin{lemma}\label{thn:c3e5s6}
 	Für $v\in H^1(\Omega)$ und $T\in\mathcal{T}_h$ gilt:
 	\[
-		\underbrace{\frac{1}{|T|}\int_T \nabla v\,dx}_{\text{Mittelwert von }v\text{ über }T} = \frac{1}{|T|}\int_T\nabla I_{CR} v\,dx
+		\underbrace{\frac{1}{|T|}\int_T \nabla v\dx}_{\text{Mittelwert von }v\text{ über }T} = \frac{1}{|T|}\int_T\nabla I_{CR} v\dx
 	\]
 \end{lemma}
 \begin{proof}
 	Per Konstruktion (Definition des Interpolators) gilt für jede Kante $E\in\mathcal{E}_h$
 	\[
-		\int_E v\,dS = \int_E I_{CR} v\,dS.
+		\int_E v\:\mathrm{d}S = \int_E I_{CR} v\:\mathrm{d}S.
 	\]
 	Durch partielle Integration erhalten wir
 	\begin{IEEEeqnarray*}{rCl}
-		\int_T ( \nabla v) 1 \,dx &=& \int_{\partial T} v\cdot\nu_T\,dS \\
-		&=& \underbrace{\sum_{E\in\mathcal{E}_h(T)}}_{\text{Kanten von }T} \int_E v\cdot\underbrace{\nu_E}_{=const\text{ auf }E}\,dS\\
-		&=& \sum_{E\in\mathcal{E}_h(T)} \left( \int_E I_{CR}v\,dS \right)\cdot\nu_E\\
-		&=& \int_T\nabla I_{CR}v\,dx
+		\int_T ( \nabla v) 1 \dx &=& \int_{\partial T} v\cdot\nu_T\:\mathrm{d}S \\
+		&=& \underbrace{\sum_{E\in\mathcal{E}_h(T)}}_{\text{Kanten von }T} \int_E v\cdot\underbrace{\nu_E}_{=const\text{ auf }E}\:\mathrm{d}S\\
+		&=& \sum_{E\in\mathcal{E}_h(T)} \left( \int_E I_{CR}v\:\mathrm{d}S \right)\cdot\nu_E\\
+		&=& \int_T\nabla I_{CR}v\dx
 	\end{IEEEeqnarray*}
+	Das beweist die Aussage.
 \end{proof}
 
 \end{document}

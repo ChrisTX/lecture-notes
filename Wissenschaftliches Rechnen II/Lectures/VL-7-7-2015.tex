@@ -18,7 +18,7 @@ Wir benutzen $\frac{1}{2}ab = \frac{1}{4}a^2+\frac{1}{4}b^2-\frac{1}{4}(a-b)^2$ 
 \end{IEEEeqnarray*}
 Wir haben also  mit $\frac{u_h^n-u_h^{n+1}}{\Delta t} = \dot{u}_h^{n+\frac{1}{2}}$, dass
 \begin{IEEEeqnarray*}{rCl}
-	\frac{1}{2}a(u_h^n,u_h^{n+1}) &=& \frac{1}{4} \|\nabla u_h^n\|_{L^2(\Omega)}^2 + \frac{1}{4}\|\nabla u_h^{n+1}\|_{L^2(\Omega)}^2 - \frac{1}{4} \|\nabla \dot{u}_h^{n+\frac{1}{2}} (\Delta t)^2
+	\frac{1}{2}a(u_h^n,u_h^{n+1}) &=& \frac{1}{4} \|\nabla u_h^n\|_{L^2(\Omega)}^2 + \frac{1}{4}\|\nabla u_h^{n+1}\|_{L^2(\Omega)}^2 - \frac{1}{4} \|\nabla \dot{u}_h^{n+\frac{1}{2}} \|_{L^2(\Omega)} (\Delta t)^2
 \end{IEEEeqnarray*}
 Jetzt benutzen wir eine inverse Ungleichung, um die $H^1$-Norm des Gradienten von $\dot{u}_h^{n+\frac{1}{2}}$ durch die $L^2$-Norm dieses Terms abzuschätzen. Man sieht, dass
 \[
@@ -26,7 +26,7 @@ Jetzt benutzen wir eine inverse Ungleichung, um die $H^1$-Norm des Gradienten vo
 \]
 Deshalb haben wir zusammen mit (\ref{eqn:c4e5s5}):
 \begin{IEEEeqnarray*}{rCl}
-	\mathcal{E}_h^{n+\frac{1}{2}} &\geq& \frac{1}{2}\|\dot{u}_h^{n+\frac{1}{2}}\|_{L^2(\Omega)}^2 - \frac{1}{4}C_{inv}^2\left(\frac{\Delta t}{h}\right)^2 \|\dot{u}_h^{n+\frac{1}{2}}\|_{L^2(\Omega)}^2 + \frac{1}{4}\underbrace{\|\nabla u_h^n\|_{L^2(\Omega)}^2 + \|\nabla u_h^{n+1}\|_{L^2(\Omega)}^2}_{\geq 0}\\
+	\mathcal{E}_h^{n+\frac{1}{2}} &\geq& \frac{1}{2}\|\dot{u}_h^{n+\frac{1}{2}}\|_{L^2(\Omega)}^2 - \frac{1}{4}C_{inv}^2\left(\frac{\Delta t}{h}\right)^2 \|\dot{u}_h^{n+\frac{1}{2}}\|_{L^2(\Omega)}^2 + \frac{1}{4} \underbrace{\left(\|\nabla u_h^n\|_{L^2(\Omega)}^2 + \|\nabla u_h^{n+1}\|_{L^2(\Omega)}^2\right)}_{\geq 0}\\
 	&\geq& \underbrace{\left[\frac{1}{2}-\frac{1}{4}C_{inv}^2\left(\frac{\Delta t}{h}\right)^2\right]}_{\eqqcolon \frac{1}{4}\delta} \|\dot{u}_h^{n+\frac{1}{2}}\|_{L^2(\Omega)}^2.
 \end{IEEEeqnarray*}
 Wir machen folgende Annahme (CFL-Bedingung für explizite Zeitschrittverfahren):
@@ -73,7 +73,7 @@ Wir diskutieren noch kurz eine mögliche Fehler-abschätzung unter weitaus stär
 Setze $e_h^n \coloneqq u_h(t_n) - u_h^n$. Dann erhalten wir 
 \begin{IEEEeqnarray}{rCl}\label{eqn:c4e5s11}
 	\left(\frac{e_h^{n+1}-2e_h^n+e_h^{n+1}}{(\Delta t)^2}\right)_{L^2(\Omega)} &+& a(e_h^n,v_h) + \ddot{u}_h(t_n) - \ddot{u}_h(t_n) \\
-	&=& \left( \underbrace{\frac{u_h(t_{n+1})-2u_h(t_n)+u_h(t_{n-1})}{(\Delta t)^2}-\ddot{u}_h(t_n)}_{\eqqcolon \varepsilon_h^n}, v_h \right)_{L^2(\Omega)}
+	&=& \Bigg( \underbrace{\frac{u_h(t_{n+1})-2u_h(t_n)+u_h(t_{n-1})}{(\Delta t)^2}-\ddot{u}_h(t_n)}_{\eqqcolon \varepsilon_h^n}, v_h \Bigg)_{L^2(\Omega)}
 \end{IEEEeqnarray}
 für alle $v_h\in V_h, n\geq 2$.\newline\noindent
 Wir definieren die Energie des Fehlers durch

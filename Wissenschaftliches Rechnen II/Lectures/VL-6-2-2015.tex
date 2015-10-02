@@ -8,20 +8,20 @@
 
 \begin{equation}\label{eqn:c2e8s1}
 	\left.
-		\begin{aligned}
-			-\Delta u - \kappa^2u &=& f,\quad\text{in }\Omega\\
-			\nabla u\nu + i\kappa u &=& g,\quad\text{auf }\partial\Omega 
-		\end{aligned}
+		\begin{IEEEeqnarraybox}[][c]{rCl"l}
+			-\Delta u - \kappa^2u &=& f,&\text{in }\Omega\\
+			\nabla u\nu + i\kappa u &=& g,&\text{auf }\partial\Omega 
+		\end{IEEEeqnarraybox}
 	\right\}
 \end{equation}
 
 Für $\kappa\geq 1, 1\ll \kappa$, $\Omega\subset\mathbb{R}^2$.
 \begin{equation}\label{eqn:c2e8s2}
 	\left.
-		\begin{aligned}
+		\begin{IEEEeqnarraybox}[][c]{l}
 			\text{Finde }u\in \mathcal{H}\coloneqq H^1(\Omega,\mathbb{C}), \text{ so dass}\\
 			a(u,v) = \overline{F(v)},\,\forall v\in\mathcal{H}
-		\end{aligned}
+		\end{IEEEeqnarraybox}
 	\right\}
 \end{equation}
 mit 
@@ -42,13 +42,13 @@ mit
 	Wähle $v=u$ in (\ref{eqn:c2e8s2}). Dann folgt
 	\begin{IEEEeqnarray}{rCl}\label{eqn:c2e8s4}
 		\re{a(u,u)} &=& \| \nabla u\|_{L^2(\Omega)}^2 -\kappa^2\|u\|_{L^2(\Omega)}^2 \\
-		&\overset{\text{Youngsche UGL}}\leq& \left| \int_\Omega f\overline{u}\,dx + \int_{\partial\Omega} g\overline{u}\,dS \right|
+		&\leq& \left| \int_\Omega f\overline{u}\,dx + \int_{\partial\Omega} g\overline{u}\,dS \right|
 	\end{IEEEeqnarray}
 		mit der Youngschen Ungleichung $ab\leq \frac{1}{2}a^2+\frac{1}{2}b^2$, und
 	\begin{IEEEeqnarray*}{rCl}\label{eqn:c2e8s5}
 		\im{a(u,u)} &=& \kappa\|u\|_{L^2(\Omega)}^2\\
 		&\leq& \left| \int_\Omega f\overline{u}\,dx + \int_{\partial\Omega} g\overline{u}\,dS \right|\\
-		&\leq&\frac{1}{2\varepsilon k}\|f\|_{L^2(\Omega)}^2 + \frac{\varepsilon\kappa}{2}\|u\|_{L^2(\Omega)}^2 + \frac{1}{2\kappa}\|g\|_{L^2(\partial\Omega)}^2 + \frac{\kappa}{2}\|u\|_{L^2(\partial\Omega)}^2
+		&\overset{\text{Youngsche UGL}}{\leq}&\frac{1}{2\varepsilon k}\|f\|_{L^2(\Omega)}^2 + \frac{\varepsilon\kappa}{2}\|u\|_{L^2(\Omega)}^2 + \frac{1}{2\kappa}\|g\|_{L^2(\partial\Omega)}^2 + \frac{\kappa}{2}\|u\|_{L^2(\partial\Omega)}^2
 	\end{IEEEeqnarray*}
 	mit $\varepsilon > 0$. Dann folgt
 	\begin{equation}\label{eqn:c2e8s*} %GLEICHUNG *
@@ -92,9 +92,9 @@ mit
 	\end{IEEEeqnarray*}
 	Da $\Omega$ konvex ist gilt damit
 	\begin{IEEEeqnarray*}{rCl}
-		\kappa^2\|u\|_{L^2(\Omega)}^2 + \frac{\gamma}{2}\|\nabla u\|_{L^2(\partial\Omega)}^2\\
-		&\overset{2x\,C.S.U}\leq& \diam{\Omega} \left( \underbrace{\|f\|_{L^2(\Omega)}\|\nabla u\|_{L^2(\Omega)} + \|g\|_{L^2(\partial\Omega)}\|\nabla u\|_{L^2(\partial\Omega)}}_{\eqqcolon A}\right)\\ &&+ \diam{\Omega}\left(\underbrace{\frac{\kappa^2}{2}\|u\|_{L^2(\partial\Omega)}^2}_{\eqqcolon B}\right)\\
-		&& + \diam{\Omega}\left(\underbrace{\kappa\|u\|_{L^2(\partial\Omega)}\|\nabla u\|_{L^2(\partial\Omega)}}_{\leq\underbrace{\frac{1}{2\delta}\kappa^2\|u\|_{L^2(\partial\Omega)}}_{\eqqcolon C}+\frac{\delta}{2}\|\nabla u\|_{L^2(\partial\Omega)}^2} \right).
+		\kappa^2\|u\|_{L^2(\Omega)}^2 + \frac{\gamma}{2}\|\nabla u\|_{L^2(\partial\Omega)}^2
+		&\overset{\text{2x C.S.U}}\leq& \diam{\Omega} \Big( \underbrace{\|f\|_{L^2(\Omega)}\|\nabla u\|_{L^2(\Omega)} + \|g\|_{L^2(\partial\Omega)}\|\nabla u\|_{L^2(\partial\Omega)}}_{\eqqcolon A}\Big)\\ && {} + \diam{\Omega}\Bigg(\underbrace{\frac{\kappa^2}{2}\|u\|_{L^2(\partial\Omega)}^2}_{\eqqcolon B}\Bigg)\\
+		&& {} + \diam{\Omega}\Big(\underbrace{\kappa\|u\|_{L^2(\partial\Omega)}\|\nabla u\|_{L^2(\partial\Omega)}}_{\leq\underbrace{\frac{1}{2\delta}\kappa^2\|u\|_{L^2(\partial\Omega)}}_{\eqqcolon C}+\frac{\delta}{2}\|\nabla u\|_{L^2(\partial\Omega)}^2} \Big).
 	\end{IEEEeqnarray*}
 	Mit $\delta = \frac{\gamma}{\diam{\Omega}}$ folgt
 	\begin{equation}{rCl}\label{eqn:c2e8s8}
@@ -145,14 +145,14 @@ mit
 \end{proof}
 
 Betrachte jetzt die Standard-FEM für (\ref{eqn:c2e8s2}):\par
-Sei $\Omega$ konvex, polygonal und $\{\mathcal{T}_h\}_{h>0}$ eine Familie formregulärer Gitter / Triangulierungen (2D: maximale Winkel sind uniform beschränkt) von $\Omega$. Wir erinnern uns: \cref{thm:c2e5s2} und \cref{thm:c2e5s8} zeigten die Existenz eines $C_{int}>0$, welches nur vom maximalen Winkel ahbähngt, so dass
+Sei $\Omega$ konvex, polygonal und $\{\mathcal{T}_h\}_{h>0}$ eine Familie formregulärer Gitter\slash{}Triangulierungen (2D: maximale Winkel sind uniform beschränkt) von $\Omega$. Wir erinnern uns: \cref{thm:c2e5s2} und \cref{thm:c2e5s8} zeigten die Existenz eines $C_{int}>0$, welches nur vom maximalen Winkel abhängt, so dass
 \begin{IEEEeqnarray*}{rCl}
-	\sup_{v\in H^2(\Omega)}\inf_{v_h\in\mathcal{P}^{1,0}(\mathcal{T}_h)}\left( \|v-v_h\|_{L^2(\Omega)} + h\|\nabla(v-\underbrace{v_h}_{=I_h^1v})\|_{L^2(\Omega)} \right) \leq C_{int}h\|D^2\|_{L^2(\Omega)}.
+	\sup_{v\in H^2(\Omega)}\inf_{v_h\in\mathcal{P}^{1,0}(\mathcal{T}_h)}\Big( \|v-v_h\|_{L^2(\Omega)} + h\|\nabla(v-\underbrace{v_h}_{=I_h^1v})\|_{L^2(\Omega)} \Big) \leq C_{int}h\|D^2\|_{L^2(\Omega)}.
 \end{IEEEeqnarray*}
 Die Regularitätstheorie für $-\Delta$ zeigt, dass Lösungen von (\ref{eqn:c2e8s8}) in in $H^2(\Omega)$ liegen, und dass
 \begin{IEEEeqnarray*}{rCl}
-	\|D^2u\|_{L^2(\Omega)}&\leq& \tilde{C}(\Omega)\left( \|f-\kappa^2u\|_{L^2(\Omega)} + \|\underbrace{\nabla u\cdot\nu}_{=g-i\kappa u}\|_{H^{1/2}(\partial\Omega)} \right)\\
-	&\overset{\cref{thm:c2e8s1} + Trace\,UG}\leq& C(\Omega)\left(\kappa\|f\|_{L^2(\Omega)} + \kappa\|g\|_{L^2(\partial\Omega)}+\|g\|_{H^{1/2}(\partial\Omega)} \right)
+	\|D^2u\|_{L^2(\Omega)}&\leq& \tilde{C}(\Omega)\Big( \|f-\kappa^2u\|_{L^2(\Omega)} + \|\underbrace{\nabla u\cdot\nu}_{=g-i\kappa u}\|_{H^{1/2}(\partial\Omega)} \Big)\\
+	&\overset{\text{\cref{thm:c2e8s1} + Trace UGL}}\leq& C(\Omega)\left(\kappa\|f\|_{L^2(\Omega)} + \kappa\|g\|_{L^2(\partial\Omega)}+\|g\|_{H^{1/2}(\partial\Omega)} \right)
 \end{IEEEeqnarray*}
 Diese Regularität ist bereits für die Wohlgestelltheit der FEM relevant!\par
 FEM sucht $u_h\in \mathcal{P}^{1,0}(\mathcal{T}_h):\forall v_h\in \mathcal{P}^{1,0}(\mathcal{T}_h): a(u_h,v_h)=\overline{F(v_h)}$.
@@ -182,11 +182,11 @@ FEM sucht $u_h\in \mathcal{P}^{1,0}(\mathcal{T}_h):\forall v_h\in \mathcal{P}^{1
 	Das bedeutet, dass $z_h$ nahe genug an $z$ ist, falls $(\kappa h^2 + h)\kappa^2$ klein genug ist.\par
 	Mit $v_h\coloneqq u_h + \overline{z_h}$ folgt
 	\begin{IEEEeqnarray*}{rCl}
-		\re{a(u,v)} &=& \underbrace{\re{a(u_h,u_h+\overline{z})}}_{\underset{Beweis\,\ref{thm:c2e8s1}}\geq \|u_h\|_\mathcal{H}^2} - \underbrace{\re{a(u_h,z-z_h)}}_{\leq C(\Omega)\|u_h\|_\mathcal{H}^2(\kappa h^2+h)\kappa^2}
+		\re{a(u,v)} &=& \underbrace{\re{a(u_h,u_h+\overline{z})}}_{\underset{\text{Beweis \ref{thm:c2e8s1}}}\geq \|u_h\|_\mathcal{H}^2} - \underbrace{\re{a(u_h,z-z_h)}}_{\leq C(\Omega)\|u_h\|_\mathcal{H}^2(\kappa h^2+h)\kappa^2}
 		\\
 		&\geq& (1-C(\Omega)(\kappa h^2+h)\kappa^2)\|u_h\|_\mathcal{H}^2.
 	\end{IEEEeqnarray*}
-	Wähle $C_1\geq\frac{1}{2(1-\C(\Omega))}$. Dann folgt 
+	Wähle $C_1\geq\frac{1}{2(1-C(\Omega))}$. Dann folgt 
 	\[
 		\re a(u_h,v_h) \geq\frac{1}{2}\|u_h\|_\mathcal{H}^2.
 	\]
@@ -195,6 +195,7 @@ FEM sucht $u_h\in \mathcal{P}^{1,0}(\mathcal{T}_h):\forall v_h\in \mathcal{P}^{1
 		\|v_h\|_\mathcal{H} &\leq&\|u_h\|_\mathcal{H} + \|z_h-z\|_\mathcal{H} + \|z\|_\mathcal{H}\\
 		&\leq&(1+C(\Omega))(2C_1+\kappa)\|u_h\|_\mathcal{H}.
 	\end{IEEEeqnarray*}
+	Das zeigt die Behauptung.
 \end{proof}
 
 \cref{thm:c2e8s3} zeigt die Wohlgestelltheit der FEM unter der Annahme $h\lesssim \kappa^{-2}$ an das Gitter. % eigentlich: < underset 

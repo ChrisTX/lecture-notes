@@ -6,7 +6,7 @@
   	
 	Resultat ist nicht-trivial. Hier wird eine Beweisskizze für glatt-berandete Gebiete in 2D gegeben.\newline\newline\noindent
 	Zu $q\in L^2_0(\Omega)$ löse das Neumann-Problem
-	\begin{IEEEeqnarray*}{rcll}
+	\begin{IEEEeqnarray*}{rCl"l}
 		\Delta z &=& q,&\text{in } \Omega\\
 		\frac{\partial z}{\partial \nu} &=& 0,&\text{auf }\partial\Omega 
 	\end{IEEEeqnarray*}
@@ -16,38 +16,38 @@
 		\|z\|_{H^2(\Omega)} \leq C_1(\Omega) \|q\|_{L^2(\Omega)}^2.
 	\]
 	Definiere eine divergenzfreie Korrektur: Sei $\xi\in H^2(\Omega)$ mit $\xi|_{\partial\Omega}=0$. Dann
-	\begin{IEEEeqnarray*}{rCll}
-		\frac{\partial\xi}{\partial\nu} &=& \nabla z\cdot\tau,&\text{ auf }\partial\Omega.
+	\begin{IEEEeqnarray*}{rCl"l}
+		\frac{\partial\xi}{\partial\nu} &=& \nabla z\cdot\tau,&\text{auf }\partial\Omega.
 	\end{IEEEeqnarray*}
 	Der Spursatz besagt
 	\[
-		\|\xi\|_{H^2(\Omega)} \leq C_2(\Omega)\|z\|_{H^2(\Omega)} \leq C_1(\Omega)\|q\|_{L^2(\Omega)}.
+		\|\xi\|_{H^2(\partial \Omega)} \leq C_2(\Omega)\|z\|_{H^2(\Omega)} \leq C_1(\Omega)\|q\|_{L^2(\Omega)}.
 	\]
 	Definiere
 	\[
-		curl\:\xi \coloneqq \begin{pmatrix}\frac{\partial\xi}{\partial x_2}\\\frac{-\partial\xi}{\partial x_1}\end{pmatrix}\in H^1(\Omega)^2.
+		\curl \xi \coloneqq \begin{pmatrix}\frac{\partial\xi}{\partial x_2}\\\frac{-\partial\xi}{\partial x_1}\end{pmatrix}\in H^1(\Omega)^2.
 	\]
-	Es gilt, dass $curl\:\xi$ die Bedingung
+	Es gilt, dass $\curl \xi$ die Bedingung
 	\[
-		div\:curl\:\xi = 0
+		\dive \curl \xi = 0
 	\]
-	erfüllt, d.h. $curl\:\xi$ ist eine divergenzfreie Korrektur. Definiere nun
+	erfüllt, d.h. $\curl \xi$ ist eine divergenzfreie Korrektur. Definiere nun
 	\[
-	 	v \coloneqq \nabla z + \underbrace{curl\:\xi}_{\text{divergenzfreie Korrektur}},
+	 	v \coloneqq \nabla z + \underbrace{\curl \xi}_{\text{divergenzfreie Korrektur}},
 	\]
 	und dann gilt
 	\[
-		div\:v = q.
+		\dive v = q.
 	\]
 	Außerdem $v\cdot\nu|_{\partial\Omega} = v\cdot\tau|_{\partial\Omega} = 0$, denn
 	\[
-		curl\:\xi\cdot\tau = \frac{\partial\xi}{\partial}{nu}
+		\curl \xi\cdot\tau = \frac{\partial\xi}{\partial\nu}
 	\]
 	und daher
 	\[
-		v\cdot|_{\partial\Omega} = \underbrace{\frac{\partial z}{\partial\nu}}_{0}
+		v\cdot\nu|_{\partial\Omega} = \underbrace{\frac{\partial z}{\partial\nu}}_{0}
 			 + 
-		\underbrace{curl\:\xi\cdot\nu|_{\partial\Omega}}_{\pm\frac{\partial}{\partial\tau}\xi = 0}
+		\underbrace{\curl \xi\cdot\nu|_{\partial\Omega}}_{\pm\frac{\partial}{\partial\tau}\xi = 0}
 	\]
 	und analog für $v\cdot\tau$. Die Stabilität folgt mit der Dreiecksungleichung.
 \end{proof}
@@ -60,25 +60,25 @@ Seien $V_h\subseteq V, M_h\subseteq M$ endlichdimensionale Unterräume. Die disk
 			a(u_h,v_h) + b(v_h,\lambda_h) = F(v_h) \\
 			b(u_h,\mu_h) = G(\mu_h)
 		\end{aligned}
-		\right\}\tag{(SPh)}
+		\right\}\tag{SPh}
 		\label{prb:c3e3_sp_h}
 \end{equation*}
 Definiere
 \[
-	Z_h \coloneqq \left\{ v_h\in V_h|\,\forall\mu_h\in M_h:\:b(v_h,\mu_h) = 0 \right\}.
+	Z_h \coloneqq \left\{ v_h\in V_h \gmid \forall\mu_h\in M_h:\:b(v_h,\mu_h) = 0 \right\}.
 \]
 \cref{thm:c3e1s2} (Brezzi) ergibt die Wohlgestelltheit von \cref{prb:c3e3_sp_h} unter den Bedingungen
 \begin{equation*}
-	\inf_{v_h\in Z_h,\|v_h\|_V=1}\sup_{w_h\in Z_h,\|w_h\|_V=1} a(v_h,w_h) \geq\alpha\leq\inf_{v_h\in Z_h,\|v_h\|_V}\sup_{w_h\in Z_h,\|w_h\|_V=1} a(w_h,v_h)\tag{(1h)}\label{eqn:c3e3s_1h}  %NAME (1h)
+	\inf_{v_h\in Z_h,\|v_h\|_V=1}\sup_{w_h\in Z_h,\|w_h\|_V=1} a(v_h,w_h) \geq\alpha\leq\inf_{v_h\in Z_h,\|v_h\|_V}\sup_{w_h\in Z_h,\|w_h\|_V=1} a(w_h,v_h)\tag{1h}\label{eqn:c3e3s_1h}  %NAME (1h)
 \end{equation*}
 \begin{equation*}
-	\inf{\mu_h\in M_h,\|\mu_h\|_M=1}\sup_{v_h\in V_h,\,v_h\|_V=1} b(v_h,\mu_h) \geq\beta_h\label{eqn:c3e3s_2h}\tag{(2h)} %name: (2h)
+	\inf_{\mu_h\in M_h,\|\mu_h\|_M=1}\sup_{v_h\in V_h,\,v_h\|_V=1} b(v_h,\mu_h) \geq\beta_h\label{eqn:c3e3s_2h}\tag{2h} %name: (2h)
 \end{equation*}
 mit $\alpha_h,\beta_h > 0$.
 \begin{remark}
 	\begin{enumerate}
 		\item Im Allgemeinen gilt $Z_h\not\subseteq Z$
-		\item (\ref{eqn:c3e1s1}) und (\ref{eqn:c3e2s2}) implizieren \underline{nicht} (\ref{eqn:c3e3s_1h}) und (\ref{eqn:c3e3s_2h})
+		\item (\ref{eqn:c3e1s1}) und (\ref{eqn:c3e1s2}) implizieren \underline{nicht} (\ref{eqn:c3e3s_1h}) und (\ref{eqn:c3e3s_2h})
 		\item (\ref{eqn:c3e3s_2h}) heißt auch \emph{diskrete LBB-Bedingung}
 	\end{enumerate}
 \end{remark}
@@ -109,7 +109,7 @@ mit $\alpha_h,\beta_h > 0$.
 \end{definition*}
 
 \begin{theorem}[FORTIN-Kriterium]\label{thm:c3e3s3}
-	Wenn das ursprüngliche Problem wohlgestellt ist (d.h. (\ref{eqn:c3e1s1}) und \ref{eqn:c3e1s2} sind erfüllt) und (\ref{eqn:c3e1s_1h}) gilt, dann ist $(V_h,M_h)$ eine stabile Paarung, genau dann wenn es einen linearen Operator $\Pi_h:V\to V_h$ gibt, mit
+	Wenn das ursprüngliche Problem wohlgestellt ist (d.h. (\ref{eqn:c3e1s1}) und \ref{eqn:c3e1s2} sind erfüllt) und (\ref{eqn:c3e3s_1h}) gilt, dann ist $(V_h,M_h)$ eine stabile Paarung, genau dann wenn es einen linearen Operator $\Pi_h:V\to V_h$ gibt, mit
 	\begin{enumerate}
 		\item $\exists C>0$ so dass für alle $v\in V,\forall h>0$ gilt
 				\[
@@ -134,7 +134,7 @@ mit $\alpha_h,\beta_h > 0$.
 		\|u_h\|_{V} + \|\lambda_h\|_{M}\leq C\left( \|F\|_{V'} + \|G\|_{M'} \right) \leq \tilde{C}\|u\|_V.
 	\]
 	Definiere nun
-	$\pi_h u\coloneqq u_h$. Dann sind beide Vorrausetzungen aus der Behauptung erfüllt.\newline\newline\noindent
+	$\Pi_h u\coloneqq u_h$. Dann sind beide Vorrausetzungen aus der Behauptung erfüllt.\newline\newline\noindent
 	\textbf{$\Leftarrow$  } Aus der Wohlgestelltheit des Problems folgt wegen (\ref{eqn:c3e1s2}):
 	\[
 		\beta \leq \inf_{0\not=\mu_h\in M_h}\sup_{0\not=v\in V}\underbrace{\frac{b(v,\mu_h)}{\|v\|_V\|\mu\|_M}}_{=\frac{b(\Pi_hv,\mu_h)}{\|v\|_V\|\mu\|_M} \leq C\frac{b(\Pi_h v,\mu_h)}{\|\Pi_h v\|_V\|\mu_h\|_M}}
@@ -152,9 +152,9 @@ Welche Wahl von $V_h\subseteq H^1_0(\Omega)^d$ und $M_h\subseteq L^2_0(\Omega)$ 
 \begin{definition}[Mini-Element und Bubble-Funktionen]\label{def:c3e4s2}
 	Definiere den Raum der \emph{Bubble-Funktionen}
 	\[
-		B(\mathcal{T}_h) \coloneqq \left\{ v\in C(\Omega)\bigg|\,v|_T\in span\:\left\{ \prod_{j=1}^{d-1}\lambda_j \right\}\text{ für alle }T\in\mathcal{T}_h \right\}
+		B(\mathcal{T}_h) \coloneqq \left\{ v\in C(\Omega) \gmid v|_T\in \spn \left\{ \prod_{j=1}^{d-1}\lambda_j \right\}\text{ für alle }T\in\mathcal{T}_h \right\}
 	\]
-	Dabei sind $\lambda_j$ baryzentrische Koordinaten / nodale Basisfunktionen.\newline\noindent
+	Dabei sind $\lambda_j$ baryzentrische Koordinaten\slash{}nodale Basisfunktionen.\newline\noindent
 	Das \emph{Mini-Element} besteht aus
 	\[
 		V_h \coloneqq \left[ \mathcal{P}^{1,0}(\mathcal{T}_h) \right]^d \oplus \left[ B(\mathcal{T}_h) \right]^d,\quad M_h\coloneqq \mathcal{P}^{1,0}(\mathcal{T}_h)\cap L^2_0(\Omega).
@@ -176,22 +176,22 @@ Welche Wahl von $V_h\subseteq H^1_0(\Omega)^d$ und $M_h\subseteq L^2_0(\Omega)$ 
 	\[
 		\forall v\in H^1_0(\Omega),\forall T\in\mathcal{T}_h:\quad \diam (T)^{-1}\|v-R_hv\|_{L^2(T)} + \|\nabla R_h v\|_T \leq C\|\nabla v\|_{L^2(\omega_T)},
 	\]
-	wobei $\omega_T \coloneqq \{ k\in\mathcal{T}_h:\,T\cap K\not=\emptyset\}$ \emph{Element-Patch}.\newline\noindent
+	wobei $\omega_T \coloneqq \{ K\in\mathcal{T}_h:\,T\cap K\not=\emptyset\}$ \emph{Element-Patch}.\newline\noindent
 	Es sei zu $T\in\mathcal{T}_h\quad b_T= \prod_{j=1}^{d+1}\lambda_j$. Definiere den FORTIN-Operator
 	\[
 		\Pi_h: H^1_0(\Omega)^d \to V_h
 	\] 
 	durch
 	\[
-		\Pi_h(u) = R_h(u) + \sum_{T\in\mathcal{T}_h} \frac{b_T}{\int_T b_T\,dx}\int_T u-R_h u\,dx,\quad\forall u\in V.
+		\Pi_h(u) = R_h(u) + \sum_{T\in\mathcal{T}_h} \frac{b_T}{\int_T b_T\dx}\int_T u-R_h u\dx,\quad\forall u\in V.
 	\]
 	Dann erfüllt $\Pi_hu$ nach Konstruktion
 	\[
-		\int_T \Pi_h u - u\,dx = 0,\quad\forall T\in\mathcal{T}_h
+		\int_T \Pi_h u - u\dx = 0,\quad\forall T\in\mathcal{T}_h
 	\]
 	und daher mit partieller Integration
 	\[
-		\int_\Omega div\,(\Pi_hu-u)\:q_h\,dx = -\int_\Omega (\Pi_hu - u)\cdot\underbrace{\nabla q_h}_{\text{stückweise konstant}}\,dx = 0
+		\int_\Omega \dive(\Pi_hu-u)\:q_h\dx = -\int_\Omega (\Pi_hu - u)\cdot\underbrace{\nabla q_h}_{\text{stückweise konstant}}\dx = 0
 	\]
 	und das ist genau die zweite Eigenschaft aus \cref{thm:c3e3s3}. Die Stabilität folgt aus der Stabilität von $R_h$:
 	\[
@@ -200,12 +200,12 @@ Welche Wahl von $V_h\subseteq H^1_0(\Omega)^d$ und $M_h\subseteq L^2_0(\Omega)$ 
 		{
 			\|\nabla_h R_h u\|_T}_{\leq C\|\nabla u\|
 			_
-			{\omega_T}
+			{L^2(\Omega_T)}
 		} 
 		+
 		\underbrace
 		{ 
-			\left\| 
+			\Bigg\| 
 				\frac
 				{
 					\overbrace
@@ -218,21 +218,21 @@ Welche Wahl von $V_h\subseteq H^1_0(\Omega)^d$ und $M_h\subseteq L^2_0(\Omega)$ 
 					}
 				}
 				{
-					\int_T b_T\,dx
+					\int_T b_T\dx
 				} 
 				\overbrace
 				{
-					\int_T u-R_hu\,dx
+					\int_T u-R_hu\dx
 				}
 					^
 				{
 					\leq\|u-R_hu\|_T\sqrt{\meas T}
 				} 
-			\right\|
+			\Bigg\|
 		}
 			_
 		{
-			\approx \meas T\leq \|u-R_hu\|_{L^2(T)}\leq\diam T\|\nabla u\|_{L^2(\omega_T)}
+			\approx \meas T\leq \|u-R_hu\|_{L^2(T)}\leq\diam T\|\nabla u\|_{L^2(\Omega_T)}
 		}.
 	\]
 \end{proof}

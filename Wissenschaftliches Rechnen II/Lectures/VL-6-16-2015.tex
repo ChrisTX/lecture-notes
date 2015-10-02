@@ -8,23 +8,23 @@
 	\[
 		J_1v_{CR} \coloneqq \sum_{z\in\mathcal{N}_h} |v_{CR}(z)|\sum_{T\in\mathcal{T}_h(z)}b_z = \sum_{z\in\mathcal{N}_h} |\mathcal{T}_h(z)|^{-1} \sum_{T\in\mathcal{T}_h(z)} v_{CR}(T)(z)b_z,
 	\]
-	wobei $b_z$ die nodale Basisfunktion ist (vgl. \cref{def:c2e3s11}), und $\mathcal{N}_h(z)\coloneqq\{T\in\mathcal{T}_h|\,z\in T\}$. Für eine Kante $E\in\mathcal{E}_h, E=conv\{x,y\}$ sei $b_E=6b_xb_y$ die Kanten-Bubble-Funktion. Definiere dann für $CR_0^1(\mathcal{T}_h)\to P^{2,0}_0(\mathcal{T}_h)$ durch 
+	wobei $b_z$ die nodale Basisfunktion ist (vgl. \cref{def:c2e3s11}), und $\mathcal{N}_h(z)\coloneqq\{T\in\mathcal{T}_h|\,z\in T\}$. Für eine Kante $E\in\mathcal{E}_h, E=\conv\{x,y\}$ sei $b_E=6b_xb_y$ die Kanten-Bubble-Funktion. Definiere dann für $CR_0^1(\mathcal{T}_h)\to P^{2,0}_0(\mathcal{T}_h)$ durch 
 	\[
-		J_2v_{CR} \coloneqq J_1v_{CR} + \sum_{E\in\mathcal{E}_h} \left( \frac{1}{|E|}\int_E v_{CR}-J_1v_{CR}\,dS \right)b_E
+		J_2v_{CR} \coloneqq J_1v_{CR} + \sum_{E\in\mathcal{E}_h} \left( \frac{1}{|E|}\int_E v_{CR}-J_1v_{CR}\:\mathrm{d}S \right)b_E
 	\]
-	($\int_E J_2v_{CR}\,dS = \int_E v_{CR}\,dS$)\newline\noindent
-	Für jees Dreieck $T=\conv\{x,y,z\}\in\mathcal{T}_h$ definiere Element-Bubbles $b_T = 60b_xb_yb_z$. Dann ist $J_3v_{CR}\in P^{3,0}_0(\mathcal{T}_h)$ durch
+	($\int_E J_2v_{CR}\:\mathrm{d}S = \int_E v_{CR}\:\mathrm{d}S$)\newline\noindent
+	Für jedes Dreieck $T=\conv\{x,y,z\}\in\mathcal{T}_h$ definiere Element-Bubbles $b_T = 60b_xb_yb_z$. Dann ist $J_3v_{CR}\in P^{3,0}_0(\mathcal{T}_h)$ durch
 	\[
-		J_3v_{CR} \coloneqq J_2v_{CR} + \sum_{T\in\mathcal{T}_h} \frac{1}{|T|}\left( \int_T(v_{CR}-J_2v_{CR})\,dx \right)b_T
+		J_3v_{CR} \coloneqq J_2v_{CR} + \sum_{T\in\mathcal{T}_h} \frac{1}{|T|}\left( \int_T(v_{CR}-J_2v_{CR})\dx \right)b_T
 	\]
-	($\int_T J_3v_{CR}\,dx = \int_T v_{CR}\,dx$)
+	($\int_T J_3v_{CR}\dx = \int_T v_{CR}\dx$)
 \end{definition}
  
 \begin{lemma}\label{thm:c3e5s7}
 	Die Operatoren $J_k:CR^1_0(\mathcal{T}_h)\to P^{k,0}_0(\mathcal{T}_h), k=1,2,3$, erfüllen die Erhaltungseigenschaften
 	\begin{IEEEeqnarray*}{rCl}
-		\int_T \nabla{nc}(v_{CR}-J_kv_{CR})\,dx &=& 0,\quad T\in\mathcal{T}_h, k=1,2;\\
-		\int_T v_{CR} - J_3v_{CR}\,dx &=& 0,\quad T\in\mathcal{T}_h.
+		\int_T \nabla{nc}(v_{CR}-J_kv_{CR})\dx &=& 0,\quad T\in\mathcal{T}_h, k=1,2;\\
+		\int_T v_{CR} - J_3v_{CR}\dx &=& 0,\quad T\in\mathcal{T}_h.
 	\end{IEEEeqnarray*}
 	Es gelten folgende Approximations- und Stabilitätsabschätzungen
 	\begin{IEEEeqnarray*}{rCl}
@@ -39,7 +39,7 @@ Wir können hiermit das Bestapproximationsresultat aus \cref{thm:c3e5s2} beweise
 
 \chapter{Die Wellengleichung}\label{sec:c4}
 \section{Modellproblem}\label{sec:c4e1}
-\textbf{Notation:} Wir bezeichnen die erste bzw. zweite Ableitung von zeitahbängigen Größen nach der Zeit mit $\dot{u}$ bzw. $\ddot{u}$. Sei $\Omega$ offenes, beschränktes Gebiet in $\mathbb{R}^d$. Die lineare Wellengleichung für eine Funktion $u:[0,T]\times\Omega\to\R$ mit Quellterm $f:[0,T]\times\Omega\to\R$ lautet (mit dem Laplace-Operator im Ort '$\Delta$')
+\textbf{Notation:} Wir bezeichnen die erste bzw. zweite Ableitung von zeitabhängigen Größen nach der Zeit mit $\dot{u}$ bzw. $\ddot{u}$. Sei $\Omega$ offenes, beschränktes Gebiet in $\mathbb{R}^d$. Die lineare Wellengleichung für eine Funktion $u:[0,T]\times\Omega\to\R$ mit Quellterm $f:[0,T]\times\Omega\to\R$ lautet (mit dem Laplace-Operator im Ort '$\Delta$')
 \begin{equation}\label{eqn:c4e1s1}
 	\ddot{u}-\Delta u = f,\quad\text{in }[0,T]\times\Omega.
 \end{equation}

@@ -56,7 +56,7 @@ Sei $H^m(\Omega)$ ($m\in\N$) der Sobolevraum von $L^2$-Funktionen mit schwachen 
 \begin{theorem}\label{thm:c2e5s8}
 	Sei $\mathcal{T}_h$ eine reguläre Triangulierung von $\Omega$ und $k\in\N$. Dann gilt für alle $T\in\mathcal{T}_h$ und $v\in H^{k+1}(T)$, dass
 	\[
-		\|D^m(v-I_hv)\|_{L^2(T)} \leq C_{int}\left(\frac{h_T}{\varrho_T}\right)^k h_T^{k+1}\|D^k+1 v\|_{L^2}
+		\|D^m(v-I_hv)\|_{L^2(T)} \leq C_{int}\left(\frac{h_T}{\varrho_T}\right)^k h_T^{k+1-m}\|D^{k+1} v\|_{L^2}
 	\]
 	für alle $0\leq m\leq k+1$, wobei $C_{int}$ eine generische Konstante ist, die nur von $k,m$ und $\Omega$(?) abhängt, wobei
 	\begin{IEEEeqnarray*}{rCl}
@@ -65,8 +65,8 @@ Sei $H^m(\Omega)$ ($m\in\N$) der Sobolevraum von $L^2$-Funktionen mit schwachen 
 	\end{IEEEeqnarray*}
 	Ferner gilt
 	\begin{IEEEeqnarray*}{rCl}
-		\|D^m(v-I_h^k v)\|_{L^2(\Omega)} &\leq& c_{int}\left(\max_{T\in\mathcal{T}_h}\frac{h_T}{\varrho_T} \right)^k\left( \sum_{T\in\mathcal{T}_h} h^{2(k+1-m)}\|D^{k+1}v\|_{L^2(T)}^2\right)^{\frac{1}{2}}\\
-		&\leq& c_{int}\left( \max_{T\in\mathcal{T}_h}\frac{h_T}{\varrho_T} \right)^k h^{k+1-m} \|D^{k+1} v\|_{L^2(\Omega)}.
+		\|D^m(v-I_h^k v)\|_{L^2(\Omega)} &\leq& C_{int}\left(\max_{T\in\mathcal{T}_h}\frac{h_T}{\varrho_T} \right)^k\left( \sum_{T\in\mathcal{T}_h} h^{2(k+1-m)}\|D^{k+1}v\|_{L^2(T)}^2\right)^{\frac{1}{2}}\\
+		&\leq& C_{int}\left( \max_{T\in\mathcal{T}_h}\frac{h_T}{\varrho_T} \right)^k h^{k+1-m} \|D^{k+1} v\|_{L^2(\Omega)}.
 	\end{IEEEeqnarray*}
 \end{theorem}
 \begin{proof}

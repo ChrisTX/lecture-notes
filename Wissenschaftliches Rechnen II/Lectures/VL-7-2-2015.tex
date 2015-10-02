@@ -58,7 +58,7 @@ Hier müssen wir natürlich die Anfangswerte vorgeben, z.B.
 \begin{equation}\label{eqn:c4e5s2}
 	u_h^0 \coloneqq g_h, u_h^1\text{ ist Fkt. von }g_h,r_h\text{ und }\ddot{u}(0) = \Delta g+f.
 \end{equation}
-Offensichtlich können die $h_h^n$ durch Basiskoeffizienten $d_h^n$ repräsentiert werden, also
+Offensichtlich können die $u_h^n$ durch Basiskoeffizienten $d_h^n$ repräsentiert werden, also
 \[
 	u_h^n = \sum (d_h^n)_j b_j.
 \]
@@ -99,18 +99,18 @@ wobei die Energie definiert war durch
 	Man beachte, dass die Konstante in (\ref{eqn:c4e3s11}) proportional zu $e^t$ war.
 \end{remark}
 Diskretisiere nun
-Gegeben seien die Approximationen $u_h^0,u_h^1,...$. Dann approximiere wir die Zeitenleitungen zu Zeitpunkten $t_{n+\frac{1}{2}}\coloneqq (n+\frac{1}{2})\Delta t$ durch
+Gegeben seien die Approximationen $u_h^0,u_h^1,...$. Dann approximieren wir die Zeitenleitungen zu Zeitpunkten $t_{n+\frac{1}{2}}\coloneqq (n+\frac{1}{2})\Delta t$ durch
 \[
 	\dot{u}_h^{n+\frac{1}{2}} \coloneqq \frac{u_h^{n+1}-u_h^n}{\Delta t},\quad n\in\mathbb{N}_0.
 \] 
 Dann definieren wir die diskrete Energie $(u_h^n)_{n\in\mathbb{N}_0}$ durch
 \begin{equation}\label{eqn:c4e5s5}
-	\mathcal{E}_h^{n+\frac{1}{2}} \coloneqq \frac{1}{2}\|\dot{u}_h^{n+\frac{1}{2}}\|_{L^2(\Omega)}^2 + \frac{1}{a}(u_h^{n+1},u_h^n).
+	\mathcal{E}_h^{n+\frac{1}{2}} \coloneqq \frac{1}{2}\|\dot{u}_h^{n+\frac{1}{2}}\|_{L^2(\Omega)}^2 + \frac{1}{2}a(u_h^{n+1},u_h^n).
 \end{equation}
 Diese Wahl wird durch folgende Rechnung motiviert.\newline\noindent
 Die Wahl $v_h\coloneqq u_h^{n+1}-u_h^{n-1}$ in (\ref{eqn:c4e5s1}) führt zu
 \begin{IEEEeqnarray*}{rCl}
-	\left\| \underbrace{\frac{u_h^{n+1}-u_h^n}{\Delta t}}_{\dot{u}_h^{n+\frac{1}{2}}} \right\|_{L^2} + \left\| \underbrace{\frac{u_h^n - u_h^{n-1}}{\Delta t}}_{\dot{u}_h^{n+\frac{1}{2}}} \right\|_{L^2}
+	\Bigg\| \underbrace{\frac{u_h^{n+1}-u_h^n}{\Delta t}}_{\dot{u}_h^{n+\frac{1}{2}}} \Bigg\|_{L^2} + \Bigg\| \underbrace{\frac{u_h^n - u_h^{n-1}}{\Delta t}}_{\dot{u}_h^{n-\frac{1}{2}}} \Bigg\|_{L^2}
 	&=& (f_h,u^{n+1}-u^{n-1})_{L^2(\Omega)} \\
 	&&- a(u_h^n,u_h^{n+1})+a(u_h^n,u_h^{n-1})
 \end{IEEEeqnarray*}
@@ -120,7 +120,7 @@ und daher
 \end{equation}
 Falls $f=0$ folgt aus (\ref{eqn:c4e5s6})
 \[
-	\mathcal{E}_h^{n+\frac{1}{2}}=\mathcal{E}_h^{\frac{1}{2}}
+	\mathcal{E}_h^{n+\frac{1}{2}}=\mathcal{E}_h^{n-\frac{1}{2}}
 \]
 für alle $n\in\mathbb{N}$. Das ist das diskrete Analogon der Energieerhaltung.
 \end{document}

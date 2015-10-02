@@ -30,7 +30,7 @@ Finde $u_h \in V_h$ sodass
 \]
 \end{problem}
 
-Sei $V_h = \spn \{v_i \mid i = 1,\ldots,N_H\}$ und $W_h = \spn\{w_i \mid i=1,\ldots,N_h\}$.
+Sei $V_h = \spn \{v_i \mid i = 1,\ldots,N_h\}$ und $W_h = \spn\{w_i \mid i=1,\ldots,N_h\}$.
 Dann ist \cref{prb:Ph} äquivalent zu
 \begin{problem}
 Finde $c=(c_i)_{i=1,\ldots,N_h}\in\R^{N_h}$, so dass 
@@ -112,7 +112,7 @@ Dann ist $u_h = \sum_{i=1}^{N_h}c_i v_i$.
 	\end{IEEEeqnarray*}
 	Die Aussage folgt durch Dreiecksungleichung
 	\[
-		\|u-v_h\|_V \le \|u-u_h\| + \|u_h - v_h\|
+		\|u-u_h\|_V \le \|u-v_h\| + \|v_h - u_h\|
 	\]
 	und Bildung des Infimums über $v_h\in V_h$
 \end{proof}
