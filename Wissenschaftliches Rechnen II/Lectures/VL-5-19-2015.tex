@@ -19,7 +19,7 @@
 	\]
 	Die Randbedingung ergibt dann
 	\[
-		u(x,y) \coloneqq e^{\frac{2}{2\varepsilon}} \sin{(k_1\pi x)}\sin{(k_2\pi y)},\quad k_1,k_2\in\N
+		u(x,y) \coloneqq e^{\frac{x}{2\varepsilon}} \sin{(k_1\pi x)}\sin{(k_2\pi y)},\quad k_1,k_2\in\N
 	\]
 	zum Eigenwert
 	\[
@@ -73,7 +73,7 @@ ausgedrückt. Offensichtlich ist $|\cdot|_{1,\varepsilon,\delta}$ wohldefiniert 
 \begin{theorem}[Fehler der SDFEM]\label{thm:c2e7s8}
 	Sei $u_\varepsilon\in H^1_0(\Omega)$ die Lösung des Modellproblems \cref{prb:c2e7s1} und $u_{\varepsilon,h,\delta}$ ($\delta$ repräsentiert den Vektor der $\delta_T$) die SDFEM-Lösung von \cref{eq:c2e7s4}. Falls $u_\varepsilon\in H^2(\Omega)$ (gilt z.B.\ wenn $\Omega$ konvex und $f\in L^2(\Omega)$), dann gilt 
 	\[
-		|u_\varepsilon-u_{\varepsilon,h,\delta}|_{1,\varepsilon,\delta} \leq C\left( \sum_{T\in\mathcal{T}_h} (\varepsilon^2\delta_T + \varepsilon h_T^2+\delta_T h_T^2 + \delta_T^{-1}h_T^4 ) \|D^2u\|_{L^2(\Omega)}^2\right)^{\frac{1}{2}},
+		|u_\varepsilon-u_{\varepsilon,h,\delta}|_{1,\varepsilon,\delta} \leq C\left( \sum_{T\in\mathcal{T}_h} (\varepsilon^2\delta_T + \varepsilon h_T^2+\delta_T h_T^2 + \delta_T^{-1}h_T^4 ) \|D^2u_\varepsilon\|_{L^2(\Omega)}^2\right)^{\frac{1}{2}},
 	\]
 	wobei $C$ nur von der Formregularität des Gitters abhängt. 
 \end{theorem}
@@ -86,7 +86,7 @@ ausgedrückt. Offensichtlich ist $|\cdot|_{1,\varepsilon,\delta}$ wohldefiniert 
 	\begin{IEEEeqnarray*}{rCl}
 		|u_\varepsilon-I_hu_\varepsilon|_{1,\varepsilon,\delta}^2 &=& \varepsilon\|\nabla(u_\varepsilon-I_h u_\varepsilon)\|_{L^2(\Omega)}^2 + \sum_{T\in\mathcal{T}_h}\delta_T\|b\cdot\nabla(u_\varepsilon-I_h u_\varepsilon)\|_{L^2(T)}^2 \\
 		&\leq& \sum_{T\in\mathcal{T}_h} (\varepsilon+\delta_T)C_{int}^2\delta_T^{-2}h_T^2\|D^2u_\varepsilon\|_{L^2(T)}^2\\
-		&\leq& C_{int}^2\delta_{\mathcal{T}_h}^{-2}\sum_{T\in\mathcal{T}_h} (\varepsilon+\delta_T)h_T^2\|D^2u\|_{L^2(T)}^2.
+		&\leq& C_{int}^2\delta_{\mathcal{T}_h}^{-2}\sum_{T\in\mathcal{T}_h} (\varepsilon+\delta_T)h_T^2\|D^2u_\varepsilon\|_{L^2(T)}^2.
 	\end{IEEEeqnarray*}
 	Für die Untersuchung des anderen Terms $|I_hu_\varepsilon - u_{\varepsilon,h,\delta}|_{1,\varepsilon,\delta}$ setzen wir $v_h \coloneqq I_hu_\varepsilon - u_{\varepsilon,h,\delta}$.
 	\cref{thm:c2e7s6} impliziert
@@ -99,14 +99,14 @@ ausgedrückt. Offensichtlich ist $|\cdot|_{1,\varepsilon,\delta}$ wohldefiniert 
 		&& \quad {}- \int_\Omega fv_h \dx - \sum_{T\in\mathcal{T}_h}\delta_T \int_T f(b\cdot\nabla v_h) \dx \\
 		&=& \sum_{T\in\mathcal{T}_h}\delta_T\int_T\varepsilon\lapl u_\varepsilon b\cdot\nabla v_h \dx\\
 		&\leq& \sum_{T\in\mathcal{T}_h}\left(\sqrt{\delta_T}\varepsilon\|\lapl u_\varepsilon\|_{L^2(T)}\right)\left(\|b\cdot\nabla v_h\|_{L^2(T)}\sqrt{\delta_T}\right) \\
-		&\overset{\text{C.S.}}\leq& \left(\sum_{T\in\mathcal{T}_h}\delta_T\varepsilon^2 \smash[b]{ \underbrace{\|\lapl u\|_{L^2(T)}^2}_{\leq\|D^2u\|_{L^2(T)}^2} }\right)^{\frac{1}{2}}\underbrace{\left( \sum_{T\in\mathcal{T}_h}\delta_T\|b\cdot\nabla v_h\|_{L^2(T)}^2 \right)^{\frac{1}{2}} }_{\leq|v_h|_{1,\varepsilon,\delta}}.
+		&\overset{\text{C.S.}}\leq& \left(\sum_{T\in\mathcal{T}_h}\delta_T\varepsilon^2 \smash[b]{ \underbrace{\|\lapl u_\varepsilon\|_{L^2(T)}^2}_{\leq\|D^2u_\varepsilon\|_{L^2(T)}^2} }\right)^{\frac{1}{2}}\underbrace{\left( \sum_{T\in\mathcal{T}_h}\delta_T\|b\cdot\nabla v_h\|_{L^2(T)}^2 \right)^{\frac{1}{2}} }_{\leq|v_h|_{1,\varepsilon,\delta}}.
 	\end{IEEEeqnarray*}
 	Im klassischen Galerkin Verfahren war $a_{\varepsilon,\delta}(u_\varepsilon-u_{\varepsilon,h,\delta},v_h)$ die \emph{Galerkin-Orthogonalität}, also $0$, was in diesem Fall jedoch nicht gilt. Ferner gilt aber
 	\begin{IEEEeqnarray*}{rCl}
 		a_{\varepsilon,\delta}(I_hu_\varepsilon -u_\varepsilon,v_h) &=& \varepsilon\int_\Omega\nabla(I_hu_\varepsilon-u_\varepsilon)\cdot\nabla v_h \dx + \underbrace{\int_\Omega b\cdot\nabla(I_hu_\varepsilon-u_\varepsilon)v_h}_{= -\int_\Omega b\cdot\nabla v_h(I_hu_\varepsilon-u_\varepsilon) \dx} + \ldots\\
 		&& \quad {}+\sum_{T\in\mathcal{T}_h}\delta_T\int_T b\cdot\nabla (I_hu_\varepsilon-u_\varepsilon)b\cdot\nabla v_h\\
 		&\overset{(\star)}\leq& \ldots\\
-		&\leq& 2|v_h|_{1,\varepsilon,\delta} C(\delta_{\mathcal{T}_h})\left( \sum_{T\in\mathcal{T}_h} h_T^2(\varepsilon+\delta_T+\delta_T^{-1}h_T^2)\|D^2u\|_{L^2(T)}^2 \right)^{\frac{1}{2}}.
+		&\leq& 2|v_h|_{1,\varepsilon,\delta} C(\delta_{\mathcal{T}_h})\left( \sum_{T\in\mathcal{T}_h} h_T^2(\varepsilon+\delta_T+\delta_T^{-1}h_T^2)\|D^2u_\varepsilon\|_{L^2(T)}^2 \right)^{\frac{1}{2}}.
 	\end{IEEEeqnarray*}
 	Im ausgelassenen Schritt $(\star)$ wendet man eine Interpolationsfehlerabschätzung und die Cauchy-Schwarz Ungleichung an.\par
 	Mit Hilfe der gemachten Abschätzungen ergibt sich die Aussage des Theorems durch deren Kombination.

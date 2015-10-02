@@ -63,17 +63,17 @@ Wir nehmen jetzt zunächst an, dass $d=2$ und $k=1$, d.h.\ wir betrachten die $P
 \begin{theorem}[Interpolationsfehlerabschätzung]\label{thm:c2e5s2}
 	Sei $T$ ein Dreieck mit Durchmesser $h_T$ (Länge der längsten Seite) und größtem Innenwinkel $0 < \omega < \pi$. Dann existieren Konstanten 
 	\[
-		c_0,\;c_1(\omega)\coloneqq\frac{\sqrt{\frac{\pi}{4}+\frac{2}{\pi^2}}}{\sqrt{1-|\cos{\omega}|}},\; c_2(\omega) = 1,
+		c_0,\;c_1(\omega)\coloneqq\frac{\sqrt{\frac{1}{4}+\frac{2}{\pi^2}}}{\sqrt{1-|\cos{\omega}|}},\; c_2(\omega) = 1,
 	\]
 	sodass für alle $v\in H^2(\Omega)$ gilt
 	\[
-		\| D^m(v-I_h^1 v)\|_L^2(\Omega) \leq c_m(\omega)h_T^{2-m}\| D^2 v\|_{L^2(T)},\quad m=0,1,2.
+		\| D^m(v-I_h^1 v)\|_{L^2(T)} \leq c_m(\omega)h_T^{2-m}\| D^2 v\|_{L^2(T)},\quad m=0,1,2.
 	\]
 \end{theorem}
 
 \begin{proof}
 	\underline{$m=2$:} $D^2 I^1_v = 0 \implies \| D^2(v-I_h^1 v)\| = \|D^2 v\|$.
-
+% Bemerkung: Die Tangentialvektoren tau_1 und tau_2 müssen so orientiert werden, so dass omega der eingeschlossene Winkel ist. Es wird verwendet a*b= |a||b| cos w.
 	\underline{$m=1$:} Sei $T \coloneqq \conv(\{z_1,z_2,z_3\})$, $\tau_j$ die Einheitstangentialvektoren der Kanten $E_j$ von $T$ (orientiert gegen den Uhrzeigersinn), sodass $E_j$ die Knoten $z_i$ und $z_k$ verbindet, mit $j\not\in\{i,k\}$, und sei $\omega$ \ac{obda}\ der Winkel bei $z_3$. Für $a\in\R^2$ gilt mit der euklidischen Norm $|\cdot|$ und einer Basis $(\mu_1,\mu_2)$ des $\R^2$ aus linear unabhängigen Einheitsvektoren:
 	\[
 		| a|^2 \leq \frac{(a\cdot\mu_1)^2 + (a\cdot\mu_2)^2}{1- |\mu_1\cdot\mu_2|}
@@ -87,6 +87,7 @@ Wir nehmen jetzt zunächst an, dass $d=2$ und $k=1$, d.h.\ wir betrachten die $P
 	\[
 		\int_{E_j} f_j \ds = \int_{E_j}\frac{\partial}{\partial_s}(v-I_h^1 v) \ds = 0,\quad j=1,2,
 	\]
+	% Das wichtigere Argument ist eher, dass  I_hv und v an den Endpunkten übereinstimmen.
 	da $E_j$ $z_{j-1}$ und $z_{j+1}$ verbindet.
 
 	\emph{Erinnerung:} Aufgabe 2 auf Übungsblatt 1 hat gezeigt: \\
@@ -100,7 +101,7 @@ Wir nehmen jetzt zunächst an, dass $d=2$ und $k=1$, d.h.\ wir betrachten die $P
 	\end{IEEEeqnarray*}
 	Eine einfache Rechnung (mittels Polarkoordinaten) ergibt:
 	\[
-		\| \cdot - z_j\|_{L^2(T)}\leq\frac{\sqrt{\pi}h_T}{\sqrt{2}}
+		\| \cdot - z_j\|_{L^2(T)}\leq\frac{h_T}{\sqrt{2}}
 	\]
 	Die \emph{Poincaré-Ungleichung} zeigt dann, wegen
 	\[
@@ -110,7 +111,7 @@ Wir nehmen jetzt zunächst an, dass $d=2$ und $k=1$, d.h.\ wir betrachten die $P
 	\begin{IEEEeqnarray*}{rCl}
 		\left\| \fint_\Omega f_j \dx \right\|_{L^2(T)}^2 &=& \left| \frac{1}{| T|}\int_T f_j \dx \right|^2 \|1\|_{L^2(T)}^2 \\
 		&=& \left|\int_T f_j \dx \right|^2 \\
-		&\leq& \frac{\pi}{8}h_T^2 \|\nabla f_j\|_{L^2(T)},
+		&\leq& \frac{1}{8}h_T^2 \|\nabla f_j\|_{L^2(T)},
 	\end{IEEEeqnarray*}
 	dass
 	\begin{IEEEeqnarray*}{rCl}
@@ -120,7 +121,7 @@ Wir nehmen jetzt zunächst an, dass $d=2$ und $k=1$, d.h.\ wir betrachten die $P
 		&\leq&
 			\frac{h_T^2}{\pi^2} \|\nabla f_j\|_{L^2(T)}^2 + \frac{\pi}{8} h_T^2 \|\nabla f_j\|_{L^2(T)}^2 \\
 		&\leq&
-			\left( \frac{1}{\pi^2}+\frac{\pi}{8} \right)h_T^2 \|\nabla f_j\|_{L^2(T)}^2.
+			\left( \frac{1}{\pi^2}+\frac{1}{8} \right)h_T^2 \|\nabla f_j\|_{L^2(T)}^2.
 	\end{IEEEeqnarray*}
 	\emph{Zusammenfassung:} Wir haben gezeigt
 	\begin{IEEEeqnarray*}{rCl}
@@ -128,7 +129,7 @@ Wir nehmen jetzt zunächst an, dass $d=2$ und $k=1$, d.h.\ wir betrachten die $P
 		&\leq& 
 			\frac{1}{| 1-\cos{\omega}|}\left( \|f_1\|_{L^2(T)}^2 + \| f_2\|_{L^2(T)}^2 \right)\\
 		&\leq& 
-			\frac{1}{| 1-\cos{\omega}|}\underbrace{\left(\frac{2}{\pi^2} + \frac{\pi}{4}\right)}_{c_1(\omega)} \frac{1}{2} h_T^2 \underbrace{\left( \|\nabla f_1\|_{L^2(T)}^2 + \|\nabla f_2\|_{L^2(T)}^2 \right)}_{\leq 2\|D^2v\|_{L^2(T)}^2}
+			\frac{1}{| 1-\cos{\omega}|}\underbrace{\left(\frac{2}{\pi^2} + \frac{1}{4}\right)}_{c_1(\omega)} \frac{1}{2} h_T^2 \underbrace{\left( \|\nabla f_1\|_{L^2(T)}^2 + \|\nabla f_2\|_{L^2(T)}^2 \right)}_{\leq 2\|D^2v\|_{L^2(T)}^2}
 	\end{IEEEeqnarray*}
 	Die Abschätzung für die $L^2$-Norm von $f_1$ und $f_2$ folgt, da die partiellen Ableitungen zweiter Ordnung des Interpolators $I_h^1$ in alle Richtungen verschwinden.
 
