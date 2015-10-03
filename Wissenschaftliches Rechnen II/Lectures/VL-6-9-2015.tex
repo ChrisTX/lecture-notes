@@ -55,7 +55,7 @@ Insgesamt wissen wir jetzt also, dass
 \chapter{Die Stokes-Gleichungen} %3
 Die Beschreibung von Strömungen führt in der einfachsten Form auf die Gleichung
 \begin{problem}
-	Suche $u\in H^1_0(\Omega)$ und $p\in L^2_0(\Omega)\coloneqq\{v\in L^2(\Omega)|\,\int_\Omega v\,dx = 0\}$ so, dass
+	Suche $u\in H^1_0(\Omega)$ und $p\in L^2_0(\Omega)\coloneqq\{v\in L^2(\Omega) \mid \int_\Omega v\,dx = 0\}$ so, dass
 	\begin{IEEEeqnarray*}{rCl"l}
 		-\Delta u + \nabla p &=& f & \text{in }\Omega\\
 		\dive u &=& 0&\text{in }\Omega\\
@@ -108,7 +108,7 @@ Definiere den Kern von $B$ durch
 \]
 Zentrale Bedingung:
 \begin{equation}\label{eqn:c3e1s1} %In Vorlesung: (1)
-	\inf_{v\in Z, \|v\|_V=1}\sup_{w\in Z,\|w\|_Z=1} a(v,w) > \alpha < \inf_{v\in Z,\|v\|=1}\sup_{u\in Z,\|u\|_V=1}a(w,v)
+	\inf_{v\in Z, \|v\|_V=1}\sup_{w\in Z,\|w\|_Z=1} a(v,w) > \alpha < \inf_{v\in Z,\|v\|=1}\sup_{w\in Z,\|w\|_V=1}a(w,v)
 \end{equation}
 \begin{equation}\label{eqn:c3e1s2} %In vorlesung: (2)
 	\beta \leq \inf_{\mu\in M,\|\mu\|_M=1}\sup_{v\in V,\|v\|_1} b(v,\mu)
@@ -116,7 +116,7 @@ Zentrale Bedingung:
 für $\alpha,\beta>0$.
 
 \begin{remark}
-	\cref{eqn:c3e1s2} wird auch LBB Bedingung (Ladyzhenskaya-Babuska Bedingung) genannt.
+	\cref{eqn:c3e1s2} wird auch LBB Bedingung (Ladyzhenskaya-Babuska-Brezzi Bedingung) genannt.
 \end{remark}
 Wir erinnern uns an die \emph{Polare} eines Unterraumes $W\subseteq V$, welche gegeben sind durch
 \[

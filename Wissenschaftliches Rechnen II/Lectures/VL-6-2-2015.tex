@@ -1,35 +1,6 @@
 \documentclass[../skript.tex]{subfiles}
 
 \begin{document}
-
-
-\section{Helmholtz-Problem}\label{sec:c2e8}
-
-
-\begin{equation}\label{eqn:c2e8s1}
-	\left.
-		\begin{IEEEeqnarraybox}[][c]{rCl"l}
-			-\Delta u - \kappa^2u &=& f,&\text{in }\Omega\\
-			\nabla u\nu + i\kappa u &=& g,&\text{auf }\partial\Omega 
-		\end{IEEEeqnarraybox}
-	\right\}
-\end{equation}
-
-Für $\kappa\geq 1, 1\ll \kappa$, $\Omega\subset\mathbb{R}^2$.
-\begin{equation}\label{eqn:c2e8s2}
-	\left.
-		\begin{IEEEeqnarraybox}[][c]{l}
-			\text{Finde }u\in \mathcal{H}\coloneqq H^1(\Omega,\mathbb{C}), \text{ so dass}\\
-			a(u,v) = \overline{F(v)},\,\forall v\in\mathcal{H}
-		\end{IEEEeqnarraybox}
-	\right\}
-\end{equation}
-mit 
-\begin{IEEEeqnarray*}{rCl}
-	a(u,v) &\coloneqq& \int_\Omega\nabla u\cdot\nabla\overline{v} - \kappa^2 u\overline{v}\,dx + i\kappa\int_{\partial\Omega} u\overline{v}\,dS;\\
-	\overline{F(v)} &\coloneqq& \int_\Omega f\overline{v}\,dx + \int_{\partial\Omega} g\overline{v}\,dS.
-\end{IEEEeqnarray*}
-
 \begin{theorem}[Erinnerung: $\Omega$ konvex und planar]\label{thm:c2e8s1}
 	Es gibt eine Konstante $C(\Omega) > 0$ die nur von $\Omega$ (und nicht von $\kappa$) abhängt, so dass für alle $f\in L^2(\Omega,\mathbb{C})$ und $g\in L^2(\partial\Omega,\mathbb{C})$ und die eindeutige schwache Lösung $u\in\mathcal{H}$ von (\ref{eqn:c2e8s2}) gilt:
 	\[
@@ -192,7 +163,7 @@ FEM sucht $u_h\in \mathcal{P}^{1,0}(\mathcal{T}_h):\forall v_h\in \mathcal{P}^{1
 		&\geq& (1-C(\Omega)(\kappa h^2+h)\kappa^2)\|u_h\|_\mathcal{H}^2.
 	\end{IEEEeqnarray*}
 	% Bemerkung: Beachte kappa^3h^2 <= h kappa <= h kappa^2, da kappa >=1 und kappa^2 <= C_1 <= 1
-	Wähle $C_1\leq\frac{1}{4\C(\Omega)}$. Dann folgt 
+	Wähle $C_1\leq\frac{1}{4 C(\Omega)}$. Dann folgt 
 	\begin{equation*}
 		\re a(u_h,v_h) \geq\frac{1}{2}\|u_h\|_\mathcal{H}^2.
 	\end{equation*}
