@@ -1,0 +1,184 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+\chapter{Basic concepts of optimal control in finite dimension}
+We consider the following model problem:
+\begin{IEEEeqnarray*}{c}
+\min J(y, u) \\
+Ay = Bu \\
+u \in U_{ad}
+\end{IEEEeqnarray*}
+Where $A \in \R^{n \times n}$, $B \in \R^{n \times m}$, $U_{ad} \subset \R^m \neq \emptyset$ and
+\begin{IEEEeqnarray*}{rCl}
+J : \R^n \times \R^n &\to& R, \\
+J(y, u) &=& |y-y_d|^2 + \lambda|u|^2.
+\end{IEEEeqnarray*}
+$U_{ad}$ is called the \emph{admissible set}, $y_d$ is called the desired state and we assume that $\lambda > 0$, but small.
+This is a finite dimensional optimization problem, where ``$y$ and $u$ have equal rights''.
+
+Assume that $A$ is invertible, i.e.\
+\[
+	y = \underbrace{A^{-1} B}_{\eqqcolon S} u.
+\]
+Then we have a finite optimal control problem. $S : \R^m \to \R^n$, $S = A^{-1} B$ is called the control-to-state mapping. ``For every \emph{control} $u$, there exists a \emph{state} $y(u)$ which is uniquely determined by the equality constraint.''
+
+This yields the reduced formulation $J(y, u) = J(Su, u) \eqqcolon f(u)$.
+\begin{problem} % Problem P
+\begin{equation}
+\label{prb:P}
+\tag{P}
+\min_{u \in U_{ad}} f(u)
+\end{equation}
+\end{problem}
+\begin{definition}
+A vector $\bar{u} \in U_{ad}$ is called an optimal control for \cref{prb:P}, if $f(\bar{u}) \leq f(u)$ for all $u \in U_{ad}$. Then $\bar{y} = S \bar{u}$ is called the associated optimal state. Locally optimal controls are defined analogously.
+\end{definition}
+\begin{theorem}[Existence of optimal controls]
+If $J$ is continuous on $\R^n \times U_{ad}$, the set $U_{ad}$ is nonempty, bounded and closed, and $A$ is invertible, then there exists at least one optimal control for \cref{prb:P}.
+\end{theorem}
+\begin{proof}
+Since we are in \underline{finite dimensions}, the set $U_{ad}$ is \underline{compact} (and nonempty). Moreover, $J$ is continuous, so Weierstrass' Theorem gives the assertion.
+\end{proof}
+\section{Necessary optimality conditions}
+\begin{itemize}
+\item Assume that $J$ is partially continuously differentiable with respect to $y$ and $u$.
+\begin{theorem}
+If $\bar{u}$ is an optimal control for \cref{prb:P}, and $U_{ad}$ is convex, then $\bar{u}$ fulfills the \emph{variational inequality} (``Variationsungleichung'')
+\[
+	f'(\bar{u})(u - \bar{u}) \geq 0 \quad \forall u \in U_{ad}.
+\]
+In this sense, $f'(\bar{u})(u - \bar{u})$ is a directional derivative, thus the condition means that $f$ grows in all directions pointing inwards the set.
+\end{theorem}
+\begin{proof}
+Let
+\[
+	u_t \coloneqq \bar{u} + t(u - \bar{u}) \quad \text{for } t \in (0, 1).
+\]
+Then for all $u \in U_{ad}$ we have $u_t \in U_{ad}$ because $U_{ad}$ is convex.
+Since $\bar{u}$ was assumed optimal, we have
+\[
+	f(\bar{u}) \leq f(u_t).
+\]
+By dividing by $t > 0$ we can transform this into
+\[
+	\frac{f(u_t) - f(\bar{u})}{t} \geq 0.
+\]
+Now by taking the limit, we obtain
+\[
+	\lim_{t \downarrow 0} \frac{f(u_t) - f(\bar{u})}{t} = f'(\bar{u})(u - \bar{u}) \geq 0.
+\]
+\end{proof}
+\item What happens if $U_{ad} = \R^m$> (no inequality constraints)?
+Then
+\[
+	f'(\bar{u})(u - \bar{u}) = (\nabla f(\bar{u}), u - \bar{u}) \geq 0 \quad \forall u \in U_{ad} = \R^m.
+\]
+This implies $\nabla f(\bar{u}) = 0$.
+\item What happens, if $f$ is also convex?
+Then the variational inequality is also sufficient for optimality (convex optimization problem).
+\begin{proof}
+Convexity can be characterized as
+\[
+	f(u) - f(\bar{u}) \geq f'(\bar{u})(u - \bar{u}) \geq 0.
+\]
+Then of course we have
+\[
+	f(\bar{u}) \leq f(u) \quad \forall u \in U_{ad}.
+\]
+\end{proof}
+\end{itemize}
+\begin{example}
+Let
+\[
+	f(u) = \frac{1}{2} |Su - y_d|^2 + \frac{\lambda}{2} |u|^2.
+\]
+For a direction $h$:
+\begin{IEEEeqnarray*}{rCl}
+	(\nabla f(u), h) &=& (Su - y_d, Sh) + \lambda (u, h).
+	\nabla f(u) = S^\tp (Su - y_d) + \lambda u.
+\end{IEEEeqnarray*}
+Therefore:
+\[
+	\boxed{f' = D_y J S + D_u J}
+\]
+Given that $S = A^{-1} B$, this is equivalent to
+\[
+	\nabla f(\bar{u}) = B^\tp (A^\tp)^{-1} \nabla_y J(\bar{y}, \bar{u}) + \nabla_u J(\bar{y}, \bar{u}).
+\]
+Thus, the variational inequality takes the form
+\[
+	\left( B^\tp (A^\tp)^{-1} \nabla_y J(\bar{y}, \bar{u}) + \nabla_u J(\bar{y}, \bar{u}), u - \bar{u} \right) \geq 0 \quad \forall u \in U_{ad}.
+\]
+Obviously $(A^\tp)^{-1}$ is very hard to compute and we need to find a better formulation for a numerical treatment:
+Let
+\[
+	\bar{p} \coloneqq (A^\tp)^{-1} \nabla_y J(\bar{y}, \bar{u}) \quad \Leftrightarrow \quad A^\tp \bar{p} = \nabla_y J(\bar{y}, \bar{u}).
+\]
+With this definition, the variational inequality becomes
+\begin{itemize}
+\item $\left( B^\tp \bar{p} + \nabla_u J(\bar{y}, \bar{u}), u - \bar{u} \right) \geq 0$
+\item $A^\tp \bar{p} = \nabla_y J(\bar{y}, \bar{u})$
+\end{itemize}
+For the problem
+\begin{IEEEeqnarray*}{c}
+\min \frac{1}{2} |y - y_d|^2 + \frac{\lambda}{2} |u|^2 \\
+Ay = Bu \\
+u \in U_{ad}
+\end{IEEEeqnarray*}
+this means
+\begin{itemize}
+\item $\left( B^\tp \bar{p} + \lambda \bar{u}, u - \bar{u} \right) \geq 0 \quad \forall u \in U_{ad}$
+\item $A^\tp \bar{p} = \bar{y} - y_d$
+\end{itemize}
+We call $\bar{p}$ the \emph{adjoint state} associated with $(\bar{u}, \bar{y})$ and $A^\tp \bar{p} = \bar{y} - y_d$ the \emph{adjoint equation}.
+\end{example}
+\begin{theorem}
+If $A$ is invertible, $\bar{u}$ is the optimal control for \cref{prb:P}, and $\bar{y}$ is the associated optimal state, then there exists a unique solution $\bar{p}$ of the adjoint equation $A^\tp \bar{p} = \bar{y} - y_d$, and it holds:
+\[
+\left( B^\tp + \nabla_u J(\bar{y}, \bar{u}), u - \bar{u} \right) \geq 0 \quad \forall u \in U_{ad}.
+\]
+\end{theorem}
+\begin{example}
+Let
+\[
+U_{ad} = \left\{ u \in \R^m \gmid u_a \leq u \leq u_b \text{ component wise } \right\}.
+\]
+Then
+\[
+	\left( B^\tp + \nabla_u J(\bar{y}, \bar{u}), u - \bar{u} \right) \geq 0 \quad \forall u \in U_{ad}
+\]
+implies
+\[
+	\left( B^\tp + \nabla_u J(\bar{y}, \bar{u}), \bar{u} \right) \leq \left( B^\tp + \nabla_u J(\bar{y}, \bar{u}), u \right) \quad \forall u \in U_{ad}.
+\]
+Hence, $\bar{u}$ solves
+\[
+	\min_{u \in U_{ad}} \left( B^\tp \bar{p} + \nabla u J(\bar{y}, \bar{u}), u \right).
+\]
+This can be written equivalently
+\[
+	\min_{u \in U_{ad}} \sum_{i=1}^m \left( B^\tp \bar{p} + \nabla u J(\bar{y}, \bar{u}) \right)_i u_i \quad u_{a_i} \leq u_i \leq u_{b_i}.
+\]
+Component wise, we obtain
+\[
+	\left( B^\tp \bar{p} + \nabla u J(\bar{y}, \bar{u}) \right)_i \bar{u}_i = \min_{u_{a_i} \leq u_i \leq u_{b_i}} \left( B^\tp \bar{p} + \nabla u J(\bar{y}, \bar{u}) \right)_i u_i.
+\]
+Therefore,
+\[
+	\bar{u}_i = \begin{cases}
+	u_{b_i} & \text{if } \left( B^\tp \bar{p} + \nabla u J(\bar{y}, \bar{u}) \right)_i < 0 \\
+	u_{a_i} & \text{if } \left( B^\tp \bar{p} + \nabla u J(\bar{y}, \bar{u}) \right)_i > 0
+	\end{cases}
+\]
+If $B^\tp \bar{p} + \nabla_u J(\bar{y}, \bar{u}) = 0$ we cannot in general deduce a condition for $\bar{u}_i$, but often this follows from the structure of $\nabla_u J(\bar{y}, \bar{u})$.
+\begin{example}
+\[
+	J(y, u) = \frac{1}{2} |y -y_d|^2 + \frac{\lambda}{2} |u|^2
+\]
+Then
+\[
+	B^\tp \bar{p} + \lambda \bar{u} = 0 \quad \Rightarrow \quad \bar{u} = -\frac{1}{\lambda} B^\tp \bar{p}.
+\]
+\end{example}
+\end{example}
+\end{document}

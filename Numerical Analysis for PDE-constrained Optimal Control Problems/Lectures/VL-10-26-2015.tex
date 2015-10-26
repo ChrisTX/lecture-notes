@@ -1,0 +1,185 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+\subsection{Lagrangian and KKT system (Karush-Kuhn-Tucker system)}
+The function
+\begin{IEEEeqnarray*}{rCl}
+	\mathcal{L} : \R^{2n + m} &\to& \R \\
+	\mathcal{L}(y, u, p) &=& J(y, u) - (Ay - Bu, p)_{\R^n}
+\end{IEEEeqnarray*}
+is called the \emph{Lagrange function} (or Lagrangian) of the problem. Given that the original problem has the condition $Ay = Bu$, the second term vanishes and the minimization is operating on the same problem.
+Deriving the Lagranging with respect to $y$, we obtain
+\[
+	\nabla_y \mathcal{L}(\bar{y}, \bar{u}, \bar{p}) = \nabla_y J(\bar{y}, \bar{u}) - A^\tp \bar{p}.
+\]
+Therefore the adjoint equation is fulfilled if and only if this derivative is zero:
+\[
+	A^\tp \bar{p} = \nabla_y J(\bar{y}, \bar{u}) \quad \Leftrightarrow \quad \nabla_y L(\bar{y}, \bar{u}, \bar{p}) = 0.
+\]
+In the same way, the variational inequality can be seen to be equivalent to the following formulation in terms of the Lagrangian:
+\begin{IEEEeqnarray*}{r"rCl"l}
+	& \left( B^\tp \bar{p} + \nabla_u J(\bar{y}, \bar{u}), u - \bar{u} \right) &\geq& 0 & \forall u \in U_{ad} \\
+	\Leftrightarrow & \left( \nabla_u \mathcal{L}(\bar{y}, \bar{u}, \bar{p}), u - \bar{u} \right) &\geq& 0 & \forall u \in U_{ad}
+\end{IEEEeqnarray*}
+For the special case
+\[
+	U_{ad} = \left\{ u \in \R^m \midcolon u_a \leq u \leq u_b \right\}
+\]
+we define
+\begin{IEEEeqnarray*}{rClCl}
+	\eta_a &=& \left( B^\tp \bar{p} + \nabla_u J(\bar{y}, \bar{u}) \right)_+ &\geq& 0 \\
+	\eta_b &=& \left( B^\tp \bar{p} + \nabla_u J(\bar{y}, \bar{u}) \right)_- &\geq& 0 
+\end{IEEEeqnarray*}
+Then we obtain a so called \emph{complementary slackness condition}:
+Because $\eta_a \geq 0$, $u_a - \bar{u} \leq 0$, we have
+\[
+	(\eta_a, u_a - \bar{u}) = 0
+\]
+and similarly because of $\eta_b \geq 0$, $\bar{u} - u_b \leq 0$
+\[
+	(\eta_b, \bar{u} - u_b) = 0.
+\]
+This also holds component-wise.
+\begin{definition}
+We call $\eta_a, \eta_b \in \R^m$, $p \in \R^n$ the \emph{Lagrange multipliers} for \cref{prb:P}. Furthermore, let
+\[
+\mathcal{L}(y, u, p, \eta_a, \eta_b) = J(y, u) - (Ay - Bu, p)_{\R^n} + (u_a - u, \eta_a)_{\R^n} + (u - u_b, \eta_b)_{\R^n}.
+\]
+\end{definition}
+\begin{theorem}[KKT-system]
+If $\bar{u}$ denotes an optimal control for \cref{prb:P} with associated state $\bar{y}$, $A$ is invertible, and $U_{ad} \neq \emptyset$ of the form
+\[
+	U_{ad} = \left\{ u\in\R^m \midcolon u_a \leq u \leq u_b \right\},
+\]
+then there exist Lagrange Multipliers (LM) $\bar{p} \in \R^m, \bar{\eta}_a, \bar{\eta}_b \in \R^m$ with
+\begin{IEEEeqnarray*}{rCl}
+\nabla_y \mathcal{L}(\bar{y}, \bar{u}, \bar{p}, \bar{\eta}_a, \bar{\eta}_b) &=& 0 \\
+\nabla_u \mathcal{L}(\bar{y}, \bar{u}, \bar{p}, \bar{\eta}_a, \bar{\eta}_b) &=& 0 \\
+\bar{\eta}_a, \bar{\eta}_b &\geq& 0 \\
+\left(\bar{\eta}_a, u_a - \bar{u}\right) = \left( \bar{\eta}_b, \bar{u} - u_b \right) &=& 0
+\end{IEEEeqnarray*}
+\end{theorem}
+\begin{proof}
+Since
+\[
+	\nabla_u \mathcal{L}(\bar{y}, \bar{u}, \bar{p}, \bar{\eta}_a, \bar{\eta}_b) = \nabla_u J(\bar{y}, \bar{u}) + B^\tp p - \bar{\eta}_a + \bar{\eta}_b
+\]
+we obtain
+\[
+	\left( \nabla_u \mathcal{L}(\bar{y}, \bar{u}, \bar{p}, \bar{\eta}_a, \bar{\eta}_b), u - \bar{u} \right) = \left( \nabla_u J(\bar{y}, \bar{u}) + B^\tp p, u - \bar{u} \right) - \left(\bar{\eta}_a, u - \bar{u}\right) + \left(\bar{\eta}_b, u - \bar{u}\right).
+\]
+With the calculations made earlier on, we obtain that the solution fulfills
+\begin{IEEEeqnarray*}{rCl}
+A \bar{y} &=& B \bar{u} \\
+\bar{u} &\in& U_{ad}
+\end{IEEEeqnarray*}
+Therefore the system is equivalent to the original \cref{prb:P}.
+\end{proof}
+\begin{example}[A simple optimization example with constraints]
+Consider the problem
+\begin{equation}
+\tag{P}
+\begin{IEEEeqnarraybox}[][c]{c}
+\min -\frac{1}{2} \left( 1 - x_1^2 - x_2^2 \right)\\
+\underbrace{x_2 - x_1 + 1 = 0}_{g(x) = 0}
+\end{IEEEeqnarraybox}
+\end{equation}
+As before, we calculate the Lagrangian
+\[
+\mathcal{L}(x, z) = - \frac{1}{2} \left( 1 - x_1^2 -x_2^2 \right) - z \left(x_2 - x_1 + 1\right)
+\]
+Deriving into $x$ direction, we obtain
+\[
+	\nabla_x \mathcal{L}(x, z) = \begin{pmatrix}
+	x_1 + z \\
+	x_2 - z
+	\end{pmatrix}
+\]
+Similarly, we obtain for $z$:
+\[
+	\nabla_z \mathcal{L}(x, z) = x_2 - x_1 + 1.
+\]
+Now the conditions $\nabla_x \mathcal{L} = 0$ and $\nabla_z \mathcal{L} = 0$ are
+\begin{IEEEeqnarray*}{rCl}
+x_1 + z &=& 0 \\
+x_2 - z &=& 0 \\
+x_2 - x_1 + 1 &=& 0.
+\end{IEEEeqnarray*}
+By adding the first two conditions, we obtain $x_1 + x_2 = 0$.
+This can be formulated into the linear equation system
+\[
+	\begin{pmatrix}
+	1 & 1 \\
+	-1 & 1
+	\end{pmatrix} \begin{pmatrix}
+	x_1 \\ x_2
+	\end{pmatrix} = \begin{pmatrix}
+	0 \\ - 1
+	\end{pmatrix}
+\]
+Therefore, the solution is
+\[
+	x_1 = \frac{1}{2}, \quad x_2 = - \frac{1}{2}, \quad z = - \frac{1}{2}.
+\]
+
+Note that $\nabla_x \mathcal{L} = 0$ is equivalent to
+\begin{IEEEeqnarray*}{rCl}
+\nabla f\left(\bar{x}\right) - \nabla\left(\bar{z} g\left(\bar{x}\right) \right) &=& 0 \\
+\nabla f\left(\bar{x}\right) &=& \bar{z} \nabla g\left(\bar{x}\right)
+\end{IEEEeqnarray*}
+Geometrically, this means that the Lagrange multiplier and the contour line are orthogonal.
+\end{example}
+\section{Second order sufficient optimality conditions}
+\begin{definition}
+Define the \emph{index set of active inequality constraints} by
+\begin{IEEEeqnarray*}{rCl}
+	I(\bar{u}) &=& I_a(\bar{u}) \cup I_b(\bar{u}) \\
+	I_a(\bar{u}) &=& \left\{ i \midcolon \bar{u}_i = u_{a_i} \right\} \\
+	I_b(\bar{u}) &=& \left\{ i \midcolon \bar{u}_i = u_{b_i} \right\} 
+\end{IEEEeqnarray*}
+\end{definition}
+Due to the complementary slackness condition $(\eta_a, u_a - \bar{u})_i = 0$ it follows that
+\[
+	\eta_{a_i} > 0 \Rightarrow \bar{u}_i = u_{a_i}.
+\]
+The converse doesn't hold: Consider $x^2$ optimized over $[0, 1]$. Then the constraint on the left hand side is active, but the multiplier would still be zero, so
+\[
+	\eta_{a_i} = 0 \not\Rightarrow \bar{u}_i > u_{a_i}.
+\]
+\begin{definition}
+We define the \emph{set of strongly active inequality constraints} $\mathcal{A}(\bar{u}) \subset I(\bar{u})$ by
+\[
+	\mathcal{A}(\bar{u}) = \left\{ i \midcolon \eta_{a_i} > 0 \text{ or } \eta_{b_i} > 0 \right\}.
+\]
+Furthermore, we define the \emph{cone of critical directions} $C(\bar{u})$ by
+\[
+	C(\bar{u}) = \left\{ h \in \R^n \midcolon \;\; \begin{IEEEeqnarraybox}[][c]{rCl"l}
+	h_i &=& 0 & i \in \mathcal{A}(\bar{u}) \\
+	h_i &\geq& 0 & i \in I_a(\bar{u}) \setminus \mathcal{A}(\bar{u}) \\
+	h_i &\leq& 0 & i \in I_b(\bar{u}) \setminus \mathcal{A}(\bar{u})
+	\end{IEEEeqnarraybox} \right\}
+\]
+\end{definition}
+\begin{theorem}
+Let $U_{ad}$ be given as
+\[
+U_{ad} = \left\{ u \midcolon u_a \leq u \leq u_b \right\}.
+\]
+If $(\bar{u}, \bar{y})$ satisfy the KKT-system and
+\[
+	\begin{pmatrix}
+	y \\ u
+	\end{pmatrix}^\tp \begin{bmatrix}
+	\mathcal{L}_{yy} (\bar{y}, \bar{u}, \bar{p}, \bar{\eta}_a, \bar{\eta}_b) & \mathcal{L}_{yu} (\bar{y}, \bar{u}, \bar{p}, \bar{\eta}_a, \bar{\eta}_b) \\ 
+	\mathcal{L}_{uy} (\bar{y}, \bar{u}, \bar{p}, \bar{\eta}_a, \bar{\eta}_b) & \mathcal{L}_{uu} (\bar{y}, \bar{u}, \bar{p}, \bar{\eta}_a, \bar{\eta}_b)
+	\end{bmatrix} \begin{pmatrix}
+	y \\ u
+	\end{pmatrix} > 0
+\]
+for all $(y, u) \neq (0, 0)$ with $Ay = Bu$, $u \in C(\bar{u})$ then $(\bar{u}, \bar{y})$ is strictly locally optimal for \cref{prb:P}.
+\end{theorem}
+\begin{proof}
+This will not be proven at this point, but the proof can be found in \cite[chapter 1]{Troeltzsch}.
+\end{proof}
+In finite dimensions, it suffices to have a condition that the Hessian on that set is greater or equal to $\delta(\| y \|^2 + \| u \|^2) > 0$.
+\end{document}

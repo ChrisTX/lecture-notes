@@ -1,0 +1,144 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+\section*{Literature recommendations}
+For more general background knowledge, the following books are recommended:
+\begin{itemize}
+\item \cite{AltNO} % Nichtlineare Optimierung - W. Alt (Viewig)
+\item Nichtlineare Optimierung - M/S. Ulbrich (Birkhäuser)
+\item \cite{Evans} % Partial differential equations - Evans
+\item \cite{Ciarlet} % Ciarlet - Theory of finite elements
+\end{itemize}
+The followings books are recommended specifically for this course:
+\begin{itemize}
+\item F. Tröltzsch - Optimale Steuerung partieller Differentiagleichungen (*)
+\item \cite{HinzePinnauUlbrich} % Hinze, Pinnau, M/S. Ulbrich - Optimization with PDE constraints
+\end{itemize}
+\chapter{Optimal control - An introduction}
+% Ch. 1
+\label{sec:c1}
+\begin{example}[``Rocket car'' \lbrack{}Mackie-Strauss\rbrack{}]
+Imagine we have a rocket car that we intend to move from point $A$ to point $B$ as fast as possible without it speeding over point $B$, i.e.\ fully stopping at $B$. For this purpose, we can accelerate or decelerate the car in both directions with the same force.
+
+In a mathematical model, let
+\begin{itemize}
+\item $y(t) \in \R$ position of car at time $t$
+\item $m$ mass of the car
+\item $u(t)$ thrust (``Schubkraft'')
+\item $-1 \leq u(t) \leq 1$. In this setting $-1$ would be ``break'' and $1$ equals ``full acceleration''
+\end{itemize}
+The objective is then:
+\begin{IEEEeqnarray*}{u"l}
+Objective: & \text{minimize time $T$} \\
+Contraints (``Nebenbedingungen''):  & \begin{IEEEeqnarraybox}[][t]{rCl"l}
+my'(t) &=& u(t) & \text{in } (0, T) \\
+y(0) &=& y_0 \\
+y(T) &=& y_T \\
+y'(0) &=& 0 \\
+y'(T) &=& 0 \\
+|u(t)| &\leq& 1
+\end{IEEEeqnarraybox}
+\end{IEEEeqnarray*}
+Thus, we have a differential equation plus some inequality constraints.
+\begin{itemize}
+\item \emph{control $u$} can be chosen freely between given bounds
+\item \emph{state $y$} is uniquely determined by the differential equation (and boundary constraints)
+\end{itemize}
+Goal: Find a an optimal control $\bar{u}$ (such that the objective function takes the smallest possible value)
+\end{example}
+\paragraph{Applications:}
+robotics, motion patterns, control processes (these are mainly described by ODEs)
+
+Often, processes are described by PDEs:
+heat transfer, diffusion, electromagnetism
+\begin{examplenumb}[``hot potato''] % Example 1
+\label{ex:1}
+Let $\Omega \subset \R^3$, a time $T > 0$ and $y(x, t)$ be the temperature at $(x, t) \in \Omega \times (0, T)$. \\
+Goal: ``well baked potato'' \\
+The initial temperature at time $t = 0$ is given as $y_0 = y_0(x)$. Find a control such that $y(x, T) \approx y_\Omega(x)$ ``fit to eat''.
+
+We obtain the following mathematical model for the problem:
+\begin{IEEEeqnarray*}{u"l}
+& \min J(y, u) = \frac{1}{2} \int_\Omega \left( y(x, T) - y_\Omega(x) \right)^2 \dx + \frac{\lambda}{2} \int_0^T \int_\Omega u(x, t)^2 \dx \dt \\
+such that & \begin{IEEEeqnarraybox}[][t]{rCl"l}
+y_t - \lapl y &=& 0 & \text{in } Q = \Omega \times (0, T) \\
+\frac{\partial y}{\partial n} &=& \alpha(u - y) & \text{in } \Sigma = \partial \Omega \times (0, T) \\
+y(x, 0) &=& y_0(x) & \text{in } \Omega \\
+u_a(x, t) &\leq& u(x, t) \leq u_b(x, t)
+\end{IEEEeqnarraybox}
+\end{IEEEeqnarray*}
+\end{examplenumb}
+\begin{examplenumb}
+% Example 2
+\label{ex:2}
+Let $\Omega \subset \R^3$ and
+\begin{IEEEeqnarray*}{u"l}
+& \min J(y, u) = \frac{1}{2} \int_\Omega \left( y(x) - y_\Omega(x) \right)^2 \dx + \frac{\lambda}{2} \int_\Omega u(x)^2 \dx \\
+such that & \begin{IEEEeqnarraybox}[][t]{rCl"l}
+- \lapl y + y &=& \beta u & \text{in } \Omega \\
+y &=& 0 & \text{in } \Gamma \coloneqq \partial \Omega \\
+u_a(x) &\leq& u(x) \leq u_b(x)
+\end{IEEEeqnarraybox}
+\end{IEEEeqnarray*}
+For example, if we'd only want control to live within $\Omega_C \subset \Omega$, we could set $\beta = \chi_{\Omega_C}$. More realistic would be to use $- \dive (a \grad y)$ instead.
+\end{examplenumb}
+The model problem for the next weeks will be:
+\begin{IEEEeqnarray*}{u"l}
+& \min J(y, u) = \frac{1}{2} \int_\Omega \left( y(x) - y_\Omega(x) \right)^2 \dx + \frac{\lambda}{2} \int_\Omega u(x)^2 \dx \\
+\circled{1} & \begin{IEEEeqnarraybox}[][c]{rCl"l}
+- \lapl y + y &=& u & \text{in } \Omega \\
+y &=& 0 & \text{in } \Gamma
+\end{IEEEeqnarraybox} \\
+\circled{2} & {} + u_a(x) \leq u(x) \leq u_b(x) \\
+\circled{3} & {} + y_a(x) \leq y(x) \leq y_b(x)
+\end{IEEEeqnarray*}
+
+\begin{samepage}
+Numerical Analysis of optimal control problems:
+\begin{enumerate}
+\renewcommand{\labelenumi}{\circled{\theenumi}}
+\item ``Understand'' the PDE
+\begin{itemize}
+\item existence, uniqueness, regularity for the PDE.
+\item ``control-to-state operator'' $S : U \mapsto Y$
+\end{itemize}
+\item Solvability of the optimal control problem
+\begin{itemize}
+\item existence (and uniqueness?) of global or possibly local solutions $\bar{u}$
+\end{itemize}
+\item Characterization of solutions via optimality conditions
+\begin{itemize}
+\item first order necessary conditions (FON)
+\item (in non-convex situations: second order sufficient conditions (SSC))
+\end{itemize}
+\item Numerical solution:
+\begin{itemize}
+\item Discretization of the PDE (here: linear finite elements)
+\item Discretization of the control (different possibilities)
+\end{itemize}
+\item a priori discretization error estimates
+\begin{itemize}
+\item The difference between the optimal controls for the continuous and discrete problems: $\| \bar{u} - \bar{u}_h \|_{L^2} \leq ?$ depending on $h$ (discretization parameter). Ideally we'd like to have a right hand side of $ch^p$.
+\end{itemize}
+\end{enumerate}
+\end{samepage}
+\begin{center}
+\begin{tabular}{c c}
+Continuous Problem & Discrete Problem \\
+\begin{IEEEeqnarraybox}{c}
+\min f(u) = J(S(u), u) \\
+u_a \leq u \leq u(b)
+\end{IEEEeqnarraybox} &
+\begin{IEEEeqnarraybox}{c}
+\min f_h(u_h) = J(S_h(u_h), u_h) \\
+I_h u_a \leq u_h \leq I_h u(b)
+\end{IEEEeqnarraybox} \\
+optimal solution $(\bar{u}, \bar{y}), \bar{y} = y(\bar{u})$ &
+optimal solution $(\bar{u}_h, \bar{y}_h), \bar{y}_h = y_h(\bar{u}_h)$
+\end{tabular}
+\end{center}
+Note that
+\[
+	\| \bar{y} - \bar{y}_h \| \leq \| \underbrace{ \bar{y} }_{ y(\bar{u}) } \| + \| y_h(\bar{u}) - y_h(\bar{u}_h) \|.
+\]
+\end{document}
