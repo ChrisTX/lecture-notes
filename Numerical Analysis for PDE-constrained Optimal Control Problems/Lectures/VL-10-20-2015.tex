@@ -112,7 +112,7 @@ Thus, the variational inequality takes the form
 Obviously $(A^\tp)^{-1}$ is very hard to compute and we need to find a better formulation for a numerical treatment:
 Let
 \[
-	\bar{p} \coloneqq (A^\tp)^{-1} \nabla_y J(\bar{y}, \bar{u}) \quad \Leftrightarrow \quad A^\tp \bar{p} = \nabla_y J(\bar{y}, \bar{u}).
+	\bar{p} \coloneqq (A^\tp)^{-1} \nabla_y J(\bar{y}, \bar{u}) \quad \iff \quad A^\tp \bar{p} = \nabla_y J(\bar{y}, \bar{u}).
 \]
 With this definition, the variational inequality becomes
 \begin{itemize}
@@ -177,7 +177,7 @@ If $B^\tp \bar{p} + \nabla_u J(\bar{y}, \bar{u}) = 0$ we cannot in general deduc
 \]
 Then
 \[
-	B^\tp \bar{p} + \lambda \bar{u} = 0 \quad \Rightarrow \quad \bar{u} = -\frac{1}{\lambda} B^\tp \bar{p}.
+	B^\tp \bar{p} + \lambda \bar{u} = 0 \quad \implies \quad \bar{u} = -\frac{1}{\lambda} B^\tp \bar{p}.
 \]
 \end{example}
 \end{example}

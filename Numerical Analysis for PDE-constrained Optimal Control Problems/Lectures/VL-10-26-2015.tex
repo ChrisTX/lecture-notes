@@ -14,7 +14,7 @@ Deriving the Lagranging with respect to $y$, we obtain
 \]
 Therefore the adjoint equation is fulfilled if and only if this derivative is zero:
 \[
-	A^\tp \bar{p} = \nabla_y J(\bar{y}, \bar{u}) \quad \Leftrightarrow \quad \nabla_y L(\bar{y}, \bar{u}, \bar{p}) = 0.
+	A^\tp \bar{p} = \nabla_y J(\bar{y}, \bar{u}) \quad \iff \quad \nabla_y L(\bar{y}, \bar{u}, \bar{p}) = 0.
 \]
 In the same way, the variational inequality can be seen to be equivalent to the following formulation in terms of the Lagrangian:
 \begin{IEEEeqnarray*}{r"rCl"l}
@@ -140,11 +140,11 @@ Define the \emph{index set of active inequality constraints} by
 \end{definition}
 Due to the complementary slackness condition $(\eta_a, u_a - \bar{u})_i = 0$ it follows that
 \[
-	\eta_{a_i} > 0 \Rightarrow \bar{u}_i = u_{a_i}.
+	\eta_{a_i} > 0 \implies \bar{u}_i = u_{a_i}.
 \]
 The converse doesn't hold: Consider $x^2$ optimized over $[0, 1]$. Then the constraint on the left hand side is active, but the multiplier would still be zero, so
 \[
-	\eta_{a_i} = 0 \not\Rightarrow \bar{u}_i > u_{a_i}.
+	\eta_{a_i} = 0 \centernot\implies \bar{u}_i > u_{a_i}.
 \]
 \begin{definition}
 We define the \emph{set of strongly active inequality constraints} $\mathcal{A}(\bar{u}) \subset I(\bar{u})$ by

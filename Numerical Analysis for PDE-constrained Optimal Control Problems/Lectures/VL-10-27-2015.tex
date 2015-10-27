@@ -1,0 +1,141 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+\chapter{Linear quadratic elliptic optimal control problems}
+% Chapter 3
+\label{sec:c3}
+\begin{problem}
+\begin{equation}
+\label{prb:ElP}
+\tag{P}
+\begin{IEEEeqnarraybox}[][c]{c}
+\min J(y, u) = \frac{1}{2} \| y - y_d \|_{L^2(\Omega)}^2 + \frac{\lambda}{2} \| u - \underbrace{u_d}_{=0} \|_{L^2(\Omega)}^2 \\
+\begin{IEEEeqnarraybox}[][c]{rCl"l}
+- \Delta y &=& u & \text{in } \Omega \\
+y &=& 0 & \text{on } \Gamma = \partial \Omega
+\end{IEEEeqnarraybox} \\
+u_a \leq u(x) \leq u_b
+\end{IEEEeqnarraybox}
+\end{equation}
+Here we have $\Omega \subset \R^N$ a bounded Lipschitz domain, $N \in \{ 2, 3 \}$, $y_d \in L^2(\Omega)$ (and $u_d$ as well), $u_a, u_b \in L^\infty$ and $u_a < u_b$.
+\end{problem}
+Over the course of the next few lectures, the following topics shall be discussed:
+\begin{enumerate}
+\item Discussion of the PDE
+\item Existence of solutions for \cref{prb:ElP}
+\item First order optimality control
+\item FE-error estimates
+\end{enumerate}
+\section{Some fundamentals of functional analysis}
+\paragraph{Solution of PDEs}
+A function $y \in H_0^1(\Omega)$ is called weak solution of the Poisson equation if
+\[
+	\int_\Omega \nabla y \nabla \varphi = \int_\Omega u \varphi \quad \forall \varphi \in H_0^1(\Omega)
+\] 
+is satisfies for a fixed $u \in L^2(\Omega)$.
+\begin{itemize}
+\item If $\Omega$ is a bounded Lipschitz domain, then the boundary value problem
+\begin{IEEEeqnarray*}{rCl"l}
+- \Delta y &=& f & \text{in } \Omega, \\
+y &=& 0 & \text{on } \Gamma
+\end{IEEEeqnarray*}
+admits for every $f \in L^2(\Omega)$ a unique weak solution $y \in H_0^1(\Omega)$. There exists a constant $c > 0$ (independent of $f$) such that $\| y \|_{H^1} \leq c \| f \|_{L^2}$.
+\item We define the control-to-state operator
+\begin{IEEEeqnarray*}{rCl}
+G : L^2(\Omega) &\to& H_0^1(\Omega) \\
+u &\mapsto& y(u)
+\end{IEEEeqnarray*}
+\item We use the embedding operator $E : H_0^1 \to L^2(\Omega)$.
+\item We define
+\begin{IEEEeqnarray*}{rCl}
+S : L^2(\Omega) &\to& L^2(\Omega) \\
+S &=& EG
+\end{IEEEeqnarray*}
+\item We obtain a reduced problem formulation
+\begin{IEEEeqnarray*}{l}
+\min_{u \in L^2(\Omega)} f(u) \coloneqq \frac{1}{2} \| Su - y_d \|_{L^2(\Omega)}^2 + \frac{\lambda}{2} \| u \|^2_{L^2(\Omega)} \\
+\text{s.t.} \quad u_a \leq u \leq u_b
+\end{IEEEeqnarray*}
+\item Let $\{ u, \| \cdot \|_U \}$, $\{ V, \| \cdot \|_V \}$ be normed real spaces.
+\item A mapping $A : U \to V$ is called \emph{linear operator} if
+\[
+	A(u + v) = Au + Av
+\]
+and
+\[
+	A(\lambda v) = \lambda A v
+\]
+for all $u, v \in U$, $\lambda \in \R$.
+A linear mapping $f : U \to \R$ is called \emph{linear functional}.
+\item $A$ is continuous if
+\[
+	\lim_{n \to \infty} u_n = u \quad \implies \quad \lim_{n \to \infty} Au_n = Au
+\]
+\item $A$ is bounded if $\| A u \|_V \leq c_A \| u \|_U$ with $c_A$ independent of $u$.
+\item For linear operators, $A$ being bounded is equivalent to $A$ being continuous.
+\item For $A : U \to V$ continuous:
+\[
+	\| A \| = \sup_{\| u \| = 1} \| A u \|_V
+\]
+is called norm of $A$.
+\item $\mathcal{L}(U, V)$ denotes the space of all linear and continuous operators from $U$ to $V$ (with operator norm $\|A\|_{\mathcal{L}(U, V)}$)
+\item The linear space of all linear and continuous functionals defined on $\{ U, \| \cdot \|_U \}$ is called the dual space of $U$, we denote it by $U^*$ and set
+\[
+	\| f \|_{U^*} = \sup_{\| u \|_U = 1} |f(u)|.
+\]
+\item In every real Hilbert space $\{ H, (\cdot, \cdot)_H \}$ every linear and continuous functional $F \in H^*$ can be represented \emph{uniquely} with the help of the inner product in the form
+\[
+F(v) = (f, v)_H.
+\]
+(There exists exactly one $f \in H$ with $\|F\|_{H^*} = \| f \|_{H^*}$).
+\end{itemize}
+\paragraph{weak convergence}
+\begin{itemize}
+\item Let $U$ be a Banach space. A sequence $\{ u_n \}_{n \in \N}$ of elements in $U$ is called weakly convergent to $u \in U$ if for $n \to \infty$
+\[
+	f(u_n) \to f(u) \quad \forall f \in U^*
+\]
+(Notation $u_n \xrightharpoonup[n \to \infty]{} u$).
+\item the weak limit is unique.
+\item for every weakly convergent sequence $\{ u_n \}$ in $U$ the sequence $\{ \| u_n \| \}_{n \in \N}$ is bounded.
+\item every strongly convergent sequence is weakly convergent
+\item in Hilbert spaces:
+\[
+	u_n \rightharpoonup u \quad \iff \quad (v, u_n) \xrightarrow[n \to \infty]{} (v, u) \quad \forall v \in H.
+\]
+\item for $u_n \rightharpoonup u$, $v_n \to v$ it holds that $(v_n, u_n) \to (u, v)$.
+\end{itemize}
+\begin{example}
+Let $H = L^2(0, 2\pi)$ and consider the following sequence of elements of the unit sphere:
+\[
+	u_n(x) = \frac{1}{\sqrt{\pi}} \sin(nx).
+\]
+Then,
+\[
+	(f, u_n) = \int_0^{2\pi} f(x) \frac{1}{\sqrt{\pi}} \sin(nx) \to 0
+\]
+for all smooth functions because these are the Fourier coefficients.
+``There exist sequences that live on the unit sphere, but converge to zero.''
+(This is because $0 = (f, 0)$ and $u_n \rightharpoonup 0$).
+\end{example}
+\begin{itemize}
+\item A mapping $F : U \to V$ is called weakly sequentially continuous (``schwach folgenstetig'') if
+\[
+	u_n \rightharpoonup u \quad \implies \quad F(u_n) \rightharpoonup F(u), \quad n \to \infty.
+\]
+\item A subset $M$ of a real Banach space $U$ is weakly sequentially closed (``schwach folgenabgeschlossen'') if
+\[
+	u_n \rightharpoonup u, u_n \in M \quad \implies \quad u \in M (n \to \infty).
+\]
+\item $M$ is called relatively weakly sequentially compact if every sequence of elements $u_n \in M$ contains a weakly convergent subsequence.
+\item if $M$ is in addition weakly sequentially closed, then we call it weakly sequentially compact.
+\item A weakly sequentially closed set is strongly closed, but strongly closed sets are not necessarily weakly sequentially closed (consider the previous example with the unit sphere)
+\item Every bounded set of a reflexive Banach space is relatively weakly sequentially compact.
+\item A subset $C$ of a real Banach space $U$ is called convex if for any two elements $u, v \in U$ and every $\lambda \in (0, 1)$ the convex linear combination $\lambda u + (1-\lambda) v$ is an element of $C$.
+\item A real functional $F$ defined on $C$ is called convex if
+\[
+	F(\lambda u + (1-\lambda)v) \leq \lambda F(u) + (1-\lambda) F(v) \quad \forall \lambda \in (0, 1), u, v \in C.
+\]
+\item Every convex and closed subset of a Banach space is weakly sequentially closed. If the space is reflexive and the set is also bounded, then it is weakly sequentially compact.
+\end{itemize}
+\end{document}
