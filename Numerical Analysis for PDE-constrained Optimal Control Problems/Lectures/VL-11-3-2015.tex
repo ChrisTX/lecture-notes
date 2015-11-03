@@ -1,0 +1,176 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+\begin{definition}
+\emph{Adjoint operator:} Let real Hilbert spaces $\{ U, (\cdot, \cdot)_U \}$ and $\{ V, (\cdot, \cdot)_V \}$ be given and let $A: U \to V$ be a bounded and continuous operator 
+\begin{IEEEeqnarray*}{rCl}
+A^* : V^* &\to& U^* \\
+(Au, v)_V &=& (u, A^* v)_U
+\end{IEEEeqnarray*}
+(in Hilbert spaces $V \to U$)
+We call $A^*$ the (Hilbert space) \emph{adjoint operator}
+\end{definition}
+\section{First order necessary optimal conditions}
+Let $U$ be a real Banach space $U_{ad} \subset U$ convex set and $f$ a real functional that is Gâteaux differentiable on a set containing $U_{ad}$.
+Let $\bar{u} \in U_{ad}$ denote the solution $g$ of
+\[
+	\min_{u \in U_{ad}} f(u)
+\]
+Then, the following variational inequality
+\[
+	f'(\bar{u})(u - \bar{u}) \geq 0
+\]
+holds for all $u \in U_{ad}$.
+In in addition $f$ is convex and $\bar{u}$ solves the variational inequality, then $\bar{u}$ solves the minimzation problem.
+Let $U$ and $H$ be real Hilbert spaces, $C \subset U$ be a convex set, an element $y_d \in H$ and $\lambda \geq 0$ be given.
+Moreover, $S : U \to H$ is a linear and continuous operator. Then $\bar{u} \in U_{ad}$ solves \cref{prb:ElP} \ac{iff} the variantional ineuqality
+\[
+	(S\bar{u} - y_d, S(u - \bar{u}))_V + \lambda(\bar{u}, u - \bar{u})_U \geq 0 \quad \forall u \in U_{ad}
+\]
+is satisfied.
+
+The state equation
+\begin{IEEEeqnarray*}{rCl"l}
+- \lapl y &=& \beta u & \text{in } \Omega \\
+y &=& 0 & \text{on } \Gamma
+\end{IEEEeqnarray*}
+with $S : L^2 \to L^2$ has the adjoint equation
+\begin{equation}
+\label{eq:SupposedAdjP}
+\tag{*}
+\begin{IEEEeqnarraybox}[][c]{rCl"l}
+- \lapl p &=& y - y_d & \text{in } \Omega \\
+p &=& 0
+\end{IEEEeqnarraybox}
+\end{equation}
+with $S^* : L^2 \to L^2$.
+\begin{theorem}
+The solution $p \in H_0^1(\Omega) \hookrightarrow L^2(\Omega)$ of the adjoint equation \cref{eq:SupposedAdjP} is called the adjoint state associated with $\bar{y}$.
+\end{theorem}
+\begin{lemma}
+In case of the state equation
+\begin{IEEEeqnarray*}{rCl"l}
+- \lapl y &=& \beta u & \text{in } \Omega \\
+y &=& 0 & \text{on } \Gamma
+\end{IEEEeqnarray*}
+with $y = Su$, the adjoint operator $S^* : L^2 \to L^2$ is given by $S^* z = \beta p$, where $p$ solves
+\begin{IEEEeqnarray*}{rCl"l}
+- \lapl p &=& z & \text{in } \Omega \\
+p &=& 0 & \text{on } \Gamma
+\end{IEEEeqnarray*}
+and $\beta p = S^* z$.
+\end{lemma}
+\begin{proof}
+To show
+\[
+	(\underbrace{Su}_y, z) = (u, \underbrace{S^* z}_{\beta p}).
+\]
+We have
+\begin{itemize}
+\item $(\nabla y, \nabla p) = (\beta u, p)$
+\item $(\nabla p, \nabla y) = (z, y)$
+\end{itemize}
+Now the left hand sides are equal and thus
+\[
+	(\beta u, p) = (z, y).
+\]
+\end{proof}
+We have the optimality system:
+\begin{equation}
+\label{eq:ElPOptimalitySystem}
+\tag{**}
+\begin{IEEEeqnarraybox}[][c]{c}
+\begin{IEEEeqnarraybox}[][c]{rCl"l}
+- \lapl \bar{y} &=& \beta \bar{u} & \text{in } \Omega \\
+\bar{y} &=& 0 & \text{on } \Gamma
+\end{IEEEeqnarraybox} \qquad
+\begin{IEEEeqnarraybox}[][c]{rCl"l}
+- \lapl \bar{p} &=& \bar{y} - y_d & \text{in } \Omega \\
+\bar{p} &=& 0 & \text{on } \Gamma
+\end{IEEEeqnarraybox} \\
+(\beta \bar{p} + \lambda \bar{u}, u - \bar{u}) \geq 0 \quad \forall u \in U_{ad}.
+\end{IEEEeqnarraybox}
+\end{equation}
+The variational inequality is derived as follows, we have the condition
+\[
+	f'(\bar{u})(u - \bar{u}) \geq 0 \quad \forall u \in U_{ad},
+\]
+or more specifically for this problem
+\[
+	(S \bar{u} - y_d, S(u - \bar{u})) + \lambda (\bar{u}, u - \bar{u}) \geq 0,
+\]
+which can be transformed by using $S^*$ into
+\[
+	(S^* (S \bar{u} - y_d), u - \bar{u}) + \lambda (\bar{u}, u - \bar{u}) \geq 0.
+\]
+By letting $z = \bar{y} - y_d = S\bar{u} - y_d$, we obtain that $S^* z = \beta \bar{p}$, as we've just proved. This is the exact inequality we claimed.
+
+If $\bar{u}$ is the optimal control of \cref{prb:ElP} with associated optimal state $\bar{y}$, then there exists a unique weak solution $\bar{p}$ of the adjoint equation \cref{eq:ElPOptimalitySystem} such that
+\[
+	\int_\Omega (\beta \bar{p} + \lambda \bar{u})(u - \bar{u}) \geq 0 \quad \forall u \in U_{ad}
+\]
+is satisfied (and vice versa).
+
+One can show that
+\[
+	\bar{u} = \PP_{[u_a(x), u_b(x)]} \left\{ - \frac{\beta}{\lambda} \bar{p}(x) \right\}.
+\]
+\section{The formal Lagrange technique}
+We want to discuss how to derive a possible form for the adjoint equation.
+Consider the model problem
+\begin{IEEEeqnarray*}{c}
+\min J(y, u) = \frac{1}{2} \| y - y_d \|_{L^2}^2 + \frac{\lambda}{2} \| u \|^2\\
+\begin{IEEEeqnarraybox}[][c]{rCl"l}
+- \lapl y &=& u & \text{in } \Omega \\
+y &=& 0 & \text{on } \Gamma
+\end{IEEEeqnarraybox}
+\end{IEEEeqnarray*}
+We make the approach
+\[
+	L(y, u, p) = \frac{1}{2} \int_\Omega (y - y_d)^2 \dx + \frac{\lambda}{2} \int_\Omega u^2 \dx - \int_\Omega (-\lapl y - u) p_1 \dx - \int_\Gamma y p_2 \ds.
+\]
+Now we want to investigate what happens if we assert $L_y(\bar{y}, \bar{u}, \bar{p}) = 0$ and $L_u(\bar{y}, \bar{u}, \bar{p}) = 0$:
+\begin{IEEEeqnarray*}{rClCl"l}
+0 & \overset{!}{=} & L_y (\bar{y}, \bar{u}, \bar{p}) v &=& \int_\Omega (\bar{y} - y_d) v \dx - \int_\Omega - \lapl v p_1 \dx - \int_\Gamma v p_2 \ds & \forall v
+\end{IEEEeqnarray*}
+By integrating partially twice (we operate formally here, disregarding whether we are allowed to do so for now)
+\begin{IEEEeqnarray*}{rCl}
+\int_\Omega - \lapl v p_1 \dx &=& \int_\Omega \nabla v \nabla p_1 \dx - \int_\Gamma \partial_n v \partial_n p_1 \dx \\
+&=& \int_\Omega - v \lapl p_1 \dx + \int_\Gamma \partial_n v p_1 \dx - \int_\Gamma \partial_n v \partial_n p_1 \dx - \int_\Gamma v p_2 \ds
+\end{IEEEeqnarray*}
+By assuming that we'll have a zero boundary condition, this is
+\[
+	\int_\Omega - \lapl v p_1 \dx = \int_\Omega - v \lapl p_1.
+\]
+This gives us
+\[
+	0 = \int_\Omega (\bar{y} - y_d + \lapl p_1) v \dx + \int_\Gamma v p_2 \ds
+\]
+and therefore
+\begin{IEEEeqnarray*}{rCl}
+- \lapl p &=& \bar{y} - y_d \\
+p &=& 0
+\end{IEEEeqnarray*}
+
+Consider a convex polygonal or polyhedral domain $\Omega \subset \R^{2,3}$ (or a domain with $C^2$-boundary $\Gamma$).
+For every $f \in L^2(\Omega)$ the PDE
+\begin{IEEEeqnarray*}{rCl"l}
+- \lapl y + c_0 y &=& f & \text{in } \Omega \\
+y &=& 0 & \text{on } \Gamma
+\end{IEEEeqnarray*}
+admits a unique solution in $H^2(\Omega) \cap H_0^1(\Omega)$.
+There exists a constant $C$ independent of $y$ with
+\[
+	\| y \|_{H^2} \leq C \| f \|_{L^2}.
+\]
+The existence of an optimal control $\bar{u} \in L^2$ (if $u_a, u_b \in L^\infty$, then $\bar{u} \in L^\infty(\Omega)$) implies
+\[
+	\bar{y} \in H^2(\Omega) \cap H_0^1(\Omega)
+\]
+and since $y_d \in L^2$,
+\[
+	\bar{p} \in H^2(\Omega) \cap H_0^1(\Omega).
+\]
+A result by Kinderlehrer and Stampacchia gives if $u_a, u_b \in H^1$ that $\bar{u} \in H^1(\Omega)$.
+If $U_{ad} = L^2$, then we even have $\bar{u} \in H^2(\Omega)$, of course.
+\end{document}

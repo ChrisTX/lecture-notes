@@ -1,0 +1,123 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+\begin{itemize}
+\item Every convex and continuous functional $f$ on a Banach space $U$ is weakly lower semi-continuous, i.e.
+\[
+u_n \rightharpoonup u \implies \liminf f(u_n) \geq f(u).
+\]
+Example:
+\[
+	f(u) = \frac{1}{2} \| Su - y_d \|_{L^2(\Omega)}^2 + \frac{\lambda}{2} \| u \|_{L^2(\Omega)}^2.
+\]
+\end{itemize}
+\section{Existence of optimal controls}
+\begin{theorem}
+Consider Hilbert spaces $\{ U, \| \cdot \|_U \}$ and $\{ H, \| \cdot \|_H \}$, a nonempty, bounded, closed and convex set $U_{ad} \subset U$, an element $y_d \in H$ and a constant $\lambda \geq 0$.
+Moreover, $S : U \to H$ is a linear and continuous operator.
+Then, the problem
+\[
+	\min_{u \in U_{ad}} f(u) = \frac{1}{2} \| Su - y_d \|^2_{H} + \frac{\lambda}{2} \| u \|_U^2
+\]
+admits an optimal solution $\bar{u} \in U_{ad}$. If $\lambda > 0$, then the solution is unique.
+\end{theorem}
+\begin{proof}
+Since $f(u) \geq 0$, $j \coloneqq \inf_{u \in U_{ad}} f(u) \in \R$ exists.
+There exists a minimizing sequence $\{ u_n \} \subset U_{ad}$ with $f(u_n) \to j$.
+$U_{ad}$ is nonempty, convex, closed, bounded, which implies $U_{ad}$ is weakly sequentially compact (see the results listed above).
+Thus, there exists a subsequence $\{ u_{n_k} \} \subset U_{ad}$ which converges weakly to $\bar{u} \in U_{ad}$, i.e.
+\[
+	u_{n_k} \rightharpoonup \bar{u} \in U_{ad}.
+\]
+Since $f$ is continuous and convex, $f$ is \ac{wlsc} (again, see the results above).
+Then,
+\[
+	f(\bar{u}) \leq \liminf_{k \to \infty} f\left(u_{n_k}\right) = j,
+\]
+implying that $\bar{u}$ is optimal.
+
+Uniqueness: If $\lambda > 0$, then $f$ is strictly convex. Assume $\bar{u}_1, \bar{u}_2$ are optimal, then
+\[
+	f\left( \frac{1}{2} \bar{u}_1 + \frac{1}{2} \bar{u}_2 \right) < \frac{1}{2} f\left(\bar{u}_1\right) + \frac{1}{2} f \left(\bar{u}_2\right) = j.
+\]
+This is a contradiction to $\bar{u}_1, \bar{u}_2$ being optimal.
+\end{proof}
+We will consider the unbounded case now:
+Let $U = U_{ad} = L^2(\Omega)$ and $u_0 \in U_{ad}$.
+Then we define
+\[
+	U_{ad}^{aux} \coloneqq U_{ad} \cap \left\{ u \in U \coloneqq \| u \|^2 \leq \frac{2}{\lambda} f(u_0) \right\},
+\]
+which is closed, bounded, convex and nonempty.
+Then $\bar{u}$ is solving
+\[
+	\min_{U \in U_{ad}^{aux}} f(u).
+\]
+For all elements $u \notin U_{ad}$, we find
+\[
+	f(u) = \frac{1}{2} \| Su - y_d \| ^2 + \frac{\lambda}{2} \| u \|^2 \geq \frac{\lambda}{2} \| u \|^2 > f(u_0).
+\] 
+``Any element outside $U_{ad}^{aux}$ is not a candidate for the optimal solution.''
+\begin{theorem}
+If $\lambda > 0$ and $U_{ad}$ is nonempty, convex and closed, then \cref{prb:ElP} admits a unique solution $\bar{u}$.
+\end{theorem}
+\section{Differentiability in Banach spaces}
+Let $U, V$ be Banach spaces, an open subset $U_0 \subset U$ and $F : U \supset U_0 \to V$ and $u,v \in U$.
+
+\begin{itemize}
+\item If the limit
+\[
+	\partial F(u, v) \coloneqq \lim_{t \downarrow 0} \frac{1}{t} \left( F(u + tv) - F(u) \right)
+\]
+exists, it is called directional derivative of $F$ in $u$ in direction $v$. If this limit exists for all $v \in U$, then the mapping $v \mapsto \partial F(u, v)$ is called first variation of $F$ in $u$.
+\item If $\partial F(u, v)$ exists in $u$ and there exists a linear and continuous operator $A : U \to V$ with
+\[
+	\partial F(u, v) = Av \quad \forall v \in U,
+\]
+then $F$ is called \emph{Gâteaux differentiable} and $A$ is the Gâteaux derivative of $F$ in $u$, $A = F'(u) \in U^*$.
+\item A mapping $F : U \supset U_0 \to V$ is called \emph{Fréchet differentiable} in $U \in U_0$ if there exists $A \in \mathcal{L}(U, V)$ and a mapping $r(u, \cdot) : U \to V$ such that for all $v \in U$ with $u + v \in U_0$
+\[
+	F(u + v) = F(u) + Av + r(u, v), \quad \frac{\| r(u, v) \|_V}{\| v \|_U} \xrightarrow{\| v \|_U \to 0} 0.
+\]
+\end{itemize}
+\begin{example}
+\begin{itemize}
+\item Consider the function
+\[
+f(x_1, x_2) = r \cos \varphi
+\]
+(polar coordinates). Compute $\partial f(0, v)$:
+\[
+	\partial f(0, v) = \lim_{t \downarrow 0} \frac{f(tv)}{t} = \frac{t}{t} \underbrace{ \sqrt{v_1^2 + v_2^2} }_{\text{not linear}} \cos \varphi_v.
+\]
+Therefore, it is neither Gâteaux nor Fréchet differentiable.
+\item Consider the function
+\[
+f(x, y) = \begin{cases}
+1 & y = x^2, \; x \neq 0 \\
+0 & \text{else}
+\end{cases}
+\]
+It is not Fréchet differentiable in $(0, 0)$ (not even continuous), but Gâteaux differentiable.
+\item Consider the function
+\[
+	f(u) = \| u \|_H^2.
+\]
+It is Fréchet differentiable.
+\end{itemize}
+\end{example}
+\begin{theorem}[Chain rule]
+Let $U, V, Z$ be Banach spaces, $U_0 \subset U$, $V_0 \subset V$ be open sets and $F : U_0 \to V_0$ and $G : V_0 \to Z$ Fréchet differentiable in $u \in U_0$ and $F(u) \in V_0$.
+Then $E = G \circ F$ is Fréchet differentiable in $u$ with $E'(u) = G'(F(u)) F'(u)$.
+\end{theorem}
+\begin{example}
+\[
+E(u) = \frac{1}{2} \| Su - y_d \|_H^2
+\]
+Then,
+\[
+E'(u) = (Su - y_d, Sv) = (S^*(Su - y_d), v).
+\]
+\end{example}
+
+\end{document}

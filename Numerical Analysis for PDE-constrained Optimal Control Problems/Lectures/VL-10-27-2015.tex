@@ -11,7 +11,7 @@
 \begin{IEEEeqnarraybox}[][c]{c}
 \min J(y, u) = \frac{1}{2} \| y - y_d \|_{L^2(\Omega)}^2 + \frac{\lambda}{2} \| u - \underbrace{u_d}_{=0} \|_{L^2(\Omega)}^2 \\
 \begin{IEEEeqnarraybox}[][c]{rCl"l}
-- \Delta y &=& u & \text{in } \Omega \\
+- \lapl y &=& u & \text{in } \Omega \\
 y &=& 0 & \text{on } \Gamma = \partial \Omega
 \end{IEEEeqnarraybox} \\
 u_a \leq u(x) \leq u_b
@@ -19,6 +19,16 @@ u_a \leq u(x) \leq u_b
 \end{equation}
 Here we have $\Omega \subset \R^N$ a bounded Lipschitz domain, $N \in \{ 2, 3 \}$, $y_d \in L^2(\Omega)$ (and $u_d$ as well), $u_a, u_b \in L^\infty$ and $u_a < u_b$.
 \end{problem}
+With the control-to-state operator $S : L^2(\Omega) \to L^2(\Omega), u \mapsto y(u)$, we can formulate this as
+\[
+	\min_{u \in U_{ad}} f(u) = J(Su, u)
+\]
+with $U_{ad} = \left\{ u \in L^2(\Omega) \midcolon u_a \leq u \leq u_b \text{ a.e. in } \Omega \right\}$.
+We call $\bar{u} \in U_{ad}$ an optimal control with associated optimal state $\bar{y}$ for \cref{prb:ElP}, if
+\[
+	f(\bar{u}) \leq f(u) \quad \forall u \in U_{ad}.
+\]
+
 Over the course of the next few lectures, the following topics shall be discussed:
 \begin{enumerate}
 \item Discussion of the PDE
@@ -36,7 +46,7 @@ is satisfies for a fixed $u \in L^2(\Omega)$.
 \begin{itemize}
 \item If $\Omega$ is a bounded Lipschitz domain, then the boundary value problem
 \begin{IEEEeqnarray*}{rCl"l}
-- \Delta y &=& f & \text{in } \Omega, \\
+- \lapl y &=& f & \text{in } \Omega, \\
 y &=& 0 & \text{on } \Gamma
 \end{IEEEeqnarray*}
 admits for every $f \in L^2(\Omega)$ a unique weak solution $y \in H_0^1(\Omega)$. There exists a constant $c > 0$ (independent of $f$) such that $\| y \|_{H^1} \leq c \| f \|_{L^2}$.
@@ -96,8 +106,8 @@ F(v) = (f, v)_H.
 	f(u_n) \to f(u) \quad \forall f \in U^*
 \]
 (Notation $u_n \xrightharpoonup[n \to \infty]{} u$).
-\item the weak limit is unique.
-\item for every weakly convergent sequence $\{ u_n \}$ in $U$ the sequence $\{ \| u_n \| \}_{n \in \N}$ is bounded.
+\item the weak limit is unique
+\item for every weakly convergent sequence $\{ u_n \}$ in $U$ the sequence $\{ \| u_n \| \}_{n \in \N}$ is bounded
 \item every strongly convergent sequence is weakly convergent
 \item in Hilbert spaces:
 \[
