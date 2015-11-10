@@ -1,5 +1,203 @@
 \documentclass[../skript.tex]{subfiles}
 
 \begin{document}
+\section{Finite-Element-Discretization of the state equation (and the adjoint equation)}
+The continuous equation is
+\begin{IEEEeqnarray*}{rCl"l}
+- \Delta y &=& f & \text{in } \Omega \subset \R^2 \\
+y &=& 0 & \text{on } \Gamma
+\end{IEEEeqnarray*}
+The weak formulation thereof is
+Find $y \in H_0^1(\Omega)$ such that
+\begin{equation}
+\label{eq:FEM-StateEqWeak}
+\tag{E}
+	(\nabla y, \nabla v) = (f, v) \quad \forall v \in H_0^1(\Omega).
+\end{equation}
+Discretization:
+\begin{itemize}
+\item $\Omega$ is convex, and polygonally bounded
+\item A partitioning $\mathcal{T} = \{ K_1, \ldots, K_M \}$ of $\Omega$ into triangles (or quadrilaterals) is called feasible if:
+\[
+\bar{\Omega} = \bigcup \bar{K}_i
+\]
+\item If we consider $K_i \cap K_j$ consists of exactly one point this has to be the corner of both $K_i$ and $K_j$; if it contains more than one point it has to be an edge of both cells
+\end{itemize}
+A family of partitionings $\{ \mathcal{T}_h \}$ is called uniform, if there exists a real number $\varkappa > 0$, such that every element $K$ of $\mathcal{T}_n$ contains a circle with radius $\varrho_{\mathcal{T}} \geq \frac{h}{\varkappa}$.
 
+We consider the space $V_h$:
+\[
+	V_h = V_h(\mathcal{T}_h) = \left\{ v_h \in C(\bar{\Omega}) \midcolon \left. v_h \right|_K \in \mathcal{P}_1(K) \;\; \forall K \in \mathcal{T}_h, \quad \left. v_h \right|_{\partial \Omega} = 0 \right\}.
+\]
+Then $V_h \subset V = H_0^1(\Omega)$. As a basis we choose
+\[
+	\left\{ \phi_1^h, \ldots, \phi_{N_h}^h \right\} \subset V_h, \quad \phi_i^h(x_j) = \delta_{ij}.
+\]
+
+The discrete formulation of \cref{eq:FEM-StateEqWeak} reads:
+Find $y_h \in V_h$ such that
+\begin{equation}
+\tag{$E_D$}
+\label{eq:FEM-StateWeakDiscrete}
+(\nabla y_h, \nabla v_h) = (f, v_h) \quad \forall v_h \in V_h.
+\end{equation}
+For every $f \in L^2(\Omega)$ there exists a unique weak solution $y_h$ of \cref{eq:FEM-StateWeakDiscrete}. This can be proved by using Lax-Milgram.
+
+The solution $y_h$ can be determined by a system of linear equations.
+We have a representation
+\[
+	y_h = \sum_j y_{h_j} \phi_j^h
+\]
+and test with $v_h = \phi_i^h$ for all $i$. This gives us a system
+\[
+	A_h y_h = B_h,
+\]
+where
+\[
+	A_{h_{ij}} = \left( \nabla \phi_i^h, \nabla \phi_j^h \right), \quad B_{h_j} = \left( f, \phi_j^h \right).
+\]
+$A_h$ is positive definite:
+\begin{IEEEeqnarray*}{rCl"l}
+	y^\tp A_h y &=& \sum_{jk} y_j A_{jk} y_k \\
+	&=& a \left( \sum_k y_k \nabla \phi_k^h, \sum_j y_j \nabla \phi_j^h \right) \\
+	&=& \left\| y_h \right\|_E^2 \\
+	&\geq& \alpha \left\| y_h \right\|_{H^1}^2 \\
+	&>& 0, & \text{if $y_h \neq 0$.}
+\end{IEEEeqnarray*}
+
+Stability:
+\[
+	\left\| \nabla y_h \right\| \leq \frac{1}{\tilde{\alpha}} \| f \|_{L^2}.
+\]
+To show this:
+\begin{IEEEeqnarray*}{rCl}
+\alpha \left\| \nabla y_h \right\|^2 & \leq& a(y_h, y_h) \\
+&\leq& \| f \| \left\| y_h \right\| \\
+&\leq& c \| f \| \left\| \nabla y_h \right\|.
+\end{IEEEeqnarray*}
+This implies 
+\[
+	\left\| \nabla y_h \right\| \leq \frac{1}{\tilde{\alpha}} \| f \|_{L^2}.
+\]
+
+We obtain the Galerkin orthogonality again:
+\begin{IEEEeqnarray*}{rCl"l}
+a(y, v) &=& (f, v) & \forall v \in V \\
+a(y_h, v_h) &=& (f, v_h) & \forall v_h \in V_h \subset V.
+\end{IEEEeqnarray*}
+Combining these, we obtain:
+\[
+	a(y - y_h, v_h) = 0 \quad \forall v_h \in V_h.
+\]
+\begin{lemma}[Céa]
+Let the bilinear form $a$ be elliptic ($H_0^1(\Omega)$) and let $y$ and $y_h$ be the weak solutions of \cref{eq:FEM-StateEqWeak} and \cref{eq:FEM-StateWeakDiscrete}, respectively. Then:
+\[
+	\left\| \nabla (y -y_h) \right\| \leq \frac{c}{\alpha} \inf_{v_h \in V_h} \left\| \nabla (y - v_h) \right\|.
+\]
+\end{lemma}
+The nodal interpolant $i_h : C(\Omega^\tp) \to V_h$ is defined by
+\[
+	i_h v = \sum_{x_i \in N_h(\mathcal{T}_h)} v(x_i) \phi_i^h.
+\]
+The following estimates hold for $v \in H^2(\Omega) \cap H_0^1(\Omega)$:
+\begin{IEEEeqnarray*}{rCl}
+	\left\| v - i_h v \right\|_{L^2(K)} &\leq& c h_K^2 \left\| \nabla^2 v \right\|_{L^2(K)} \\
+	\left\| \nabla ( v - i_h v ) \right\|_{L^2(K)} &\leq& c h_K^2 \left\| \nabla^2 v \right\|_{L^2(K)} \\
+	\left\| v - i_h v \right\|_{L^2(\Omega)} &\leq& c h^2 \left\| \nabla^2 v \right\|_{L^2(\Omega)} \\
+	\left\| \nabla( v - i_h v ) \right\|_{L^2(\Omega)} &\leq& c h \left\| \nabla^2 v \right\|_{L^2(\Omega)}
+\end{IEEEeqnarray*}
+The solutions $y$ and $y_h$ fulfill
+\begin{IEEEeqnarray*}{rCl}
+\left\| \nabla (y - y_h) \right\|_{L^2(\Omega)} &\leq& ch \left\| \nabla^2 y \right\|_{L^2(\Omega)} \\
+\left\| y - y_h \right\|_{L^2(\Omega)} &\leq& ch^2 \underbrace{ \left\| \nabla^2 y \right\|_{L^2(\Omega)} }_{\leq c \| f \|_{L^2(\Omega)}}
+\end{IEEEeqnarray*}
+\begin{proof}
+We define $w$ by the following equation:
+\begin{IEEEeqnarray*}{rCl}
+- \Delta w &=& y - y_h \\
+w &=& 0
+\end{IEEEeqnarray*}
+Then,
+\[
+	\left( \nabla w, \nabla (y - y_h) \right) = \| y - y_h \|_{L^2}^2.
+\]
+Furthermore, we have
+\[
+	( \nabla \underbrace{ i_h w }_{\in v_h}, \nabla (y - y_h) ) = 0.
+\]
+By using these facts, we obtain
+\begin{IEEEeqnarray*}{rCl}
+\| y - y_h \|_{L^2}^2 &=& \left( \nabla w, \nabla (y - y_h) \right) \\
+&=& ( \nabla (w - \underbrace{ i_h w }_{\in v_h}), \nabla (y - y_h) ) \\
+&\leq& \underbrace{ \left\| \nabla (w - i_h w) \right\| }_{ \leq ch \underbrace{ \| \nabla^2 w \| }_{\leq c \| y - y _h \| } } \underbrace{ \| \nabla ( y - y_h ) \| }_{\leq c h \| \nabla^2 y \|_{L^2} } \\
+&\leq& ch^2 \| y - y_h \| \| \nabla^2 y \|.
+\end{IEEEeqnarray*}
+By dividing by $\| y - y_h \| $ we obtain
+\[
+	\| y - y_h \| \leq c h^2 \underbrace{ \| \nabla^2 y \| }_{\leq c \| f \|}
+\]
+\end{proof}
+\chapter{A priori error estimates for optimal control problems without inequality constraints}
+\begin{problem}
+Let $\Omega \subset \R^2$ be polygonally bounded and convex.
+\begin{equation}
+\tag{P}
+\begin{IEEEeqnarraybox}{c}
+\min_{u \in L^2(\Omega)} \frac{1}{2} \| y - y_d \|^2 + \frac{\lambda}{2} \| u \|^2 \\
+\begin{IEEEeqnarraybox}{rCl"l}
+- \Delta y &=& u & \text{in } \Omega \\
+y &=& 0 & \text{on } \Gamma
+\end{IEEEeqnarraybox}
+\end{IEEEeqnarraybox}
+\end{equation}
+\end{problem}
+The constraints have the weak formulation: Find $y \in V$ such that
+\[
+	(\nabla y, \nabla v) = (u, v) \quad \forall v \in V.
+\]
+As a reduced formulation we obtain
+\[
+	\min_{u \in L^2(\Omega)} f(u) \coloneqq \frac{1}{2} \| Su - y_d \|^2 + \frac{\lambda}{2} \| u \|^2.
+\]
+The optimality conditions are (because $u - \bar{u}$ spans the whole space due to a lack of constraints)
+\[
+f'(\bar{u}) v \geq 0.
+\]
+With the adjoint equation
+\begin{IEEEeqnarray*}{rCl}
+- \Delta \bar{p} &=& \bar{y} - y_d \\
+\bar{p}&=& 0
+\end{IEEEeqnarray*}
+this yields
+\[
+	\lambda \bar{u} + \bar{p} = 0
+\]
+\begin{problem}
+The discrete analogous is
+\begin{equation}
+\tag{$P_h$}
+\begin{IEEEeqnarraybox}{c}
+\min_{u_h \in U_h} \frac{1}{2} \| y_h - y_d \|^2 + \frac{\lambda}{2} \| u_h \|^2 \\
+y_h \in V_h \; : \; (\nabla y_h, \nabla v_h) = (u_h, v_h) \quad \forall v_h \in V_h
+\end{IEEEeqnarraybox}
+\end{equation}
+\end{problem}
+By using the discrete control-to-state operator $S_h : U_h \to V_h \hookrightarrow L^2(\Omega)$ we obtain
+\[
+	\min_{u_h \in U_h} f_h(u_h) \coloneqq \frac{1}{2} \| S_h u_h - y_d \|^2 + \frac{\lambda}{2} \| u_h \|^2.
+\]
+For optimality conditions, we obtain with
+\[
+	p_h \in V_h \; : \; (\nabla p_h, \nabla v_h) = (y_h - y_d, v_h) \quad \forall v_h \in V_h
+\]
+the condition
+\[
+	\lambda \bar{u}_h + \bar{p}_h = 0.
+\]
+For $U_h$, we will consider the choices:
+\begin{itemize}
+\item piecewise constant
+\item piecewise linear
+\item no control discretization (variational discretization)
+\end{itemize}
 \end{document}
