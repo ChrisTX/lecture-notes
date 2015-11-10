@@ -1,0 +1,224 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+\section{Finite elements some basic concepts and motivation}
+\begin{problem}[1D problem]
+\begin{IEEEeqnarray*}{rCl"l}
+-y_{xx} &=& f & \text{in } (0, 1) \\
+y(0) &=& 0 \\
+y'(1) &=& 0
+\end{IEEEeqnarray*}
+\end{problem}
+The weak formulation thereof is
+\begin{equation}
+\tag{E}
+\label{eq:FEM-E}
+a(y, v) = \int_0^1 y' v' \dx = \int_0^1 f v \dx \quad \forall v \in V.
+\end{equation}
+Let 
+\[
+	V = \left\{ v \in H^1(0, 1) \midcolon v(0) = 0 \; a(v, v) < \infty \right\}
+\]
+and a finite dimensional subspace $S \subset V$ be given.
+A discrete formulation of \cref{eq:FEM-E} is given by:
+\begin{problem}
+Find $y_S \in S$ with
+\begin{equation}
+\tag{$E_D$}
+\label{eq:FEM-ED}
+a(y_S, v) = (f, v) \quad \forall v \in S.
+\end{equation}
+\end{problem}
+For every $f \in L^2(0, 1)$ there exists a unique solution $y_S \in S$ of \cref{eq:FEM-ED}.
+\begin{proof}
+Choose a basis $\left\{ \phi_i \midcolon 1 \leq i \leq n \right\}$ of $S$ and the ansatz
+\[
+	y_S = \sum_{j} y_s^j \phi_j.
+\]
+This implies
+\begin{IEEEeqnarray*}{r"rCl}
+& \int_0^1 \sum_j y_s^j \phi_j' \cdot \phi_i' \dx &=& \int_0^1 f \phi_i \quad \forall i = 1, \ldots, n \\
+\Longleftrightarrow & \sum_j y_s^j \int_0^1 \phi_j'(x) \phi_i'(x) \dx &=& \int_0^1 f \phi_i \quad \forall i = 1, \ldots, n
+\end{IEEEeqnarray*}
+This means we have
+\[
+	K y_s = F
+\]
+with the symmetric positive-definite stiffness matrix $K$, where
+\begin{IEEEeqnarray*}{rCl}
+(F)_i &=& (f_i, \phi_i) \\
+(K)_{ij} &=& (\phi_j, \phi_i)
+\end{IEEEeqnarray*}
+Assume there exists $v\neq 0$ with $Kv = 0$.
+\[
+	v = \sum_{j} v_j \phi_j \quad a(v, \phi_j) = 0
+\]
+Multiply with $v_j$ and summing up:
+\[
+	a(v, v) = 0 = \int_0^1 (v')^2 \dx \implies v' \equiv 0
+\]
+and this implies $v$ is constant.
+Then $v(0) = 0$ implies $v \equiv 0$.
+\end{proof}
+\subsection{Error estimates in the energy norm}
+We call
+\[
+	\| v \|_E = \sqrt{a(v,v)}
+\]
+the energy norm and deduce
+\[
+	|a(v, w)| \leq \| v \|_E \| w \|_E \quad \forall v, w \in V.
+\]
+
+We have
+\begin{IEEEeqnarray*}{rCl"l}
+a(y, v) &=& (f, v) & \forall v \in V \\
+a(y_S, v) &=& (f, v) & \forall v \in S
+\end{IEEEeqnarray*}
+Since $S \subset V$, we have
+\[
+	a(y, v) = (f, v) \quad \forall v \in S
+\]
+and thus by subtracting we obtain the \emph{Galerkin Orthogonality}
+\[
+	a(y - y_S, v) = 0 \quad \forall v \in S.
+\]
+\begin{theorem}
+The solution $y \in V$ of \cref{eq:FEM-E} and $y_S \in S$ of \cref{eq:FEM-ED} fulfill the error estimate
+\[
+\|y - y_S \|_E = \min \left\{ \| y - v \|_E \midcolon  v \in S \right\}
+\]
+(This is a best approximation property)
+\end{theorem}
+\begin{proof}
+Choose $v \in S$.
+\begin{IEEEeqnarray*}{rCl}
+\| y - y_S \|_E^2 &=& a(y - y_S, y - y_S) \\
+&=& a(y - y_S, y - v) + \underbrace{ a(y - y_S, \underbrace{y - y_S}_{\in S})}_{{} = 0 \text{ (Galerkin Orth.)}} \\
+&=& a(y - y_S, y - v) \\
+&\leq& \| y - y_S \|_E \| y - v \|_E.
+\end{IEEEeqnarray*}
+This implies
+\[
+	\| y - y_S \|_E \leq \inf_{v \in S} \| y - v \|_E
+\]
+However, as $y_S \in S$, we also have the converse, i.e.
+\[
+	\inf_{v \in S} \| y - v \|_E \leq \| y - y_S \|_E
+\]
+and thus have equality
+\[
+	\| y - y_S \|_E = \inf_{v \in S} \| y - v \|_E
+\]
+Because $y_S$ exists, this infimum is attained and we have
+\[
+	\| y - y_S \|_E = \min_{v \in S} \| y - v \|_E
+\]
+\end{proof}
+\subsection{Error estimates in the \texorpdfstring{$L^2$}{L2}-norm}
+\begin{assumption}
+We assume
+\begin{equation}
+\label{eq:PDE-AssumptionA}
+\tag{A}
+\inf_{v \in S} \| w - v \|_E \leq \varepsilon \| w' \|_{L^2}
+\end{equation}
+\end{assumption}
+Duality argument:
+\begin{IEEEeqnarray*}{rCl}
+- w'' &=& y - y_S \\
+w(0) = w'(1) &=& 0
+\end{IEEEeqnarray*}
+Testing the weak formulation with $y - y_S \in V$
+\begin{IEEEeqnarray*}{rCl"l}
+	\| y - y_S \|_{L^2}^2 &=& a(w, y - y_S) \\
+	&=& a(w - v, y - y_S) & v \in S \\
+	&\leq& \| w - v \|_E \| y - y_S \|_E
+\end{IEEEeqnarray*}
+Dividing by $\| y - y_S \|_{L^2}$, we obtain
+\begin{IEEEeqnarray*}{rCl}
+	\| y - y_S \|_{L^2} &\leq& \frac{\|w  - v \|_E \| y - y_S \|_E}{\| y - y_S \|_{L^2}} \\
+	&=& \frac{\|w  - v \|_E \| y - y_S \|_E}{\| w'' \|_{L^2}}
+\end{IEEEeqnarray*}
+Here we used $w'' = y - y_S$ as defined above. As this holds for all $v \in S$ we obtain
+\[
+	\| y - y_S \|_{L^2} \leq \| y - y_S \|_E \frac{\inf_{v \in S} \|w  - v \|_E}{\| w'' \|_{L^2}}.
+\]
+Using \cref{eq:PDE-AssumptionA}, we obtain the following energy norm estimate:
+\[
+	\| y - y_S \|_{L^2} \leq \varepsilon \| y - y_S \|_E.
+\]
+From this we conclude:
+\begin{IEEEeqnarray*}{rCl}
+	\| y - y_S \|_{L^2} &\leq& \varepsilon \inf_{v \in S} \| y - v \|_E \\
+	&\leq& \varepsilon^2 \| y'' \|_{L^2} \\
+	&\leq& \varepsilon^2 \| f \|_{L^2}
+\end{IEEEeqnarray*}
+\begin{theorem}
+Let \cref{eq:PDE-AssumptionA} hold. Then the solutions $y \in V$ of \cref{eq:FEM-E} and $y_S$ of \cref{eq:FEM-ED} fulfill the error estimate
+\[
+\| y - y_S \|_{L^2} \leq \varepsilon^2 \| f \|_{L^2}.
+\]
+\end{theorem}
+\section{The method of finite elements in 1D}
+Consider a partitioning of $[0, 1]$ into $x_0, \ldots, x_n$.
+Choose $S$ the space of functions $v$ with
+\begin{itemize}
+\item $v \in C^0([0,1])$
+\item $v|_{[x_{i-1}, x_i]} \in \mathcal{P}^1$
+\item $v(0) = 0$
+\end{itemize}
+We define $\{ \phi_i \} \subset S$ by $\phi_i(x_j) = \delta_{ij}$.
+We call this basis the \emph{``nodal basis''}.
+
+We define the nodal interpolant $v_I \in S$ of $v \in C^0([0, 1])$ by
+\[
+	v_I = \sum_{i=1}^n v(x_i) \phi_i.
+\]
+Note: $v \in S \implies v = v_I$.
+\begin{proof}
+\[
+	(v - v_I)(x_{i-1}) = 0 = (v - v_I)(x_i).
+\]
+As $v - v_I$ is linear on $[x_{i-1}, x_i]$, $v - v_I = 0$.
+\end{proof}
+\paragraph{Error estimates}
+Let
+\[
+	h = \max_{i \leq 1 \leq n} (x_i - x_{i-1}).
+\]
+Then
+\[
+	\int_{x_{j-1}}^{x_j} {(y - y_I)'}^2 \dx \leq c (x_j - x_{j-1})^2 \int_{x_{i-j}}^{x_j} y''(x)^2 \dx.
+\]
+With $e = y - y_I$, we obtain ($y_I$ is linear, so $y_I'' = 0$)
+\[
+	\int_{x_{j-1}}^{x_j} {e'}^2 \dx \leq c (x_j - x_{j-1})^2 \int_{x_{i-j}}^{x_j} e''(x)^2 \dx.
+\]
+We transform this to $[0, 1]$ by defining
+\begin{IEEEeqnarray*}{rCl}
+x &=& x_{j-1} + \tilde{x} (x_j - x_{j-1}) \\
+\tilde{e}(\tilde{x}) &=& e \left( x_{j-1} + \tilde{x} (x_j - x_{j-1}) \right)
+\end{IEEEeqnarray*}
+and obtain
+\[
+	\int_0^1 \tilde{e}'(\tilde{x})^2 \: \mathrm{d} \tilde{x} \leq c \int_0^1 \tilde{e}'' (\tilde{x})^2 \: \mathrm{d} \tilde{x}
+\]
+Because $\tilde{e}(0) = \tilde{e}(1) = 0$, we have
+\[
+	\exists \xi \in (0, 1) \tilde{e}'(\xi) = 0
+\]
+and thus obtain
+\[
+	\tilde{e}'(\tilde{x}) = \int_{\xi}^z \tilde{e}''(\tilde{x}) \cdot 1 \: \mathrm{d} \tilde{x} \leq |z - \xi|^\frac{1}{2} \left( \int_0^1 \tilde{e}''(\tilde{x})^2 \: \mathrm{d} \tilde{x} \right)^\frac{1}{2}.
+\]
+Hence,
+\[
+	\int_0^1 \tilde{e}' (\tilde{x})^2 \: \mathrm{d} \tilde{x} \leq \sup_{0 \leq \xi \leq 1} \int_0^1 |z - \xi| \dz \int_0^1 \tilde{e}''(\tilde{x})^2 \: \mathrm{d} \tilde{x}.
+\]
+After transforming back and summing over all intervals, we obtain
+\[
+	\| y - y_S \|_{L^2} + ch \| y - y_S \|_E \leq (ch)^2 \underbrace{ \| y'' \|_{L^2}}_{{} \leq c \| f \|_{L^2}}.
+\]
+This is equivalent to the theory before by setting $\varepsilon = ch$.
+\end{document}
