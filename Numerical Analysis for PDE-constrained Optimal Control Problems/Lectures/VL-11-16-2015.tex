@@ -1,0 +1,133 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+\section{Problems without inequality constraints}
+\begin{problem}
+\begin{equation}
+\tag{P}
+\begin{IEEEeqnarraybox}{c}
+\min_{u \in L^2(\Omega)} J(y, u) = \frac{1}{2} \| y - y_d \|_{L^2}^2 + \frac{\lambda}{2} \| u \|_{L^2}^2 \\
+y \in H_0^1(\Omega) \quad (\nabla y, \nabla v) + (y, v) = (u, v) \quad \forall v \in H_0^1(\Omega)
+\end{IEEEeqnarraybox}
+\end{equation}
+\end{problem}
+The discrete control-to-state operator is given as
+\begin{IEEEeqnarray*}{rCl}
+S_h : \underbrace{L^2(\Omega)}_{\eqqcolon U_h} &\to& V_{h, 0} \hookrightarrow L^2(\Omega) \\
+u_h &\mapsto& y_h(u_h),
+\end{IEEEeqnarray*}
+where $y_h \in V_{h, 0}$ is given by
+\[
+	y_h \in V_{h, 0} \quad (\nabla y_h, \nabla v_h) + (y_h, v_h) = (u_h, v_h) \quad \forall v \in V_{h, 0}.
+\]
+The discretized problem is then
+\begin{problem}
+\begin{equation}
+\tag{$P_h$}
+\min_{u_h \in U_h = L^2(\Omega)} f_h(u_h) \coloneqq \frac{1}{2} \| S_h (u_h) - y_d \|_{L^2(\Omega)}^2 + \frac{\lambda}{2} \| u_h \|_{L^2(\Omega)}^2.
+\end{equation}
+\end{problem}
+Note: The choice of $U_h = L^2(\Omega)$ is called \emph{variational discretization} (Hinze, 2006).
+
+Here, $S_h$ and $f_h$ are Fréchet-differentiable.
+The first order necessary (and sufficient, because of convexity) optimality conditions read as:
+\[
+	f_h'(\bar{u}_h) v = 0 \quad \forall v \in L^2(\Omega) = U_h.
+\]
+
+For the problem, we obtain
+\[
+	(S_h(\bar{u}_h) - y_d, S_h v) + \lambda (\bar{u}_h, v) = 0.
+\]
+By going over to the adjoint state, this gives
+\[
+	(\bar{p}_h, v) + \lambda(\bar{u}_h, v) = 0 \quad \forall v \in L^2(\Omega),
+\]
+where $\bar{p_h}$ solves:
+\[
+	\bar{p}_h \in V_{h, 0} \quad (\nabla \bar{p}_h, \nabla v_h) + (\bar{p}_h, v_h) = (\bar{y}_h - y_d, v_h) \quad \forall v_h \in V_{h, 0}
+\]
+
+Note that we have
+\[
+	(\lambda \bar{u}_h + \bar{p}_h, v_h) = 0 \quad \forall v_h \in U_h = L^2(\Omega),
+\]
+and thus
+\[
+	\lambda \bar{u}_h + \bar{p}_h = 0 \iff \bar{u}_h = - \frac{1}{\lambda} \bar{p}_h.
+\]
+
+On the continuous level, we have - as already discussed:
+\begin{IEEEeqnarray*}{c}
+\begin{IEEEeqnarraybox}{r"rCl"l}
+\bar{y} \in H_0^1(\Omega) & (\nabla \bar{y}, \nabla v) + (\bar{y}, v) &=& (\bar{u}, v) & \forall v \in H_0^1(\Omega) \\
+\bar{p} \in H_0^1(\Omega) & (\nabla \bar{p}, \nabla v) + (\bar{p}, v) &=& (\bar{y} - y_d, v) & \forall v \in H_0^1(\Omega) 
+\end{IEEEeqnarraybox} \\
+\lambda \bar{u} + \bar{p} = 0 \iff \bar{u} = - \frac{1}{\lambda} \bar{p}
+\end{IEEEeqnarray*}
+On the other hand, we have in the discrete case
+\begin{IEEEeqnarray*}{c}
+\begin{IEEEeqnarraybox}{r"rCl"l}
+\bar{y}_h \in V_{h, 0} & (\nabla \bar{y}_h, \nabla v_h) + (\bar{y}_h, v_h) &=& (\bar{u}, v_h) & \forall v_h \in V_{h, 0} \\
+\bar{p}_h \in V_{h, 0} & (\nabla \bar{p}_h, \nabla v_h) + (\bar{p}_h, v_h) &=& (\bar{y} - y_d, v_h) & \forall v_h \in V_{h, 0} 
+\end{IEEEeqnarraybox} \\
+( \lambda \bar{u}_h + \bar{p}_h, v_h) = 0 \quad \forall v_h \in U_h
+\end{IEEEeqnarray*}
+With $U_h = L^2$, this gives
+\[
+\bar{u}_h = - \frac{1}{\lambda} \bar{p}_h
+\]
+and thus implying $\bar{u}_h \in V_{h, 0}$. This holds if and only if $U_h = V_h$ \emph{in the setting with no constraints}.
+\section{Some auxiliary results}
+Note: For $\bar{u} \in L^2(\Omega)$, we have (because of convexity) $\bar{y} \in H^2(\Omega) \cap H_0^1(\Omega)$. If $y_d \in L^2(\Omega)$, this gives us - as above - $\bar{p} \in H^2(\Omega) \cap H_0^1(\Omega)$ and therefore giving us $\bar{u} \in H^2(\Omega) \cap H_0^1(\Omega)$ (in the no control constraints case).
+
+\begin{itemize}
+\item We would like to show
+\[
+	\left| \left( f'(u) - f_h'(u) \right) v \right| \leq c h^2 \left( \| u \|_{L^2} + \| y_d \|_{L^2} \right) \| v \|_{L^2} \quad \forall u, v \in L^2(\Omega)
+\]
+\begin{proof}
+\begin{IEEEeqnarray*}{rCl}
+\left| \left( f'(u) - f_h'(u) \right) v \right| &=& \left| \lambda (u, v) + (y(u) - y_d, y(v)) - \lambda (u, v) - (y_h(u) - y_d, y_h(v)) \right| \\
+&=& \left| (y(u) - y_d, y(v)) - (y_h(u) - y_d, y_h(v)) \right| \\
+&=& \left| \left( y(u) - y_d - ( y_h(u) - y_d ), y(v) \right) + \left( y_h(u) - y_d, y(v) - y_h(v) \right) \right| \\
+&=& \left| \left( y(u) - y_h(u), y(v) \right) + \left( y_h(u) - y_d, y(v) - y_h(v) \right) \right| \\
+&\leq& \left| \left( y(u) - y_h(u), y(v) \right) \right| + \left| \left( y_h(u) - y_d, y(v) - y_h(v) \right) \right| \\
+&\leq& \underbrace{ \left\| y(u) - y_h(u) \right\| }_{\leq ch^2 \| \nabla^2 y(u) \| \leq ch^2 \| u \|} \underbrace{ \left\| y(v) \right\| }_{\leq c \| v \|} + \underbrace{ \left\| y_h(u) - y_d \right\| }_{\leq \| y_d(u) \| + \| y_d \| \leq c \| u \| + \| y_d \| } \underbrace{ \left\| y(v) - y_h(v) \right\| }_{\leq ch^2 \| v \|} \\
+&\leq& ch^2 \left( \| u \| + \| y_d \| \right) \| v \|
+\end{IEEEeqnarray*}
+This is exactly the claimed result.
+\end{proof}
+\item Additionally, we need
+\[
+	\left| \left( f_h'(u_1) - f_h'(u_2) \right) v \right| \leq c \| u_1 - u_2 \|_{L^2} \| v \|_{L^2}
+\]
+\begin{proof}
+\begin{IEEEeqnarray*}{rCl}
+\left| \left( f_h'(u_1) - f_h'(u_2) \right) v \right| &=& \left| \lambda (u_1, v) + \left( y_h(u_1) - y_d, y_h(v) \right) - \lambda (u_2, v) - \left( y_h(u_2) - y_d, y_h(v) \right) \right| \\
+&\leq& \lambda \left| (u_1 - u_2, v) \right| + \left| \left( y_h(u_1) - y_d, y_h(v) \right) - \left( y_h(u_2) - y_d, y_h(v) \right) \right| \\
+&\leq& \lambda \left\| u_1 - u_2 \right\| \| v \| + \left| \left( y_h(u_1) - y_h(u_2), y_h(v) \right) \right| \\
+&\leq& \lambda \left\| u_1 - u_2 \right\| \| v \| + \underbrace{ \left\| y_h(u_1) - y_h(u_2) \right\| }_{\leq c \| u_1 - u_2 \| \| v \|} \left\| y_h(v) \right\| \\
+&\leq& L \left\| u_1 - u_2 \right\| \| v \|
+\end{IEEEeqnarray*}
+Analogously, one shows
+\[
+	\left| \left( f'(u_1) - f'(u_2) \right) v \right| \leq c \| u_1 - u_2 \|_{L^2} \| v \|_{L^2}.
+\]
+\end{proof}
+\item Lastly, we require
+\[
+	f_h''(u)(v, v) \geq \lambda \| v \|_{L^2}^2
+\]
+\begin{proof}
+As we have
+\[
+	f_h'(u) v = \lambda (u, v) + \left( y_h(u) - y_d, y_h(v) \right),
+\]
+we obtain
+\[
+	f''_h(u)(v, v) = \lambda \| v \|_{L^2}^2 + \| v_h(v) \|_{L^2}^2 \geq \lambda \| v \|^2.
+\]
+\end{proof}
+\end{itemize}
+\end{document}
