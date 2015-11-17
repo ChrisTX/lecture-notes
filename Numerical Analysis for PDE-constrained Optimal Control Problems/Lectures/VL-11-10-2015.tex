@@ -141,10 +141,11 @@ By dividing by $\| y - y_h \| $ we obtain
 \begin{problem}
 Let $\Omega \subset \R^2$ be polygonally bounded and convex.
 \begin{equation}
-\tag{P}
-\begin{IEEEeqnarraybox}{c}
+\tag{$P$}
+\label{prb:P-est-wo-constraint}
+\begin{IEEEeqnarraybox}[][c]{c}
 \min_{u \in L^2(\Omega)} \frac{1}{2} \| y - y_d \|^2 + \frac{\lambda}{2} \| u \|^2 \\
-\begin{IEEEeqnarraybox}{rCl"l}
+\begin{IEEEeqnarraybox}[][c]{rCl"l}
 - \Delta y &=& u & \text{in } \Omega \\
 y &=& 0 & \text{on } \Gamma
 \end{IEEEeqnarraybox}
@@ -170,13 +171,14 @@ With the adjoint equation
 \end{IEEEeqnarray*}
 this yields
 \[
-	\lambda \bar{u} + \bar{p} = 0
+	\lambda \bar{u} + \bar{p} = 0.
 \]
 \begin{problem}
 The discrete analogous is
 \begin{equation}
 \tag{$P_h$}
-\begin{IEEEeqnarraybox}{c}
+\label{prb:Ph-est-wo-constraint}
+\begin{IEEEeqnarraybox}[][c]{c}
 \min_{u_h \in U_h} \frac{1}{2} \| y_h - y_d \|^2 + \frac{\lambda}{2} \| u_h \|^2 \\
 y_h \in V_h \; : \; (\nabla y_h, \nabla v_h) = (u_h, v_h) \quad \forall v_h \in V_h
 \end{IEEEeqnarraybox}

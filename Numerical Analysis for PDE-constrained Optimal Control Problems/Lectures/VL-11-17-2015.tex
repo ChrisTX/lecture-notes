@@ -1,0 +1,155 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+\begin{theorem}
+Let $\bar{u}$ be the optimal control for \cref{prb:P-est-wo-constraint} (withount inequality constraints) with associated state $\bar{y}$, and $\bar{u}_h$ with associated discrete state $\bar{y}_h$ be the solution of \cref{prb:Ph-est-wo-constraint} with variational control discretization, i.e.\ $U_h = L^2(\Omega)$. Then there exists $c > 0$ independent of $h$, such that
+\[
+\| \bar{y} - \bar{y}_h \| + \| \bar{u} - \bar{u}_h \|_{L^2} \leq c h^2 \left( \| \bar{u} \| + \| y_d \| \right).
+\]
+\end{theorem}
+\begin{proof}
+The first order necessary conditions are
+\[
+	f'(\bar{u}) v = 0 = f'_h(\bar{u}_h) v \quad \forall v \in L^2(\Omega).
+\]
+Thus:
+\begin{IEEEeqnarray*}{rCl}
+0 &=& f'(\bar{u}) v - f'_h(\bar{u}_h) v \\
+&=& \left( f'(\bar{u}) v - f_h'(\bar{u}) v \right) + \underbrace{ \left( f_h'(\bar{u}) v - f_h'(\bar{u}_h) v \right) }
+\end{IEEEeqnarray*}
+With the choice $v = \bar{u} - \bar{u}_h$, the first term can be estimated as
+\[
+	 \left( f'(\bar{u}) v - f_h'(\bar{u}) v \right) \leq ch^2 \left( \| \bar{u} \| + \| y_d \| \right) \| \bar{u} - \bar{u}_h \|.
+\]
+For the second term, we can estimate by a Taylor-type estimation it as
+\[
+\left( f_h'(\bar{u}) v - f_h'(\bar{u}_h) v \right) = f_h''(u_\xi) (\bar{u} - \bar{u}_h, v) \overset{v = \bar{u} - \bar{u}_h}{\geq} \lambda \| \bar{u} - \bar{u}_h \|^2.
+\]
+Thus, we obtain
+\[
+	0 \geq \left( f'(\bar{u}) - f_h'(\bar{u}), \bar{u} - \bar{u}_h \right) + \lambda \| \bar{u} - \bar{u}_h \|^2.
+\]
+By bringing the first term on the other side:
+\begin{IEEEeqnarray*}{rCl}
+\lambda \| \bar{u} - \bar{u}_h \|^2 &\leq& \left( f'_h(\bar{u}) - f'(\bar{u}), \bar{u} - \bar{u}_h \right) \\
+&\leq& ch^2 \left( \| \bar{u} \| + \| y_d \| \right) \| \bar{u} - \bar{u}_h \|.
+\end{IEEEeqnarray*}
+Therefore, we obtain
+\[
+	\| \bar{u} - \bar{u}_h \| \leq \frac{c}{\lambda} h^2 \left( \| \bar{u} \| + \| y_d \| \right).
+\]
+% Recall that our objective function is:
+% \[
+% J(y, u) = \frac{1}{2} \| y - y_d \|^2 + \frac{\lambda}{2} \| u \|^2.
+% \]
+Thus, the other term we need to estimate is $\| \bar{y} - \bar{y}_h \|$:
+\begin{IEEEeqnarray*}{rCl}
+\| \bar{y} - \bar{y}_h \| &=& \| S \bar{u} - S_h \bar{u}_h \| \\
+&\leq& \| S \bar{u} - S_h \bar{u} \| + \| S_h \bar{u} - S_h \bar{u}_h \| \\
+&\leq& \| \bar{y} - y_h(\bar{u}) \| + \| y_h(\bar{u}) - \bar{y}_h \| \\
+&\leq& ch^2 \| \nabla^2 \bar{y} \| + c \| \bar{u} - \bar{u}_h \| \\
+&\leq& ch^2 \| \bar{u} \| + ch^2 \left( \| \bar{u} \| + \| y_d \| \right).
+\end{IEEEeqnarray*}
+This proves the claim.
+\end{proof}
+\section{Problems with control constraints}
+We use variational discretization as previously and let
+\[
+	U_{ad} = \left\{ u \in L^2(\Omega) \midcolon u_a \leq u \leq u_b \; \text{a.e.} \right\}, \quad u_a < u_b \in L^\infty.
+\]
+The problems we have are then
+\begin{problem}
+\begin{equation}
+\tag{$P$}
+\label{prb:P-est-w-constraints}
+\min_{u \in U_{ad}} f(u)
+\end{equation}
+\end{problem}
+and
+\begin{problem}
+\begin{equation}
+\tag{$P_h$}
+\label{prb:Ph-est-w-constraints}
+\min_{u \in U_{ad}^h} f(u)
+\end{equation}
+with the variational discretization $U_{ad}^h = U_{ad} \neq \emptyset$. Therefore, $\bar{u}$ and $\bar{u}_h$ exist.
+\end{problem}
+
+For \cref{prb:P-est-w-constraints}, we have the first order necessary conditions
+\[
+	f'(\bar{u})(u - \bar{u}) \geq 0 \quad \forall u \in U_{ad}.
+\]
+As we have seen this is equivalent to
+\[
+	\left( \lambda \bar{u} + \bar{p}, u - \bar{u} \right) \geq 0 \quad \forall u \in U_{ad}
+\]
+and thus we have the projection formula
+\[
+	\bar{u} = \PP_{[u_a, u_b]} \left\{ - \frac{1}{\lambda} \bar{p} \right\}.
+\]
+
+On the other hand, for \cref{prb:Ph-est-w-constraints}, we obtain
+\[
+	f'_h(\bar{u}_h)(u_h - \bar{u}_h) \geq 0 \quad \forall u_h \in U_{ad}^h.
+\]
+This is in turn equivalent to
+\[
+	\left( \lambda \bar{u}_h + \bar{p}_h, u_h - \bar{u}_h \right) \geq 0 \quad \forall u_h \in U_{ad}^h
+\]
+Because we are testing with $L^2$, this implies $\lambda \bar{u}_h + \bar{p}_h = 0$, and thus
+\[
+	\bar{u}_h = \PP_{[u_a, u_b]} \left\{ - \frac{1}{\lambda} \bar{p}_h \right\}.
+\]
+
+While this is a projection of a function linear on the elements, the projection will still yield a piecewise linear function for $\bar{u}_h$, but the projection can cut off a linear functional on an element and therefore it does not have to be a finite-element function on $\mathcal{T}_h$. This leads to involved to numerics. (There's no equivalence to a control discretization with linear finite elements).
+
+\begin{theorem}
+Let $\bar{u}$ be the optimal control of \cref{prb:P-est-w-constraints} with associated state $\bar{y}$, and $\bar{u}_h$ is the optimal control of \cref{prb:Ph-est-w-constraints} with associated state $\bar{y}_h$ (variational discretization, $U_{ad}^h = U_{ad}$).
+Then there exists a constant $c > 0$ independent of $h$, such that
+\[
+\| \bar{y} - \bar{y}_h \| + \| \bar{u} - \bar{u}_h \| \leq ch^2 \left( \| \bar{u} \| + \| y_d \| \right).
+\]
+\end{theorem}
+\begin{proof}
+As usual, the first order necessary conditions hold:
+\begin{IEEEeqnarray*}{rCl"l}
+f'(\bar{u})(u - \bar{u}) &\geq& 0 & \forall u \in U_{ad} \\
+f'(\bar{u}_h)(u_h - \bar{u}_h) &\geq& 0 & \forall u_h \in U_{ad}^h = U_{ad}
+\end{IEEEeqnarray*}
+Because $U_{ad}^h = U_{ad}$, we have $\bar{u}_h \in U_{ad}$ and $\bar{u} \in U_{ad}^h$. Thus, we also have
+\begin{IEEEeqnarray*}{rCl"l}
+f'(\bar{u})(\bar{u}_h - \bar{u}) &\geq& 0 \\
+f'(\bar{u}_h)(\bar{u} - \bar{u}_h) &\geq& 0
+\end{IEEEeqnarray*}
+
+With similar arguments to what we've seen in the last proof, we estimate:
+\begin{IEEEeqnarray*}{rCl}
+\lambda \left\| \bar{u} - \bar{u}_h \right\|^2 &\leq& f_h'' (u_\xi)\left(\bar{u} - \bar{u}_h\right)^2 \\
+&=& f_h'(\bar{u})\left(\bar{u} - \bar{u}_h\right) \underbrace{ - f_h'(\bar{u}_h)\left(\bar{u} - \bar{u}_h\right) }_{\leq 0} \\
+&\leq& f_h'(\bar{u})\left(\bar{u} - \bar{u}_h \right) + \underbrace{ f'(\bar{u})(\bar{u}_h - \bar{u}) }_{\geq 0} \\
+&=& f_h'(\bar{u})\left(\bar{u} - \bar{u}_h \right) - f'(\bar{u})\left(\bar{u} - \bar{u}_h \right) \\
+&\leq& ch^2 \| \bar{u} - \bar{u}_h \| \left( \| \bar{u} \| + \| y_d \| \right).
+\end{IEEEeqnarray*}
+Thus we obtain
+\[
+	\| \bar{u} - \bar{u}_h \| \leq \frac{c}{\lambda} h^2 \left( \| \bar{u} \| + \| y_d \| \right).
+\]
+
+This proves the claim, but one can prove this with a proof more closely related to the previous one, starting from
+\[
+	\left( f'(\bar{u}) - f_h'(\bar{u}_h) \right) \left( \bar{u}_h - \bar{u} \right) \geq 0.
+\]
+\end{proof}
+A quick note on how to generate test examples: Consider the problem
+\begin{IEEEeqnarray*}{c}
+\min \frac{1}{2} \| y - y_d \|^2 + \frac{\lambda}{2} \| u - u_d \|^2 \\
+\begin{IEEEeqnarraybox}{rCl"rCl}
+- \lapl \bar{y} &=& \bar{u} & - \lapl \bar{p} &=& \bar{y} - y_d \\
+\bar{y} &=& 0 & \bar{p} &=& 0
+\end{IEEEeqnarraybox} \\
+\lambda (\bar{u} - u_d) + \bar{p} = 0
+\end{IEEEeqnarray*}
+Choose $\bar{y}, \bar{p} \in H^2 \cap H_0^1$ and fix $\lambda$.
+By considering the state and adjoint equation, you can derive $\bar{u}$, $y_d$ and using the gradient method,  one can obtain $u_d$.
+In MATLAB, this can be solved for example using the routine ``quadprog''.
+\end{document}
