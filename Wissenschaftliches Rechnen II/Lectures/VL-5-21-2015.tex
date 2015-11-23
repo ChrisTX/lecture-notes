@@ -39,7 +39,7 @@ Betrachte nun
 \end{IEEEeqnarray*}
 Da $u\in H^2(\Omega)$, gilt 
 \begin{IEEEeqnarray*}{rCl}
-	a_{\varepsilon,\delta}(u_\varepsilon-u_{\varepsilon,h,v_h}) &=& \cancel{a_\varepsilon(u_\varepsilon,v_h)} + \sum_{T\in\mathcal{T}_h} \delta_T \int_T b\cdot\nabla u_\varepsilon b\cdot\nabla v_h\,dx - \cancel{\int_\Omega fv_h\,dx} - \sum_{T\in\mathcal{T}_h}\delta_T\int_T f b\cdot\nabla v_h\,dx \\
+	a_{\varepsilon,\delta}(u_\varepsilon-u_{\varepsilon,h},v_h) &=& \cancel{a_\varepsilon(u_\varepsilon,v_h)} + \sum_{T\in\mathcal{T}_h} \delta_T \int_T b\cdot\nabla u_\varepsilon b\cdot\nabla v_h\,dx - \cancel{\int_\Omega fv_h\,dx} - \sum_{T\in\mathcal{T}_h}\delta_T\int_T f b\cdot\nabla v_h\,dx \\
 	&=& \sum_{T\in\mathcal{T}_h} \delta_T\int_T\varepsilon\Delta u_\varepsilon b\nabla v_h\,dx \\
 	&\leq& \sum_{T\in\mathcal{T}_h} \left(\sqrt{\delta_T}\varepsilon \|u_\varepsilon\|_{L^2(T)} \right) \left( \sqrt{\delta_T}\|b\cdot\nabla v_h\|_{L^2(T)} \right) \\
 	&\leq& \underbrace{\left( \sum_{T\in\mathcal{T}_h}\delta_T\varepsilon^2\|\Delta u\|_{L^2(T)}^2 \right)^{\frac{1}{2}}}_{\leq \|D^2u\|_{L^2(T)}} \underbrace{\left( \sum_{T\in\mathcal{T}_h}\delta_T \|b\cdot\nabla v_h\|_{L^2(T)}^2 \right)^{\frac{1}{2}}}_{\leq |v_h|_{1,\varepsilon,\delta}}.

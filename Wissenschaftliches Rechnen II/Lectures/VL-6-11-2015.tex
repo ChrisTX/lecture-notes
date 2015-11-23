@@ -45,9 +45,9 @@
 	\]
 	und daher
 	\[
-		v\cdot\nu|_{\partial\Omega} = \underbrace{\frac{\partial z}{\partial\nu}}_{0}
+		v\cdot\nu|_{\partial\Omega} = \underbrace{\frac{\partial z}{\partial\nu}}_{= 0}
 			 + 
-		\underbrace{\curl \xi\cdot\nu|_{\partial\Omega}}_{\pm\frac{\partial}{\partial\tau}\xi = 0}
+		\underbrace{\curl \xi\cdot\nu|_{\partial\Omega}}_{\pm\frac{\partial\xi}{\partial\tau} = 0}
 	\]
 	und analog für $v\cdot\tau$. Die Stabilität folgt mit der Dreiecksungleichung.
 \end{proof}
@@ -69,7 +69,7 @@ Definiere
 \]
 \cref{thm:c3e1s2} (Brezzi) ergibt die Wohlgestelltheit von \cref{prb:c3e3_sp_h} unter den Bedingungen
 \begin{equation*}
-	\inf_{v_h\in Z_h,\|v_h\|_V=1}\sup_{w_h\in Z_h,\|w_h\|_V=1} a(v_h,w_h) \geq\alpha\leq\inf_{v_h\in Z_h,\|v_h\|_V}\sup_{w_h\in Z_h,\|w_h\|_V=1} a(w_h,v_h)\tag{1h}\label{eqn:c3e3s_1h}  %NAME (1h)
+	\inf_{v_h\in Z_h,\|v_h\|_V=1}\sup_{w_h\in Z_h,\|w_h\|_V=1} a(v_h,w_h) \geq\alpha_h\leq\inf_{v_h\in Z_h,\|v_h\|_V}\sup_{w_h\in Z_h,\|w_h\|_V=1} a(w_h,v_h)\tag{1h}\label{eqn:c3e3s_1h}  %NAME (1h)
 \end{equation*}
 \begin{equation*}
 	\inf_{\mu_h\in M_h,\|\mu_h\|_M=1}\sup_{v_h\in V_h,\,v_h\|_V=1} b(v_h,\mu_h) \geq\beta_h\label{eqn:c3e3s_2h}\tag{2h} %name: (2h)
@@ -94,7 +94,7 @@ mit $\alpha_h,\beta_h > 0$.
 	\]
 \end{theorem}
 \begin{proof}
-	Existenz, Eindeutigkeit und Stabilität (ggf. $h$-abhängig) folgen aus der \emph{Brezzi}-Theorie. Wenn $\alpha_h,\beta_h$ gleichmäßig nach unten beschänkt sind, dann zeigt \cref{thm:c1e3s4}, dass der Lösungsoperator
+	Existenz, Eindeutigkeit und Stabilität (ggf. $h$-abhängig) folgen aus der \emph{Brezzi}-Theorie. Wenn $\alpha_h,\beta_h$ gleichmäßig nach unten beschänkt sind, dann zeigt \cref{thm:c3e1s2}, dass der Lösungsoperator
 	\[
 		(F,G)\mapsto (u_h,\lambda_h)
 	\]
@@ -102,7 +102,7 @@ mit $\alpha_h,\beta_h > 0$.
 \end{proof}
 
 \begin{definition*}[Stabile Paarung]
-	$(V_h,M_h)$ heißt \emph{stabilie Paarung}, wenn
+	$(V_h,M_h)$ heißt \emph{stabile Paarung}, wenn
 	\[
 		\inf_h\alpha_h > c < \inf_h\beta_h.
 	\]

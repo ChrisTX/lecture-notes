@@ -20,10 +20,10 @@
 \end{IEEEeqnarray*}
 Für alle $v_h\in\left[ P^{1,0}_0(\mathcal{T}_h) \right]^d, \forall q_h\in P^{k,0}(\mathcal{T}_h)\cap L^2_0(\mathcal{T}_h)$.
 
-\section{Das Crouzieux-Raviart-Element}\label{sec:c3e5}
+\section{Das Crouziex-Raviart-Element}\label{sec:c3e5}
 Manchmal ist es nützlich Konformität aufzugeben (um Stabilität zu verbessern)!
 
-\begin{definition}[Crouzieux-Raviart-Element]\label{def:c3e5s1}
+\begin{definition}[Crouziex-Raviart-Element]\label{def:c3e5s1}
 	Gegeben sei eine reguäre Triangulierung $\mathcal{T}_h$. Definiere
 	\begin{IEEEeqnarray*}{rCl}
 		CR^1(\mathcal{T}_h) &\coloneqq& \left\{ v\in P^{1,-1}(\mathcal{T}_h) \gmid v\text{ ist stetig  in den Kanten-\slash{}Seitenmittelpunkten} \right\}\\
@@ -55,8 +55,8 @@ Da der Druck nur im Gradienten vorkommt, kann er um eine Konstante geändert wer
 %DAS HAT LABEL P_{CR}
 \begin{equation}
 	\begin{aligned}
-		\int_\Omega D_{nc}\::\: D_{nc}v_h\dx + \int_\Omega p_h\dive_{nc}\:v_h\dx &=& \int_\Omega f\cdot v_h\dx\\
-		\int_\Omega p_h\dive_{nc}\:u_h\dx &=& 0. 
+		\int_\Omega D_{nc}\::\: D_{nc}v_h\dx + \int_\Omega p_h\dive_{nc} v_h\dx &=& \int_\Omega f\cdot v_h\dx\\
+		\int_\Omega p_h\dive_{nc} u_h\dx &=& 0. 
 	\end{aligned}\tag{P-CR}\label{eqn:c3e5s_P_CR}
 \end{equation}
 
@@ -85,8 +85,8 @@ Die Stabilitäts- und Fehleranalysis der vorangegangenen Abschnitte ist hier \un
 \text{Wir beschränken uns von hier an auf den Fall $d=2$!}
 
 \begin{remark}[Basis]\label{rem:c3e5s4}
-	Der Druck besteht aus Stückweise Konstanten Funktionen, d.h. die Basis des Druckraumes ist einfach die Menge der charakteristischen Funktionen auf den Elementen.\newline\noindent
-	Die Freiheitsgrade der CR-FEM für die Geschwindigkeit sind den Kantenmittelpunkten zugeordnet. Für eine Kante $E\in\mathcal{E}(\mathcal{T}_h)= E_h$ definieren wir mit $\Psi_E$ die Kantenbasisfunktion die durch
+	Der Druck besteht aus stückweise konstanten Funktionen, d.h.\ die Basis des Druckraumes ist einfach die Menge der charakteristischen Funktionen auf den Elementen.\newline\noindent
+	Die Freiheitsgrade der CR-FEM für die Geschwindigkeit sind den Kantenmittelpunkten zugeordnet. Für eine Kante $E\in\mathcal{E}(\mathcal{T}_h)= \mathcal{E}_h$ definieren wir mit $\Psi_E$ die Kantenbasisfunktion die durch
 	\[
 		\Psi_E(\operatorname{mid}(F)) \coloneqq \begin{cases}1,&E=F\\0,&\text{sonst}\end{cases}
 	\]

@@ -13,7 +13,7 @@
  			\[
  				\|u\|_{W^{1,p}(0,T;X)} \coloneqq 
  				\begin{cases} 
- 					\left(\int_0^T\left(\|u(t)\|_X\right)^p + \|\dot{u}(t)\|_X^p\right)^{\frac{1}{p}} ,&1<p<\infty \\
+ 					\left(\int_0^T\|u(t)\|_X^p + \|\dot{u}(t)\|_X^p \dt\right)^{\frac{1}{p}} ,&1<p<\infty \\
  					\esssup_{0\leq t\leq T} \left( \|u(t)\|_X + \|\dot{u}(t)\|_X\right ), &p=\infty
  				\end{cases}
  			\]
@@ -45,7 +45,7 @@
 	Der Dualraum zu $H^1_0(\Omega)$ ist $H^{-1}(\Omega)$.
 \end{remark*}
 
-\begin{theorem}\label{thm:c4s2s6}
+\begin{theorem}\label{thm:c4e2s6}
 	Sei $u\in L^2(0,T;H^1_0(\Omega))$ mit $\dot{u}\in L^2(0,T;H^{-1}(\Omega))$. Dann gilt
 	\begin{enumerate}
 		\item $u\in C^0([0,T];H^1_0(\Omega))$ (auch bei Änderungen von $u$ auf einer Menge vom Maß $0$)
@@ -70,8 +70,7 @@
 	\cite[S.287]{Evans}.
 \end{proof}
 
-
-\subsection{Schwache Lösung}\label{sec:c4e3}
+\section{Schwache Lösung}\label{sec:c4e3}
 Wir nehmen an, dass
 \begin{equation}\label{eqn:c4e3s1}
 	f\in \underbrace{L^2([0,T]\times\Omega)}_{=L^2(0,T;L^2(\Omega))}, g\in H^1_0(\Omega), r\in L^2(\Omega)
@@ -129,9 +128,11 @@ Wir nehmen an, dass
 		M_h \ddot{d}_h(t) + A_h d_h(t) = F_h(t),
 	\end{equation} 
 	wobei 
-	\[
-		(M_h)_{i,j} \coloneqq \int_\Omega \lambda_{h,i}\lambda_{h,j}\dx,\quad (A_h)_{i,j} \coloneqq \int_\Omega \nabla\lambda_{h,i} \cdot \nabla\lambda_{h,j}\dx,\quad (F_h(t))_j \coloneqq \int_\Omega f(t)\lambda_{h,j} \dx.
-	\]
+	\begin{IEEEeqnarray*}{rCl}
+		(M_h)_{i,j} &\coloneqq& \int_\Omega \lambda_{h,i}\lambda_{h,j}\dx,\\
+		\quad (A_h)_{i,j} &\coloneqq& \int_\Omega \nabla\lambda_{h,i} \cdot \nabla\lambda_{h,j}\dx,\\
+		\quad (F_h(t))_j &\coloneqq& \int_\Omega f(t)\lambda_{h,j} \dx.
+	\end{IEEEeqnarray*}
 	Die Theorie gewöhnlicher DGL garantiert die Existenz einer eindeutigen Lösung 
 	\[
 		d_h(t) = \left( d_{h,1}(t),...,d_{h,\dim{V_h}} \right) \in C^2([0,T];\mathbb{R}^{\dim{V_h}})
@@ -195,7 +196,7 @@ Wir nehmen an, dass
 	Wir haben gezeigt: $\dot{u}_h\in C^0([0,T];L^2(\Omega))$ und $u_h\in C^0([0,T];H^1_0(\Omega))$.\newline\newline\noindent
 	\textbf{(c) Schranke für $\dot{u}$  } Fixiere $v\in H^1_0(\Omega), v\not=0$, und setze $v_h =\argmin_{w_h\in V_h}\|v-w_h\|_{L^2(\Omega)}$. Offensichtlich gilt
 	\[
-		(v-v_h,v_h)_{L^2(\Omega)} = 0
+		(v-v_h,w_h)_{L^2(\Omega)} = 0 \quad \forall w_h \in V_h
 	\]
 	und (\ref{eqn:c4e3s4}) impliziert
 	\begin{IEEEeqnarray*}{rCl}
@@ -210,12 +211,12 @@ Wir nehmen an, dass
 		\begin{aligned}
 				\|\ddot{u}(t)\|_{H^{-1}(\Omega)} 
 			&\leq&
-				\sup_{v_h\in H^1_0(\Omega)} \frac{\left| \int_\Omega f(t)v_h\dx - a(u_h(t),v_h) \right|}{\nabla v\|_{L^2(\Omega)}} 
+				\sup_{v_h\in H^1_0(\Omega)} \frac{\left| \int_\Omega f(t)v_h\dx - a(u_h(t),v_h) \right|}{\| \nabla v\|_{L^2(\Omega)}} 
 			\\
 			&\leq&
 				\frac{
 					\overbrace{
-								\|v_{\cancel{h}}\|_{L^2(\Omega)}
+								\|\nabla v_{\cancel{h}}\|_{L^2(\Omega)}
 					}^{\leq C_F}}{\|\nabla v\|_{L^2(\Omega)}} 
 				\|f(t)\|_{L^2(\Omega)} + \frac{\|\nabla v_h\|_{L^2(\Omega)}}{\|\nabla v\|_{L^2(\Omega)}}\|\nabla u_h(t)\|_{L^2(\Omega)}
 			\\
