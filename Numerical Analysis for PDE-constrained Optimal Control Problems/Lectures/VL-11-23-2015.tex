@@ -1,0 +1,195 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+\section{Piecewise constant control discretization}
+Consider the following problem:
+\begin{problem}
+\begin{equation}
+\tag{$P$}
+\label{prb:PointwiseConstantP}
+\begin{IEEEeqnarraybox}{c}
+\min_{u \in U_{ad}} f(u) \\
+U_{ad} = \left\{ u \in L^2(\Omega) : u_a \leq u \leq u_b \; \text{a.e.} \right\} \\
+u_a, u_b \; \text{constant} \quad u_a < u_b.
+\end{IEEEeqnarraybox}
+\end{equation}
+As usual, we call the optimal solution to this problem $\bar{u}$.
+\end{problem}
+The discrete problem we consider then is
+\begin{problem}
+\begin{equation}
+\tag{$P_h$}
+\label{prb:PointwiseConstantPh}
+\begin{IEEEeqnarraybox}{c}
+\min_{u \in U_{ad}^h} f_h(u_h) \\
+U_{ad}^h = U_{ad} \cap U^h = U^{h, 0} \; \text{(cellwise constant)} \\
+\end{IEEEeqnarraybox}
+\end{equation}
+Because $u_a < u_b$, we have $U_{ad}^h \neq \emptyset$ and therefore $\bar{u}_h$ exists (and is unique in the case $\lambda > 0$).
+\end{problem}
+We define the \emph{$L^2$-projection} $\Pi_h : L^2(\Omega) \to U^{h, 0}$ by
+\[
+	\min_{u_h \in U^{h, 0}} \frac{1}{2} \| u - u_h \|^2.
+\]
+The solution $\Pi_h u$ can be characterized by
+\[
+	(\Pi_h u - u, v_h) = 0 \quad \forall v_h \in U^{h, 0}.
+\]
+
+For $u \in H^1$ it holds that
+\[
+	\| u - \Pi_h u \| \leq ch \| \nabla u \|.
+\]
+Additionally, the following equality holds:
+\[
+	\left. \Pi_h u \right|_K = \frac{1}{|K|} \int_K u \dx.
+\]
+\begin{proof}
+For any $K$, choose
+\[
+	v_h = \begin{cases}
+	1 & \text{on } K\\
+	0 & \text{elsewhere}
+	\end{cases}.
+\]
+The statement follows from the orthogonality characterization testing with this special $v_h$.
+\end{proof}
+\begin{theorem}
+Let $\bar{u}$ be the unique optimal control of \cref{prb:PointwiseConstantP}, and $\bar{u}_h$ is the unique optimal control of \cref{prb:PointwiseConstantPh} with $U_h = U^{h, 0}$.
+Then there exists a constant $c > 0$ independent of $h$, such that the error estimate
+\[
+	\left\| \bar{u} - \bar{u}_h \right\|_{L^2(\Omega)} \leq ch \left( \| \bar{u} \|_{H^1} + \| y_d \|_{L^2} \right).
+\]
+\end{theorem}
+\begin{proof}
+We split the error into a projection error and an error on the discrete level:
+\[
+	\left\| \bar{u} - \bar{u}_h \right\|_{L^2(\Omega)} \leq \underbrace{ \left\| \bar{u} - \Pi_h \bar{u} \right\|_{L^2(\Omega)} }_{I} + \underbrace{ \left\| \Pi_h \bar{u} - \bar{u}_h \right\|_{L^2(\Omega)} }_{I\!I}.
+\]
+As $\bar{u} \in H^1$, we have, as noted above,
+\[
+	\left\| \bar{u} - \Pi_h \bar{u} \right\|_{L^2(\Omega)} \leq ch \| \nabla \bar{u} \|_{L^2}.
+\]
+This proves the estimate for $I$.
+
+For $I\!I$, we estimate as previously, using the estimate from the beginning of the chapter and a Taylor argument.
+\begin{IEEEeqnarray*}{rCl}
+\lambda \left\| \Pi_h \bar{u} - \bar{u}_h \right\|_{L^2}^2 &\leq& f_h''(u_\xi) \left( \Pi_h \bar{u} - \bar{u}_h \right) \\
+&\leq& f_h' \left( \Pi_h \bar{u} \right) \left( \Pi_h \bar{u} - \bar{u}_h \right) - f_h'\left(\bar{u}_h \right) \left( \Pi_h \bar{u} - \bar{u}_h \right)
+\end{IEEEeqnarray*}
+On the discrete level, by the variational inequality, we know
+\[
+	f_h' \left( \bar{u}_h \right) \left( \Pi_h \bar{u} - \bar{u}_h \right) \geq 0
+\]
+and on the continuous level, we have
+\[
+	f'\left(\bar{u} \right) \left(v - \bar{u} \right) \geq 0 \quad \forall v \in U_{ad}.
+\]
+This way, we can estimate:
+\[
+	- f_h'\left(\bar{u}_h \right) \left( \Pi_h \bar{u} - \bar{u}_h \right) \leq 0 \leq - f' \left( \bar{u} \right) \left( \bar{u} - \bar{u}_h \right).
+\]
+Therefore,
+\begin{IEEEeqnarray*}{rCl}
+\lambda \left\| \Pi_h \bar{u} - \bar{u}_h \right\|_{L^2}^2 &\leq& f_h' \left( \Pi_h \bar{u} \right) \left( \Pi_h \bar{u} - \bar{u}_h \right) - f' \left( \bar{u} \right) \left( \bar{u} - \bar{u}_h \right) \\
+&=& f_h' \left( \Pi_h \bar{u} \right) \left( \Pi_h \bar{u} - \bar{u}_h \right) - f' \left( \bar{u} \right) \left( \Pi_h \bar{u} - \bar{u}_h \right) - f' \left( \bar{u} \right) \left( \bar{u} - \Pi_h \bar{u} \right) \\
+&=& \underbrace{ f_h' \left( \Pi_h  \bar{u} \right) \left( \Pi_h \bar{u} - \bar{u}_h \right) - f_h' \left( \bar{u} \right) \left( \Pi_h \bar{u} - \bar{u}_h \right) }_{(i)} \\
+&& \underbrace{ {} + f_h' \left( \bar{u} \right) \left( \Pi_h \bar{u} - \bar{u}_h \right) - f' \left( \bar{u} \right) \left( \Pi_h \bar{u} - \bar{u}_h \right) }_{(ii)} \\
+&& \underbrace{ {} - f' \left( \bar{u} \right) \left( \bar{u} - \Pi_h \bar{u} \right) }_{(iii)}
+\end{IEEEeqnarray*}
+Next, we estimate these three terms:
+For the first one $(i)$, we use Lipschitz continuity (see the second auxiliary estimate in this chapter):
+\begin{IEEEeqnarray*}{rCl}
+f_h' \left( \Pi_h  \bar{u} \right) \left( \Pi_h \bar{u} - \bar{u}_h \right) - f_h' \left( \bar{u} \right) \left( \Pi_h \bar{u} - \bar{u}_h \right) &\leq& c \left\| \Pi_h \bar{u} - \bar{u}_h \right\| \left\| \Pi_h \bar{u} - \bar{u} \right\| \\
+&\leq& ch \left\| \nabla \bar{u} \right\| \left\| \Pi_h \bar{u} - \bar{u}_h \right\|
+\end{IEEEeqnarray*}
+For the second one $(ii)$, we proceed as in previous proofs, we use a Finite Element error estimate:
+\begin{IEEEeqnarray*}{rCl}
+\left( f_h' \left( \bar{u} \right) - f' \left( \bar{u} \right)  \right) \left( \Pi_h \bar{u} - \bar{u}_h \right) &\leq& ch^2 \left( \| \bar{u} \| + \| y_d \| \right) \| \Pi_h \bar{u} - \bar{u} \|.
+\end{IEEEeqnarray*}
+Finally, for the third term $(iii)$, we utilize the projection orthogonality:
+\begin{IEEEeqnarray*}{rCl}
+- f' \left( \bar{u} \right) \left( \bar{u} - \Pi_h \bar{u} \right) &=& - \left( \lambda \bar{u}, \bar{u} - \Pi_h \bar{u} \right) - \left( \bar{p}, \bar{u} - \Pi_h \bar{u} \right) \\
+&=& - \left( \lambda \bar{u} + \bar{p}, \bar{u} - \Pi_h \bar{u} \right) \\
+&=& - \left( \left( \lambda \bar{u} + \bar{p} \right) - \Pi_h \left(\lambda \bar{u} + \bar{p} \right), \bar{u} - \Pi_h \bar{u} \right) - \underbrace{ \left( \Pi_h \left( \lambda \bar{u} + \bar{p} \right), \bar{u} - \Pi_h \bar{u} \right) }_{{}=0} \\
+&\leq& ch^2 \left\| \nabla \left( \lambda \bar{u} + \bar{p} \right) \right\| \| \nabla \bar{u} \|
+\end{IEEEeqnarray*}
+
+Recall Young's inequality:
+\[
+	ab \leq \frac{1}{2 \varepsilon} a^2 + \frac{1}{2} \varepsilon b^2.
+\]
+Utilizing it gives us:
+\begin{IEEEeqnarray*}{rCl}
+\frac{\lambda}{2} \left\| \Pi_h \bar{u} - \bar{u}_h \right\|^2 &\leq& ch^2 \left( \| \nabla \bar{u} \|^2 + h^2 \left( \| \bar{u} \| + \| y_d \| \right)^2 \right) + ch^2 \left( \left\| \nabla \left( \lambda \bar{u} + \bar{p} \right) \right\| \| \nabla \bar{u} \| \right).
+\end{IEEEeqnarray*}
+Taking the square root, one obtains
+\begin{IEEEeqnarray*}{rCl}
+\left\| \Pi_h \bar{u} - \bar{u}_h \right\| &\leq& ch \left( \| \nabla \bar{u} \| + \| \bar{u} \| + \| y_d \| \right) \\
+&\leq& ch \left( \| \bar{u} \|_{H^1} + \| y_d \|  \right)
+\end{IEEEeqnarray*}
+This however is exactly what was to be shown.
+\end{proof}
+\begin{corollary}
+It holds that
+\[
+	\left\| \bar{y} - \bar{y}_h \right\| \leq ch \left( \| \bar{u} \|_{H^1} + \| y_d \|_{L^2} \right).
+\]
+\end{corollary}
+\begin{proof}
+\begin{IEEEeqnarray*}{rCl}
+\left\| \bar{y} - \bar{y}_h \right\| &=& \left\| y(\bar{u}) - y_h (u_h) \right\| \\
+&\leq& \left\| y(\bar{u}) - y_h(\bar{u}) \right\| + \left\| y_h (\bar{u}) - y_h (\bar{u}_h) \right\| \\
+&\leq& ch \left( \| \bar{u} \|_{H^1} + \| y_d \|_{L^2} \right)
+\end{IEEEeqnarray*}
+This holds because of a Lipschitz and a Finite Element error estimate.
+\end{proof}
+\begin{theorem}
+For the setting $U_{ad} = L^2(\Omega)$, the optimal states fulfill an improved error estimate
+\[
+	\left\| \bar{y} - \bar{y}_h \right\| \leq ch^2 \left( \| \bar{u} \|_{H^1} + \| y_d \|_{L^2} \right).
+\]
+\end{theorem}
+\begin{proof}
+Unlike previously, we split via triangle inequality in three terms:
+\[
+	\left\| \bar{y} - \bar{y}_h \right\| \leq \underbrace{ \left\| \bar{y} - y_h(\bar{u}) \right\| }_{I} + \underbrace{ \left\| y_h(\bar{u}) - y_h\left( \Pi_h \bar{u} \right) \right\| }_{I\!I} + \underbrace{ \left\| y_h \left(\Pi_h \bar{u} \right) - \bar{y}_h \right\| }_{I\!I\!I}.
+\]
+For $I$, we can estimate by
+\[
+	ch^2 \| \bar{u} \|_{L^2}.
+\]
+For $I\!I$, we use a duality argument. Let $\tilde{p}_h \in V_{h, 0}$ with
+\[
+	\left( \nabla \tilde{p}_h, \nabla v_h \right) = \left( y_h(\bar{u}) - y_h\left( \Pi_h \bar{u} \right), v_h \right) \quad \forall v_h \in V_{h, 0}.
+\]
+Then we have:
+\begin{IEEEeqnarray*}{rCl}
+\left\| y_h(\bar{u}) - y_h \left(\Pi_h \bar{u}\right) \right\|_{L^2}^2 &=& \left( \nabla \tilde{p}_h, \nabla \left( y_h(\bar{u}) - y_h \left( \Pi_h \bar{u} \right) \right)\right) \\
+&=& \left( \bar{u} - \Pi_h \bar{u}, \tilde{p}_h \right) \\
+&=& \left( \bar{u} - \Pi_h \bar{u}, \tilde{p}_h - \tilde{p} \right) + \left( \bar{u} - \Pi_h \bar{u}, \tilde{p} \right) \\
+&\leq& \left\| \bar{u} - \Pi_h \bar{u} \right\| \left\| \tilde{p}_h - \tilde{p} \right\| + \left( \bar{u} - \Pi_h \bar{u}, \tilde{p} \right) \\
+&\leq& \underbrace{ ch^3 \left\| \nabla \bar{u} \right\| \left\| \nabla^2 \tilde{p} \right\| }_{\leq ch^3 \left\| \nabla \bar{u} \right\| \| y_h (\bar{u}) \| } + \left( \bar{u} - \Pi_h \bar{u}, \tilde{p} - \Pi_h \tilde{p} \right) + \underbrace{ \left( \bar{u} - \Pi_h \bar{u}, \Pi_h \tilde{p} \right) }_{= 0 }
+\end{IEEEeqnarray*}
+Furthermore,
+\begin{IEEEeqnarray*}{rCl}
+\left( \bar{u} - \Pi_h \bar{u}, \tilde{p} - \Pi_h \tilde{p} \right) &\leq& \left\| \bar{u} - \Pi_h \bar{u} \right\| \left\| \tilde{p} - \Pi_h \tilde{p} \right\| \\
+&\leq& ch^2 \| \nabla \bar{u} \| \underbrace{ \| \nabla \tilde{p} \| }_{\leq c \| y_h(\bar{u}) - y_h(\Pi_h \bar{u}) \|}
+\end{IEEEeqnarray*}
+Thus we arrive at
+\begin{IEEEeqnarray*}{rCl}
+\left\| y_h(\bar{u}) - y_h(\Pi_h \bar{u}) \right\| &\leq& ch^2 \left( \| \nabla \bar{u} \| + \| y_d \| \right).
+\end{IEEEeqnarray*}
+
+Finally, for $I\!I\!I$, we have:
+\begin{IEEEeqnarray*}{rCl}
+\left\| y_h(\Pi_h (\bar{u})) - \bar{y}_h \right\| &\leq& c \left\| \Pi_h \bar{u} - \bar{u}_h \right\|
+\end{IEEEeqnarray*}
+Using similar arguments as before, we have
+\begin{IEEEeqnarray*}{rCl}
+\lambda \left\| \Pi_h \bar{u} - \bar{u}_h \right\|^2 &\leq& f_h''(u_\xi) \left( \Pi_h \bar{u} - \bar{u}_h \right)^2 \\
+&=& f_h' \left( \Pi_h \bar{u} \right) \left( \Pi_h \bar{u} - \bar{u}_h \right) - \underbrace{ f_h'(\bar{u}_h)\left(\Pi_h \bar{u} - \bar{u}_h \right) }_{= 0 = f'(\bar{u})\left( \Pi_h \bar{u} - \bar{u}_h \right)} \\
+&=& f_h'\left(\Pi_h \bar{u}\right) \left( \Pi_h \bar{u} - \bar{u}_h \right) - f'(\bar{u}) \left( \Pi_h \bar{u} - \bar{u}_h \right)
+\end{IEEEeqnarray*}
+\end{proof}
+\end{document}
