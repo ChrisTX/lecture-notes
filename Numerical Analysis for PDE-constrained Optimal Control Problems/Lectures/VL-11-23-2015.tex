@@ -7,7 +7,7 @@ Consider the following problem:
 \begin{equation}
 \tag{$P$}
 \label{prb:PointwiseConstantP}
-\begin{IEEEeqnarraybox}{c}
+\begin{IEEEeqnarraybox}[][c]{c}
 \min_{u \in U_{ad}} f(u) \\
 U_{ad} = \left\{ u \in L^2(\Omega) : u_a \leq u \leq u_b \; \text{a.e.} \right\} \\
 u_a, u_b \; \text{constant} \quad u_a < u_b.
@@ -20,7 +20,7 @@ The discrete problem we consider then is
 \begin{equation}
 \tag{$P_h$}
 \label{prb:PointwiseConstantPh}
-\begin{IEEEeqnarraybox}{c}
+\begin{IEEEeqnarraybox}[][c]{c}
 \min_{u \in U_{ad}^h} f_h(u_h) \\
 U_{ad}^h = U_{ad} \cap U^h = U^{h, 0} \; \text{(cellwise constant)} \\
 \end{IEEEeqnarraybox}
@@ -183,7 +183,7 @@ Thus we arrive at
 
 Finally, for $I\!I\!I$, we have:
 \begin{IEEEeqnarray*}{rCl}
-\left\| y_h(\Pi_h (\bar{u})) - \bar{y}_h \right\| &\leq& c \left\| \Pi_h \bar{u} - \bar{u}_h \right\|
+\left\| y_h(\Pi_h \bar{u}) - \bar{y}_h \right\| &\leq& c \left\| \Pi_h \bar{u} - \bar{u}_h \right\|
 \end{IEEEeqnarray*}
 Using similar arguments as before, we have
 \begin{IEEEeqnarray*}{rCl}
@@ -191,5 +191,6 @@ Using similar arguments as before, we have
 &=& f_h' \left( \Pi_h \bar{u} \right) \left( \Pi_h \bar{u} - \bar{u}_h \right) - \underbrace{ f_h'(\bar{u}_h)\left(\Pi_h \bar{u} - \bar{u}_h \right) }_{= 0 = f'(\bar{u})\left( \Pi_h \bar{u} - \bar{u}_h \right)} \\
 &=& f_h'\left(\Pi_h \bar{u}\right) \left( \Pi_h \bar{u} - \bar{u}_h \right) - f'(\bar{u}) \left( \Pi_h \bar{u} - \bar{u}_h \right)
 \end{IEEEeqnarray*}
+From here on, the proof can be finished by simple calculations with the previous estimates.
 \end{proof}
 \end{document}

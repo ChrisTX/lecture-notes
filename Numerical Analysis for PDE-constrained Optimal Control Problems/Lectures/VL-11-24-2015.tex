@@ -1,0 +1,151 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+\section{Cellwise linear control discretization}
+Consider the following problem:
+\begin{problem}
+The problem we consider in this section shall be limited to the case $n = 2$.
+\begin{equation}
+\tag{$P$}
+\label{prb:PointwiseLinearP}
+\begin{IEEEeqnarraybox}[][c]{c}
+\min_{u \in U_{ad}} f(u) \\
+U_{ad} = \left\{ u \in L^2(\Omega) : u_a \leq u \leq u_b \; \text{a.e.} \right\} \\
+u_a, u_b \; \text{constant} \quad u_a < u_b.
+\end{IEEEeqnarraybox}
+\end{equation}
+\end{problem}
+The discrete problem we consider then is
+\begin{problem}
+\begin{equation}
+\tag{$P_h$}
+\label{prb:PointwiseLinearPh}
+\begin{IEEEeqnarraybox}[][c]{c}
+\min_{u \in U_{ad}^h} f_h(u_h) \\
+U_{ad}^h = U_{ad} \cap U^h = U^{h, 1} \; \text{(cellwise linear)} \\
+\end{IEEEeqnarraybox}
+\end{equation}
+\end{problem}
+In both cases, we have unique solutions $\bar{u}$ and $\bar{u}_h$, respectively.
+
+We want to estimate $\| \bar{u} - \bar{u}_h \|$ again.
+As usual, by the variational inequality, we have
+\begin{IEEEeqnarray*}{rCl"l}
+f'(\bar{u})(u - \bar{u}) &\geq& 0 & \forall u \in U_{ad} \\
+f'_h(\bar{u}_h)(u_h - \bar{u}_h) &\geq& 0 & \forall u_h \in U_{ad}^h
+\end{IEEEeqnarray*}
+In particular, we get:
+\begin{IEEEeqnarray*}{rCl}
+f'(\bar{u})(\bar{u}_h - \bar{u}) &\geq& 0 \\
+f'_h(\bar{u}_h)(\Pi_h \bar{u} - \bar{u}_h) &\geq& 0
+\end{IEEEeqnarray*}
+We could now operate by working like last time and estimating
+\[
+\| \bar{u} - \bar{u}_h \| \leq \underbrace{ \left\| \bar{u} - \Pi_h \bar{u} \right\| }_{\mathcal{O}(h)} + \left\| \Pi_h \bar{u} - \bar{u}_h \right\|
+\]
+However, it is usually a better idea to use the nodal interpolant:
+\[
+\| \bar{u} - \bar{u}_h \| \leq \left\| \bar{u} - \mathcal{I}_h \bar{u} \right\| + \left\| \mathcal{I}_h \bar{u} - \bar{u}_h \right\|
+\]
+Though, the nodal interpolant requires continuity of $\bar{u}$.
+As seen before, we have
+\[
+	\bar{u} = \PP_{[u_a, u_b]} \left\{ - \frac{1}{\lambda} \bar{p} \right\}
+\]
+and $\bar{p} \in H^2 \hookrightarrow C(\bar{\Omega})$.
+Because of constant bounds, this characterization gives us $\bar{u} \in H^1(\Omega) \cap C(\bar{\Omega})$.
+
+Previously, we have seen
+\[
+	\left\| \bar{u} - \mathcal{I}_h \bar{u} \right\| \leq ch^2 \left\| \nabla^2 \bar{u} \right\| \quad \text{for } \bar{u} \in H^2.
+\]
+The question is if an estimate like
+\[
+	\left\| \bar{u} - \mathcal{I}_h \bar{u} \right\| \leq ch \left\| \nabla^2 \bar{u} \right\|.
+\]
+could still hold.
+
+\underline{Idea:} Define
+\begin{IEEEeqnarray*}{rCl}
+	\mathcal{T}_{h, 1} &=& \left\{ K \in K_n \midcolon \left. \bar{u} \right|_K = u_a \text{ or } \left. \bar{u} \right|_K = u_b \right\}, \\
+	\mathcal{T}_{h, 2} &=& \left\{ K \in K_n \midcolon u_a < \left. \bar{u} \right|_K < u_b \right\}, \\
+	\mathcal{T}_{h, 3} &=& \mathcal{T}_h \setminus \left\{ \mathcal{T}_{h, 1} \cup \mathcal{T}_{h, 2} \right\}.
+\end{IEEEeqnarray*}
+To work with $\mathcal{T}_{h, 1}$ and $\mathcal{T}_{h, 2}$ will be relatively easy, but in order to treat $\mathcal{T}_{h, 3}$, some work is required. For the first two sets, we have $H^2$ regularity and therefore the stronger estimate quoted above holds.
+In order to have any hope to actually bound the error on the third set, we need to assume
+% \[
+% 	\left| \mathcal{T}_{h, 3} \right| < ch.
+% \]
+\[
+\sum_{K \in \mathcal{T}_{h, 3}} |K| < ch.
+\]
+
+As before, we have
+\begin{IEEEeqnarray*}{rCl}
+\lambda \left\| \mathcal{I}_h \bar{u} - \bar{u}_h \right\|^2 &\leq& f''_h \left( u_\xi \right) \left( \mathcal{I}_h \bar{u} - \bar{u}_h \right)^2 \\
+&\leq& f_h' \left( \mathcal{I}_h \bar{u} \right) \left( \mathcal{I}_h \bar{u} - \bar{u}_h \right) \underbrace{ - f_h' \left( \bar{u}_h \right) \left( \mathcal{I}_h \bar{u} - \bar{u}_h \right) }_{\leq 0 } \\
+&\leq& f_h' \left( \mathcal{I}_h \bar{u} \right) \left( \mathcal{I}_h \bar{u} - \bar{u}_h \right) \underbrace{ - f'\left(\bar{u}\right) \left( \bar{u} - \bar{u}_h \right) }_{\geq 0} \\
+&=& f_h (\mathcal{I}_h \bar{u}) ( \mathcal{I}_h \bar{u} - \bar{u}_h ) - f_h' (\bar{u}) (\mathcal{I}_h \bar{u} - \bar{u}_h) \\
+&& {} + f_h' (\bar{u}) ( \mathcal{I}_h \bar{u} - \bar{u}_h ) - f' (\bar{u}) ( \mathcal{I}_h \bar{u} - \bar{u}_h ) \\
+&& {} + f' (\bar{u}) ( \mathcal{I}_h \bar{u} - \bar{u}_h ) \\
+&\leq& c \left\| \mathcal{I}_h \bar{u} - \bar{u} \right\| \left\| \mathcal{I}_h \bar{u} - \bar{u}_h \right\| \\
+&& {} + ch^2 \left( \| \bar{u}\| + \| y_d \| \right) \left\| \mathcal{I}_h \bar{u} - \bar{u}_h \right\| \\
+&& {} + \left( \lambda \bar{u} + \bar{p}, \mathcal{I}_h \bar{u} - \bar{u} \right)
+\end{IEEEeqnarray*}
+The third term can be estimated as in the cellwise constant case, so the difficulty lies in
+\[
+	\| \bar{u} - \mathcal{I}_h \bar{u} \|
+\]
+on $\mathcal{T}_{h, 3}$ (for the other sets, it follows from the $H^2$ estimate).
+Therefore, consider
+\begin{IEEEeqnarray*}{rCl"l}
+\sum_{K \in \mathcal{T}_{h, 3}} \| \bar{u} - \mathcal{I}_h \bar{u} \|_{L^2(K)}^2 &\overset{\text{Hölder}}{\leq}& \sum_{K \in \mathcal{T}_{h, 3}} |K|^{1 - \frac{2}{s}} \| \mathcal{I}_h \bar{u} - \bar{u} \|_{L^s(K)}^2, & s < \infty
+\end{IEEEeqnarray*}
+As we have
+\[
+	\bar{u} = \PP \left\{ - \frac{1}{\lambda} \bar{p} \right\},
+\]
+and $\bar{p} \in H^2 \hookrightarrow W^{1,s}$.
+As $s < \infty$ and - importantly - $n = 2$, it follows
+\[
+	\left\| \nabla \PP(v) \right\|_{L^s(K)} \leq \left\| \nabla v \right\|_{L^s(K)}, \quad v \in W^{1, s}.
+\]
+It can be shown (technical), that
+\begin{IEEEeqnarray*}{rCl"l}
+\sum_{K \in \mathcal{T}_{h, 3}} |K|^{1 - \frac{2}{s}} \| \mathcal{I}_h \bar{u} - \bar{u} \|_{L^s(K)}^2 &\leq& ch^2 \sum_{K \in \mathcal{T}_{h, 3}} |K|^{1 - \frac{2}{s}} \| \nabla \bar{u} \|_{L^s(K)}^2 \\
+&\leq& ch^2 \left( \sum_{K \in \mathcal{T}_{h, 3}} |K| \right)^{1-\frac{2}{s}} \| \nabla \bar{u} \|_{L^2(\Omega)}^2 \\
+&\overset{\text{Assumption on $\mathcal{T}_{h, 3}$}}{\leq}& ch^{3 - \frac{2}{s}} \| \nabla \bar{u} \|_{L^s(\Omega)}^2 & \forall s < \infty
+\end{IEEEeqnarray*}
+With this, it follows that
+\[
+\| \bar{u} - \mathcal{I}_h \bar{u} \|_{L^2(\Omega)} \leq ch^{\frac{3}{2} - \varepsilon}.
+\]
+
+Having derived this estimate, the first two terms are estimated properly. It remains to estimate
+\begin{IEEEeqnarray*}{rCl}
+\left( \underbrace{ \lambda \bar{u} + \bar{p} }_{g}, \mathcal{I}_h \bar{u} - \bar{u} \right) &=& \sum_{K \in \mathcal{T}_h} \left(g, \mathcal{I}_h \bar{u} - \bar{u} \right)
+\end{IEEEeqnarray*}
+Now, we have on $\mathcal{T}_{h, 1}$ that $\mathcal{I}_h \bar{u} - \bar{u} = 0$ and on $\mathcal{T}_{h, 2}$, the constraint is inactive, i.e. $\lambda \bar{u} + \bar{p} = 0$.
+Hence,
+\begin{IEEEeqnarray*}{rCl}
+\sum_{K \in \mathcal{T}_h} \left(g, \mathcal{I}_h \bar{u} - \bar{u} \right) &=& \sum_{K \in \mathcal{T}_{h, 3}} \left(g, \mathcal{I}_h \bar{u} - \bar{u} \right)
+\end{IEEEeqnarray*}
+In every cell in $\mathcal{T}_{h, 3}$ there exists $x_k$ with $g(x_k) = 0$ (because $g > 0$ and $g < 0$ somewhere in the cell).
+Then,
+\begin{IEEEeqnarray*}{rCl}
+\left| (g, \mathcal{I}_h \bar{u} - \bar{u})_{L^2(K)} \right| &\leq& |K|^{1 - \frac{2}{s}} \| g \|_{L^s(K)} \| \mathcal{I}_h \bar{u} - \bar{u} \|_{L^s(K)} \\
+&=& |K|^{1 - \frac{2}{s}} \| g - g(x_k) \|_{L^s(K)} \| \mathcal{I}_h \bar{u} - \bar{u} \|_{L^s(K)} \\
+&\leq& c h |K|^{1-\frac{2}{s}} \| \nabla g \|_{L^s(K)} \cdot h \| \nabla \bar{u} \|_{L^s(K)}
+\end{IEEEeqnarray*}
+Summing over all elements, we obtain
+\begin{IEEEeqnarray*}{rCl}
+(\lambda \bar{u} + \bar{p}, \mathcal{I}_h \bar{u} - \bar{u}) &\leq& ch^2 \sum_{K \in \mathcal{T}_{h, 3}} |K|^{1- \frac{2}{s}} \| \nabla g \|_{L^2(K)} \| \nabla \bar{u} \|_{L^s(K)} \\
+&\leq& ch^2 \left( \sum_{K \in \mathcal{T}_{h, 3}} |K| \right)^{1 - \frac{2}{s}} \| \nabla g \|_{L^s(\Omega)} \| \nabla \bar{u} \|_{L^s(\Omega)} \\
+&\overset{\text{Assumption}}{\leq}& c h^{3- \frac{2}{s}} \| \nabla g \|_{L^s(\Omega)} \| \nabla \bar{u} \|_{L^s(\Omega)}.
+\end{IEEEeqnarray*}
+
+Ultimately, these results combine into
+\[
+	\| \bar{u} - \bar{u}_h \| \leq ch^{\frac{3}{2} - \varepsilon}, \quad \varepsilon > 0.
+\]
+\end{document}
