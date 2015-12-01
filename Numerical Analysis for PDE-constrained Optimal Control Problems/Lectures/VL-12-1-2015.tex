@@ -1,0 +1,136 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+The function
+\begin{IEEEeqnarray*}{rCl}
+L : U \times Z^* &\to& \R \\
+L(u, z^*) &=& f(u) + \left\langle z^*, G(u) \right\rangle_{Z^*, Z}
+\end{IEEEeqnarray*}
+is called Lagrangian. An element $\left( \bar{u}, z^* \right) \in U \times Z^*$ is called saddle point of the Lagrangian, if the inequality
+\[
+	L \left( \bar{u}, v^* \right) \leq L \left( \bar{u}, z^* \right) \leq L \left( u, z^* \right) \quad \forall u \in C, \forall v^* \in Z^*
+\]
+holds.
+Then $z^*$ is called the Lagrange multiplier associated with $\bar{u}$.
+
+$G : U \to Z$ is called convex, if
+\[
+	G(\lambda u + (1-\lambda) v) \leq_K \lambda G(u) + (1-\lambda) G(v) \quad \forall u, v \in U, \forall \lambda \in (0, 1).
+\]
+\begin{theorem}
+\label{thm:ConvexSlaterSlack}
+Let $f : U \to \R$ be a convex function, $G : U \to Z$ a convex operator, and $\bar{u}$ a solution of \cref{prb:ConeLgrStar}.
+Moreover, let an element $\tilde{u} \in C$ with $G(\tilde{u}) <_K 0$ (i.e.\ $-G(\tilde{u}) \in \Int K$) exists. (This is called the \emph{Slater condition})
+
+Then, there exists an element $z^* \in K^*$ such that $(\bar{u}, z^*)$ is a saddle point of the Lagrangian and the complementary slackness condition
+\[
+	\langle z^*, G(\bar{u}) \rangle_{Z^*, Z} = 0
+\]
+is satisfied.
+\end{theorem}
+\begin{remark}
+$K$ needs to have interior points - this excludes
+\begin{itemize}
+\item equalities $G(u) = 0$ (for example PDE-constraints).
+\item $K = \left\{ z \in L^2(0, 1) \midcolon z(x) \geq 0 \text{ a.e.\ in } (0, 1) \right\}$ (and all $L^p$ with $p < \infty$).
+Assume that $z(x) \equiv 1$ is an interior point.
+Consider the function sequence
+\[
+	v_n(x) = \begin{cases}
+	1 & \left[0, 1 - \frac{1}{n} \right] \\
+	-1 & \left[ 1 - \frac{1}{n}, 1 \right]
+	\end{cases} \notin K,
+\]
+but $v_n \to z$ in $L^2$. Thus, $z(x)$ is not an interior point.
+\end{itemize}
+\end{remark}
+Consequently:
+\begin{itemize}
+\item pointwise state constraints lead to difficulties when discussing optimality conditions.
+\item continuity of $y$ is required for Slater point properties.
+\item What is the dual of $C(\bar{\Omega})$? It is $M(\Omega)$, the space of regular Borel measures. We look for $\mu = z^* \geq_K 0$ such that
+\[
+	\int_{\bar{\Omega}} y(x) \: \mathrm{d} \mu(x) \geq 0 \quad \forall y \geq 0
+\]
+\item Low regularity of the Lagrange Multiplier makes numerical analysis more challenging.
+\end{itemize}
+\begin{theorem}
+If in addition to the assumptions of the last \namecref{thm:ConvexSlaterSlack}, $f$ and $G$ are Gâteaux differentiable, then the variational inequality
+\[
+	D_u L \left( \bar{u}, z^* \right) \left( u - \bar{u} \right) \geq 0 \quad \forall u \in C
+\]
+holds.
+(Note: If $C = U$, then $D_u L(\bar{u}, z^*) = 0$).
+\end{theorem}
+\begin{proof}
+We have the saddle point inequality:
+\[
+	L(\bar{u}, v^*) \leq L(\bar{u}, z^*) \leq L(u, z^*) \quad \forall u \in C, \forall v^* \in K^*
+\]
+Thus, $\bar{u}$ solves
+\[
+	\min_{u \in C} L(u, z^*).
+\]
+Therefore, $\bar{u}$ satisfies the first-order optimality conditions for this problem:
+\[
+	D_u L(\bar{u}, z^*) (u - \bar{u}) \geq 0 \quad \forall u \in C.
+\]
+\end{proof}
+Recall that
+\[
+L(u, z^*) = f(u) + \left\langle z^*, G(u) \right\rangle_{Z^*, Z}.
+\]
+We add a component that we know well, $f(u)$ and a condition that depends on the optimality system. From this we calculate
+\[
+	D_u L(\bar{u}, z^*) ( u - \bar{u}) - f'(\bar{u})(u - \bar{u}) + \langle z^*, G'(\bar{u})(u - \bar{u}) \rangle_{Z^*, Z}.
+\]
+Additionally, we have - see above - the condition
+\[
+	z^* \geq_K 0 \quad \langle z^*, G(\bar{u}) \rangle_{Z^*, Z} = 0.
+\]
+
+Let's go back to our control problem for now:
+We have the problem
+\begin{IEEEeqnarray*}{c}
+\min f(u) = \frac{1}{2} \| Su - y_d \|^2 + \frac{\lambda}{2} \| u \|^2 \\
+\tilde{G}(u) \leq_K 0 \quad u \in L^2(\Omega).
+\end{IEEEeqnarray*}
+where
+\[
+	\tilde{G}(u) = \begin{pmatrix}
+	G(u) - y_b \\ y_a - G(a)
+	\end{pmatrix} \leq 0.
+\]
+Here, $G : L^2 \to C(\bar{\Omega})$ is the control-to-state operator, thus $y = G(u)$.
+We set:
+\[
+	K = \left\{ g \in C(\bar{\Omega}) \midcolon g \geq 0 \right\}.
+\]
+The Lagrangian we obtain is
+\[
+	L(u, \mu_a, \mu_b) = \frac{1}{2} \| Su - y_d \|^2 + \frac{\lambda}{2} \| u \|^2 + \langle y_a - G(u), \mu_a \rangle_{C, M} + \langle G(u) - y_b, \mu_b \rangle_{C, M}.
+\]
+Slater condition: We need $u_0 \in L^2(\Omega)$ such that $y_0 = G(u_0)$:
+\[
+	y_a(x) < y_0 < y_b(x) \quad \forall x \in \bar{\Omega} \quad \iff \quad y_a + \varepsilon \leq y_0 \leq y_b - \varepsilon.
+\]
+We have constructed that further above.
+\begin{theorem}
+Let $(\bar{u}, \bar{y}) \in L^2(\Omega) \times H_0^1(\Omega) \cap C(\bar{\Omega})$ the solution of
+\[
+	\min_{u \in L^2(\Omega)} f(u).
+\]
+Then there exists Lagrange multipliers $\bar{\mu}_a, \bar{\mu}_b \in C(\bar{\Omega})^* (= M(\bar{\Omega}))$ and an adjoint state $\bar{p}$ with
+\begin{IEEEeqnarray*}{rCl"l}
+	(\nabla \bar{y}, \nabla v) + (\bar{y}, v) &=& (\bar{u}, v) & \forall v \in H_0^1(\Omega) \\
+	(\bar{p}, - \Delta v) + (\bar{p}, v) &=& (\bar{y} - y_d, v) + \langle \bar{\mu}_b - \bar{\mu}_a, v \rangle_{C^*, C} & \forall v \in H^1(\Omega) \cap H_0^1(\Omega)
+\end{IEEEeqnarray*}
+such that
+\begin{IEEEeqnarray*}{rCl}
+\lambda \bar{u} + \bar{p} &=& 0 \\
+\bar{\mu}_a, \bar{\mu}_b &\geq& 0 \\
+\langle \bar{\mu}_b, \bar{y} - y_b \rangle = \langle \bar{\mu}_a, y_a - \bar{y} \rangle &=& 0 \\
+y_a \leq \bar{y} &\leq& y_b
+\end{IEEEeqnarray*}
+\end{theorem}
+\end{document}

@@ -1,0 +1,183 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+\chapter{Optimal control problems with pointwise state constraints}
+\begin{problem}
+Let
+\[
+	U = L^2(\Omega)
+\]
+and
+\[
+	U_{ad} = \left\{ u \in L^2(\Omega) \midcolon u_a \leq u \leq u_b \quad \text{a.e.} \right\}.
+\]
+Then the problem is
+\begin{equation}
+\tag{$P$}
+\begin{IEEEeqnarraybox}[][c]{c}
+\min_{u \in U_{ad}} \frac{1}{2} \| y - y_d \|_{L^2}^2 + \frac{\lambda}{2} \| u \|_{L^2}^2 \\
+\begin{IEEEeqnarraybox}[][c]{rCl"l}
+- \Delta y + y &=& u & \text{in } \Omega \\
+y &=& 0 & \text{on } \Gamma \\
+\IEEEeqnarraymulticol{3}{r}{ y_a(x) \leq y(x) \leq y_b(x)} & \forall x \in \bar{\Omega}
+\end{IEEEeqnarraybox}
+\end{IEEEeqnarraybox}
+\end{equation}
+Furthermore, let $\Omega \subset \R^2$ be polygonally bounded, convex (or smooth boundary), $y_d \in L^2(\Omega)$, $\lambda > 0$.
+Let $y_a, y_b \in C(\bar{\Omega})$. Additionally, for reasons apparent later on, we assume
+\begin{IEEEeqnarray*}{rCl"l}
+y_a(x) &<& 0 < y_b & \forall x \in \partial \Omega \\
+y_a(x) &<& y_b(x) & \forall x \in \bar{\Omega}
+\end{IEEEeqnarray*}
+\end{problem}
+Let us first see why we demand pointwise constraints and do not work in an $L^2$ sense:
+With $L^2$ constraints, we'd formally we have a problem
+\begin{IEEEeqnarray*}{c}
+\min f(u) \\
+y_a \leq Su \leq y_b
+\end{IEEEeqnarray*}
+For sake of simplicity, let $y_a \equiv -\infty$ for now.
+In analogy to the case without constraints on the state, we apply the formal Lagrange technique: The Lagrange function would be
+\[
+	L(u, \mu) = f(u) + \int (Su - y_d) \mu.
+\]
+Thus we obtain a set of conditions as follows
+\begin{IEEEeqnarray*}{rCl}
+Lu (\bar{u}, \bar{\mu}) &=& 0, \\
+S \bar{u} - y_b &\leq& 0, \\
+\mu &\geq& 0, \\
+\int (S\bar{u} - y_b) \bar{\mu} &=& 0.
+\end{IEEEeqnarray*}
+The integrand is a product of $S\bar{u} - y_b$, which is smaller than zero outside of a single point, where it is zero. As $\bar{\mu}$ is greater or equal than zero, it can only be non-zero in a single point, namely where $S \bar{u} = y_b$. Therefore, we have a Dirac measure and not an $L^2$ function.
+Thus, $y_a \leq y \leq y_b$ a.e.\ would be a problem when showing first order optimality conditions.
+
+\paragraph{Solvability of the PDE (Regularity)}
+As $u \in L^2(\Omega)$, we have 
+\[
+	y(u) \in H^2 \cap H_0^1(\Omega) \xhookrightarrow{n \leq 3} C(\bar{\Omega}).
+\]
+The control-to-state mapping is then operating on the following spaces:
+\[
+	G : L^2(\Omega) \to H^2(\Omega) \cap H_0^1(\Omega) \hookrightarrow C(\bar{\Omega}).
+\]
+As before, we define
+\[
+	S \coloneqq EG : L^2(\Omega) \to L^2(\Omega).
+\]
+This gives us a reduced problem form of
+\[
+\begin{IEEEeqnarraybox}[][c]{c}
+\min_{u \in U_{ad}} f(u) \coloneqq \frac{1}{2} \| Su - y_d \|_{L^2}^2 + \frac{\lambda}{2} \| u \|_{L^2}^2 \\
+y_a(x) \leq Gu(x) \leq y_b(x) \quad \forall x \in \bar{\Omega}
+\end{IEEEeqnarraybox}
+\]
+\paragraph{Solvability of \texorpdfstring{$P$}{P}}
+We have two constraints:
+\begin{itemize}
+\item $u_a \leq u \leq u_b$
+\item $y_a(x) \leq Gu(x) \leq y_b(x)$
+\end{itemize}
+There are examples where no control $u$ exists such that both equations are fulfilled
+We can always find a control fulfilling the first condition while ignoring the second, but can we also find a state while ignoring the first condition?
+Assume $U_ad = L^2(\Omega)$.
+Then the conditions on the state are
+\begin{IEEEeqnarray*}{rCl"l}
+y_a \leq Gu &\leq& y_b & \text{in } \Omega \\
+- \Delta y + y &=& u & \text{in } \Omega \\
+y &=& 0 & \text{on } \Gamma
+\end{IEEEeqnarray*}
+By assumption,
+\[
+	d = \min \left( y_b(x) - y(x) \right) > 0
+\]
+Our starting point fulfilling the first condition would be
+\[
+	v = \frac{1}{2} \left( y_a + y_b \right)
+\]
+Next, we construct, using a mollifier, a $w \in C^2 \hookrightarrow C^\infty$ with
+\[
+	\| v - w \|_{L^\infty} < \frac{d}{2}
+\]
+Then $w \in H^2$ and
+\[
+	y_a(x) \leq w(x) \leq y_b(x).
+\]
+Therefore, the second condition can be fulfilled by the choice of an appropriate $u_0$.
+To fulfill the zero boundary conditions: Choose
+\[
+	\xi(x) = \begin{cases}
+	0 & \dist(x, \partial \Omega) < \frac{r}{4} \\
+	1 & \dist(x, \partial \Omega) > \frac{r}{2} \\
+	\in [0, 1] & \text{else}
+	\end{cases}.
+\]
+Then $\xi \in C^\infty$ and
+\[
+	y_0 = \xi w \in H^2 \cap H_0^1(\Omega)
+\]
+and
+\[
+	y_a(x) \leq y_0(x) \leq y_b \quad \forall x \in \bar{\Omega}.
+\]
+Therefore,
+\[
+	u_0 = - \Delta y_0 + y_0 \in L^2(\Omega).
+\]
+
+We have proven:
+Let $U_{ad} = L^2(\Omega)$. Then there exists a feasible pair pair $(u_0, y_0)$ such that
+\[
+	y_a(x) \leq y_0(x) \leq y_b(x) \quad \forall x \in \bar{\Omega},
+\]
+and the state equation and boundary conditions are fulfilled.
+
+If $U_{ad} \subsetneq L^2(\Omega)$: Existence of a feasible pair $(u_0, y_0)$ needs to be assumed.
+
+If the set of feasible controls ($u \in U_{ad}$, and $y_a \leq y(u) \leq y_b$) is nonempty, existence of a unique optimal control $\bar{u}$ with optimal state $\bar{y}$ follows by standard arguments.
+\section{The Lagrange-Multiplier-Rule}
+For additional information on this topic, see \cite{Troeltzsch,TroeltzschEN}.
+
+Let $U, Z$ be Banach spaces and $C \subset U$ be convex and non-empty.
+\begin{itemize}
+\item A convex set $K \subset Z$ is called a convex cone if for all $z \in K$ there holds $\lambda z \in K$ for all $\lambda \geq 0$.
+We write $z \geq_K 0$ if and only if $z \in K$.
+\item Let $K \subset Z$ be a convex cone. We call
+\[
+	K^* = \left\{ z^* \in Z^* \midcolon \langle z^*, z \rangle_{Z^*, Z} \geq 0 \quad \forall z \in K \right\}
+\]
+is the dual cone to $K$.
+\end{itemize}
+\begin{example}
+Let
+\[
+	K = \left\{ z \in L^2(\Omega) \midcolon z(x) \geq 0 \quad \text{a.e. in } \Omega \right\}.
+\]
+Then $Z^* = Z = L^2(\Omega)$ and
+\[
+	K^* = \left\{ z^* \in L^2 \midcolon \int z^* z \dx \geq 0 \quad \forall z \in K \right\} = K.
+\]
+\end{example}
+\begin{problem}
+We consider the problem
+\begin{equation}
+\tag{$*$}
+\label{prb:ConeLgrStar}
+\begin{IEEEeqnarraybox}[][c]{c}
+\min f(u) \\
+G(u) \leq_K 0 \quad u \in U.
+\end{IEEEeqnarraybox}
+\end{equation}
+with $G : U \to Z$.
+\end{problem}
+
+Note that this is not the same $G$ as before, but it has rather been chosen for consistency with \cite{Troeltzsch}.
+To recast our previous problem into this notation, consider that we have - with the control-to-state operator $G$:
+\begin{IEEEeqnarray*}{c}
+\min_{u \in U_{ad}} \frac{1}{2} \| Su - y_d \|_{L^2}^2 + \frac{\lambda}{2} \| u \|_{L^2(\Omega)}^2 \\
+G(u)(x) \leq y_b.
+\end{IEEEeqnarray*}
+Therefore we can recast this into the cone formulation by using the function $g(u)$ defined as
+\[
+	g(u) = G(u)(x) - y_b \leq 0.
+\]
+\end{document}
