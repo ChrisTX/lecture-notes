@@ -93,7 +93,8 @@ Note: For $\bar{u} \in L^2(\Omega)$, we have (because of convexity) $\bar{y} \in
 &=& \left| \left( y(u) - y_d - ( y_h(u) - y_d ), y(v) \right) + \left( y_h(u) - y_d, y(v) - y_h(v) \right) \right| \\
 &=& \left| \left( y(u) - y_h(u), y(v) \right) + \left( y_h(u) - y_d, y(v) - y_h(v) \right) \right| \\
 &\leq& \left| \left( y(u) - y_h(u), y(v) \right) \right| + \left| \left( y_h(u) - y_d, y(v) - y_h(v) \right) \right| \\
-&\leq& \underbrace{ \left\| y(u) - y_h(u) \right\| }_{\leq ch^2 \| \nabla^2 y(u) \| \leq ch^2 \| u \|} \underbrace{ \left\| y(v) \right\| }_{\leq c \| v \|} + \underbrace{ \left\| y_h(u) - y_d \right\| }_{\leq \| y_d(u) \| + \| y_d \| \leq c \| u \| + \| y_d \| } \underbrace{ \left\| y(v) - y_h(v) \right\| }_{\leq ch^2 \| v \|} \\
+&\leq& \underbrace{ \left\| y(u) - y_h(u) \right\| }_{\leq ch^2 \| \nabla^2 y(u) \| \leq ch^2 \| u \|} \underbrace{ \left\| y(v) \right\| }_{\leq c \| v \|} \\
+&& {} + \underbrace{ \left\| y_h(u) - y_d \right\| }_{\leq \| y_d(u) \| + \| y_d \| \leq c \| u \| + \| y_d \| } \underbrace{ \left\| y(v) - y_h(v) \right\| }_{\leq ch^2 \| v \|} \\
 &\leq& ch^2 \left( \| u \| + \| y_d \| \right) \| v \|
 \end{IEEEeqnarray*}
 This is exactly the claimed result.
@@ -104,8 +105,10 @@ This is exactly the claimed result.
 \]
 \begin{proof}
 \begin{IEEEeqnarray*}{rCl}
-\left| \left( f_h'(u_1) - f_h'(u_2) \right) v \right| &=& \left| \lambda (u_1, v) + \left( y_h(u_1) - y_d, y_h(v) \right) - \lambda (u_2, v) - \left( y_h(u_2) - y_d, y_h(v) \right) \right| \\
-&\leq& \lambda \left| (u_1 - u_2, v) \right| + \left| \left( y_h(u_1) - y_d, y_h(v) \right) - \left( y_h(u_2) - y_d, y_h(v) \right) \right| \\
+\left| \left( f_h'(u_1) - f_h'(u_2) \right) v \right| &=& \left| \lambda (u_1, v) + \left( y_h(u_1) - y_d, y_h(v) \right) \right. \\
+&& \left. {} - \lambda (u_2, v) - \left( y_h(u_2) - y_d, y_h(v) \right) \right| \\
+&\leq& \lambda \left| (u_1 - u_2, v) \right| + \left| \left( y_h(u_1) - y_d, y_h(v) \right) \right. \\
+&& \left. {} - \left( y_h(u_2) - y_d, y_h(v) \right) \right| \\
 &\leq& \lambda \left\| u_1 - u_2 \right\| \| v \| + \left| \left( y_h(u_1) - y_h(u_2), y_h(v) \right) \right| \\
 &\leq& \lambda \left\| u_1 - u_2 \right\| \| v \| + \underbrace{ \left\| y_h(u_1) - y_h(u_2) \right\| }_{\leq c \| u_1 - u_2 \| \| v \|} \left\| y_h(v) \right\| \\
 &\leq& L \left\| u_1 - u_2 \right\| \| v \|
