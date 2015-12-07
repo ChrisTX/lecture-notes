@@ -1,0 +1,106 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+\begin{remark}
+One can alternatively formulate this with separate multipliers by setting $\bar{\mu} \coloneqq \bar{\mu}_b - \bar{\mu}_a$ obtaining the conditions
+\begin{IEEEeqnarray*}{rCl}
+\bar{\mu}_a, \bar{\mu}_b &\geq& 0 \\
+\langle \bar{\mu}_b, \bar{y} - y_b \rangle = \langle \bar{\mu}_a, y_a - \bar{y} \rangle &=& 0 \\
+y_a \leq \bar{y} &\leq& y_b
+\end{IEEEeqnarray*}
+We are going to derive this formulation from the theorem below.
+\end{remark}
+\textit{Note:} It can be shown that $\bar{p} \in W^{1, s}(\Omega)$ for $s < 2$ (in 2D) and thus
+\[
+	\left( \nabla \bar{p}, \nabla \varphi \right) = \left( \bar{y} - y_d, \varphi \right) + \left\langle \bar{\mu}, \varphi \right\rangle_{M, C} \quad \forall \varphi \in W^{1, s}.
+\]
+
+\paragraph{Structure of the Langrange Multiplier}
+In a setting of bilateral bounds $y_a \leq y \leq y_b$, we obtain by setting $\bar{\mu} = \bar{\mu}_b - \bar{\mu}_a$:
+\begin{IEEEeqnarray*}{c}
+\begin{IEEEeqnarraybox}{rCl}
+\begin{IEEEeqnarraybox}{rCl}
+- \lapl \bar{y} &=& \bar{u} \\
+\bar{y} &=& 0
+\end{IEEEeqnarraybox} \quad&&\quad
+\begin{IEEEeqnarraybox}{rCl}
+- \lapl \bar{p} &=& \bar{y} - y_d + \bar{\mu}_b - \bar{\mu}_a \\
+\bar{p} &=& 0
+\end{IEEEeqnarraybox} \\
+\lambda \bar{u} &+& \bar{p} = 0 
+\end{IEEEeqnarraybox} \\
+y_a \leq y \leq y_b \quad \bar{\mu}_b, \bar{\mu}_a \geq 0 \quad \langle \bar{\mu}_a, y_a - \bar{y} \rangle = 0 = \langle \bar{\mu}_b, \bar{y} - y_b \rangle
+\end{IEEEeqnarray*}
+We define the following parts of the domain:
+\begin{IEEEeqnarray*}{rCl}
+\Omega_b &=& \left\{ x \in \Omega \midcolon \bar{y}(x) = y_b(x) \right\} \\
+\Omega_a &=& \left\{ x \in \Omega \midcolon \bar{y}(x) = y_a(x) \right\} \\
+\Omega_0 &=& \Omega \setminus \left( \Omega_b \cup \Omega_a \right)
+\end{IEEEeqnarray*}
+With these definitions, we will show that
+\[
+\supp \bar{\mu}_b \subset \Omega_b \quad \supp \bar{\mu}_a \subset \Omega_a.
+\]
+
+From
+\[
+	\langle \bar{\mu}, y - \bar{y} \rangle \leq 0 \quad \forall y \in Y_{ad}
+\]
+we obtain the equivalent forumaltion
+\[
+	\langle \bar{\mu}, y \rangle \leq \langle \bar{\mu}, \bar{y} \rangle \quad \forall y \in Y_{ad}
+\]
+and thus
+\[
+	\langle \bar{\mu}, \bar{y} \rangle = \sup_{y \in Y_{ad}} \langle \bar{\mu}, y \rangle
+\]
+By using Jordan decomposition of $\bar{\mu}$ into a positive and a negative part, we obtain
+\[
+	\langle \bar{\mu}_b - \bar{\mu}_a, \bar{y} \rangle = \sup_{y \in Y_{ad}} \left( \langle \bar{\mu}_b, y \rangle - \langle \bar{\mu}_a, y \rangle \right)
+\]
+This supremum can be approximated by a series of continuous functions going towards the bounds, so
+\[
+	\sup_{y \in Y_{ad}} \left( \langle \bar{\mu}_b, y \rangle - \langle \bar{\mu}_a, y \rangle \right) = \langle \bar{\mu}_b, y_b \rangle - \langle \bar{\mu}_a, y_a \rangle,
+\]
+which gives us
+\[
+	\langle \bar{\mu}_b, \bar{y} \rangle - \langle \bar{\mu}_a, \bar{y} \rangle = \langle \bar{\mu}_b, y_b \rangle - \langle \bar{\mu}_a, y_a \rangle.
+\]
+By bringing the right hand side to the left, we obtain
+\[
+	\langle \bar{\mu}_b, \bar{y} - y_b \rangle + \langle \bar{\mu}_a, y_a - \bar{y} \rangle = 0.
+\]
+Now,
+\[
+	\langle \bar{\mu}_b, \bar{y} - y_b \rangle \leq 0 \quad \text{and} \quad \langle \bar{\mu}_a, y_a - \bar{y} \rangle \leq 0,
+\]
+and therefore, both have to be zero already, i.e.
+\[
+	\langle \bar{\mu}_b, \bar{y} - y_b \rangle = 0 = \langle \bar{\mu}_a, y_a - \bar{y} \rangle
+\]
+
+As a next step, we prove the claims about the support of the multipliers.
+Certainly,
+\[
+	\supp \bar{\mu}_b = \overline{ \left\{ x \in \Omega \mid \bar{\mu}_b\left( B_\varepsilon(x) \right) > 0 \quad \forall \text{ open neighborhoods of } x \right\} }.
+\]
+Let $x_0 \notin \Omega_b$. Then, $\bar{y}(x_0) < y_b(x_0)$ or equivalently
+\[
+	y_b(x_0) - \bar{y}(x_0) \geq \delta > 0.
+\]
+Therefore
+\begin{IEEEeqnarray*}{rCl}
+	0 &=& \int_\Omega (\bar{y} - y_b) \: \mathrm{d} \bar{\mu}_b \\
+	&=& \underbrace{ \int_{\Omega_b} (\bar{y} - y_b) \: \mathrm{d} \bar{\mu}_b }_{= 0} + \underbrace{ \int_{B_\varepsilon(x_0)} \overbrace{ (\bar{y} - y_b) }^{\leq - \delta} \: \mathrm{d} \bar{\mu}_b }_{\leq - \delta \bar{\mu}_b ( B_\varepsilon(x_0) ) < 0} + \underbrace{ \int_{\Omega \setminus \{ \Omega_b \cup B_\varepsilon(x_0) \}}  (\bar{y} - y_b) \: \mathrm{d} \bar{\mu}_b }_{\leq 0} \\
+	&<& 0
+\end{IEEEeqnarray*}
+This is a contradiction, and the analogous result for $\bar{\mu}_a$ follows.
+
+There exists $\sigma > 0$ such that
+\begin{enumerate}[(a)]
+\item $\dist( \supp \bar{\mu}_b, \supp \bar{\mu}_a ) \geq \sigma$
+\item $\dist( \supp \bar{\mu}_b, \partial \Omega ) \geq \sigma$, $\dist( \supp \bar{\mu}_a, \partial \Omega ) \geq \sigma$ 
+\end{enumerate}
+
+Let $\Omega_b = \{ x_0 \}$ and $\Omega_a = \emptyset$. Then $\bar{\mu} = c \delta_{x_0}$, $c \in \R$. We'll come back to discussing\slash{}excluding this situation later on.
+\end{document}

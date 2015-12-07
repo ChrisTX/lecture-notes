@@ -115,21 +115,20 @@ Slater condition: We need $u_0 \in L^2(\Omega)$ such that $y_0 = G(u_0)$:
 	y_a(x) < y_0 < y_b(x) \quad \forall x \in \bar{\Omega} \quad \iff \quad y_a + \varepsilon \leq y_0 \leq y_b - \varepsilon.
 \]
 We have constructed that further above.
-\begin{theorem}
+\begin{theorem}[Casas \lbrack{}1986\rbrack{}]
 Let $(\bar{u}, \bar{y}) \in L^2(\Omega) \times H_0^1(\Omega) \cap C(\bar{\Omega})$ the solution of
 \[
 	\min_{u \in L^2(\Omega)} f(u).
 \]
-Then there exists Lagrange multipliers $\bar{\mu}_a, \bar{\mu}_b \in C(\bar{\Omega})^* (= M(\bar{\Omega}))$ and an adjoint state $\bar{p}$ with
+Then there exists a Lagrange multiplier $\bar{\mu} \in C(\bar{\Omega})^* (= M(\bar{\Omega}))$ and an adjoint state $\bar{p}$ with
 \begin{IEEEeqnarray*}{rCl"l}
-	(\nabla \bar{y}, \nabla v) + (\bar{y}, v) &=& (\bar{u}, v) & \forall v \in H_0^1(\Omega) \\
-	(\bar{p}, - \Delta v) + (\bar{p}, v) &=& (\bar{y} - y_d, v) + \langle \bar{\mu}_b - \bar{\mu}_a, v \rangle_{C^*, C} & \forall v \in H^1(\Omega) \cap H_0^1(\Omega)
+	(\nabla \bar{y}, \nabla \varphi) + (\bar{y}, \varphi) &=& (\bar{u}, \varphi) & \forall \varphi \in H_0^1(\Omega) \\
+	(\bar{p}, - \Delta \varphi) + (\bar{p}, \varphi) &=& (\bar{y} - y_d, \varphi) + \langle \bar{\mu}, \varphi \rangle_{M, C} & \forall \varphi \in H^2(\Omega) \cap H_0^1(\Omega)
 \end{IEEEeqnarray*}
 such that
-\begin{IEEEeqnarray*}{rCl}
+\begin{IEEEeqnarray*}{rCl"l}
 \lambda \bar{u} + \bar{p} &=& 0 \\
-\bar{\mu}_a, \bar{\mu}_b &\geq& 0 \\
-\langle \bar{\mu}_b, \bar{y} - y_b \rangle = \langle \bar{\mu}_a, y_a - \bar{y} \rangle &=& 0 \\
+\langle \bar{\mu}, y - \bar{y} \rangle &\leq& 0 & \forall y \in Y_{ad} \coloneqq \left\{ y \in C(\bar{\Omega}) \midcolon y_a \leq y \leq y_b \right\} \\
 y_a \leq \bar{y} &\leq& y_b
 \end{IEEEeqnarray*}
 \end{theorem}
