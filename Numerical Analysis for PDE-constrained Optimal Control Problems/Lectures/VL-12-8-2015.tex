@@ -1,0 +1,157 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+\section{Finite element error estimates for state-constrained optimal control problems}
+As before, we consider the problem
+\begin{equation}
+\tag{$P$}
+\label{prb:P-StateConstrained}
+\begin{IEEEeqnarraybox}[][c]{c}
+\min_{u \in L^2} \frac{1}{2} \| y - y_d \|_{L^2}^2 + \frac{\lambda}{2} \| u \|_{L^2}^2 \\
+\begin{IEEEeqnarraybox}{rCl}
+\begin{IEEEeqnarraybox}{rCl}
+- \lapl \bar{y} &=& \bar{u} \\
+\bar{y} &=& 0
+\end{IEEEeqnarraybox} \quad&&\quad
+\begin{IEEEeqnarraybox}{rCl}
+- \lapl \bar{p} &=& \bar{y} - y_d + \bar{\mu}_b - \bar{\mu}_a \\
+\bar{p} &=& 0
+\end{IEEEeqnarraybox} \\
+\lambda \bar{u} &+& \bar{p} = 0 
+\end{IEEEeqnarraybox} \\
+y_a \leq y \leq y_b \quad \bar{\mu}_b, \bar{\mu}_a \geq 0 \quad \langle \bar{\mu}_a, y_a - \bar{y} \rangle = 0 = \langle \bar{\mu}_b, \bar{y} - y_b \rangle
+\end{IEEEeqnarraybox}
+\end{equation}
+Here, $\bar{u} \in L^2(\Omega)$ and therefore, $\bar{y} \in H_0^1(\Omega) \cap H^2(\Omega) \hookrightarrow C(\bar{\Omega})$.
+Furthermore $\bar{\mu}_b - \bar{\mu}_a \in M(\Omega)$ and this implies
+\[
+	\bar{p} \in W^{1, s}(\Omega), \quad s < \frac{n}{n-1},\, \text{2D: } s < 2,
+\]
+in other words ``$\bar{p}$ is just not in $H^1$''. This however implies $\bar{u} \in W^{1, s}$.
+
+For some situations, one has
+\[
+	\bar{\mu}_a, \bar{\mu}_b \in M(\Omega) \cap H^{-1}(\Omega)
+\]
+and this gives $\bar{p}, \bar{u} \in L^\infty(\Omega)$, see Pieper/Vexler. % TODO: cite
+
+\subsection{The discrete problem}
+The discrete version of the previous problem would be
+\begin{equation}
+\tag{$P_h$}
+\label{prb:Ph-StateConstrained}
+\begin{IEEEeqnarraybox}[][c]{c}
+\min_{u \in U_{h}} \frac{1}{2} \| y_h - y_d \|^2 + \frac{\lambda}{2} \| u_h \|^2 \\
+\begin{IEEEeqnarraybox}[][c]{rCl"l}
+(\nabla y_h, \nabla \varphi_h) &=& (u_h, \varphi_h) & \forall \varphi_h \in V_h \\
+\IEEEeqnarraymulticol{3}{c}{ \mathcal{I}_h y_a(x) \leq y_h(x) \leq \mathcal{I}_h y_b } & \forall x \in \bar{\Omega}
+\end{IEEEeqnarraybox}
+\end{IEEEeqnarraybox}
+\end{equation}
+Here, $U_h$ could be either a variational or a full discretization and $\mathcal{I}_h : C(\bar{\Omega}) \to V_h$ refers to the nodal interpolant. In this setting, constraints have to be checked in the nodes only.
+Let
+\[
+	M_h(\mathcal{T}_h) = \left\{ \partial x_i \mid x_i \in N(\mathcal{T}_h) \right\} \subset M(\Omega)
+\]
+and $N(\mathcal{T}_h)$ is the set of all (interior) nodes of $\mathcal{T}_h$.
+For additional insight on this topic, see
+\begin{itemize}
+\item Meyer 2006 (also additional control constraints and cellwise constant discretization) % TODO: cite
+\item Deckelnick 2007 (variational discretization) % TODO: cite
+\end{itemize}
+
+\subsection{Discretization of the discrete problem}
+\begin{itemize}
+\item Assume that $y_a, y_b \in \R$
+\item Existence of a unique solution $y_h$ of the discrete state equation for every $u_h \in U_h$. This we have already proven.
+\item Solvability (uniqueness) of \cref{prb:Ph-StateConstrained}?
+\item Optimality conditions?
+\item error estimates
+\end{itemize}
+Let's discuss the solvability first. On the continuous level, we have already proven that for constant $y_b, y_a$ we have a feasible solution $u_0, y_0$. The question is, is there a $u_{0, h} \in U_h, y_{0, h}$ that is feasible for \cref{prb:Ph-StateConstrained}. Consider the case of a variational discretization for the control, i.e.\ $U_h = L^2(\Omega)$. On the discrete level we have $y_a \leq G(u_0) \leq y_b$. What we would need would be $y_a \leq G_h(u_0) \leq y_b$.
+We have the characterizations
+\begin{IEEEeqnarray*}{rCl"l}
+(y_0, \varphi) &=& (u_0, \varphi) & \forall \varphi \in V_0 \\
+(y_{0, h}, \varphi_h) &=& (u_0, \varphi_h) & \forall \varphi_h \in V_h
+\end{IEEEeqnarray*}
+Given that we are introducing a discretization error, $y_a \leq G_h(u_0) \leq y_b$ could not hold if we test with the \textit{same} $u_0$ as in the continuous case.
+
+However, the stronger characterization
+\[
+	y_a + \delta \leq G(u_0) \leq y_b - \delta
+\]
+has been proven already. Thus we need to estimate the $L^\infty$-error of the discretization. Could we even prove a result like
+\[
+	y_a + \frac{\delta}{2} \leq G_h(u_0) \leq y_b - \frac{\delta}{2},
+\]
+then we'd also have found a Slater point that we need for the optimality conditions.
+
+In summary, we need an $L^\infty$-error estimate for the state equation.
+One can show
+\[
+	\| G(u) - G_h(u) \|_{L^\infty(\Omega)} \leq ch^{2 - \frac{n}{2}} \| \nabla^2 G(u) \|_{L^2(\Omega)} \leq ch^{2 - \frac{n}{2}} \| u \|_{L^2(\Omega)}.
+\]
+For our setting of $n = 2$, we obtain
+\[
+	\| G(u) - G_h(u) \|_{L^\infty(\Omega)} \leq ch \| u \|_{L^2(\Omega)}.
+\]
+Variational discretization: If $u_0$ is a Slater point for \cref{prb:P-StateConstrained}, then it is a slater point for \cref{prb:Ph-StateConstrained} (for $h$ small enough) (and thus feasible).
+\begin{proof}
+We have
+\begin{IEEEeqnarray*}{rCl"l}
+y_h(u_0) &=& \underbrace{ y_h(u_0) - y(u_0) }_{\leq \| y_h(u_0) - y(y_0) \|_{L^\infty} } + \underbrace{ y(u_0) }_{= y_0 \leq y_b - \delta} \\
+&\leq& ch \| u_0 \|_{L^2} + y_b - \delta \\
+&\leq& y_b - \frac{\delta}{2} & \text{for $h$ small enough} 
+\end{IEEEeqnarray*}
+\end{proof}
+Thus we have if $u_0$ is feasible that $P_h$ admits a unique solution $\bar{u}_h$ with $\bar{y}_h$.
+If $u_0$ is a Slater point, we obtain an optimality system:
+\begin{theorem}
+Let $(\bar{u}_h, \bar{y}_h) \in U_h \times V_h$ be the solution of \cref{prb:Ph-StateConstrained}. Then there exist Lagrange multipliers $\bar{\mu}_{a,h}, \bar{\mu}_{b,h} \in M_h(\Omega)$, $\bar{\mu}_{a, h}, \bar{\mu}_{b, h} \geq 0$ and an adjoint state $\bar{p}_h \in V_{h, 0}$, such that
+\begin{IEEEeqnarray*}{rCl"l}
+(\nabla \bar{p}_h, \nabla \varphi_h) &=& (\bar{y}_h - y_d, \varphi_h) + \langle \bar{\mu}_{b, h} - \bar{\mu}_{a, h}, \varphi_h \rangle & \forall \varphi_h \in V_{h, 0} \\
+\lambda \bar{u}_h + \bar{p}_h &=& 0 \\
+\langle \bar{\mu}_{a, h}, y_a - \bar{y}_h \rangle &=& 0 = \langle \bar{\mu}_{b, h}, \bar{y}_h - y_b \rangle
+\end{IEEEeqnarray*}
+\end{theorem}
+\begin{remark}
+The equation $\lambda \bar{u}_h + \bar{p}_h = 0$ gives us
+\[
+\bar{u}_h = - \frac{1}{\lambda} \bar{p}_h \in V_{h, 0}
+\]
+\end{remark}
+\paragraph{Auxiliary Result} There exists $c > 0$ independent of $h$ such that
+\[
+	\| \bar{u}_h \| + \| \bar{y}_h \| + \| \bar{\mu}_{a, h} \|_{M(\Omega)} + \| \bar{\mu}_{b, h} \|_{M(\Omega)} \leq c.
+\]
+\begin{proof}
+Let $u_0$ be the Slater point of \cref{prb:P-StateConstrained}.
+For the variational discretization we find
+\begin{IEEEeqnarray*}{rCl}
+\frac{\lambda}{2} \| \bar{u}_h \|^2 &\leq& J(\bar{u}_h, \bar{y}_h) \\
+&\leq& J(u_0, y_h(u_0)) \\
+&=& \frac{1}{2} \| y_{0, h} - y_a \|^2 + \frac{\lambda}{2} \| u_0 \|^2
+\end{IEEEeqnarray*}
+This implies
+\begin{IEEEeqnarray*}{rCl}
+\lambda \| \bar{u}_h \|^2 &\leq& \| y_{0, h} - y_a \|^2 + \frac{\lambda} \| u_0 \|^2.
+\end{IEEEeqnarray*}
+Given that $\| y_{0, h} \| \leq c \| u_0 \|$ with $c$ independent of $h$, we have $\| \bar{u}_h \| \leq c$ and $\| \bar{y}_h \| \leq c$.
+
+Furthermore,
+\begin{IEEEeqnarray*}{rCl}
+0 &=& \langle \bar{\mu}_{b, h}, \bar{y}_h - y_b \rangle \\
+&=& \langle \bar{\mu}_{b, h}, \bar{y}_h - \underbrace{ y_{0, h} }_{=y_h(u_0)} \rangle + \langle \bar{\mu}_{b, h}, \underbrace{ y_{0, h} - y_b }_{\leq - \frac{\delta}{2} } \rangle
+\end{IEEEeqnarray*}
+This implies
+\begin{IEEEeqnarray*}{rCl}
+- \frac{\delta}{2} &\leq& \langle \bar{\mu}_{b, h}, \bar{y}_h - y_{0, h} \rangle \\
+&=& \langle \bar{\mu}_{b, h},  G_h( \bar{u}_h - u_{0} ) \rangle \\
+&=& ( \nabla \bar{p}_h, \nabla (\bar{y}_h - y_{0, h})) - ( \bar{y}_h - y_d, \bar{y}_h - y_{0, h}) \\
+&=& (\bar{u}_h - u_0, \bar{p}_h) - (\bar{y}_h - y_d, \bar{y}_h - y_{a, h}) \\
+&=& - \frac{1}{\lambda} (\bar{u}_h - u_0, \bar{u}_h) - (\bar{y}_h - y_d, \bar{y}_h - y_{a, h}) \\
+&\leq& c.
+\end{IEEEeqnarray*}
+Here we assumed that there was no lower bound present, for the general case, one exploits the separation of the supports of $\bar{\mu}_{b, h}$ and $\bar{\mu}_{a, h}$.
+\end{proof}
+\end{document}
