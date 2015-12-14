@@ -1,0 +1,151 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+Consider the following special case:
+\begin{problem}
+\begin{equation}
+\tag{$P$}
+\begin{IEEEeqnarraybox}[][c]{c}
+\min \frac{1}{2} \| y - y_d \|^2 + \frac{\lambda}{2} \| u \|^2 \\
+\begin{IEEEeqnarraybox}[][c]{rCl}
+\lapl y &=& u \\
+y &=& 0
+\end{IEEEeqnarraybox} \\
+y_a \leq y(x) \leq y_b \quad \forall x \in \bar{\Omega}
+\end{IEEEeqnarraybox}
+\end{equation}
+Here, let $\Omega \subseteq \R^2$ be polygonal and convex.
+For simplicity let $y_a, y_b \in \R$ and
+\[
+	y_a < 0 < y_b.
+\]
+\end{problem}
+In this setting one has $\bar{y} \in H_0^1$ and
+\[
+	(\nabla \bar{y}, \nabla \varphi) = (\bar{u}, \varphi) \quad \forall \varphi \in H_0^1.
+\]
+Furthermore, one seeks $\bar{p} \in C^2$ with
+\[
+	- (\bar{p}, \lapl \varphi) = (\bar{y} - y_d, \varphi) + \langle \bar{\mu}_b - \bar{\mu}_a, \varphi \rangle \quad \forall \varphi \in H_0^1 \cap H^2 \hookrightarrow C(\Omega)
+\]
+and
+\[
+	\lambda \bar{u} + \bar{p} = 0.
+\]
+For the Lagrange multipliers, we have $\bar{\mu}_a, \bar{\mu}_b \geq 0$
+\[
+\langle \bar{\mu}_a, y_a - \bar{y} \rangle = \langle \bar{\mu}_b, y_b - \bar{y} \rangle.
+\]
+
+In the setting $\bar{u} \in L^2$ and one has $\bar{y} \in H_0^1 \cap H^2 \hookrightarrow C(\bar{\Omega})$.
+Furthermore $\bar{\mu}_a, \bar{\mu}_b \in M(\Omega)$ imply $\bar{p} \in W^{1, s}$ and $\bar{u} \in W^{1, s}$ for $s < 2$ in 2D.
+As of such, one can seek $\bar{p} \in W^{1, s}_0(\Omega)$ with
+\[
+	(\nabla \bar{p}, \nabla \varphi) = (\bar{y} - y_d, \varphi) + \langle \bar{\mu}_b - \bar{\mu}_a, \varphi \rangle \quad \forall \varphi \in \left(W_0^{1, s} \right)^* \hookrightarrow C(\Omega), s < 2.
+\]
+This in turn implies
+\[
+	\bar{u} \in L^p \quad \forall p < \infty.
+\]
+
+Consequently, $\bar{y} \in W^{2, p}(\Omega_1)$, for $\Omega_1 \subset\subset \Omega$, a strictly interior subset. 
+\begin{theorem}
+Under these assumptions (variational discretization, $y_a, y_b \in \R$) we find
+\[
+	\| \bar{u} - \bar{u}_h \|^2_{L^2} \leq c \left( \| p_1(\bar{u}) - p_{1, h}(\bar{u}) \|_{L^2}^2 + \| p_2(\bar{\mu}) - p_{2, h}(\bar{\mu}) \|^2_{L^2} + \| y(\bar{u}) - y_h(\bar{u}) \|_{L^{\infty}} \right)
+\]
+where $p_1(\bar{u}) \in H^2 \cap H_0^1$ with
+\begin{IEEEeqnarray*}{rCl"l}
+(\nabla p_1, \nabla \varphi) &=& (y(u) - y_d, \varphi) & \forall \varphi \in H_0^1 \\
+(p_2, \lapl \varphi) &=& \langle \bar{\mu}_b - \bar{\mu}_a, \varphi \rangle & \forall \varphi \in H_0^1 \cap H^2
+\end{IEEEeqnarray*}
+and $p_{1, h}, p_{2, h}$, respectively, are the finite element approximations of $p_1$ and $p_2$.
+\end{theorem}
+\begin{proof}
+\begin{IEEEeqnarray*}{rCl}
+\lambda \| \bar{u} - \bar{u}_h \|_{L^2}^2 &\leq& f_h''(\xi) (\bar{u} - \bar{u}_h, \bar{u} - \bar{u}_h) \\
+&=& f_h'(\bar{u})(\bar{u} - \bar{u}_h) - f_h'(\bar{u}_h)(\bar{u}-\bar{u}_h) \\
+&=& (\lambda \bar{u} + p_{1, h}(\bar{u}), \bar{u} - \bar{u}_h) - (\lambda \bar{u}_h + p_{1, h}(\bar{u}_h), \bar{u} - \bar{u}_h) \\
+&=& (\lambda \bar{u} + p_1(\bar{u}), \bar{u} - \bar{u}_h) - (p_1(\bar{u} - p_{1, h}(\bar{u}), \bar{u}-\bar{u}_h) \\
+&& \quad {} - (\lambda \bar{u}_h + p_{1, h}(\bar{u}_h), \bar{u} - \bar{u}_h))
+\end{IEEEeqnarray*}
+and because $0 = \lambda \bar{u} + \bar{p} = \lambda \bar{u} + p_1(\bar{u}) + p_2(\bar{\mu})$ one has $\lambda \bar{u} + p_1(\bar{u}) = p_2(\bar{u}) \neq 0$, and this can be transformed into
+\begin{IEEEeqnarray*}{rCl}
+&=& (- p_2(\bar{\mu}), \bar{u} - \bar{u}_h) - (p_{2, h}(\bar{\mu}_h), \bar{u}-\bar{u}_h) - (p_1(\bar{u}) - p_{1, h}(\bar{u}), \bar{u} - \bar{u}_h) \\
+&=& -( p_2(\bar{\mu}) - p_{2, h}(\bar{\mu}), \bar{u} - \bar{u}_h) - (p_{2, h}(\bar{\mu}) - p_{2, h}(\bar{\mu}_h), \bar{u}-\bar{u}_h) \\
+&& \quad {} - (p_1(\bar{u}) - p_{1, h}(\bar{u}), \bar{u} - \bar{u}_h)
+\end{IEEEeqnarray*}
+By Young's inequality, this becomes:
+\begin{IEEEeqnarray*}{rCl}
+\| \bar{u} - \bar{u}_h \|_{L^2}^2 &\leq& c \Big( \| p_1(\bar{u}) - p_{1, h}(\bar{u}) \|_{L^2}^2 + \| p_2(\bar{\mu}) - p_{2, h}(\bar{\mu}) \|_{L^2}^2 \\
+&& \quad {} - (p_{2, h} (\bar{\mu}) - p_{2, h}(\bar{\mu}_h), \bar{u} - \bar{u}_h) \Big)
+\end{IEEEeqnarray*}
+Consider that by the discrete state equation with the right hand side $\bar{u} - \bar{u}_h$ and tested by $\varphi_h = p_{2, h}(\bar{\mu}) - p_{2, h}(\bar{\mu}_h)$ we have
+\begin{IEEEeqnarray*}{rCl}
+- (p_{2, h} (\bar{\mu}) - p_{2, h}(\bar{\mu}_h), \bar{u} - \bar{u}_h) &=& - (\nabla (y_h(\bar{u}) - y_h(\bar{u}_h)), \nabla (p_{2, h}(\bar{\mu}) - p_{2, h}(\bar{\mu}_h))) \\
+&=& \underbrace{ \langle y_h(\bar{u}_h) - y_h(\bar{u}), \bar{\mu}_b - \bar{\mu}_a \rangle }_{\text{(I)}} + \underbrace{ \langle y_h(\bar{u}) - y_h(\bar{u}_h), \bar{\mu}_{b, h} - \bar{\mu}_{a, h} \rangle }_{\text{(II)}}
+\end{IEEEeqnarray*}
+We first consider (I):
+\begin{IEEEeqnarray*}{rCl}
+\langle y_h(\bar{u}_h) - y_h(\bar{u}), \bar{\mu}_b - \bar{\mu}_a \rangle &=& \langle \underbrace{ y_h(\bar{u}_h) }_{= \bar{y}_h \leq y_b} - y_h(\bar{u}), \bar{\mu}_b \rangle - \langle y_h(\bar{u}_h) - y_h(\bar{u}), \bar{\mu}_a \rangle
+\end{IEEEeqnarray*}
+Let's discuss the first term on the right hand side:
+\begin{IEEEeqnarray*}{rCl}
+\langle y_h(\bar{u}_h) - y_h(\bar{u}), \bar{\mu}_b \rangle &=& \langle \underbrace{ y_h(\bar{u}_h) - y_b }_{\leq 0} + y_b - y_h(\bar{u}), \underbrace{ \bar{\mu}_b }_{\geq 0} \rangle \\
+&\leq& \langle y_b - y_h(\bar{u}), \bar{\mu}_b \rangle \\
+&=& \langle y_b - \underbrace{y(\bar{u})}_{= \bar{y}} + y(\bar{u}) - y_h(\bar{u}), \bar{\mu}_b \rangle \\
+&=& \underbrace{ \langle y_b - \bar{y}, \bar{\mu}_b \rangle }_{=0} + \langle y(\bar{u}) - y_h(\bar{u}), \bar{\mu}_b \rangle \\
+&=& \langle y(\bar{u}) - y_h(\bar{u}), \bar{\mu}_b \rangle_{C, C^*} \\
+&\leq& \| y(\bar{u}) - y_h(\bar{u}) \|_{L^\infty} \| \bar{u}_b \|_{M}
+\end{IEEEeqnarray*}
+The second term can be estimated in the same manner:
+\[
+	- \langle y_h(\bar{u}_h) - y_h(\bar{u}), \bar{\mu}_a \rangle \leq \| y(\bar{u}) - y_h(\bar{u}) \|_{L^\infty} \| \bar{\mu}_a \|_{M}.
+\]
+On the other hand, one obtains for (II):
+\[
+\langle y_h(\bar{u}) - y_h(\bar{u}_h), \bar{\mu}_{b, h} - \bar{\mu}_{a, h} \rangle \leq \| y(\bar{u}) - y_h(\bar{u}) \|_{L^\infty} \underbrace{ \left( \| \bar{\mu}_{b, h} \|_M + \| \bar{\mu}_{a, h} \|_{M} \right) }_{\leq C},
+\]
+with $C$ independent of $h$ (this was the previously proven auxiliary result).
+
+Plugging this into our earlier estimate, we have proven so far, that
+\begin{IEEEeqnarray*}{rCl}
+\| \bar{u} - \bar{u}_h \|_{L^2}^2 &\leq& c \left( \| p_1(\bar{u}) - p_{1, h}(\bar{u}) \|_{L^2}^2 + \| p_2(\bar{\mu}) - p_{2, h}(\bar{\mu}) \|_{L^2}^2 \right) \\
+&& \quad {} + c \| y(\bar{u}) - y_h(\bar{u}) \|_{L^\infty}
+\end{IEEEeqnarray*}
+\begin{itemize}
+\item Now, by our previous finite element error results we have
+\begin{IEEEeqnarray*}{rCl}
+\| p_1(\bar{u}) - p_{1, h}(\bar{u}) \|_{L^2}^2 &\leq& ch^2 \| \nabla^2 p_1(\bar{u}) \| \\
+&\leq& ch^2 \| y(\bar{u}) - y_a \|_{L^2} \\
+&\leq& ch^2 \left( \| \bar{u} \|_{L^2} + \| y_a \|_{L^2} \right)
+\end{IEEEeqnarray*}
+\item Furthermore, Casas has proven (see \cite{HinzePinnauUlbrich}) that
+\[
+	\| p_2(\bar{\mu}) - p_{2, h}(\bar{\mu}) \|_{L^2} \leq ch^{2 - \frac{d}{2} - \delta} \| \bar{\mu} \|_{M(\Omega)},
+\]
+with $\delta > 0$.
+For the case $d = 2$ this gives:
+\[
+	\| p_2(\bar{\mu}) - p_{2, h}(\bar{\mu}) \|_{L^2} \leq ch^{1 - \delta} \| \bar{\mu} \|_{M(\Omega)}.
+\]
+\item Lastly, it holds (again, see \cite{HinzePinnauUlbrich}) that $\bar{u} \in W^{1, s}$, where $s < \infty$ for $d = 2$ and $s < 3$ for $d = 3$ as well as
+\[
+	\| y(\bar{u}) - y_h(\bar{u}) \|_{L^\infty} \leq c h^{4 - d - \delta} \| \bar{u} \|_{W^{1, s}},
+\]
+again with $\delta > 0$.
+In our case $d = 2$, this gives
+\[
+	\| y(\bar{u}) - y_h(\bar{u}) \|_{L^\infty} \leq c h^{2 - \delta} \| \bar{u} \|_{W^{1, s}},
+\]
+\end{itemize}
+With these results, we obtain
+\[
+	\| \bar{u} - \bar{u}_h \|_{L^2}^2 \leq c \left( h^4 + h^{2 - \varepsilon} + h^{2 - \delta} \right)
+\]
+and this in 2D:
+\[
+	\| \bar{u} - \bar{u}_h \|_{L^2}^2 \leq c h^{1 - \varepsilon}.
+\]
+\end{proof}
+\end{document}

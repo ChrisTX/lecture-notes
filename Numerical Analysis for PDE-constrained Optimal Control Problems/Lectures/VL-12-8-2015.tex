@@ -101,8 +101,9 @@ We have
 \begin{IEEEeqnarray*}{rCl"l}
 y_h(u_0) &=& \underbrace{ y_h(u_0) - y(u_0) }_{\leq \| y_h(u_0) - y(y_0) \|_{L^\infty} } + \underbrace{ y(u_0) }_{= y_0 \leq y_b - \delta} \\
 &\leq& ch \| u_0 \|_{L^2} + y_b - \delta \\
-&\leq& y_b - \frac{\delta}{2} & \text{for $h$ small enough} 
+&\leq& y_b - \frac{\delta}{2} & \text{for $h$ small enough}, 
 \end{IEEEeqnarray*}
+which proves the result.
 \end{proof}
 Thus we have if $u_0$ is feasible that $P_h$ admits a unique solution $\bar{u}_h$ with $\bar{y}_h$.
 If $u_0$ is a Slater point, we obtain an optimality system:
