@@ -3,7 +3,6 @@
 \begin{document}
 \section{Regularization of state constraints}
 \subsection{Moreau-Yosida Regularization}
-Consider the problem
 \begin{problem}
 \begin{equation}
 \tag{$P$}
@@ -77,7 +76,7 @@ We have
 \[
 	\frac{\lambda}{2} \| \bar{u}_{\gamma_n} \|_{L^2}^2 \leq f_{\gamma_n}(\bar{u}_{\gamma_n}) \leq f_{\gamma_n}(u_0) = f(u_0) \leq C,
 \]
-where $u_0$ would be a Slaterpoint for the original problem \cref{prb:MYRegularization-P} and $C$ is independent of $\gamma$. This holds because $u_0$ is feasible for \cref{prb:MYRegularization-Pgamma} and because it fulfills the state constraints, the integral terms are zero.
+where $u_0$ would be a Slater point for the original problem \cref{prb:MYRegularization-P} and $C$ is independent of $\gamma$. This holds because $u_0$ is feasible for \cref{prb:MYRegularization-Pgamma} and because it fulfills the state constraints, the integral terms are zero.
 
 This gives us the existence of a weakly convergent subsequence
 \[
@@ -114,4 +113,31 @@ On the other hand:
 	f_{\gamma_n}(\bar{u}_{\gamma_n}) \leq f_{\gamma_n}(\bar{u}) = \underbrace{ f(\bar{u}) }_{\eqqcolon C} \quad \forall \gamma_n > 0.
 \]
 Thus, $f_{\gamma_n}(\bar{u}_{\gamma_n})$ converges.
+
+Next, we show that $f$ is lower semi-continuous:
+\begin{IEEEeqnarray*}{rCl}
+f(u^*) &\leq& \liminf f(\bar{u}_{\gamma_n}) \\
+&\leq& \liminf f_{\gamma_n}(\bar{u}_{\gamma_n}) \\
+&=& \lim f_{\gamma_n}(\bar{u}_{\gamma_n}) \\
+&\leq& f(\bar{u})
+\end{IEEEeqnarray*}
+Because $u^*$ is feasible for \cref{prb:MYRegularization-P}, $f(u^*) = f(\bar{u})$ follows and because $\bar{u}$ was the unique optimal solution, we conclude that $u^* = \bar{u}$.
+
+Lastly, we show strong convergence:
+\begin{IEEEeqnarray*}{rCl}
+0 &\leq& \underbrace{ f(u^*) }_{=f(\bar{u})} - f_{\gamma_n} (\bar{u}_{\gamma_n}) \\
+&\leq& f(u^*) - f(\bar{u}_{\gamma_n}) \\
+&=& - f'(u^*) (\bar{u}_{\gamma_n} - u^*) - \frac{1}{2} f''(u_\xi) ( \bar{u}_{\gamma_n} - u^*)^2 \\
+&\overset{\text{coercivity of } f''}{\leq}& - c \| \bar{u}_{\gamma_n} - u^* \|^2 - f'(u^*)(\bar{u}_{\gamma_n} - u^*).
+\end{IEEEeqnarray*}
+By bringing the first term from the right hand side to the left one:
+\begin{IEEEeqnarray*}{rCl}
+c \| \bar{u}_{\gamma_n} - u^* \|^2 &\leq& f'(u^*)(\bar{u}_{\gamma_n} - u^*) \\
+&=& - ( \underbrace{( \bar{y}_{\gamma_n} - y^*, y^* - y_d)}_{\to 0, \text{ since } \bar{y}_{\gamma_n} \to y^*} + \lambda \underbrace{(u^*, \bar{u}_{\gamma_n} - u^*)}_{\to 0, \text{ since } \bar{u}_{\gamma_n} \rightharpoonup u^*} ) \\
+&\to& 0
+\end{IEEEeqnarray*}
+Overall we have proven:
+\[
+	\bar{u}_{\gamma_n} \xrightarrow[L^2]{\gamma_{n} \to \infty} u^*.
+\]
 \end{document}
