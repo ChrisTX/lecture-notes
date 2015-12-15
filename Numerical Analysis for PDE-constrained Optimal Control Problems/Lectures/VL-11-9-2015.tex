@@ -94,7 +94,7 @@ The solution $y \in V$ of \cref{eq:FEM-E} and $y_S \in S$ of \cref{eq:FEM-ED} fu
 Choose $v \in S$.
 \begin{IEEEeqnarray*}{rCl}
 \| y - y_S \|_E^2 &=& a(y - y_S, y - y_S) \\
-&=& a(y - y_S, y - v) + \underbrace{ a(y - y_S, \underbrace{y - y_S}_{\in S})}_{{} = 0 \text{ (Galerkin Orth.)}} \\
+&=& a(y - y_S, y - v) + \underbrace{ a(y - y_S, \underbrace{v - y_S}_{\in S})}_{{} = 0 \text{ (Galerkin Orth.)}} \\
 &=& a(y - y_S, y - v) \\
 &\leq& \| y - y_S \|_E \| y - v \|_E.
 \end{IEEEeqnarray*}

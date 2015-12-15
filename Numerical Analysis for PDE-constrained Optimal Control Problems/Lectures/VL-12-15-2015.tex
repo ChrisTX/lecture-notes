@@ -1,0 +1,117 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+\section{Regularization of state constraints}
+\subsection{Moreau-Yosida Regularization}
+Consider the problem
+\begin{problem}
+\begin{equation}
+\tag{$P$}
+\label{prb:MYRegularization-P}
+\begin{IEEEeqnarraybox}[][c]{c}
+\min_{u \in L^2(\Omega)} f(u) \coloneqq \frac{1}{2} \| S(u) - y_d \|_{L^2}^2 + \frac{\lambda}{2} \| u \|_{L^2}^2 \\
+y_a \leq G(u)(x) \leq y_b \quad \forall x \in \bar{\Omega},
+\end{IEEEeqnarraybox}
+\end{equation}
+where $y_a, y_b \in \R$.
+\end{problem}
+Instead of this problem, we use a regularized problem with parameter $\gamma$ that we ultimately want to consider in its limit to infinity:
+\begin{problem}
+\begin{equation}
+\tag{$P_\gamma$}
+\label{prb:MYRegularization-Pgamma}
+\min_{u \in L^2(\Omega)} f_\gamma(u) \coloneqq f(u) + \frac{\gamma}{2} \int_\Omega \max (0, y_a - G(u))^2 \dx + \frac{\gamma}{2} \int_\Omega \max (0, G(u) - y_b)^2 \dx 
+\end{equation}
+with $\gamma > 0$.
+\end{problem}
+\begin{itemize}
+\item Existence of solutions of \cref{prb:MYRegularization-Pgamma}. Due to Tykhonov's Theorem, we have existence and uniqueness for $\bar{u}_\gamma$ in the case $\lambda > 0$.
+\item Optimality conditions. We obtain the following optimality system:
+\begin{IEEEeqnarray*}{rCl"l}
+f_\gamma'(\bar{u}_\gamma) v &=& 0 & \forall v \in L^2(\Omega) \\
+- \lapl \bar{y}_\gamma &=& \bar{u}_\gamma & \text{in } \Omega \\
+\bar{y}_\gamma &=& 0 & \text{on } \Gamma
+\end{IEEEeqnarray*}
+In our case, we have
+\begin{IEEEeqnarray*}{rCl}
+	f_\gamma'(\bar{u}_\gamma) v &=& (S\bar{u}_\gamma - y_d, Sv) + \lambda (\bar{u}_\gamma, v) - \gamma \int_\Omega \max(0, y_a - S(\bar{u}_\gamma)) S(v) \dx \\
+	&&\quad {}+ \gamma \int_\Omega \max(0, S(\bar{u}_\gamma) - y_b) S(v) \dx \\
+	&=& (S^* ( \underbrace{ S\bar{u}_\gamma }_{\bar{y}_\gamma} - y_d ), v) + \lambda (\bar{u}_\gamma, v) - ( S^* \underbrace{ ( \max(0, \gamma ( y_a - S(\bar{u}_\gamma) ) }_{\bar{\mu}_{a, \gamma}}, v) \\
+	&& \quad {} + ( S^* \underbrace{ ( \max(0, \gamma ( S(\bar{u}_\gamma) - y_b ) }_{\bar{\mu}_{b, \gamma}}, v) \\
+	&=& (\underbrace{ S^* (\bar{y}_\gamma - y_d + \bar{\mu}_{b, \gamma} - \bar{\mu}_{a, \gamma}) }_{\bar{p}_\gamma} + \lambda \bar{u}_\gamma, v)
+\end{IEEEeqnarray*}
+This gives us overall the optimality system:
+\begin{IEEEeqnarray*}{c}
+\begin{IEEEeqnarraybox}[][c]{rCl"l}
+- \lapl \bar{y}_\gamma &=& \bar{u}_\gamma & \text{in } \Omega \\
+\bar{y}_\gamma &=& 0 & \text{on } \Gamma
+\end{IEEEeqnarraybox} \quad\quad
+\begin{IEEEeqnarraybox}[][c]{rCl"l}
+- \lapl \bar{p}_\gamma &=& \bar{y}_\gamma - y_d + \bar{\mu}_{b, \gamma} - \bar{\mu}_{a, \gamma} & \text{in } \Omega \\
+\bar{p}_\gamma &=& 0 & \text{on } \Gamma
+\end{IEEEeqnarraybox} \\
+\bar{p}_\gamma + \lambda \bar{u}_\gamma = 0 \\
+\bar{\mu}_{a, \gamma} = \max (0, \gamma (y_a - \bar{y}_\gamma)), \quad \bar{\mu}_{b, \gamma} = \max (0, \gamma (\bar{y}_\gamma - y_b))
+\end{IEEEeqnarray*}
+\item Approximation of multipliers and motivation.
+For $y_a \leq y \leq y_b$, with $\bar{\mu}_a$ associated with $y_a$ and $\bar{\mu}_b$ associated with $y_b$, respectively, one would obtain, if everything was smooth that
+\begin{IEEEeqnarray*}{rCl}
+\bar{\mu}_{a} &=& \max(0, \bar{\mu}_a + C(y_a - \bar{y})) \\
+\bar{\mu}_{b} &=& \max(0, \bar{\mu}_b + C(\bar{y} - y_b))
+\end{IEEEeqnarray*}
+For the regularized problem we have
+\begin{IEEEeqnarray*}{rCl}
+\bar{\mu}_{a, \gamma} &=& \max(0, 0 + \gamma(y_a - \bar{y})) \\
+\bar{\mu}_{b, \gamma} &=& \max(0, 0 + \gamma(\bar{y} - y_b))
+\end{IEEEeqnarray*}
+\item As far as regularity is concerned, we have due to $\bar{u}_\gamma \in L^2(\Omega)$ that $\bar{y}_\gamma \in H_0^1 \cap H^2$. Therefore, we have, depending on the bounds $\bar{\mu}_{a, \gamma}, \bar{\mu}_{b, \gamma} \in H^1$, but they're at least in $L^2$. Consequently, $\bar{p}_\gamma \in H_0^1 \cap H^2$ and $\bar{u}_\gamma \in H_0^1 \cap H^2$. This argument can be iterated to obtain a higher regularity of $\bar{y}_\gamma$ but overall the maximums will limit the functionality of this argument.
+\item Optimality without Slater conditions
+\item high regularity
+\item $\bar{y}_\gamma$ may violate the constraints
+\item Convergence for $\gamma \to \infty$?
+\end{itemize}
+\paragraph{Convergence of $\bar{u}_\gamma$ for $\gamma \to \infty$}
+Let $\{ \gamma_n \}$ be a monotone sequence of positive real numbers with $\gamma_n \to \infty$, and $\bar{u}_{\gamma_n}$ the associated optimal solution of $P_{\gamma_n}$.
+
+We have
+\[
+	\frac{\lambda}{2} \| \bar{u}_{\gamma_n} \|_{L^2}^2 \leq f_{\gamma_n}(\bar{u}_{\gamma_n}) \leq f_{\gamma_n}(u_0) = f(u_0) \leq C,
+\]
+where $u_0$ would be a Slaterpoint for the original problem \cref{prb:MYRegularization-P} and $C$ is independent of $\gamma$. This holds because $u_0$ is feasible for \cref{prb:MYRegularization-Pgamma} and because it fulfills the state constraints, the integral terms are zero.
+
+This gives us the existence of a weakly convergent subsequence
+\[
+	u_{\gamma_{n_k}} \eqqcolon u_{\gamma_n} \rightharpoonup u^*.
+\]
+Let's discuss the feasibility of $u^*$:
+\begin{IEEEeqnarray*}{rCl}
+f_{\gamma_n}(\bar{u}_{\gamma_n}) &\leq& f_{\gamma_n}(\bar{u}) = f(\bar{u}) \quad \forall \gamma_n > 0.
+\end{IEEEeqnarray*}
+This implies
+\[
+	\frac{\gamma}{2} \int_\Omega \max(0, y_a - S(\bar{u}_{\gamma_n}))^2 \dx + \frac{\gamma}{2} \int_\Omega \max(0, S(\bar{u}_{\gamma_n}) - y_b)^2 \dx \leq C.
+\]
+Given the bound independent of $\gamma$, we conclude:
+\begin{IEEEeqnarray*}{rCl}
+\frac{\gamma}{2} \int_\Omega \max(0, y_a - S(\bar{u}_{\gamma_n}))^2 \dx &\xrightarrow{\gamma_n \to \infty}& 0 \\
+\frac{\gamma}{2} \int_\Omega \max(0, S(\bar{u}_{\gamma_n}) - y_b)^2 \dx &\xrightarrow{\gamma_n \to \infty}& 0 
+\end{IEEEeqnarray*}
+Since $S$ is a linear control-to-state operator with certain compactness properties, we have
+\[
+	S(\bar{u}_{\gamma_n}) = \bar{y}_{\gamma_n} \xrightarrow{L^\infty} y^* = Su^*.
+\]
+With the convergence to zero of the integral terms that we just established, we have that $y^*$ will be feasible:
+\[
+	y_a \leq y^* \leq y_b.
+\]
+We have to prove that $u^*$ converges strongly in $\bar{u}$ in $L^2$. Given that we already have weak convergence, it is norm convergence that we need.
+Consider that we have because of $\gamma_n$ being a monotonically increasing sequence:
+\[
+	f_{\gamma_n}(\bar{u}_{\gamma_n}) \leq f_{\gamma_n}(\bar{u}_{\gamma_{n+1}}) \leq f_{\gamma_{n+1}}(\bar{u}_{\gamma_{n+1}})
+\]
+On the other hand:
+\[
+	f_{\gamma_n}(\bar{u}_{\gamma_n}) \leq f_{\gamma_n}(\bar{u}) = \underbrace{ f(\bar{u}) }_{\eqqcolon C} \quad \forall \gamma_n > 0.
+\]
+Thus, $f_{\gamma_n}(\bar{u}_{\gamma_n})$ converges.
+\end{document}
