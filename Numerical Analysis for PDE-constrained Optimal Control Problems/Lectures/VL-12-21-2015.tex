@@ -1,0 +1,148 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+\begin{problem}
+\begin{equation}
+\tag{$P$}
+\begin{IEEEeqnarraybox}[][c]{c}
+\min_{u \in \R^m} \frac{1}{2} \| y - y_d \|_{L^2(\Omega)}^2 + \frac{\lambda}{2} |u|_{\R^m}^2. \\
+\begin{IEEEeqnarraybox}[][c]{rCl"l}
+- \lapl y &=& \sum_{i = 1}^M u_i e_i & \text{in } \Omega \\
+y &=& 0 & \text{on } \Gamma \\
+y(x) &\leq& b & \forall x \in K
+\end{IEEEeqnarraybox}
+\end{IEEEeqnarraybox}
+\end{equation}
+Let $\Omega \subset \R^2$ be polygonally bounded and convex, $K \subset \Omega$ be a compact interior subset, $\lambda > 0$, $b \in \R$, $y_d \in L^2(\Omega)$ and $e_i \in C^{0, \beta}(\Omega)$, $0 < \beta < 1$.
+\end{problem}
+For each $e \in L^2(\Omega)$, there exists a unique weak solution $y_e \in H_0^1(\Omega) \cap H^2(\Omega)$ and the mapping $e \mapsto y_e$ is continuous from $L^2(\Omega)$ to $H^2(\Omega)$.
+If $e \in C^{0, \beta}(\Omega)$, then $y_e \in C^{2, \beta}(\Omega)$ is satisfied.
+
+By the superposition principle (due to the linearity of the PDE), we obtain
+\[
+	y(u) = \sum_{i=1}^M u_i y_{e_i} \in C^{2, \beta}(\Omega).
+\]
+The mapping $u \mapsto y$ is continuous from $\R^m$ to $H^2$.
+Thus we can reformulate this as
+\begin{equation}
+\tag{$P$}
+\label{prb:SemiInfiniteP}
+\begin{IEEEeqnarraybox}[][c]{c}
+\min_{u \in \R^m} f(u) \coloneqq \frac{1}{2} \left\| \sum_{i=1}^m u_i y_{e_i} - y_d \right\|^2 + \frac{\lambda}{2} |u|_{\R^m}^2. \\
+\sum_{i=1}^m u_i y_{e_i}(x) \leq b \quad \forall x \in K.
+\end{IEEEeqnarraybox}
+\end{equation}
+This is called a semi-infinite optimization problem: We optimize $u$ over the finite space $\R^m$ but there are infinitely many constraints, as there are infinitely many $x \in K$.
+
+There exists a unique optimal control $\bar{u}$ with associated state $\bar{y}$ of \cref{prb:SemiInfiniteP}.
+Furthermore, there exists a control $u_\gamma$ and a real number $\gamma > 0$ such that the Slater point property holds:
+\[
+	y_\gamma \leq b - \gamma \quad \forall x \in K.
+\]
+
+First-Order Necessity Conditions: If $\bar{u}$ is the optimal control of \cref{prb:SemiInfiniteP} with associated state $\bar{y}$, then there exists a regular Borel measure $\bar{\mu} \in M(K)$ such that the following optimality system is satisfied:
+\begin{IEEEeqnarray*}{rCl"l}
+\bar{\mu} \geq 0 \quad \int_K (\bar{y} - b) \: \mathrm{d} \bar{\mu} &=& 0 \\
+\langle \lambda \bar{u} + p_{\bar{u}_i}, v \rangle_{\R^m} + \sum_{i =1}^m \int_K v_i y_{e_i} \: \mathrm{d} \bar{\mu} &\geq& 0 & v \in \R^m \\
+p_{\bar{u}_i} &=& (\bar{y} - y_d, y_{e_i})
+\end{IEEEeqnarray*}
+\paragraph{Discretization of $P$}
+In the following we write $y_i$ for $y_{e_i}$ to ease notation. With $y_i^h$ being the finite element approximation to $y_i$, we can establish the discrete approximation:
+\begin{equation}
+\tag{$P_h$}
+\label{prb:SemiInfinitePh}
+\begin{IEEEeqnarraybox}[][c]{c}
+\min_{u \in \R^m} \frac{1}{2} \left\| \sum_{i = 1}^m u_i y_i^h - y_d \right\|^2 + \frac{\lambda}{2} |u|_{\R^m}^2 \\
+\text{s.t.} \quad \sum_{i=1}^m u_i y_i^h(x) \leq b \quad \forall x \in K
+\end{IEEEeqnarraybox}
+\end{equation}
+The following properties have been proven in the literature:
+\begin{itemize}
+\item $\| y_i^h - y_i \|_{L^2} \leq ch^2$
+\item $\| y_i^h - y_i \|_{L^\infty(K)} \leq ch^2|\log h|$
+\end{itemize}
+There exists $h_0 > 0$ such that for all $h \leq h_0$ the feasible set for \cref{prb:SemiInfinitePh} is not empty.
+In order to prove that the feasible set is nonempty, consider
+\[
+	\hat{u}_h = \bar{u} + t (u^\gamma - \bar{u}),
+\]
+with $u^\gamma$ being the Slater point mentioned above.
+This gives us:
+\begin{IEEEeqnarray*}{rCl}
+	y^h(\hat{u}_h) &=& \sum_{i=1}^m \hat{u}_{h_i} y^h_i \\
+	&=& \sum_{i=1}^m \left( \bar{u}_i + t \left( u^{\gamma}_i - \bar{u}_i \right) \right) \\
+	&=& (1-t) \underbrace{ \sum_{i=1}^m \bar{u}_i y^h_i }_{=y^h(\bar{u})} + t \sum_{i=1}^m u^{\gamma}_i y^h_i \\
+	&=& (1-t) \underbrace{ \sum_{i=1}^m \bar{u}_i y_i }_{=\bar{y} \leq b} + (1-t) \sum_{i=1}^m \bar{u}_i (y^h_i - y_i) + t \sum_{i=1}^m u^\gamma_i y^h_i \\
+	&\leq& (1-t) b + (1-t) ch^2 |\log h| + t \underbrace{ \sum_{i=1}^m u^\gamma_i y_i }_{\leq b - \gamma} {} + t \sum_{i=1}^m u^\gamma_i \underbrace{ (y^h_i - y_i) }_{\leq ch^2 |\log h|} \\
+	&\leq& b - t\gamma + ch^2 |\log h| \\
+	&\leq& b \quad \text{for $h$ small enough}
+\end{IEEEeqnarray*}
+For all sufficiently small $h > 0$, the Slater point $u^\gamma$ with associated discrete state $y_\gamma^h = y^h(u^\gamma)$ satisfies
+\[
+	y_\gamma^h(x) \leq b - \frac{\gamma}{2} \quad \text{for all } x \in K.
+\]
+There exists a unique optimal control $\bar{u}_h$ of \cref{prb:SemiInfinitePh} with associated optimal state
+\[
+	\bar{y}_h = \sum_{i=1}^m \bar{u}_i^h y_i^h,
+\]
+which fulfills the (necessary and sufficient) optimality conditions:
+\begin{IEEEeqnarray*}{rCl}
+\bar{\mu}_h \geq 0 \quad \int_K (\bar{y}^h - b) \: \mathrm{d} \bar{\mu}_h &=& 0 \\
+\langle \lambda \bar{u}_h + p_{u_h}, v \rangle_{\R^m} + \sum_{i=1}^m \int_K y_i^h v \: \mathrm{d} \bar{\mu}_h &\geq& 0 \quad \forall v \in \R^m
+\end{IEEEeqnarray*}
+for a regular Borel measure $\bar{\mu}_h \in M(K)$, where
+\[
+	p_{u_h} = \int_K (\bar{y}^h - y_d) y_i^h \dx.
+\]
+\paragraph{Convergence analysis}
+We'll split this analysis in three parts:
+\begin{enumerate}
+\item Suboptimal (?) intermediate convergence result.
+\item Properties of \cref{prb:SemiInfiniteP} and \cref{prb:SemiInfinitePh}.
+\item Improved error estimate under certain conditions.
+\end{enumerate}
+For the first step, we start with the following
+\begin{theorem}
+Let $\bar{u}$ and $\bar{u}_h$ be the optimal controls of \cref{prb:SemiInfiniteP} and \cref{prb:SemiInfinitePh}, respectively and $u^\gamma$ be the Slater point.
+Then, with a constant $c > 0$ independent of $h$, there holds
+\[
+	\left| \bar{u} - \bar{u}_h \right| \leq ch \sqrt{\left| \log h \right|}.
+\]
+\end{theorem}
+To prove this, we will use the so called ``two-way-feasibility concept''.
+For this, we will use the conditions
+\[
+f(\bar{u}) \leq f(v) - \omega |v - \bar{u}|^2
+\]
+for all feasible $v$ is fulfilled for our linear-quadratic problem.
+To see this,
+\[
+	f(v) = f(\bar{u}) + \underbrace{ f'(\bar{u}) (v - \bar{u}) }_{= 0 \text{ because $v$ is feasible}} {} + \frac{1}{2} \underbrace{ f''(u_\xi) }_{\text{positive definite}} (v - \bar{u})^2.
+\]
+This gives us the quadratic growth condition.
+
+\begin{lemma}[Auxiliary]
+Let $\bar{u}$, $\bar{u}_h$ be the optimal controls of \cref{prb:SemiInfiniteP} and \cref{prb:SemiInfinitePh}, respectively and let $u^\gamma$ be the Slater point.
+There exist sequences $\{ u_t \}_{t(h)}$ and $\{ u_\tau \}_{\tau(h)}$ that are feasible for \cref{prb:SemiInfiniteP} and \cref{prb:SemiInfinitePh}, respectively, and that converge to $\bar{u}$ and $\bar{u}_h$, resepctively, with order $h^2 |\log h|$.
+\end{lemma}
+\begin{proof}
+Let
+\[
+	u_t = \bar{u} + t(h) ( u^\gamma - \bar{u} ).
+\]
+Then we have with $t(h) \xrightarrow{h\to 0} 0$ and thus $u_t \xrightarrow{h \to 0} \bar{u}$, and the order of convergence is defined by $t(h)$.
+First, we have to prove the feasibility of $y_h(u_t)$:
+\begin{IEEEeqnarray*}{rCl}
+y_h(u_t) &=& \sum_{i=1}^m u_{t_i} y_i^h \\
+&=& (1-t) \sum_{i=1}^m \bar{u}_i y_i + (1-t) \sum_{i=1}^m \bar{u}_i(y_i^h - y_i) + t \sum_{i=1}^m u^\gamma_i y_i^h \\
+&\leq& (1-t) b + (1-t) ch^2 | \log h | + t \left( b - \frac{\gamma}{2} \right) \\
+&=& b + (1-t) ch^2 | \log h | - \frac{t\gamma}{2}
+\end{IEEEeqnarray*}
+By choosing
+\[
+	t = t(h) = \frac{ch^2 |\log h |}{ch^2 |\log h| + \frac{\gamma}{2}} \in O(h^2 |\log h|).
+\]
+one obtains the statement for $u_t$.
+The second proof works the same way, but one obtains $\gamma$ instead of $\gamma/2$ in the denominator of the fraction, as one has the Slater point of the original problem.
+\end{proof}
+\end{document}
