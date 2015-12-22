@@ -1,6 +1,7 @@
 \documentclass[../skript.tex]{subfiles}
 
 \begin{document}
+\section{Semi-Infinite Optimal Control Problems}
 \begin{problem}
 \begin{equation}
 \tag{$P$}
@@ -110,7 +111,7 @@ Then, with a constant $c > 0$ independent of $h$, there holds
 \]
 \end{theorem}
 To prove this, we will use the so called ``two-way-feasibility concept''.
-For this, we will use the conditions
+For this, we will use the condition
 \[
 f(\bar{u}) \leq f(v) - \omega |v - \bar{u}|^2
 \]
@@ -121,9 +122,10 @@ To see this,
 \]
 This gives us the quadratic growth condition.
 
+Next, we will prove that we can find sequences that converge towards the discrete\slash{}continuous solution but that are feasible for the other problem. The reason we need this is that $\bar{u}_h$ will not be feasible for \cref{prb:SemiInfiniteP} in general and thus we cannot use the quadratic growth condition to obtain an estimate on $|\bar{u}_h - \bar{u}|$ directly.
 \begin{lemma}[Auxiliary]
 Let $\bar{u}$, $\bar{u}_h$ be the optimal controls of \cref{prb:SemiInfiniteP} and \cref{prb:SemiInfinitePh}, respectively and let $u^\gamma$ be the Slater point.
-There exist sequences $\{ u_t \}_{t(h)}$ and $\{ u_\tau \}_{\tau(h)}$ that are feasible for \cref{prb:SemiInfiniteP} and \cref{prb:SemiInfinitePh}, respectively, and that converge to $\bar{u}$ and $\bar{u}_h$, resepctively, with order $h^2 |\log h|$.
+There exist sequences $\{ u_t \}_{t(h)}$ and $\{ u_\tau \}_{\tau(h)}$ that are feasible for \cref{prb:SemiInfinitePh} and \cref{prb:SemiInfiniteP}, respectively, and that converge to $\bar{u}$ and $\bar{u}_h$, respectively, with order $h^2 |\log h|$.
 \end{lemma}
 \begin{proof}
 Let
@@ -140,7 +142,7 @@ y_h(u_t) &=& \sum_{i=1}^m u_{t_i} y_i^h \\
 \end{IEEEeqnarray*}
 By choosing
 \[
-	t = t(h) = \frac{ch^2 |\log h |}{ch^2 |\log h| + \frac{\gamma}{2}} \in O(h^2 |\log h|).
+	t = t(h) = \frac{ch^2 |\log h |}{ch^2 |\log h| + \frac{\gamma}{2}} \in \mathcal{O}(h^2 |\log h|).
 \]
 one obtains the statement for $u_t$.
 The second proof works the same way, but one obtains $\gamma$ instead of $\gamma/2$ in the denominator of the fraction, as one has the Slater point of the original problem.

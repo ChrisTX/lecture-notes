@@ -1,0 +1,155 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+It follows from the proof that the sequences in the theorem are
+\begin{IEEEeqnarray*}{rCl"s}
+u_t &=& \bar{u} + t(h) ( u^\gamma - \bar{u} ) & feasible for $P_h$ \\
+u_\tau &=& \bar{u}_h + \tau(h) ( u^\gamma - \bar{u} ) & feasible for $P$
+\end{IEEEeqnarray*}
+with $\tau(h), t(h) \in \mathcal{O}(h^2 |\log h|)$.
+
+We can now prove the theorem formulated above:
+\begin{theorem}
+Let $\bar{u}$ be the optimal control of $P$ and $\bar{u}_h$ the optimal control of $P_h$, respectively.
+Then the error estimate
+\[
+	|\bar{u} - \bar{u}_h| \leq c h \sqrt{|\log h|}
+\]
+with $c > 0$ independent of $h$.
+\end{theorem}
+\begin{proof}
+Because $f_h$ is Lipschitz continuous, one has
+\[
+	\left| f_h(u_t) - f_h(\bar{u}) \right| \leq c |u_t - \bar{u}| \leq c t(h) |\bar{u}^\gamma - \bar{u}|
+\]
+This gives us:
+\begin{IEEEeqnarray*}{rCl}
+f_h(\underbrace{ \bar{u}_h }_{\text{optimal}}) &\leq& f_h(\underbrace{ u_t }_{\text{feasible}}) \\
+&\leq& \left| f_h(u_t) - f_h(\bar{u}) \right| + \left| f_h(\bar{u}) - f(\bar{u}) \right| + f(\bar{u}) \\
+&\leq& ch^2 | \log h | + ch^2 | \log h | + f(\bar{u})
+\end{IEEEeqnarray*}
+Now we use the quadratic growth condition with $v = u_\tau$:
+\[
+	f(\bar{u}) \leq f(u_\tau) - \omega | u_\tau - \bar{u} |^2.
+\]
+One has
+\[
+	f(u_\tau) \leq f(\bar{u}_h) + ch^2 |\log h|
+\]
+because:
+\begin{IEEEeqnarray*}{rCl}
+f(u_\tau) &=& f(\bar{u}_h) + \underbrace{ f(u_\tau) - f(\bar{u}_h) }_{\leq c \tau(h) |u^\gamma - \bar{u}_h| \leq ch^2 |\log h|}.
+\end{IEEEeqnarray*}
+Plugging this into the inequality, we obtain
+\begin{IEEEeqnarray*}{rCl}
+	f_h(\bar{u}_h) &\leq& ch^2 |\log h| + f(\bar{u}) \\
+	&\leq& ch^2 | \log h | + f(u_\tau) - \omega |u_\tau^h - \bar{u}|^2 \\
+	&\leq& f(\bar{u}_h) + ch^2 |\log h| - \frac{\omega}{2} |\bar{u}_h - \bar{u}|^2.
+\end{IEEEeqnarray*}
+By rearranging the terms:
+\begin{IEEEeqnarray*}{rCl}
+\frac{\omega}{2} |\bar{u}_h - \bar{u}|^2 &\leq& f(\bar{u}_h) - f_h(\bar{u}_h) + ch^2 |\log h| \\
+&\leq& ch^2 |\log h|.
+\end{IEEEeqnarray*}
+Bringing the $\omega/2$ to the other site and taking the square root gives:
+\[
+|\bar{u}_h - \bar{u}| \leq ch \sqrt{|\log h|}.
+\]
+\end{proof}
+Let the functions $e_i$, $i =1, \ldots, m$ be linearly independent on every open subset of $\Omega$.
+Assume $\bar{y} \neq 0$. Then, the active set of $\bar{y}$ cannot contain any open subset of $K$. If there was an open set $\Omega_b \subset K$ such that
+\[
+	\bar{y} = b \quad \forall x \in \Omega_b,
+\]
+then we'd have on $\Omega_b$:
+\[
+	0 = - \lapl b = - \lapl \bar{y} = \sum_{i=1}^m \bar{u}_i e_i,
+\]
+implying $\bar{u}_i = 0$ for all $i = 1, \ldots, m$ and thus implying $\bar{y} = 0$, a contradiction.
+
+Assume: The optimal state $\bar{y}$ is active, i.e.\ $\bar{y}(\bar{x}_i) = b$, in exactly $N$ points $\bar{x}_1, \ldots, \bar{x}_N \in \Int K$. With this assumption we exclude active sets that are for example lines.
+Moreover, there exists $\sigma > 0$ such that
+\begin{equation}
+\tag{*}
+\label{eq:ActiveSetHessian}
+	- \langle \xi, \nabla^2 \bar{y}(\bar{x}_i) \xi \rangle \geq \sigma |\xi|^2 \quad \forall \xi \in \R^2.
+\end{equation}
+\subsection*{Main result: Improved error estimate}
+\begin{theorem}
+Let $\bar{u}$ be the optimal control of \cref{prb:SemiInfiniteP}, $\bar{u}_h$ the optimal control of \cref{prb:SemiInfinitePh}.
+Furthermore, assume that $\bar{y}$ admits exactly $m$ strongly active points (i.e.\ where the Lagrange Multipliers are strictly positive) $x_1, \ldots, x_m$ fulfilling \cref{eq:ActiveSetHessian} and let the matrix
+\[
+	Y_{i,j} \coloneqq y_i(\bar{x}_j)
+\]
+be regular.
+Then there exists $h_0 > 0$ such that the estimate
+\[
+	| \bar{u} - \bar{u}_h | \leq ch^2 | \log h |
+\]
+is true with a constant independent of $h$.
+\end{theorem}
+\begin{proof}
+Since this proof contains a lot of technical details, we'll start by assuming some results and prove them later on.
+
+Firstly, we need:
+\[
+\bar{y}(\bar{x}_j) = b = \bar{y}_h(\bar{x}_j^h),
+\]
+which gives us
+\begin{IEEEeqnarray*}{rCl}
+\sum_{i=1}^m \bar{u}_i y_i(\bar{x}_j) = \bar{y}(x_j) = b = \bar{y}_h(\bar{x}_j^h) &=& \sum_{i=1}^m \bar{u}^h_i y_i^h(\bar{x}_j^h) \\
+&=& \sum{i=1}^m \left[ \left( y_i^h (\bar{x}_j ^h) - y_i(\bar{x}_j^h) \right) + y_i (\bar{x}_j^h) \right]
+\end{IEEEeqnarray*}
+This yields:
+\begin{IEEEeqnarray*}{rCl}
+\left| \sum_{i=1}^m \left( \bar{u}_i y_i (\bar{x}_j) - \bar{u}^h_i y_i (\bar{x}_j^h) \right) \right| &\leq& \sum_{i=1}^m \left| \bar{u}_i^h \right| \left| \left( y_i^h(\bar{x}_j^h) - y_i(\bar{x}_j^h) \right) \right| \\
+&\leq& ch^2 |\log h|.
+\end{IEEEeqnarray*}
+Rearranging:
+\begin{IEEEeqnarray*}{rCl}
+ch^2 |\log h| &\geq& \sum_{i=1}^m \left[ \left( \bar{u}_i - \bar{u}_i^h \right) y_i (\bar{x}_j) + \bar{u}_i^h \underbrace{ \left( y_i(\bar{x}_j) - y_i(\bar{x}_j^h) \right) }_{\text{Taylor}} \right] \\
+&\geq& \left| \sum_{i=1}^m \left( \bar{u}_i - \bar{u}_i^h \right) y_i(\bar{x}_j) - \bar{u}_i^h \nabla y_i (\bar{x}_j) ( \bar{x}_j^h - \bar{x}_j) \right| + \mathcal{O} \left( \left|\bar{x}_j^h - \bar{x}_j \right|^2 \right)
+\end{IEEEeqnarray*}
+Therefore, we need a distance estimate for the active points. We will prove:
+\[
+	 \left| \bar{x}_j^h - \bar{x}_j \right| \leq c h \sqrt{|\log h|}.
+\]
+With this estimate, we can bring the last term to the left side.
+Because the function is at least twice differentiable, we have
+\[
+	0 = \nabla \bar{y}( \bar{x}_j) = \sum_{i=1}^m \bar{u}_i \nabla y_i(\bar{x}_j).
+\]
+As of such, we add a zero term:
+\begin{IEEEeqnarray*}{rCl}
+ch^2 | \log h| &\geq& \Bigg| \sum_{i=1}^m (\bar{u}_i - \bar{u}_i^h) y_i(\bar{x}_j) - \underbrace{ (\bar{u}_i - \bar{u}_i^h) }_{\leq ch \sqrt{|\log h|}} \nabla y_i(\bar{x}_j) \underbrace{ ( \bar{x}_j^h - \bar{x}_j) }_{\leq ch \sqrt{|\log h|}} \Bigg|
+\end{IEEEeqnarray*}
+Again, by bringing this term to the other side, we have
+\[
+	\left| \sum_{i=1}^m (\bar{u}_i - \bar{u}_i^h) y_i(\bar{x}_j) \right| \leq ch^2 |\log h|.
+\]
+We not have $m$ inequalities:
+\begin{IEEEeqnarray*}{rCl}
+\left| \sum_{i=1}^m (\bar{u}_i - \bar{u}_i^h) y_i(\bar{x}_1) \right| &\leq& ch^2 |\log h| \\
+&\vdots& \\
+\left| \sum_{i=1}^m (\bar{u}_i - \bar{u}_i^h) y_i(\bar{x}_M) \right| &\leq& ch^2 |\log h|
+\end{IEEEeqnarray*}
+This can be written in a matrix notation:
+\[
+	Y \cdot |\bar{u}_i - \bar{u}_i^h| \leq ch^2 |\log h|
+\]
+By assumption, $Y$ is invertible and does not depend on $h$:
+\[
+	| \bar{u} - \bar{u}_h | \leq ch^2 | \log h |.
+\]
+
+We still need to prove:
+\begin{itemize}
+\item For $\bar{x}_j$, there exists an associated $\bar{x}_j^h$.
+\item The distance estimate for the active points:
+\[
+	 \left| \bar{x}_j^h - \bar{x}_j \right| \leq c h \sqrt{|\log h|}.
+\]
+\end{itemize}
+Ultimately, these results can be found in the literature and will not be treated in the lecture.
+\end{proof}
+\end{document}
