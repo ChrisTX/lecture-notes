@@ -1,0 +1,134 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+\chapter{Elliptic optimal control problems with semilinear state equation}
+Literature: \cite[Chapter 4]{Troeltzsch}.
+\begin{example}
+\begin{IEEEeqnarray*}{c}
+\frac{1}{2} \| y - y_d \|_{L^2(\Omega)}^2 + \frac{\lambda}{2} \| u \|_{L^2(\Omega)}^2 \\
+\begin{IEEEeqnarraybox}{rCl"l}
+- \lapl y + c_0(x) y + y^3 &=& u & \text{in $\Omega$} \\
+\partial_n y + \alpha(x) y &=& 0 & \text{on $\Gamma$}
+\end{IEEEeqnarraybox}
+u_a \leq u(x) \leq u_b
+\end{IEEEeqnarray*}
+\end{example}
+This is not a convex problem anymore, so we cannot expect unique solutions, and we might have additional local solutions that aren't global ones.
+
+We have to discuss:
+\begin{itemize}
+\item existence of unique solutions to the PDE
+\item existence of solutions to the optimal control problem
+\item First Order Necessary conditions
+\item Second order Sufficient Conditions
+\item Finite Element error estimates
+\end{itemize}
+
+First, let us consider the simplified case
+\begin{example}
+\begin{IEEEeqnarray*}{c}
+\frac{1}{2} \| y - y_d \|_{L^2(\Omega)}^2 + \frac{\lambda}{2} \| u \|_{L^2(\Omega)}^2 \\
+\begin{IEEEeqnarraybox}{rCl"l}
+- \lapl y + y^3 &=& u & \text{in $\Omega$} \\
+\partial_n y &=& 0 & \text{on $\Gamma$}
+\end{IEEEeqnarraybox}
+u_a \leq u(x) \leq u_b
+\end{IEEEeqnarray*}
+\end{example}
+What do we expect? What are the first order optimality conditions (formally)?
+Were this a linear problem, we'd first formulate the reduced $f$:
+\[
+	f(u) = \frac{1}{2} \| S(u) - y_d \|_{L^2}^2 + \frac{\lambda}{2} \| u \|_{L^2}^2.
+\]
+As necessary condition we'd assert
+\[
+	f'(\bar{u}) [u - \bar{u}] \geq 0 \quad \forall u \in U_{ad}.
+\]
+We haven't proven this for the non-linear case yet, but intuitively it will hold.
+As a next step, we calculate:
+\begin{IEEEeqnarray*}{rCl}
+	f'(\bar{u}) [u - \bar{u}] &=& (\lambda \bar{u}, u - \bar{u})_{L^2} + (S(\bar{u}) - y_d, S'(\bar{u})(u - \bar{u}))_{L^2} \\
+	&=& (\lambda \bar{u}, u - \bar{u})_{L^2} + (\underbrace{[S'(\bar{u})]^* (S(\bar{u}) - y_d)}_{\bar{p}}, u - \bar{u} )_{L^2} \\
+	&\overset{!}{\geq}& 0 \quad \forall u \in U_{ad}
+\end{IEEEeqnarray*}
+Thus we obtain the condition:
+\[
+	(\lambda \bar{u} + \bar{p}, u - \bar{u} ) \geq 0 \quad \forall u \in U_{ad}.
+\]
+Therefore, we'll obtain the projection formula:
+\begin{IEEEeqnarray*}{c}
+\begin{IEEEeqnarraybox}{rCl}
+- \lapl \bar{y} + \bar{y}^3 &=& \bar{u} \\
+\partial_n \bar{y} &=& 0
+\end{IEEEeqnarraybox} \\
+\bar{u} = \PP_{[u_a, u_b]} \left\{ - \frac{1}{\lambda} \bar{p} \right\}
+\end{IEEEeqnarray*}
+We can formally state the Lagrange function for this problem:
+\[
+	L(y, u, p) = \frac{1}{2} \int_\Omega (y - y_d)^2 \dx + \frac{\lambda}{2} \int_\Omega u^2 \dx - \int_\Omega (- \lapl y + y^3 - u) p \dx - \int_\Gamma \partial_n y p \ds
+\]
+Thus:
+\[
+	\frac{\partial}{\partial y} L(\bar{y}, \bar{u}, \bar{p}) v = \int_\Omega (\bar{y} - y_d) v \dx - \int_\Omega - \lapl v \bar{p} \dx - \int_\Omega 3 \bar{y}^2 v \bar{p} \dx - \int_\Gamma \partial_n v \bar{p} \ds \overset{!}{=} 0
+\]
+Using integration by parts:
+\[
+	- \int_\Omega - \lapl v \bar{p} \dx = \int_\Omega - v \lapl \bar{p} \dx + \int_\Gamma \partial_n v \bar{p} \ds - \int_\Gamma v \partial_n \bar{p}
+\]
+This yields:
+\begin{IEEEeqnarray*}{rCl}
+	\int_\Omega (- \lapl \bar{p} v - (\bar{y} - y_d) v + 3 \bar{y}^2 \bar{p} v) \dx &=& 0 \\
+	\int_\Gamma (- \partial_n v \bar{p} + \partial_n v \bar{p} + \partial_n \bar{p} v) \ds &=& 0
+\end{IEEEeqnarray*}
+Therefore, we have the full system:
+\begin{IEEEeqnarray*}{c}
+\begin{IEEEeqnarraybox}{rCl}
+- \lapl \bar{y} + \bar{y}^3 &=& \bar{u} \\
+\partial_n \bar{y} &=& 0
+\end{IEEEeqnarraybox} \qquad \begin{IEEEeqnarraybox}{rCl}
+- \lapl \bar{p} + 3 \bar{y}^2 \bar{p} &=& \bar{y} - y_d \\
+\partial_n \bar{p} &=& 0
+\end{IEEEeqnarraybox} \\
+\bar{u} = \PP_{[u_a, u_b]} \left\{ - \frac{1}{\lambda} \bar{p} \right\}
+\end{IEEEeqnarray*}
+\section{The semilinear state equation}
+The most general situation we can discuss is
+\begin{IEEEeqnarray*}{rCl"l}
+A y + c_0(x) y + d(x, y) &=& f & \text{on $\Omega$} \\
+\partial_{n_A} y + \alpha(x) y + b(x, y) &=& g & \text{on $\Gamma$}
+\end{IEEEeqnarray*}
+\begin{theorem}
+Let $V$ be a separable Hilbert space and $A : V \to V^*$ a monotone, coercive and continuous operator. Then, $Ay = f$ admits for every $f \in V^*$ a solution $y$. The set of solutions is bounded, convex and closed. If $A$ is strictly monotone, then $y$ is unique. If $A$ is strongly monotone, then $A^{-1}: V^* \to V$ is Lipschitz continuous.
+\end{theorem}
+\begin{itemize}
+\item An operator $A: V \to V^*$ is monotone if
+\[
+	(Ay_1 - Ay_2, y_1 - y_2)_{V^*, V} \geq 0 \quad \forall y_1, y_2 \in V
+\]
+holds. It is called strictly monotone if equality to zero holds only for $y_1 = y_2$.
+\item $A$ is called coercive if
+\[
+	\frac{(Ay, y)_{V^*, V}}{\| y\|_V} \to \infty \quad \text{for } \| y \|_V \to \infty.
+\]
+\item $A$ is called hemi-continuous, if
+\[
+	\varphi : [0, 1] \to \R \quad : \quad t \mapsto (A(y + tv), w)_{V^*, V}
+\]
+is continuous for all fixed $y, v, w \in V$.
+\item If there exists $\beta_0 > 0$ such that
+\[
+	(Ay_1 - Ay_2, y_1 - y_2)_{V^*, V} \geq \beta_0 \| y_1 - y_2 \|_{V}^2 \quad \forall y_1, y_2 \in V,
+\]
+then $A$ is called strongly monotone.
+\end{itemize}
+Let's first consider the case with simplified boundary conditions:
+\begin{IEEEeqnarray*}{rCl"l}
+A y + c_0(x) y + d(x, y) &=& f & \text{on $\Omega$} \\
+\partial_n y &=& 0 & \text{on $\Gamma$}
+\end{IEEEeqnarray*}
+In the case of a linear PDE, one would use fixed point arguments, i.e.\ transforming into
+\begin{IEEEeqnarray*}{rCl"l}
+A y + c_0(x) y &=& f - d(x, y) & \text{on $\Omega$} \\
+\partial_n y &=& 0 & \text{on $\Gamma$}
+\end{IEEEeqnarray*}
+\end{document}
