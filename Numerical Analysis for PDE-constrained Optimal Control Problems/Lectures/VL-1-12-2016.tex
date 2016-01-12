@@ -1,0 +1,144 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+One could use fixed point arguments, i.e.\ transforming into
+\begin{IEEEeqnarray*}{rCl"l}
+A y + c_0(x) y &=& f - d(x, y) & \text{on $\Omega$} \\
+\partial_{n_A} y + \alpha(x) y &=& g - b(x, y) & \text{on $\Gamma$}
+\end{IEEEeqnarray*}
+such that we have a linear PDE on the left hand side and all non-linearities on the right hand side.
+However, depending on what $d(x, y)$ and $b(x, y)$ are - we so far just assumed monotonicity - one might not end up in unreasonable spaces if $d(x, y)$ and $b(x, y)$ are unbounded. There are examples where $y \in H^1(\Omega)$ does not imply $d(x, y) \in L^1(\Omega)$.
+
+Therefore we make the following assumptions that we will relax step by step:
+\begin{assumption}[A1]
+\label{as:A1}
+Let $\Omega \subset \R^{2, 3}$ be a bounded Lipschitz domain with boundary $\Gamma$, and $A$ be an elliptic differentiable operator in divergence form with bounded and measurable coefficients $a_{ij}$, that fulfill symmetry and uniform ellipticity conditions (i.e.\ $A = - \lapl$).
+The functions $c_0 : \Omega \to \R$ and $\alpha : \Gamma \to \R$ are bounded, measurable and non-negative almost everywhere. At least one of these functions is not identically zero almost everywhere.
+
+The functions $d = d(x, y) : \Omega \times \R \to \R$ and $b = b(x, y) : \Gamma \times \R \to \R$ are for every fixed $y \in \R$ bounded and measurable with respect to $x$ and continuous and monotonically increasing with respect to $y$ for almost all $y \in \Omega$\slash$\Gamma$.
+\end{assumption}
+The choices of the letters $b$ and $d$ stem from the words ``boundary'' and ``distributed''.
+
+For the moment, we additionally assume 
+\begin{assumption}[A2]
+\label{as:A2}
+For almost all $x \in \Omega$\slash$\Gamma$ we have $b(x, 0) = d(x, 0) = 0$ and $b$ and $d$ are globally bounded.
+There exists $M \geq 0$ such that
+\[
+	|b(x, y)| \leq M, \quad |d(x, y)| \leq M
+\] 
+for almost all $x \in \Omega\slash\Gamma$, for all $y \in \R$.
+\end{assumption}
+\begin{theorem}
+Let \cref{as:A1,as:A2} hold.
+Then, for every pair $f \in L^2(\Omega)$ and $g \in L^2(\Gamma)$, the problem
+\begin{IEEEeqnarray*}{rCl"l}
+A y + c_0(x) y + d(x, y) &=& f & \text{on $\Omega$} \\
+\partial_{n_A} y + \alpha(x) y + b(x, y) &=& g & \text{on $\Gamma$}
+\end{IEEEeqnarray*}
+has a unique solution $y \in H^1(\Omega)$.
+There exists $c_M > 0$ independent of $d$, $b$, $f$, $g$ such that
+\[
+	\| y \|_{H^1(\Omega)} \leq c_M \left( \| f \|_{L^2(\Omega)} + \| g \|_{L^2(\Gamma)} \right).
+\]
+\end{theorem}
+\begin{proof}
+This can be proven with the help of the theorem on monotone operators. For details see \cite{TroeltzschEN,Troeltzsch}.
+\end{proof}
+Note:
+\begin{itemize}
+\item $y \mapsto y^3$ does not fulfill \cref{as:A2}, \emph{but} because in $\dim N \leq 3$ one has $H^1(\Omega) \hookrightarrow L^6(\Omega)$ one concludes $y^3 \in L^2(\Omega)$.
+\item $f$, $g$ do not necessarily have to be elements of $L^2$. It is sufficient that they can be identified with elements from $V^*$.
+More specifically, $f \in L^r(\Omega)$, $r > N/2$ and $g \in L^s(\Gamma)$, $s > N - 1$.
+\end{itemize}
+\paragraph{Continuous solutions}
+Let \cref{as:A1,as:A2} be satisfied and let $r > N/2$, $s > N-1$ ($N$ is the space dimension). Then, for every pair $f \in L^r(\Omega)$ and $g \in L^s(\Gamma)$ there exists a unique solution $y \in H^1(\Omega)$. This solution belongs to $L^\infty(\Omega)$. There exists a constant $c_\infty > 0$ independent of $d$, $b$, $f$, $g$ such that
+\[
+	\| y \|_{L^\infty(\Omega)} \leq c_\infty \left( \| f \|_{L^r(\Omega)} + \| g \|_{L^s(\Omega)} \right).
+\]
+\begin{proof}
+By Cases, see \cite{TroeltzschEN,Troeltzsch}.
+\end{proof}
+\begin{theorem}
+Let \cref{as:A1} hold, $\Omega \subset \R^N$ be a bounded Lipschitz domain, and $r > N/2$, $s > N-1$.
+Moreover $b(x, 0) = d(x, 0) = 0$ for almost all $x \in \Gamma\slash\Omega$, respectively.
+Then, the boundary value problem admits for every pair $f \in L^r(\Omega)$, $g \in L^s(\Gamma)$ a unique solution $y \in H^1(\Omega) \cap L^\infty(\Omega)$.
+This solution is continuous and there exists $c_\infty > 0$ independent of $d$, $b$, $f$, $g$ such that
+\[
+	\| y \|_{H^1(\Omega)} + \| y \|_{C(\bar{\Omega})} \leq c_\infty \left( \| f \|_{L^r(\Omega)} + \| g \|_{L^s(\Gamma)} \right).
+\]
+\end{theorem}
+\begin{proof}
+See Casas work for details, which can be found in \cite{TroeltzschEN,Troeltzsch}.
+
+Idea: Consider an auxiliary PDE with
+\[
+d_k(x, y) = \begin{cases}
+d(x, k) & \text{if } y > k \\
+d(x, y) & \text{if } |y(x)| \leq k \\
+d(x, -k) & \text{if } y < -k
+\end{cases}.
+\]
+$b_k$ is defined in an analogous fashion.
+Choose $k > c_\infty (\| f \|_{L^r(\Omega)} + \| g \|_{L^s(\Gamma)})$ (note that $c_\infty$ does not depend on $d_k, b_k$)
+This yields a solution $y_k \in H^1 \cap L^\infty$ with
+\[
+	\| y_k \| \leq c_\infty \left( \| f \|_{L^r(\Omega)} + \| g \|_{L^s(\Gamma)} \right)
+\]
+and $y_k = y$.
+\end{proof}
+Note: The last theorem remains true without assuming $b(x, 0) = d(x, 0) = 0$ if the norm estimate is replaced by
+\[
+	\| y \|_{H^1(\Omega)} + \| y \|_{C(\bar{\Omega})} \leq c_\infty \left( \| f - d(\cdot, 0) \|_{L^r(\Omega)} + \| g - b(\cdot, 0) \|_{L^s(\Gamma)} \right)
+\]
+Idea of proof:
+Transform into
+\begin{IEEEeqnarray*}{rCl"l}
+A y + c_0(x) y + d(x, y) - d(x, 0) &=& f - d(x, 0) & \text{on $\Omega$} \\
+\partial_{n_A} y + \alpha(x) y + b(x, y) - b(x, 0) &=& g - b(x, 0) & \text{on $\Gamma$}
+\end{IEEEeqnarray*}
+
+Coercivity and ellipticity was guaranteed by $c_0$ and $\alpha$. Sometimes it is guaranteed by $d$ and $b$ alone, sometimes not:
+Let us consider different specific examples for an equation
+\begin{IEEEeqnarray*}{rCl"l}
+- \lapl y + d(y) &=& f & \text{on $\Omega$} \\
+\partial_{n} y  &=& 0 & \text{on $\Gamma$}
+\end{IEEEeqnarray*}
+First, let's consider the case
+\begin{IEEEeqnarray*}{rCl"l}
+- \lapl y + e^y &=& f & \text{on $\Omega$} \\
+\partial_{n} y  &=& 0 & \text{on $\Gamma$}
+\end{IEEEeqnarray*}
+For $f = e^c$, this yields $y(x) = c$. Thus for the case $c = - \infty$, $f \to 0$ and we conclude that for $f = 0$ no bounded solution can exist.
+
+On the other hand, the example
+\begin{IEEEeqnarray*}{rCl"l}
+- \lapl y + y^3 &=& f & \text{on $\Omega$} \\
+\partial_{n} y  &=& 0 & \text{on $\Gamma$}
+\end{IEEEeqnarray*}
+is well posed, as argued above.
+
+\begin{assumption}[A3]
+\label{as:A3}
+Let $\Omega$ and $A$ fulfill assumption \cref{as:A1}. Moreover, let $d = d(x, y) : \Omega \times \R \to \R$, $b = b(x, y) : \Gamma \times \R \to \R$
+be measurable in $x$ for every $y \in \R$ and monotonically increasing in $y$ for almost all $x$.
+For every $M > 0$ there exist functions $\psi_M \in L^r(\Omega)$, $\phi_M \in L^s(\Gamma)$, $r > N/2$, $s > N -1$ such that
+\begin{IEEEeqnarray*}{rCl"l}
+|d(x, y)| &\leq& \psi_M(x) & \text{almost all } x \in \Omega, \forall |y| \leq M \\
+|b(x, y)| &\leq& \phi(x) & \text{almost all } x \in \Gamma, \forall |y| \leq M
+\end{IEEEeqnarray*}
+Moreover, at least one of the properties (i), (ii) holds:
+\begin{itemize}
+\item There is a subset $E_d \subset \Omega$ with positive measure and constants $M_d, \lambda_d > 0$ such that
+\[
+	d(x, y_1) < d(x, y_2) \quad \text{almost all } x \in E_d \; \forall y_1 < y_2.
+\]
+and
+\[
+	\left( d(x, y) - d(x, 0) \right) y \geq \lambda_d |y|^2 \quad x \in E_d, |y| > M_d.
+\]
+\item Analogue for $b$.
+\end{itemize}
+\end{assumption}
+\cref{as:A3} ensures existence of a unique solution $y \in H^1(\Omega) \cap L^\infty(\Omega)$ with respective norm estimates.
+\end{document}
