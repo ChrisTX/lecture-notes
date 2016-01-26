@@ -1,0 +1,174 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+\pagebreak
+\section{First Order Necessary optimality conditions}
+\begin{problem}
+\begin{equation}
+\tag{$P$}
+\label{eq:Nemytskii-FON-P}
+\begin{IEEEeqnarraybox}[][c]{c}
+\min J(y, u) = \int_\Omega \varphi(x, y(x)) \dx + \int_{\Omega} \psi(y, u(x)) \dx \\
+\begin{IEEEeqnarraybox}{rCl"l}
+- \lapl y + d(x, y(x)) &=& u & \text{on $\Omega$}\\
+d_\nu y &=& 0 & \text{on $\Gamma$}
+\end{IEEEeqnarraybox} \\
+u_a(x) \leq u(x) \leq u_b(x) \quad \text{a.e.}
+\end{IEEEeqnarraybox}
+\end{equation}
+\end{problem}
+\begin{itemize}
+\item $\bar{u} \in L^\infty(\Omega)$ is a local solution in the sense of $L^\infty$
+\item Control-to-state operator $G : L^\infty(\Omega) \to H^1(\Omega) \cap C(\bar{\Omega})$ is - under our assumptions continuously Fréchet differentiable.
+\end{itemize}
+The reduced formulation of the problem is
+\[
+	\min_{u \in U} f(u) = J(G(u), u) \\
+\]
+with $u_a(x) \leq u(x) \leq u_b(x)$ almost everywhere.
+This means that $f$ is continuously Fréchet differentiable as well.
+\begin{lemma}
+Under our assumptions, every locally optimal control $\bar{u}$ fulfills
+\[
+f'(\bar{u})(u - \bar{u}) \geq 0 \quad \forall u \in U_{ad}.
+\]
+\end{lemma}
+\begin{proof}
+$U_{ad}$ is convex, $u \in U_{ad}$, so $u_t = \bar{u} + t(u - \bar{u})$.
+We have that $f(\bar{u}) \leq f(u_t)$ for $t$ small enough such that
+\[
+	u_t \in U_{ad}^\varepsilon = \{ u \in U_{ad} : f(u) \geq f(\bar{u}), \| u - \bar{u} \| \leq \varepsilon \}.
+\]
+Therefore, we have
+\[
+	\frac{f(u_t) - f(\bar{u})}{t} \geq 0.
+\]
+By taking the limit $\lim_{t \downarrow 0}$ we obtain the result.
+\end{proof}
+\begin{remark}
+This condition is only necessary and not sufficient for optimality, as both, local minimums and saddle points will fulfill it.
+\end{remark}
+\paragraph{Reformulation of the optimality conditions}
+Recall that we have
+\[
+	f(u) = \underbrace{ \int_\Omega \varphi(x, G(u)(x)) \dx }_{\eqqcolon F(y) = F(G(u))} + \underbrace{ \int_\Omega \psi(u(x)) \dx }_{\eqqcolon Q(u)}.
+\]
+We calculate
+\begin{IEEEeqnarray*}{rCl}
+f'(u) h &=& F'(G(u)) \cdot G'(u) h + Q'(u) h \\
+&=& \int_\Omega \varphi_y(x, y(x)) \underbrace{ \tilde{y}(x) }_{G'(u)h} \dx + \int_\Omega \psi(x, u(x)) h \dx.
+\end{IEEEeqnarray*}
+where $\tilde{y}$ solves the linearized PDE
+\begin{IEEEeqnarray*}{rCl"l}
+- \lapl \tilde{y} + d_y (\underbrace{G(u)}_{= y}) \tilde{y} &=& h & \text{on $\Omega$} \\
+\partial_\nu \tilde{y} &=& 0 & \text{on $\Gamma$}
+\end{IEEEeqnarray*}
+In this setting, our usual case would be
+\begin{IEEEeqnarray*}{rCl}
+\varphi(y) &=& \frac{1}{2} (y - y_d)^2 \\
+\psi(u) &=& \frac{\lambda}{2} u^2
+\end{IEEEeqnarray*}
+This yields
+\[
+f'(u)h = \int_\Omega (y - y_d) \tilde{y} \dx + \lambda \int_\Omega u h \dx.
+\]
+We define the adjoint state $p \in H^1(\Omega) \cap C(\bar{\Omega})$ as solution of
+\begin{IEEEeqnarray*}{rCl"l}
+- \lapl p + d_y(y) p &=& \varphi_y(x, y(u)(x)) & \text{on $\Omega$} \\
+\partial_\nu p &=& 0 & \text{on $\Gamma$}
+\end{IEEEeqnarray*}
+(we have derived this formally).
+Note that
+\[
+	\int_\Omega \varphi_y(x, y(x)) \underbrace{ \tilde{y}(x) }_{G'(u)h} \dx = \int_\Omega \underbrace{ G'(u)^* \varphi_y(x, y) }_{p} h.
+\]
+
+If $y$ solves the linearized PDE for $h \in L^2(\Omega)$ and $p$ solves the adjoint PDE, then
+\[
+	\int_\Omega \underbrace{ \varphi_y(x, y(x))  }_{v} \underbrace{ \tilde{y}(x) }_{G'(u)h} \dx = \int_\Omega \underbrace{ p(x) }_{G'(u)^* v} h(x) \dx
+\]
+\begin{proof}
+Test the linearized PDE with $p$ and the adjoint PDE with $\tilde{y}$ and compare the integrals.
+\end{proof}
+Combining these calculations with the last theorem, we obtain:
+\begin{theorem}
+Under our assumptions, every locally optimal control $\bar{u}$ fulfills
+\[
+	\int_\Omega (p(x) + \psi_u(x, \bar{u}(x))(u - \bar{u}) ) \dx \geq 0 \quad \forall u \in U_{ad},
+\]
+where $p$ is defined as the solution of the adjoint PDE.
+\end{theorem}
+Then, $\bar{u}$ solves
+\[
+	\min_{v \in U_{ad}} \int_\Omega (p(x) + \psi_u(x, \bar{u}(x)))v \dx.
+\]
+In the case $\varphi = \frac{\lambda}{2} u^2$, this implies
+\[
+	\bar{u} = \PP_{[u_a(x), u_b(x)]} \left\{ - \frac{1}{\lambda} p(x) \right\}
+\]
+\subsection{Second Order Derivatives}
+Let $F : U \supset \tilde{U} \to V$ be a Fréchet differentiable mapping.
+If $u \mapsto F'(u)$ is Fréchet differentiable at $u \in U$, then $F$ is called twice Fréchet differentiable at $u$:
+
+Structure:
+\begin{itemize}
+\item $F : U \to V$
+\item $F'(u) \in \mathcal{L}(U, V)$
+\item $F''(u) \in \mathcal{L}(U, \mathcal{L}(U, V))$, $F''(u) = (F'(u))'$.
+\end{itemize}
+We will need the terms $F''(u)u_1$ or $(F''(u)u_1) u_2$ and abbreviate therefore
+\begin{IEEEeqnarray*}{rCl}
+F''(u)[u_1, u_2] &=& (F''(u) u_1) u_2 \\
+F''(u) v^2 &=& F''(u)[v, v]
+\end{IEEEeqnarray*}
+By definition of Fréchet differentiability, we have
+\[
+F(u + h) = F(u) + F'(u) h + \frac{1}{2} F''(u) h^2 + r_2^F(u, h)
+\]
+with
+\[
+	\frac{\| r_2^F(u, h) \|_V}{\| h \|^2_U} \xrightarrow{h \to 0} 0.
+\]
+\paragraph{Calculations of $F''(u)$}
+We start from $\tilde{\mathscr{F}}(u) \coloneqq F'(u)$.
+\begin{IEEEeqnarray*}{rCl}
+\tilde{\mathscr{F}} u_2 &=& \frac{\mathrm{d}}{\mathrm{d}t} \tilde{\mathscr{F}}(u + t u_2) |_{t=0} \\
+&=& \frac{\mathrm{d}}{\mathrm{d}t} \left(F'(u+tu_2)u_1\right)|_{t=0} \\
+&=& \left( F''(u + tu_2)u_1 \right) u_2 |_{t=0} \\
+&=& F''(u)[u_1, u_2]
+\end{IEEEeqnarray*}
+\begin{example}
+Consider the case
+\[
+	\phi(y) = \varphi(\cdot, y(\cdot))
+\]
+and take $L^\infty = Y$.
+Then,
+\[
+	(\phi'(y)y_1)(x) = \varphi_y(x, y(x))y_1(x).
+\]
+Now, we set as before:
+\begin{IEEEeqnarray*}{rCL}
+\tilde{\varphi}(x, y) &\coloneqq& \varphi_y(x, y(x)) y_1(x) \\
+\tilde{\phi(y)} &\coloneqq& \tilde{\varphi}(\cdot, y(\cdot)).
+\end{IEEEeqnarray*}
+Thus we calculate:
+\begin{IEEEeqnarray*}{rCl}
+(\tilde{\phi}'(y_2))x &=& \tilde{\varphi}_y(x, y(x)) y_2(x) \\
+&=& \varphi_{yy}(x, y(x)) y_1(x) y_2(x).
+\end{IEEEeqnarray*}
+Therefore,
+\[
+	\phi''(y)[y_1, y_2](x) = \varphi_{yy}(x, y(x)) y_1(x) y_2(x).
+\]
+\end{example}
+\begin{theorem}
+Let $\varphi = \varphi(x, y) : E \times \R \to \R$ be measurable in $x$ for all $y \in \R$ and twice partially differentiable with respect to $y$ for almost all $x \in E$. Moreover, let boundedness and Lipschitz continuity of order two be fulfilled. Then, the associated Nemytskii operator $\phi$ is twice continuously Fréchet differentiable in $L^\infty(E)$ and
+\[
+	\phi''(y)[y_1, y_2] = \varphi_{yy} (x, y(x)) y_1(x) y_2(x)
+\]
+\end{theorem}
+\begin{proof}
+See \cite{TroeltzschEN,Troeltzsch}.
+\end{proof}
+\end{document}

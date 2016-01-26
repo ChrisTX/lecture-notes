@@ -1,0 +1,193 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+\pagebreak
+\section{Sufficient Optimality Conditions}
+\begin{theorem}
+Let $U$ be a Banach space, $C \subset U$ and $f : U \to \R$ a function which is twice continuously Fréchet differentiable in a neighborhood of $\bar{u} \in C$.
+Let the control $\bar{u} \in C$ fulfill the necessary optimality condition
+\[
+f'(\bar{u})[u - \bar{u}] \geq 0 \quad \forall u \in C,
+\]
+and let there exists a $\delta > 0$, such that
+\[
+	f''(\bar{u})[h, h] \geq \delta \| h \|_U^2
+\]
+for all $h \in U$.
+Then there exists constants $\varepsilon > 0$ and $\sigma > 0$ such that the quadratic growth condition
+\[
+f(u) \geq f(\bar{u}) + \sigma \| u - \bar{u} \|_U^2
+\]
+for all $u \in C$ with $\| u - \bar{u} \|_U \leq \varepsilon$ is fulfilled.
+This implies that $\bar{u}$ is a strict local multiplier of $f$ in $C$.
+\end{theorem}
+\begin{proof}
+\begin{IEEEeqnarray*}{rCl}
+f(u) &=& f(\bar{u}) + \underbrace{ f'(\bar{u})[u - \bar{u}]}_{\geq 0 \; \forall u \in C \; \text{(FON)}} + \frac{1}{2} f''(\bar{u} + \theta (u - \bar{u})) [u - \bar{u}]^2 \\
+&\geq& f(\bar{u}) + \underbrace{ \frac{1}{2}f''(\bar{u})[u - \bar{u}]^2 }_{\geq \frac{\delta}{2} \| u - \bar{u} \|^2_{U}} + \frac{1}{2} (f''(\bar{u} + \theta (u - \bar{u})) - f''(\bar{u}))[u - \bar{u}]^2
+\end{IEEEeqnarray*}
+Because $f''$ is continuous, we have an $\varepsilon > 0$ such that
+\[
+\frac{1}{2} \| f''(\bar{u} + \theta (u - \bar{u})) - f''(\bar{u}) \| (u - \bar{u})^2 \leq \frac{\delta}{4} \| u - \bar{u} \|_U^2.
+\]
+This gives us
+\[
+f(u) \geq f(\bar{u}) + \left( \frac{\delta}{2} - \frac{\delta}{4} \right) \| u - \bar{u} \|_U^2
+\]
+Therefore the statement holds with $\sigma \coloneqq \delta/4$.
+\end{proof}
+\subsection{The two-norm discrepancy (Ioffe)}
+\begin{example}
+We consider the problem
+\[
+\min_{0 \leq u(x) \leq 2 \pi} f(u) \coloneqq - \int_0^1 \cos(u(x)) \dx.
+\]
+Let's try $U = L^2(0, 1)$. Then
+\[
+	C = \{ u \in L^2 : 0 \leq u \leq 2 \pi \; \text{a.e.}\}
+\]
+Then $\bar{u} = 0$ is a global optimizer.
+We formally calculate:
+
+The First-Order Necessary conditions:
+\begin{IEEEeqnarray*}{rCl}
+f'(\bar{u})(u - \bar{u}) &=& \int_0^1 \sin \underbrace{(\bar{u}(x))}_{0} (u(x) - \underbrace{\bar{u}(x)}_{0}) \dx \\
+&=& \int_0^1 \sin(0) u(x) \dx \\
+&=& 0
+\end{IEEEeqnarray*}
+Second order condition:
+\[
+	f''(\bar{u})h^2 = \int_0^1 \underbrace{\cos (\bar{u})}_1 h^2(x) \dx = 1 \cdot \| h \|_{L^2}^2.
+\]
+For all $h \in L^2(0, 1)$, the second order condition is fulfilled for $\sigma = 1$.
+
+Thus, there exists $\sigma > 0, \varepsilon > 0$ such that
+\[
+	f(u) \geq f(\bar{u}) + \sigma \| u - \bar{u} \|_{L^2(0, 1)}^2 \quad \forall u \in C
+\]
+with $\| u - \bar{u} \|_{L^2(0, 1)} \leq \varepsilon$.
+
+Therefore, $\bar{u}$ is a strict local solution in the sense of $L^2$. But does this really hold?
+Consider the function
+\[
+u_\varepsilon(x) = \begin{cases}
+2 \pi & 0 \leq x \leq \varepsilon \\
+0 & \varepsilon < x \leq 2 \pi.
+\end{cases}
+\]
+Then, $f(u_\varepsilon) = f(\bar{u})$ and
+\[
+	\| \bar{u} - u_\varepsilon \|_{L^2(0, 1)} = 2 \pi \sqrt{\varepsilon} \xrightarrow{\varepsilon \to 0} 0.
+\]
+Contradiction! $\bar{u}$ is obviously not a strict local minimum.
+
+Problem:
+\begin{itemize}
+\item $f$ is not twice continuously Fréchet differentiable in $L^2(0,1)$ (but satisfies $f''(\bar{u})h^2 \geq \delta \| h \|_{L^2(0, 1)}^2$)
+\item $f$ is twice continuously Fréchet differentiable in $L^\infty(0, 1)$.
+\end{itemize}
+In $L^\infty(0, 1)$ however,
+\[
+	f''(\bar{u}) h^2 \geq \delta \| h \|_{L^\infty(0, 1)}^2
+\]
+cannot hold for all $h \in L^\infty(0, 1)$.
+In summary, the theorem cannot be applied for this example.
+
+\underline{For practice:} We show that in $L^2(0, 1)$ , $f$ is not twice Fréchet differentiable at $u \equiv 0$.
+Consider the function
+\[
+	h(x) = \begin{cases}
+	1 & \text{on } [0, \varepsilon] \\
+	0 & \text{on } (\varepsilon, 1]
+	\end{cases}
+\]
+One can calculate for the remainder term
+\begin{IEEEeqnarray*}{rCl}
+	r_2^f(0, h) &=& \int_{x=0}^\varepsilon \int_{s=0}^1 (1-s) (\cos(0 + s \cdot 1) - \cos(0)) 1^2 \ds \dx \\
+	&\vdots& \\
+	&=& \varepsilon \left( \frac{1}{2} - \cos(1) \right) \\
+	&=& \varepsilon \underbrace{c}_{\neq 0}
+\end{IEEEeqnarray*}
+If $f$ was twice Fréchet differentiable, the remainder term divided by the norm of $h$ would have to go to zero. However:
+\[
+\frac{\left| r_2^f(0, h) \right|}{\| h \|_{L^2(0, 1)}^2} = \frac{\varepsilon c}{\int_0^\varepsilon 1^2 \dx} = c
+\]
+Of course, $c$ does not converge to zero for $\| h \|_{L^2} \to 0$, so we cannot have Fréchet differentiability.
+
+However, in $U = L^\infty(0, 1)$ $f$ is twice Fréchet differentiable.
+For this, we write $f(u + h)$ down twice in two different manners:
+First, by Taylor type arguments:
+\begin{IEEEeqnarray*}{rCl}
+f(u+h) &=& - \int_0^1 \cos (u(x) + h(x)) \dx \\
+&=& \int_0^1 - \cos(u(x)) + \sin(x) h(x) \dx \\
+&& \quad {} + \int_{x=0}^1 \int_{s=0}^1 (1-s) \cos(u(x) + sh(x)) h^2(x) \ds \dx
+\end{IEEEeqnarray*}
+Secondly, we can use the definition of Fréchet differentiability:
+\begin{IEEEeqnarray*}{rCl}
+f(u+h) &=& \int_0^1 \left[-\cos(u(x)) + \sin(u(x))h(x) + \frac{1}{2} \cos(u(x))h(x)^2 \right] \dx + r_2^f(0, h) 
+\end{IEEEeqnarray*}
+Therefore, we get:
+\begin{IEEEeqnarray*}{rCl}
+r_2^f(u, h) &=& \int_0^1 \int_0^1 (1-s) [\cos(u(x)) + sh(x)) - \cos(u(x))] h^2(x) \ds \dx.
+\end{IEEEeqnarray*}
+By considering the norm, we obtain:
+\begin{IEEEeqnarray*}{rCl}
+\left| r_2^f(u, h) \right| &\leq& \int_0^1 \int_0^1 (1-s) \underbrace{ [\cos(u(x)) + sh(x)) - \cos(u(x))] }_{|h(x)|} h^2(x) \ds \dx. \\
+&\leq& \int_0^1 \int0^1 (1-s) |h(x)| h^2(x) \ds \dx \\
+&\leq& \frac{1}{6} \| h \|_{L^\infty(0, 1)} \| h \|_{L^2(0,1)}^2.
+\end{IEEEeqnarray*}
+Now, we can calculate:
+\[
+\frac{\left|r_2^f(0,h)\right|}{\| h \|_{L^2(0,1)}} \leq \frac{1}{6} \| h \|_{L^\infty(0, 1)}
+\]
+For $\| h \|_{L^\infty(0, 1)} \to 0$, this goes to $0$ (keep in mind $L^\infty \subset L^2$).
+
+Let's return to the $\cos$-problem:
+\begin{IEEEeqnarray*}{rCl}
+	f(0+h) &=& f(0) + \underbrace{f'(0)}_{=0} h + \frac{1}{2} f''(0) h^2 + r_2^f(0, h) \\
+	&=& f(0) + \frac{1}{2} \| h \|_{L^2(0, 1)}^2 + r_2^f(0, h) \\
+	&=& f(0) + \| h \|_{L^2(0, 1)}^2 \Bigg( \frac{1}{2} + \underbrace{ \frac{r_2^f(0, h)}{\| h \|_L^2(0, 1)^2} }_{\leq \frac{1}{6} \| h \|_{L^\infty(0, 1)}} \Bigg) \\
+	&\geq& f(0) + \| h \|_{L^2(0,1)}^2 \left( \frac{1}{2} - \frac{1}{6} \| h \|_{L^\infty(0, 1)} \right) \\
+	&\geq& f(0) + \frac{1}{3} \| h \|_{L^2(0, 1)}^2 \quad \text{for } \| h \|_{L^\infty(0, 1)} \leq \varepsilon = 1.
+\end{IEEEeqnarray*}
+Thus, we have quadratic growth in the $L^2$ norm in an $L^\infty$ neighborhood. In this sense, $\bar{u} \equiv 0$ is a strict local solution.
+\end{example}
+We return to the control problem \cref{eq:Nemytskii-FON-P}.
+\begin{itemize}
+\item Under our assumptions: $G : L^\infty(\Omega) \to H^1(\Omega) \cap C(\bar{\Omega})$ is twice continuously Fréchet differentiable. The second derivative $G''(u)$ is given by
+\[
+	G''(u) (u_1, u_2) = z
+\]
+where $z \in H^1(\Omega) \cap C(\bar{\Omega})$ is the unique weak solution of 
+\begin{IEEEeqnarray*}{rCl}
+- \lapl z + d_y (x, y) z &=& - d_{yy} (x, y) \tilde{y}_1 \tilde{y}_2 \\
+\partial_n z &=& 0
+\end{IEEEeqnarray*}
+with $y = G(u)$ and $\tilde{y}_i = G'(u) u_i$.
+\item $f : L^\infty(\Omega) \to \R$, $f(u) = J(G(u), u)$ is twice continuously Fréchet differentiable with
+\[
+	f''(u)[u_1, u_2] = \int_\Omega \varphi_{yy}(x, y) \tilde{y}_1 \tilde{y}_2 - p d_{yy} (x, y) \tilde{y}_1 \tilde{y}_2 \dx + \int_\Omega \psi_{uu} (x, u)u_1 u_2 \dx 
+\]
+with $p$ is the adjoint state from the First Order Necessary optimality conditions and $y = G(u)$, $\tilde{y}_i = G'(u) u_i$.
+\end{itemize}
+\begin{theorem}
+Let our general assumptions be fulfilled and let $\bar{u}\in U_{ad}$ fulfill the First Order Necessary optimality conditions:
+\[
+	\int_{\Omega} (p + \psi_u(\bar{u})) [u - \bar{u}] \geq 0 \quad \forall u \in U_{ad}.
+\]
+If in addition
+\[
+	f''(\bar{u}) u^2 \geq \delta \| u \|_{L^2(\Omega)}^2 \quad \forall u \in C(\bar{u}),
+\]
+where
+\[
+	C(\bar{u}) = \left\{ u \in L^\infty \midcolon u \geq 0 \text{ if } \bar{u} = u_a, u \leq 0 \text{ if } \bar{u} = u_b\right\}
+\]
+then there exists $\varepsilon, \sigma > 0$ such that the quadratic growth condition
+\[
+	J(y, u) \geq J(\bar{y}, \bar{u}) + \sigma \| u - \bar{u} \|_{L^2(\Omega)}^2
+\]
+for all $u \in U_{ad}$ with $\| u - \bar{u} \|_{L^\infty(\Omega)} \leq \varepsilon$ and $y = G(u)$.
+This also means that $\bar{u}$ is strictly locally optimal in $L^\infty(\Omega)$. 
+\end{theorem}
+\end{document}
