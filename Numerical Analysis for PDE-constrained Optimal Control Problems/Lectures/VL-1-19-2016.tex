@@ -1,0 +1,174 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+\subsection{Existence of optimal controls}
+\begin{problem}
+\begin{equation}
+\tag{$P$}
+\label{prb:NemytskiiP}
+\begin{IEEEeqnarraybox}[][c
+$U_{ad}$ is bounded in $L^\infty$]{c}
+\min J(y, u) = \int_\Omega \varphi(x, y(x)) \dx + \int_\Omega \psi(x, u(x)) \dx \\
+\begin{IEEEeqnarraybox}{rCl"l}
+- \lapl y + d(x, y) &=& u & \text{in $\Omega$} \\
+\partial_\gamma y &=& 0 & \text{on $\Gamma$}
+\end{IEEEeqnarraybox} \\
+u_a \leq u \leq u_b
+\end{IEEEeqnarraybox}
+\end{equation}
+\end{problem}
+\begin{assumption}[A]
+\label{as:NemytskiiA}
+\begin{itemize}
+\item $\Omega \subset \R^N$ bounded Lipschitz domain
+\item $u_a, u_b \in L^\infty(\Omega)$, $u_a \leq u_b$ almost everywhere
+\item $d$, $\varphi$, $\psi$ are measurable with respect to $x$ for all real $y$\slash{}$u$ and twice partially differentiable with respect to $y$\slash{}$u$ for almost all $x$
+\item They fulfill boundedness and local Lipschitz conditions of order $k = 2$
+\item it holds $d_y(x, y) \geq 0$ for almost all $x \in \Omega$, $\forall y \in \R$.
+There exists a set $E_d \subset \Omega$ with positive measure and a constant $\lambda_a > 0$ such that
+\[
+	d_y(x, y) \geq \lambda_d \quad \forall x \in E_d, \forall y \in \R
+\]
+\end{itemize}
+\end{assumption}
+A control $\bar{u} \in U_{ad}$ is called optimal for \cref{prb:NemytskiiP} with associated optimal state $\bar{y}$ if
+\[
+	J(y(\bar{u}), \bar{u}) \leq J(y(u), u) \quad \forall u \in U_{ad}
+\]
+holds.
+It is called locally optimal in the sense of $L^r(\Omega)$, if there exists $\varepsilon > 0$ such that
+\[
+	J(y(\bar{u}), \bar{u}) \leq J(y(u), u) \quad \forall u \in U_{ad} : \| u - \bar{u} \|_{L^r(\Omega)} \leq \varphi
+\]
+\begin{theorem}
+Let \cref{as:NemytskiiA} hold and let $\psi$ be convex with respect to $u$ for almost all $x \in \Omega$.
+Then \cref{prb:NemytskiiP} admits at least one optimal control $\bar{u}$ with associated state $\bar{y}$.
+\end{theorem}
+\begin{proof}
+\begin{itemize}
+\item We already know: The state equation admits for every $u \in U_{ad}$ exactly one solution $y = y(u) \in H^1(\Omega) \cap C(\bar{\Omega})$.
+$U_{ad}$ is bounded in $L^\infty{\Omega}$, thus bounded in any $L^r(\Omega)$, $r > N/2$ (r > 2).
+This implies:
+\[
+	\| y(u) \|_{C(\bar{\Omega})} \leq M \quad \text{for all $u \in U_{ad}$}
+\]
+\item $J(y, u)$ is bounded from below (by assumption). Hence, there exists
+\[
+	j = \inf_{u \in U_{ad}} J(y(u), u).
+\]
+\item Choose a minimizing sequence 
+\[
+	(y_n, u_n) : u_n \in U_{ad}, y_n = y(u_n), J(y_n, u_n) \xrightarrow{n \to \infty} j.
+\]
+\item $U_{ad} \subset L^r(\Omega)$ is nonempty, closed, convex, bounded in $L^r$ (reflexive Banach space).
+Therefore, $U_{ad}$ is weakly sequentially compact, implying that
+\[
+	\exists \{ u_{n_k} \} \xrightharpoonup{L^r} \bar{u} \in U_{ad}.
+\]
+\ac{wlog} $u_n \xrightharpoonup{L^r} \bar{u} \in U_{ad}$ (candidate for optimal control).
+\end{itemize}
+\paragraph{Convergence of $y_n$} Consider
+\[
+	z_n(\cdot) = d(\cdot, y_n(\cdot)) - y_n
+\]
+with $y_n$ is bounded in $L^r$.
+There exists a weakly convergent subsequence $z_n \xrightharpoonup{L^r} \bar{z}$.
+Thus, we consider
+\begin{IEEEeqnarray*}{rCl}
+- \lapl y_n + y_n &=& \underbrace{-d(x, y_n) + y_n}_{= -z_n \rightharpoonup -\bar{z}} + \underbrace{u_n}_{\rightharpoonup \bar{u}} = R_n \\
+\partial_\gamma y_n &=& 0
+\end{IEEEeqnarray*}
+$R_n \mapsto y_n$ is linear and continuous from $L^r$ in $H^1$. In consequence, the mapping is weakly continuous and we have
+\[
+	- z_n + u_n \rightharpoonup - \bar{z} + \bar{u},
+\]
+which in turn implies $y_n \xrightharpoonup{H^1(\Omega)} \bar{y}$.
+Furthermore, because of the compact embedding of $H^1$ in $L^2$ we have $y_n \xrightharpoonup{L^2} \bar{y}$.
+The set
+\[
+	\{ y \in L^\infty(\Omega) : \| y \|_{L^\infty} \leq M \}
+\]
+is \emph{convex} and closed, so $|\bar{y}(x)| \leq M$.
+As of such,
+\[
+	\| d(\cdot, y_n) - d(\cdot, \bar{y}) \|_{L^2} \leq L(M) \| y_n - \bar{y} \|_{L^2(\Omega)},
+\]
+which in turn implies
+\[
+	d(\cdot, y_n) \xrightarrow{L^2} d(\cdot, \bar{y}).
+\]
+\paragraph{``$\bar{u}$ and $\bar{y}$ belong together''} We calculate
+\begin{IEEEeqnarray*}{rCl"l}
+\underbrace{ \int_\Omega \nabla y_n \nabla v \dx }_{\to \int_\Omega \nabla \bar{y} \nabla v \dx} + \underbrace{ \int_\Omega d(\cdot, y_n) v \dx }_{\to \int_\Omega d(\cdot, \bar{y}) v \dx} &=& \underbrace{ \int_\Omega u_n v \dx }_{\to \int_\Omega \bar{u} v \dx} & \forall v \in H^1(\Omega)
+\end{IEEEeqnarray*}
+\paragraph{$\bar{u}$ is optimal}
+We know
+\begin{IEEEeqnarray*}{rCl}
+	j = \lim_{n \to \infty} J(y_n, u_n) &=& \lim_{n \to \infty} F(y_n) + \lim_{n \to \infty} Q(u_n) \\
+	&=& F(\bar{y}) + \liminf Q(\bar{u}) \\
+	&\geq& F(\bar{y}) + Q(\bar{u}) \\
+	&=& J(\bar{y}, \bar{u}).
+\end{IEEEeqnarray*}
+because $Q$ is continuous and convex and therefore weakly lower semi-continuous.
+By the definition of $j$, equality has to hold and
+\[
+	J(\bar{y}, \bar{u}) = j,
+\]
+implying that $\bar{u}$ is optimal.
+\end{proof}
+Let us consider a non-convex example:
+\begin{example}
+Consider
+\begin{IEEEeqnarray*}{c}
+\min f(u) = - \int_0^1 \cos(u(x)) \dx \\
+0 \leq u(x) \leq 2 \pi \\
+u \in L^\infty(0, 1)
+\end{IEEEeqnarray*}
+The minimum of this is $-1$, and thus both $\bar{u} \equiv 0$ and $\bar{u} \equiv 2 \pi$ are solutions. More specifically any function such that $\bar{u}(x) \in \{ 0, 2 \pi \}$ is an optimal solution. Therefore, solutions can be arbitrarily close in the $L^2$ norm.
+\end{example}
+\paragraph{The control-to-state operator}
+\begin{proposition}
+Under our assumptions the control to state operator $G : L^r(\Omega) \to H^1(\Omega) \cap C(\bar{\Omega})$ is Lipschitz-continuous, i.e.\ there exists a constant $L$ such that
+\[
+	\| y_1 - y_2 \|_{H^1} + \| y_1 - y_2 \|_{C(\bar{\Omega})} \leq L \| u_1 - u_2 \|_{L^r}.
+\]
+\end{proposition}
+\begin{proof}
+One has
+\begin{IEEEeqnarray*}{rCl}
+- \lapl y_1 + d(x, y_1(x)) &=& u_1 \\
+- \lapl y_2 + d(x, y_2(x)) &=& u_2
+\end{IEEEeqnarray*}
+Subtracting one from the other yields
+\[
+	- \lapl (y_1 - y_2) + d(x, y_1) - d(x, y_2) = u_1 - u_2.
+\]
+By expanding using Taylor expansion we obtain
+\[
+	- d(x, y_2) = \Bigg( d(x, y_1) + \underbrace{ \left( \int_{s=0}^1 d_y(x, y_1 + s(y_2 - y_1)) \ds \right) }_{c_0(x)} (y_2 - y_1) \Bigg).
+\]
+This gives us:
+\begin{IEEEeqnarray*}{rCl}
+- \lapl (y_1 - y_2) + c_0(x) (y_1 - y_2) &=& u_1 - u_2 \\
+\partial_\gamma(y_1 - y_2) &=& 0
+\end{IEEEeqnarray*}
+For $c_0(x)$ we have that it's nonnegative and that it is positive on a set of positive measure $E_d$. Therefore, $c_0(x)(y_1 - y_2)$ is monotone.
+In consequence:
+\[
+	\| y_1 - y_2 \|_{H^1} + \| y_1 - y_2 \|_{C(\bar{\Omega})} \leq c \| u_1 - u_2 \|_{L^r}.
+\]
+\end{proof}
+\begin{proposition}
+Under the same assumptions as before, $G$ is Fréchet-differentiable from $L^r(\Omega)$ to $H^1(\Omega) \cap C(\bar{\Omega})$, $r > N/2$.
+The derivative is given by
+\[
+	G'(\bar{u}) u = y
+\]
+where $y$ solves
+\begin{IEEEeqnarray*}{rCl}
+- \lapl y + d_y(x, \bar{y}) y &=& u \\
+\partial_\gamma y &=& 0
+\end{IEEEeqnarray*}
+in a weak sense.
+\end{proposition}
+\end{document}

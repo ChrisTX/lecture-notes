@@ -1,0 +1,141 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+\section{Nemytskii-Operators (superposition operators)}
+\begin{example}
+An example for a Nemytskii operator would be $y(\cdot) \mapsto z(\cdot)$ with $z(x) = y(x)^3$ or $z(x) = \sin(y(x))$
+\end{example}
+\begin{itemize}
+\item Let $E \subset \R^m$, $m \in \N$ be a bounded and measurable set and $\varphi : \varphi(x, y) : E \times \R \to \R$ a function. The mapping $\Phi$ defined by
+\[
+	\Phi(y) = \varphi(\cdot, y(\cdot)),
+\]
+that maps a function $y : E \to \R$ to a function $z : E \to \R$ defined by
+\[
+	z(x) = \varphi(x, y(x))
+\]
+is called a Nemytskii operator (or superposition operator)
+\item A function $\varphi : \varphi(x, y) : E \times \R \to \R$ satisfies the \emph{Carathèodory condition}, if $\varphi$ is measurable in $x$ for every fixed $y \in \R$, and continuous in $y$ for almost all $x \in E$.
+\item $H$ satisfies the boundedness condition if there exists a constant $K > 0$ such that
+\[
+	|\varphi(x, 0)| \leq K
+\]
+for almost all $E$.
+\item $H$ is called locally Lipschitz continuous in $y$ if for every constant $M > 0$ there exists $L(M) > 0$, such that for almost all $x \in E$, and all $y, z \in [-M, M]$ the estimate
+\[
+	| \varphi(x, y) - \varphi(x, z) | \leq L(M) | y - z|
+\]
+holds.
+
+\textit{Note:} Boundedness condition and local Lipschitz condition yield boundedness for all $y \in [-M, M]$ and almost all $x \in E$.
+\end{itemize}
+\begin{proposition}
+Let the function $\varphi = \varphi(x, y)$ be measurable in $x \in E$ for all fixed $y \in \R$, and locally Lipschitz continuous in $y$.
+Moreover, let the boundedness condition be satisfied.
+Then the associated Nemytskii operator $\Phi$ is continuous in $L^\infty(E)$. Moreover, for $r \in [1, \infty]$
+\[
+	\| \Phi(y) - \Phi(z) \|_{L^r(E)} \leq L(M) \| y - z \|_{L^r(E)}
+\]
+holds for all functions $y, z \in L^\infty(E)$ that satisfy $\| y \|_{L^\infty(E)}, \| z \|_{L^\infty(E)} \leq M$.
+\end{proposition}
+\begin{proof}
+For $y(x) \in L^\infty(E)$, we have $|y(x)| \leq M$ for almost all $x$ and sufficiently large $M$.
+\begin{IEEEeqnarray*}{rCl}
+| \varphi(x, y(x)) | &\leq& | \varphi(x, 0) | + | \varphi(x, y(x)) - \varphi(x, 0) | \\
+&\leq& M + L(M) M.
+\end{IEEEeqnarray*}
+This proves the first claim that $\Phi$ is continuous in $L^\infty(E)$.
+
+Next, we consider
+\begin{IEEEeqnarray*}{rCl}
+\int_E |\varphi(x, y(x)) - \varphi(x, z(x))|^r \dx &\leq& L(M)^r \underbrace{ \int_E |y(x) - z(x)|^r \dx }_{\| y - z \|^r_{L^r(E)}}.
+\end{IEEEeqnarray*}
+By taking the $r$-th root the claim follows.
+\end{proof}
+\subsection{Differentiability of Nemytskii operators}
+\begin{itemize}
+\item Let $E \subset \R^m$, $m \in \N$ be a bounded and measurable set and $\varphi = \varphi(x, y) : E \times \R \to \R$ a function of the spatial variable $x$ and the function variable $y$. Let $\varphi$ be $k$-times partially differentiable with respect to $y$ for almost all $x \in E$.
+\item We say that $\varphi$ satisfies the boundedness condition of order $k$, if there exists a constant $K > 0$ such that
+\[
+	|D_y^\ell \varphi(x, 0)| \leq K
+\]
+for almost all $x \in E$, and $\ell = 0, \ldots, k$.
+\item $\varphi$ satisfies the local Lipschitz condition of order $k$ if there exists an $M$-dependent Lipschitz constant $L(M)$ such that
+\[
+	|D_y^k \varphi(x, y_1) - D_y^k(x, y_2)| \leq L(M) | y_1 - y_2 |
+\]
+for all $|y_i| \leq M, i = 1, 2$.
+\end{itemize}
+\paragraph{First order derivatives in $L^\infty$}
+If $\varphi$ is continuous differentiable, is $\Phi$ continuously differentiable as well?
+We calculate
+\begin{IEEEeqnarray*}{rCl}
+(\Phi'(y) h)(x) &=& \lim_{t \downarrow 0} \frac{1}{t} \left[ \varphi(x, y(x) + th(x)) - \varphi(x, y(x)) \right] \\
+&=& \varphi_y(x, y(x)) h(x)
+\end{IEEEeqnarray*}
+This exists for every fixed $x$, but does it hold in $L^r$ spaces?
+\begin{example}
+We consider $\sin(\cdot)$. Obviously, $\sin(x) \in L^\infty$ and all derivatives are globally bounded.
+Let's test differentiability in $L^p(0,1)$, $p < \infty$.
+We assume differentiability: The candidate for the derivative would be
+\[
+	(\Phi'(y) h)(x) = \cos(y(x))h(x)
+\]
+but
+\begin{IEEEeqnarray*}{rCl}
+	\sin (0 + h(x)) &=& \underbrace{\sin(0)}_{=0} + \underbrace{\cos(0)}_{=1} h(x) + \underbrace{ \int_{s=0}^1 (\cos(0 + sh(x)) - \cos(0)) h(x) \ds}_{r(x)} \\
+	&=& h(x) + r(x)
+\end{IEEEeqnarray*}
+Therefore, let's consider the choice
+\[
+	h(x) = \begin{cases}
+	1 & \text{on } [0, \varepsilon] \\
+	0 & \text{on } (\varepsilon, 1]
+	\end{cases}
+\]
+and consider $\varepsilon \downarrow 0$.
+Now we have $r(x) = \sin(h(x)) - h(x)$ and thus
+\[
+	r(x) = \begin{cases}
+	c & \text{on } [0, \varepsilon] \\
+	0 & \text{on } (\varepsilon, 1]
+	\end{cases}
+\]
+For differentiability we have to check whether the norm of the remainder term $r$ divided by the norm of $h$ goes to zero if $h$ goes to zero:
+\begin{IEEEeqnarray*}{rCl}
+\frac{\| r \|_{L^p(0, 1)}}{\| h \|_{L^p(0, 1)}} &=& \frac{ \left( \int_0^\varepsilon |r(x)|^p \dx \right)^{\frac{1}{p}}}{ \left( \int_0^\varepsilon |h(x)|^p \dx \right)^{\frac{1}{p}}} \\
+&=& \frac{c \varepsilon^{\frac{1}{p}}}{\varepsilon^{\frac{1}{p}}} \\
+&=& c
+\end{IEEEeqnarray*}
+But a fixed constant $c$ does not go to zero for $\| h \|_{L^p} \to 0$. Therefore, we cannot have differentiability in zero.
+\end{example}
+\begin{proposition}
+Let the function $\varphi$ be measurable in $x$ for every $y \in \R$, and differentiable with respect to $y$ for almost all $x \in E$.
+Let the boundedness condition and local Lipschitz condition of order $k = 1$ be satisfied.
+Then, the Nemytskii operator $\Phi$ associated with $\varphi$ is Fréchet-differentiable in $L^\infty(E)$ and for all $h \in L^\infty(E)$ we have
+\[
+	(\Phi'(y)h)(x) = \varphi_y(x, y(x))h(x)
+\]
+for almost all $x \in E$.
+\end{proposition}
+\begin{proof}
+We start by considering
+\[
+	\varphi(x, y(x) + h(x)) - \varphi(x, y(x))
+\]
+and estimating it using Taylor-type arguments, so that if $h$ goes to zero, so does this term.
+\begin{IEEEeqnarray*}{rCl}
+\varphi(x, y(x) + h(x)) - \varphi(x, y(x)) &=& \varphi_y(x, y(x))h(x) \\
+&& {} + \underbrace{ \int_{s=0}^1 \varphi_y(x, y(x) + sh(x)) - \varphi_y(x, y(x)) \ds \cdot h(x) }_{r(x, y, h)}
+\end{IEEEeqnarray*}
+For $r(x, y, h)$ we have
+\[
+	|r(x, y, h)| \leq L(M) \int_{s=0}^1 sh(x)^2 \ds = \frac{L(M)}{2} |h(x)^2|.
+\]
+Therefore,
+\[
+	\frac{\| r(x) \|_{L^\infty}}{\| h(x) \|_{L^\infty}} = c \| h(x) \|_{L^\infty} \xrightarrow{\| h(x) \|_{L^\infty} \to 0} 0,
+\]
+which proves differentiability.
+\end{proof}
+\end{document}
