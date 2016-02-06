@@ -1,0 +1,161 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+Firstly, the existence of a globally optimal control $\bar{u}_h^r$ of \cref{eq:Phr} is immediately clear.
+\begin{proof}[convergence]
+Recall the proof for convex problems:
+\begin{itemize}
+\item $f'(\bar{u})(u - \bar{u}) \geq 0 \quad \forall u \in U_{ad}$
+\item $f'_h(\bar{u}_h)(u_h - \bar{u}_h) \geq 0 \quad \forall u_h \in U_{ad,h}$
+\end{itemize}
+Because $\bar{u}_h$ was admissible for the first equation and $\bar{u}$ was admissible for the second (variational discretization):
+\begin{itemize}
+\item $f'(\bar{u})(\bar{u}_h - \bar{u}) \geq 0$
+\item $f'_h(\bar{u}_h)(\bar{u} - \bar{u}_h) \geq 0$
+\end{itemize}
+Furthermore, we needed
+\[
+\lambda \| \bar{u} - \bar{u}_h \|^2 \leq f_h''(u_\xi)(\bar{u}_h - \bar{u})^2. 
+\]
+This condition we do not have, but we have second order sufficient conditions. We used that equality to estimate via an intermediate value theorem:
+\begin{IEEEeqnarray*}{rCl}
+\lambda \| \bar{u}_h  - \bar{u} \|^2 &\leq& f_h''(u_\xi)(\bar{u} - \bar{u}_h)^2 \\
+&=& \underbrace{ - f_h'(\bar{u}_h)(\bar{u} - \bar{u}_h) }_{\leq 0} + f_h'(\bar{u})(\bar{u} - \bar{u}_h) \\
+&\leq& - f'(\bar{u})(\bar{u} - \bar{u}_h) + f_h'(\bar{u})(\bar{u} - \bar{u}_h) \\
+&\vdots& \\
+&\leq& ch^2(\ldots) \| \bar{u} - \bar{u}_h \|
+\end{IEEEeqnarray*}
+
+In the non-convex case, the equations
+\begin{itemize}
+\item $f'(\bar{u})(\bar{u}_h - \bar{u}) \geq 0$
+\item $f'_h(\bar{u}_h)(\bar{u} - \bar{u}_h) \geq 0$
+\end{itemize}
+still hold.
+By second order sufficient conditions we have
+\[
+\delta \| \bar{u} - \bar{u}_h^r \|^2 \leq f''(\bar{u})(\bar{u} - \bar{u}_h^r)^2.
+\]
+Unlike in the convex case, this holds for $f$ and not for $f_h$.
+
+Comparing to the convex proof, we would like to estimate
+\begin{IEEEeqnarray*}{rCl}
+f_h''(u_\xi)(\bar{u} - \bar{u}_h)^2 &=& f_h'(\bar{u}) (\bar{u} - \bar{u}_h^r) - f_h'(\bar{u}_h^r)(\bar{u} - \bar{u}_h^r) \\
+&\leq& f'(\bar{u})(\bar{u} - \bar{u}_h^r) - f_h'(\bar{u})(\bar{u} - \bar{u}_h^r) \\
+&\leq& ?
+\end{IEEEeqnarray*}
+We still have to show that we can estimate $\delta \| \bar{u} - \bar{u}_h^r \|^2$ by $f_h''(u_\xi)(\bar{u} - \bar{u}_h)^2$ and then have to finish up the estimate.
+
+By the second order sufficient conditions, we know
+\[
+	f''(\bar{u}) (\underbrace{\bar{u}_h^r - \bar{u}}_{v})^2 \geq \delta \| \underbrace{\bar{u}_h^r - \bar{u}}_{v} \|^2
+\]
+Since we use the mean value theorem and $\bar{u}_h^r$ and $\bar{u}_h$ have distance at most $r$, we work with ``$u$ close enough to $\bar{u}$'' and ``$h$ small enough''.
+\begin{IEEEeqnarray*}{rCl}
+f_h''(u)v^2 &=& \underbrace{\left( f''_h(u) v^2 - f''(u) v^2 \right)}_{\text{FE error}} + \underbrace{\left( f''(u) v^2 - f''(\bar{u}) v^2 \right)}_{\text{Lipschitz continuity}} + \underbrace{ f''(\bar{u}) v^2 }_{\geq \delta \| v \|^2_{L^2(\Omega)}}
+\end{IEEEeqnarray*}
+Of course, we don't have either result yet, but that's how we plan to estimate them. For the first term:
+\begin{IEEEeqnarray*}{rCl}
+f_h''(u) v^2 - f''(u) v^2 &=& \| G_h'(u) v \|^2 - \| G'(u) v \|^2\\
+&& {} + \int_\Omega p(y(u)) d_{yy} (G(u)) (G'(u)v)^2 \\
+&& \qquad {} - p_h(y_h(u)) d_{yy}(G_h(u)) (G_h'(u)v)^2 \dx
+\end{IEEEeqnarray*}
+As of such we need to estimate the terms on the right hand side:
+\begin{IEEEeqnarray*}{rCl}
+\| G_h'(u) v \|^2 - \| G'(u) v \|^2 &=& \int_\Omega \left( G_h'(u)v + G'(u)v \right) \left( G_h'(u)v - G'(u) v \right) \dx \\
+&\leq& \| G_h'(u)v + G'(u) v \| \| G_h'(u) v - G'(u) v \|
+\end{IEEEeqnarray*}
+The linearized state equation was (omitting boundary conditions here):
+\[
+	- \lapl \tilde{y} + d_y(y) \tilde{y} = 0
+\]
+or in the weak form:
+\[
+	(\nabla \tilde{y}, \nabla v) + (d_y(y)\tilde{y}, v) = (u, v) \quad \forall v \in V,
+\]
+and analogously for the discrete case:
+\[
+	(\nabla \tilde{y}_h, \nabla v) + (d_y(y_h)\tilde{y}_h, v) = (u, v) \quad \forall v \in V_h.
+\]
+Hence, we consider the intermediate equation
+\[
+	(\nabla  z, \nabla v) + (d_y(y_h) z, v) = (u, v) \quad \forall v \in V
+\]
+Recall that we want to estimate $\tilde{y}_h - \tilde{y}$:
+\begin{IEEEeqnarray*}{rCl}
+\| \tilde{y}_h - \tilde{y} \| &\leq& \underbrace{ \| \tilde{y}_h - z \| }_{\leq Ch^2} + \| z - \tilde{y} \|
+\end{IEEEeqnarray*}
+For the other term:
+\[
+	- \lapl (z - \tilde{y}) + d_y(y_h) z - d_y(y) \tilde{y} = 0
+\]
+or by adding another zero:
+\[
+	- \lapl (z - \tilde{y}) + d_y(y_h) (z - \tilde{y}) = (d_y(y)- d_y(y_h)) \tilde{y}.
+\]
+This yields:
+\[
+	\| z - \tilde{y} \| \leq c \| (d_y(y) - d_y(y_h)) \tilde{y} \|
+\]
+By assumption $d$ was Lipschitz continuous up to order 2 and $\tilde{y}$ is a PDE with $y$ on the right hand side. Thus:
+\begin{IEEEeqnarray*}{rCl}
+	\| z - \tilde{y} \| \leq c \| (d_y(y) - d_y(y_h)) \tilde{y} \| &\leq& c \| \tilde{y} \|_{L^\infty} \| d_y(y) - d_y(y_h) \| \\
+	&\leq& c \| v \| \| y - y_h \|
+\end{IEEEeqnarray*}
+The term $\| y - y_h \|$ is a formal Finite Element error. One has to estimate it, still - this is doable using similar techniques as in the previous cases. It can be shown however, that it can be estimated against $ch^2 \| v \|$.
+
+% Recall for $\| y - y_h \|$ that we have
+% \begin{IEEEeqnarray*}{rCl"l}
+% (\nabla y, \nabla v) + (d(y), v) &=& (u, v) & \forall v \in V \\
+% (\nabla y_h, \nabla v_h) + (d(y_h), v_h) &=& (u, v_h) & \forall v_h \in V
+% \end{IEEEeqnarray*}
+% Let us look at the difference:
+% \[
+% 	(\nabla(y - y_h), \nabla v_h) + (d(y), v_h) - (d(y_h), v_h) = 0 \quad \forall v_h \in V_h
+% \]
+% Again via a Taylor type argument:
+% \[
+% 	(\nabla(y - y_h), \nabla v_h) + (d_y(y_\xi)(y - y_h), v_h) = 
+% \]
+
+We still need to estimate
+\[
+	\int_\Omega p d_{yy} (G(u)) (G'(u)v)^2 - p_h d_{yy} (G_h(u)) (G_h'(u) v)^2.
+\]
+For this one, one has to insert a lot of zeros, for instance
+\begin{IEEEeqnarray*}{l}
+	\int_\Omega p d_{yy} (G(u)) G'(u)v^2 - p_h d_{yy} (G_h(u)) (G_h'(u) v)^2 \\
+	\begin{IEEEeqnarraybox}{Cl}
+		=& \int_\Omega (d_{yy}(G(u)) - d_{yy}(G_h(u))) p(G'(u)v)^2 \\
+		& {} + \int_\Omega d_{yy} (G_h(u)) (p(G'(u) v)^2 - p_h(G'_h(u) v)^2)
+	\end{IEEEeqnarraybox}
+\end{IEEEeqnarray*}
+Going on:
+\begin{IEEEeqnarray*}{rCl}
+\int_\Omega p(G'(u) v)^2 - p_h(G'_h(u) v)^2 &=& \int_\Omega (p - p_h) (G'(u)v)^2 + \int_\Omega p_h((G'(u)v)^2 - (G_h'(u) v)^2)
+\end{IEEEeqnarray*}
+After a couple of further calculations, one arrives at $ch^2 \| v \|^2$.
+
+This estimates the term
+\[
+f''_h(u) v^2 - f''(u) v^2 \leq ch^2 \| v \|^2.
+\]
+Repeating the same calculations slightly different for the second term, one obtains
+\[
+	f''(u) v^2 - f''(\bar{u}) v^2 \leq c \| u - \bar{u} \|  \| v \|^2
+\]
+We have $c \| u - \bar{u} \| \leq r \leq \delta/4$. By making $h$ small enough, one has $Ch^2 \leq \delta/4$ as well. This gives
+\[
+	f_h''(u)v^2 \geq \frac{\delta}{2} \| v \|_{L^2(\Omega)}^2.
+\]
+Going back, we have shown
+\[
+\frac{\delta}{2} \| \bar{u} - \bar{u}_h^r \|^2 \leq f_h''(u_\xi)(\bar{u} - \bar{u}_h)^2.
+\]
+
+One can show furthermore that
+\[
+f'(\bar{u})(\bar{u} - \bar{u}_h^r) - f_h'(\bar{u})(\bar{u} - \bar{u}_h^r) \leq ch^2 \| \bar{u} - \bar{u}_h^r \|.
+\]
+\end{proof}
+\end{document}

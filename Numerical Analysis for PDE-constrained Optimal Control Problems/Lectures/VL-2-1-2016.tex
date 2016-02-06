@@ -1,0 +1,138 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+\textit{Sometimes} the two-norm discrepancy does not play a role.
+\begin{itemize}
+\item control enters the PDE only linearly.
+\item $G$ continuous from $L^2 \to C(\bar{\Omega})$.
+\item $J$ ``linear-quadratic'' structure with respect to $u$.
+\end{itemize}
+Then, we can work with the $L^2$-norm.
+\begin{itemize}
+\item Let $\Omega \subset \R^N$ be a bounded Lipschitz domain with $N \leq 3$, and let our general assumptions hold.
+Then the control-to-state mapping for
+\begin{IEEEeqnarray*}{rCl}
+- \lapl y + d(y) &=& u \\
+\partial_n y &=& 0
+\end{IEEEeqnarray*}
+is Lipschitz continuous from $L^2(\Omega) \to C(\bar{\Omega})$.
+\item Let the objective function
+\[
+	J(y, u) = \int_\Omega \varphi(x, y) \dx + \int_\Omega \psi(x, u) \dx 
+\]
+fulfill
+\[
+	\psi(x, u) = \gamma_1(x) u + \gamma_2(x) u^2,
+\]
+where $\gamma_1, \gamma_2 \in L^2\infty(\Omega)$ and $\gamma_2 \geq 0$ almost everywhere.
+Then $J$ is twice continuously Fréchet differentiable in $L^2(\Omega)$.
+\end{itemize}
+Consider
+\[
+	\min J(y, u) \coloneqq \int_\Omega \psi(x, y) + \int_\Omega (\gamma_1 u + \gamma_2 u^2) \dx,
+\]
+with $\gamma_1, \gamma_2 \in L^\infty$, $\gamma_2 \geq 0$, where
+\begin{IEEEeqnarray*}{c}
+\begin{IEEEeqnarraybox}{rCl"l}
+- \lapl + d(y) &=& u & \text{in $\Omega$} \\
+\partial_n y &=& 0 & \text{on $\partial \Omega$}
+\end{IEEEeqnarraybox} \\
+u_a \leq u \leq u_b,
+\end{IEEEeqnarray*}
+where $\Omega \subset \R^N$, $N \leq 3$ is a bounded Lipschitz domain, $u_a, u_b \in L^\infty$, $u_a \leq u_b$ almost everywhere under our general assumptions.
+
+Let $\bar{u} \in U_{ad} \subset L^2(\Omega)$ fulfill
+\[
+	f'(\bar{u})(u - \bar{u}) \geq 0 \quad \forall u \in U_{ad}.
+\]
+If $\bar{u}$ with associated state $\bar{y}$ and adjoint state $\bar{p}$ fulfills
+\[
+	f''(\bar{u}) u^2 = \int_\Omega \varphi_{yy}(x, \bar{y}) - p d_{yy} (x, \bar{y}) \tilde{y}^2 + \gamma_2 u^2 \dx \geq \delta \| u \|_{L^2}^2, \quad \forall u = \begin{cases}
+	u \geq 0 & \bar{u}(x) = u_a(x) \\
+	u \leq 0 & \bar{u}(x) = u_b(x)
+	\end{cases}
+\]
+with $\tilde{y}$ as the solution of
+\begin{IEEEeqnarray*}{rCl}
+	- \lapl \tilde{y} + d_y(x, \bar{y}) \tilde{y} &=& u \\
+	\partial_n \tilde{y} &=& 0
+\end{IEEEeqnarray*}
+then there exist constants $\varepsilon > 0, \sigma > 0$ such that the quadratic growth condition
+\[
+	J(y, u) \geq J(\bar{y}, \bar{u}) + \sigma \| u - \bar{u} \|_{L^2(\Omega)}^2
+\]
+with $y = G(u)$ for all $u \in U_{ad}$ with $\| u - \bar{u} \|_{L^2(\Omega)} \leq \varepsilon$.
+Thus, $\bar{u}$ is a strict local minimum in the sense of $L^2$.
+
+Exercise:
+We consider
+\[
+	f(u) = \frac{1}{2} \| G(u) - y_d \|_{L^2}^2 + \frac{\lambda}{2} \| u \|_{L^2}^2,
+\]
+then
+\[
+	f'(\bar{u}) u = (G(\bar{u}) - y_d, G'(\bar{u}) u) + \lambda(\bar{u}, u).
+\]
+One could write this as
+\[
+	(\underbrace{G'(\bar{u})^* (G(\bar{u}) - y_d)}_{\bar{p}} + \lambda \bar{u}, u),
+\]
+but we'll work of the first formulation here
+\[
+	f''(\bar{u}) u^2 = (G(\bar{u}) - y_d, G''(\bar{u}) u^2) + \underbrace{( G'(\bar{u}) u, G'(\bar{u}) u)}_{(\tilde{y}, \tilde{y})} + \lambda (u, u)
+\]
+with $\tilde{y} = G'(\bar{u}) u$.
+Furthermore, let us write
+\[
+	G''(\bar{u}) u^2 = z,
+\]
+so that
+\[
+	- \lapl z + d_y(x, \bar{y}) z = -d_{yy}(x, \bar{y}) (\underbrace{ G'(\bar{u}) u}_{\tilde{y}})^2,
+\]
+meaning we can write
+\[
+	z = G'(\bar{u}) ( -d_{yy}(x, \bar{y}) \tilde{y}^2).
+\]
+Putting this into the above equation:
+\begin{IEEEeqnarray*}{rCl}
+f''(\bar{u}) u^2 &=& (G(\bar{u}) - y_d, - G'(\bar{u}) d_{yy}(x, \bar{y}) \tilde{y}^2) + (\tilde{y}, \tilde{y}) + \lambda(u, u) \\
+&=& (\underbrace{ G'(\bar{u})^* (G(\bar{u}) - y_d) }_{\bar{p}}, -d_{yy}(x, \bar{y}) \tilde{y}^2 ) + (\tilde{y}, \tilde{y}) + \lambda (u, u) \\
+&=& \int_\Omega -d_{yy}(x, \bar{y}) \bar{p} \tilde{y}^2 + \tilde{y}^2 + \lambda u^2 \dx
+\end{IEEEeqnarray*}
+
+\section{Numerical analysis of the Finite Element-discretization of \texorpdfstring{\cref{eq:Nemytskii-FON-P}}{(P)}}
+\paragraph{Main ideas}
+\cref{eq:Nemytskii-FON-P} can have multiple local solutions $\bar{u}_i$. By discretizing the controls via some means we obtain a problem $P_h$ that - being non-convex as well - might have multiple local solutions $\bar{u}_{h, i}$ (and not even necessarily the same number as $P$ had). Because of this, we need to ensure that our local solutions on the discrete level correspond to a single local solution of the original problem, otherwise we cannot expect convergence.
+
+For this, we use a localization technique due to Casas\slash{}Tröltzsch 2002. We pick $\bar{u}$ fulfilling first order necessary and (strong) second order sufficient conditions:
+\begin{IEEEeqnarray*}{rCl"l}
+f'(\bar{u})(u - \bar{u}) &\geq& 0 & \forall u \in U_{ad} \\
+f''(\bar{u})v^2 &\geq& \delta \| v \|_{L^2(\Omega)}^2 & \forall v \in L^2(\Omega)
+\end{IEEEeqnarray*}
+and obtain the quadratic growth condition:
+\[
+	f(u) \geq f(\bar{u}) + \sigma \| u - \bar{u} \|_{L^2(\Omega)}^2 \quad \forall u \in U_{ad}, \| u - \bar{u} \|_{L^2(\Omega)} \leq \varepsilon.
+\]
+Then we consider an $L^2$ neighborhood in which the quadratic growth condition holds with maximal distance around $\bar{u}$ being $r$.
+Then, we introduce the auxiliary problem $(P_h^r)$:
+\begin{equation}
+\label{eq:Phr}
+\tag{$P_h^r$}
+\begin{IEEEeqnarraybox}{c}
+\min_{u_h \in U_{ad, h}} f_h(u_h) \\
+\| u_h - \bar{u} \|_{L^2} \leq r,
+\end{IEEEeqnarraybox}
+\end{equation}
+with $r$ small enough that the quadratic growth condition holds ($\varepsilon/2 > r$). This problem then has a global solution $\bar{u}_h^r$.
+\begin{itemize}
+\item $\bar{u}_h^r$ could either fulfill $\| \bar{u} - \bar{u}_h \|_{L^2} < r$ (nice situation $\bar{u}_h^r$ is a local minimum of $(P_h)$) or
+$\| \bar{u} - \bar{u}_h \|_{L^2} = r$ (we would like to exclude this, because $\bar{u}_h^r$ may not be a local minimum of $(P_h)$).
+\item Show (for both cases)
+\[
+	\bar{u}_h^r \xrightarrow[h\to 0]{L^2} \bar{u}_h.
+\]
+The rates of convergence depending on the particular discretization. This excludes $\| \bar{u}_h^r - \bar{u} \|_{L^2} = r \; \forall h$.
+We will have shown that $\bar{u}$ can be approximated by local solutions of $(P_h)$
+\end{itemize}
+\end{document}
