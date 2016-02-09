@@ -17,7 +17,7 @@ a(y, v) = \int_0^1 y' v' \dx = \int_0^1 f v \dx \quad \forall v \in V.
 \end{equation}
 Let 
 \[
-	V = \left\{ v \in H^1(0, 1) \midcolon v(0) = 0 \; a(v, v) < \infty \right\}
+	V = \left\{ v \in H^1(0, 1) \midcolon v(0) = 0, \; a(v, v) < \infty \right\}
 \]
 and a finite dimensional subspace $S \subset V$ be given.
 A discrete formulation of \cref{eq:FEM-E} is given by:
@@ -49,13 +49,14 @@ with the symmetric positive-definite stiffness matrix $K$, where
 (F)_i &=& (f_i, \phi_i) \\
 (K)_{ij} &=& (\phi_j, \phi_i)
 \end{IEEEeqnarray*}
-Assume there exists $v\neq 0$ with $Kv = 0$.
-\[
-	v = \sum_{j} v_j \phi_j \quad a(v, \phi_j) = 0
-\]
+Assume there exists $v\neq 0$ with $Kv = 0$:
+\begin{IEEEeqnarray*}{rCl}
+	v &=& \sum_{j} v_j \phi_j \\
+	a(v, \phi_j) &=& 0
+\end{IEEEeqnarray*}
 Multiply with $v_j$ and summing up:
 \[
-	a(v, v) = 0 = \int_0^1 (v')^2 \dx \implies v' \equiv 0
+	a(v, v) = 0 = \int_0^1 (v')^2 \dx \quad \implies \quad v' \equiv 0
 \]
 and this implies $v$ is constant.
 Then $v(0) = 0$ implies $v \equiv 0$.
@@ -67,7 +68,7 @@ We call
 \]
 the energy norm and deduce
 \[
-	|a(v, w)| \leq \| v \|_E \| w \|_E \quad \forall v, w \in V.
+	|a(v, w)| \leq \| v \|_E \| w \|_E \qquad \forall v, w \in V.
 \]
 
 We have
@@ -77,18 +78,18 @@ a(y_S, v) &=& (f, v) & \forall v \in S
 \end{IEEEeqnarray*}
 Since $S \subset V$, we have
 \[
-	a(y, v) = (f, v) \quad \forall v \in S
+	a(y, v) = (f, v) \qquad \forall v \in S
 \]
 and thus by subtracting we obtain the \emph{Galerkin Orthogonality}
 \[
-	a(y - y_S, v) = 0 \quad \forall v \in S.
+	a(y - y_S, v) = 0 \qquad \forall v \in S.
 \]
 \begin{theorem}
 The solution $y \in V$ of \cref{eq:FEM-E} and $y_S \in S$ of \cref{eq:FEM-ED} fulfill the error estimate
 \[
 \|y - y_S \|_E = \min \left\{ \| y - v \|_E \midcolon  v \in S \right\}
 \]
-(This is a best approximation property)
+(This is a best approximation property).
 \end{theorem}
 \begin{proof}
 Choose $v \in S$.
@@ -121,7 +122,7 @@ We assume
 \begin{equation}
 \label{eq:PDE-AssumptionA}
 \tag{A}
-\inf_{v \in S} \| w - v \|_E \leq \varepsilon \| w'' \|_{L^2}
+\inf_{v \in S} \| w - v \|_E \leq \varepsilon \| w'' \|_{L^2}.
 \end{equation}
 \end{assumption}
 Duality argument:
@@ -189,11 +190,11 @@ Let
 \]
 Then
 \[
-	\int_{x_{j-1}}^{x_j} {(y - y_I)'}^2 \dx \leq c (x_j - x_{j-1})^2 \int_{x_{i-j}}^{x_j} y''(x)^2 \dx.
+	\int_{x_{j-1}}^{x_j} {(y - y_I)'}^2 \dx \leq c (x_j - x_{j-1})^2 \int_{x_{j-1}}^{x_j} y''(x)^2 \dx.
 \]
 With $e = y - y_I$, we obtain ($y_I$ is linear, so $y_I'' = 0$)
 \[
-	\int_{x_{j-1}}^{x_j} {e'}^2 \dx \leq c (x_j - x_{j-1})^2 \int_{x_{i-j}}^{x_j} e''(x)^2 \dx.
+	\int_{x_{j-1}}^{x_j} {e'}^2 \dx \leq c (x_j - x_{j-1})^2 \int_{x_{j-1}}^{x_j} e''(x)^2 \dx.
 \]
 We transform this to $[0, 1]$ by defining
 \begin{IEEEeqnarray*}{rCl}
@@ -206,7 +207,7 @@ and obtain
 \]
 Because $\tilde{e}(0) = \tilde{e}(1) = 0$, we have
 \[
-	\exists \xi \in (0, 1) \tilde{e}'(\xi) = 0
+	\exists \xi \in (0, 1) \qquad \tilde{e}'(\xi) = 0
 \]
 and thus obtain
 \[

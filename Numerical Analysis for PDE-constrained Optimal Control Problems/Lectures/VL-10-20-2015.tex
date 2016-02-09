@@ -94,8 +94,8 @@ Let
 \]
 For a direction $h$:
 \begin{IEEEeqnarray*}{rCl}
-	(\nabla f(u), h) &=& (Su - y_d, Sh) + \lambda (u, h).
-	\nabla f(u) = S^\tp (Su - y_d) + \lambda u.
+	(\nabla f(u), h) &=& (Su - y_d, Sh) + \lambda (u, h). \\
+	\nabla f(u) &=& S^\tp (Su - y_d) + \lambda u.
 \end{IEEEeqnarray*}
 Therefore:
 \[
@@ -153,21 +153,21 @@ implies
 \]
 Hence, $\bar{u}$ solves
 \[
-	\min_{u \in U_{ad}} \left( B^\tp \bar{p} + \nabla u J(\bar{y}, \bar{u}), u \right).
+	\min_{u \in U_{ad}} \left( B^\tp \bar{p} + \nabla_u J(\bar{y}, \bar{u}), u \right).
 \]
 This can be written equivalently
 \[
-	\min_{u \in U_{ad}} \sum_{i=1}^m \left( B^\tp \bar{p} + \nabla u J(\bar{y}, \bar{u}) \right)_i u_i \quad u_{a_i} \leq u_i \leq u_{b_i}.
+	\min_{u \in U_{ad}} \sum_{i=1}^m \left( B^\tp \bar{p} + \nabla_u J(\bar{y}, \bar{u}) \right)_i u_i \quad u_{a_i} \leq u_i \leq u_{b_i}.
 \]
 Component wise, we obtain
 \[
-	\left( B^\tp \bar{p} + \nabla u J(\bar{y}, \bar{u}) \right)_i \bar{u}_i = \min_{u_{a_i} \leq u_i \leq u_{b_i}} \left( B^\tp \bar{p} + \nabla u J(\bar{y}, \bar{u}) \right)_i u_i.
+	\left( B^\tp \bar{p} + \nabla_u J(\bar{y}, \bar{u}) \right)_i \bar{u}_i = \min_{u_{a_i} \leq u_i \leq u_{b_i}} \left( B^\tp \bar{p} + \nabla_u J(\bar{y}, \bar{u}) \right)_i u_i.
 \]
 Therefore,
 \[
 	\bar{u}_i = \begin{cases}
-	u_{b_i} & \text{if } \left( B^\tp \bar{p} + \nabla u J(\bar{y}, \bar{u}) \right)_i < 0 \\
-	u_{a_i} & \text{if } \left( B^\tp \bar{p} + \nabla u J(\bar{y}, \bar{u}) \right)_i > 0
+	u_{b_i} & \text{if } \left( B^\tp \bar{p} + \nabla_u J(\bar{y}, \bar{u}) \right)_i < 0 \\
+	u_{a_i} & \text{if } \left( B^\tp \bar{p} + \nabla_u J(\bar{y}, \bar{u}) \right)_i > 0
 	\end{cases}
 \]
 If $B^\tp \bar{p} + \nabla_u J(\bar{y}, \bar{u}) = 0$ we cannot in general deduce a condition for $\bar{u}_i$, but often this follows from the structure of $\nabla_u J(\bar{y}, \bar{u})$.

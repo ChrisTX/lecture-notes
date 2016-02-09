@@ -79,14 +79,14 @@ We have two constraints:
 \end{itemize}
 There are examples where no control $u$ exists such that both equations are fulfilled
 We can always find a control fulfilling the first condition while ignoring the second, but can we also find a state while ignoring the first condition?
-Assume $U_ad = L^2(\Omega)$.
+Assume $U_{ad} = L^2(\Omega)$.
 Then the conditions on the state are
 \begin{IEEEeqnarray*}{rCl"l}
 y_a \leq Gu &\leq& y_b & \text{in } \Omega \\
 - \Delta y + y &=& u & \text{in } \Omega \\
 y &=& 0 & \text{on } \Gamma
 \end{IEEEeqnarray*}
-By assumption,
+By assumption ($0 < y_b$ on $\Gamma$, but $y = 0$ on $\Gamma$),
 \[
 	d = \min \left( y_b(x) - y(x) \right) > 0
 \]
@@ -117,7 +117,7 @@ Then $\xi \in C^\infty$ and
 \]
 and
 \[
-	y_a(x) \leq y_0(x) \leq y_b \quad \forall x \in \bar{\Omega}.
+	y_a(x) \leq y_0(x) \leq y_b(x) \quad \forall x \in \bar{\Omega}.
 \]
 Therefore,
 \[
@@ -125,13 +125,13 @@ Therefore,
 \]
 
 We have proven:
-Let $U_{ad} = L^2(\Omega)$. Then there exists a feasible pair pair $(u_0, y_0)$ such that
+Let $U_{ad} = L^2(\Omega)$. Then there exists a feasible pair $(u_0, y_0)$ such that
 \[
 	y_a(x) \leq y_0(x) \leq y_b(x) \quad \forall x \in \bar{\Omega},
 \]
 and the state equation and boundary conditions are fulfilled.
 
-If $U_{ad} \subsetneq L^2(\Omega)$: Existence of a feasible pair $(u_0, y_0)$ needs to be assumed.
+If $U_{ad} \subsetneq L^2(\Omega)$, the existence of a feasible pair $(u_0, y_0)$ needs to be assumed.
 
 If the set of feasible controls ($u \in U_{ad}$, and $y_a \leq y(u) \leq y_b$) is nonempty, existence of a unique optimal control $\bar{u}$ with optimal state $\bar{y}$ follows by standard arguments.
 \section{The Lagrange-Multiplier-Rule}

@@ -22,7 +22,7 @@ The discrete problem we consider then is
 \label{prb:PointwiseConstantPh}
 \begin{IEEEeqnarraybox}[][c]{c}
 \min_{u \in U_{ad}^h} f_h(u_h) \\
-U_{ad}^h = U_{ad} \cap U^h = U^{h, 0} \; \text{(cellwise constant)} \\
+U_{ad}^h = U_{ad} \cap U^h = U^{h, 0} \; \text{(cellwise constant)}
 \end{IEEEeqnarraybox}
 \end{equation}
 Because $u_a < u_b$, we have $U_{ad}^h \neq \emptyset$ and therefore $\bar{u}_h$ exists (and is unique in the case $\lambda > 0$).
@@ -35,7 +35,6 @@ The solution $\Pi_h u$ can be characterized by
 \[
 	(\Pi_h u - u, v_h) = 0 \quad \forall v_h \in U^{h, 0}.
 \]
-
 For $u \in H^1$ it holds that
 \[
 	\| u - \Pi_h u \| \leq ch \| \nabla u \|.
@@ -58,8 +57,9 @@ The statement follows from the orthogonality characterization testing with this 
 Let $\bar{u}$ be the unique optimal control of \cref{prb:PointwiseConstantP}, and $\bar{u}_h$ is the unique optimal control of \cref{prb:PointwiseConstantPh} with $U_h = U^{h, 0}$.
 Then there exists a constant $c > 0$ independent of $h$, such that the error estimate
 \[
-	\left\| \bar{u} - \bar{u}_h \right\|_{L^2(\Omega)} \leq ch \left( \| \bar{u} \|_{H^1} + \| y_d \|_{L^2} \right).
+	\left\| \bar{u} - \bar{u}_h \right\|_{L^2(\Omega)} \leq ch \left( \| \bar{u} \|_{H^1} + \| y_d \|_{L^2} \right)
 \]
+holds.
 \end{theorem}
 \begin{proof}
 We split the error into a projection error and an error on the discrete level:
@@ -103,7 +103,7 @@ For the first one $(i)$, we use Lipschitz continuity (see the second auxiliary e
 f_h' \left( \Pi_h  \bar{u} \right) \left( \Pi_h \bar{u} - \bar{u}_h \right) - f_h' \left( \bar{u} \right) \left( \Pi_h \bar{u} - \bar{u}_h \right) &\leq& c \left\| \Pi_h \bar{u} - \bar{u}_h \right\| \left\| \Pi_h \bar{u} - \bar{u} \right\| \\
 &\leq& ch \left\| \nabla \bar{u} \right\| \left\| \Pi_h \bar{u} - \bar{u}_h \right\|
 \end{IEEEeqnarray*}
-For the second one $(ii)$, we proceed as in previous proofs, we use a Finite Element error estimate:
+For the second one $(ii)$, we proceed as in previous proofs and use the Finite Element error estimate from the auxiliary results (the first one):
 \begin{IEEEeqnarray*}{rCl}
 \left( f_h' \left( \bar{u} \right) - f' \left( \bar{u} \right)  \right) \left( \Pi_h \bar{u} - \bar{u}_h \right) &\leq& ch^2 \left( \| \bar{u} \| + \| y_d \| \right) \| \Pi_h \bar{u} - \bar{u} \|.
 \end{IEEEeqnarray*}

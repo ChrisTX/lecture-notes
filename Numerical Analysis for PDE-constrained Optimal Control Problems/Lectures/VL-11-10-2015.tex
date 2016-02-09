@@ -7,13 +7,15 @@ The continuous equation is
 - \Delta y &=& f & \text{in } \Omega \subset \R^2 \\
 y &=& 0 & \text{on } \Gamma
 \end{IEEEeqnarray*}
-The weak formulation thereof is
+The weak formulation thereof is:
+
 Find $y \in H_0^1(\Omega)$ such that
 \begin{equation}
 \label{eq:FEM-StateEqWeak}
 \tag{E}
 	(\nabla y, \nabla v) = (f, v) \quad \forall v \in H_0^1(\Omega).
 \end{equation}
+
 Discretization:
 \begin{itemize}
 \item $\Omega$ is convex, and polygonally bounded

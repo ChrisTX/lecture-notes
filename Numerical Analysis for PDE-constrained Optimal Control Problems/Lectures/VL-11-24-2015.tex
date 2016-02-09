@@ -85,9 +85,9 @@ As before, we have
 \lambda \left\| \mathcal{I}_h \bar{u} - \bar{u}_h \right\|^2 &\leq& f''_h \left( u_\xi \right) \left( \mathcal{I}_h \bar{u} - \bar{u}_h \right)^2 \\
 &\leq& f_h' \left( \mathcal{I}_h \bar{u} \right) \left( \mathcal{I}_h \bar{u} - \bar{u}_h \right) \underbrace{ - f_h' \left( \bar{u}_h \right) \left( \mathcal{I}_h \bar{u} - \bar{u}_h \right) }_{\leq 0 } \\
 &\leq& f_h' \left( \mathcal{I}_h \bar{u} \right) \left( \mathcal{I}_h \bar{u} - \bar{u}_h \right) \underbrace{ - f'\left(\bar{u}\right) \left( \bar{u} - \bar{u}_h \right) }_{\geq 0} \\
-&=& f_h (\mathcal{I}_h \bar{u}) ( \mathcal{I}_h \bar{u} - \bar{u}_h ) - f_h' (\bar{u}) (\mathcal{I}_h \bar{u} - \bar{u}_h) \\
+&=& f_h' (\mathcal{I}_h \bar{u}) ( \mathcal{I}_h \bar{u} - \bar{u}_h ) - f_h' (\bar{u}) (\mathcal{I}_h \bar{u} - \bar{u}_h) \\
 && {} + f_h' (\bar{u}) ( \mathcal{I}_h \bar{u} - \bar{u}_h ) - f' (\bar{u}) ( \mathcal{I}_h \bar{u} - \bar{u}_h ) \\
-&& {} + f' (\bar{u}) ( \mathcal{I}_h \bar{u} - \bar{u}_h ) \\
+&& {} + f' (\bar{u}) ( \mathcal{I}_h \bar{u} - \bar{u} ) \\
 &\leq& c \left\| \mathcal{I}_h \bar{u} - \bar{u} \right\| \left\| \mathcal{I}_h \bar{u} - \bar{u}_h \right\| \\
 && {} + ch^2 \left( \| \bar{u}\| + \| y_d \| \right) \left\| \mathcal{I}_h \bar{u} - \bar{u}_h \right\| \\
 && {} + \left( \lambda \bar{u} + \bar{p}, \mathcal{I}_h \bar{u} - \bar{u} \right)
@@ -105,8 +105,7 @@ As we have
 \[
 	\bar{u} = \PP \left\{ - \frac{1}{\lambda} \bar{p} \right\},
 \]
-and $\bar{p} \in H^2 \hookrightarrow W^{1,s}$.
-As $s < \infty$ and - importantly - $n = 2$, it follows
+and $\bar{p} \in H^2 \hookrightarrow W^{1,s}$, $s < \infty$ and - importantly - $n = 2$, it follows
 \[
 	\left\| \nabla \PP(v) \right\|_{L^s(K)} \leq \left\| \nabla v \right\|_{L^s(K)}, \quad v \in W^{1, s}.
 \]
@@ -123,7 +122,7 @@ With this, it follows that
 
 Having derived this estimate, the first two terms are estimated properly. It remains to estimate
 \begin{IEEEeqnarray*}{rCl}
-\left( \underbrace{ \lambda \bar{u} + \bar{p} }_{g}, \mathcal{I}_h \bar{u} - \bar{u} \right) &=& \sum_{K \in \mathcal{T}_h} \left(g, \mathcal{I}_h \bar{u} - \bar{u} \right)
+( \underbrace{ \lambda \bar{u} + \bar{p} }_{g}, \mathcal{I}_h \bar{u} - \bar{u} ) &=& \sum_{K \in \mathcal{T}_h} \left(g, \mathcal{I}_h \bar{u} - \bar{u} \right)
 \end{IEEEeqnarray*}
 Now, we have on $\mathcal{T}_{h, 1}$ that $\mathcal{I}_h \bar{u} - \bar{u} = 0$ and on $\mathcal{T}_{h, 2}$, the constraint is inactive, i.e. $\lambda \bar{u} + \bar{p} = 0$.
 Hence,
