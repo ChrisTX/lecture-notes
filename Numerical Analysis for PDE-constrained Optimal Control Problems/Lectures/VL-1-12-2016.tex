@@ -22,8 +22,7 @@ The choices of the letters $b$ and $d$ stem from the words ``boundary'' and ``di
 For the moment, we additionally assume 
 \begin{assumption}[A2]
 \label{as:A2}
-For almost all $x \in \Omega$\slash$\Gamma$ we have $b(x, 0) = d(x, 0) = 0$ and $b$ and $d$ are globally bounded.
-There exists $M \geq 0$ such that
+For almost all $x \in \Omega$\slash$\Gamma$ we have $b(x, 0) = d(x, 0) = 0$ and $b$ and $d$ are globally bounded, i.e.\ there exists $M \geq 0$ such that
 \[
 	|b(x, y)| \leq M, \quad |d(x, y)| \leq M
 \] 
@@ -57,7 +56,7 @@ Let \cref{as:A1,as:A2} be satisfied and let $r > N/2$, $s > N-1$ ($N$ is the spa
 	\| y \|_{L^\infty(\Omega)} \leq c_\infty \left( \| f \|_{L^r(\Omega)} + \| g \|_{L^s(\Omega)} \right).
 \]
 \begin{proof}
-By Cases, see \cite{TroeltzschEN,Troeltzsch}.
+By Casas, see \cite{TroeltzschEN,Troeltzsch}.
 \end{proof}
 \begin{theorem}
 Let \cref{as:A1} hold, $\Omega \subset \R^N$ be a bounded Lipschitz domain, and $r > N/2$, $s > N-1$.
@@ -125,7 +124,7 @@ be measurable in $x$ for every $y \in \R$ and monotonically increasing in $y$ fo
 For every $M > 0$ there exist functions $\psi_M \in L^r(\Omega)$, $\phi_M \in L^s(\Gamma)$, $r > N/2$, $s > N -1$ such that
 \begin{IEEEeqnarray*}{rCl"l}
 |d(x, y)| &\leq& \psi_M(x) & \text{almost all } x \in \Omega, \forall |y| \leq M \\
-|b(x, y)| &\leq& \phi(x) & \text{almost all } x \in \Gamma, \forall |y| \leq M
+|b(x, y)| &\leq& \phi_M(x) & \text{almost all } x \in \Gamma, \forall |y| \leq M
 \end{IEEEeqnarray*}
 Moreover, at least one of the properties (i), (ii) holds:
 \begin{itemize}

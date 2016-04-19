@@ -51,7 +51,7 @@ The discrete version of the previous problem would be
 Here, $U_h$ could be either a variational or a full discretization and $\mathcal{I}_h : C(\bar{\Omega}) \to V_h$ refers to the nodal interpolant. In this setting, constraints have to be checked in the nodes only.
 Let
 \[
-	M_h(\mathcal{T}_h) = \left\{ \partial x_i \mid x_i \in N(\mathcal{T}_h) \right\} \subset M(\Omega)
+	M_h(\mathcal{T}_h) = \left\{ \partial_{x_i} \mid x_i \in N(\mathcal{T}_h) \right\} \subset M(\Omega)
 \]
 and $N(\mathcal{T}_h)$ is the set of all (interior) nodes of $\mathcal{T}_h$.
 For additional insight on this topic, see
@@ -95,7 +95,7 @@ For our setting of $n = 2$, we obtain
 \[
 	\| G(u) - G_h(u) \|_{L^\infty(\Omega)} \leq ch \| u \|_{L^2(\Omega)}.
 \]
-Variational discretization: If $u_0$ is a Slater point for \cref{prb:P-StateConstrained}, then it is a slater point for \cref{prb:Ph-StateConstrained} (for $h$ small enough) (and thus feasible).
+Variational discretization: If $u_0$ is a Slater point for \cref{prb:P-StateConstrained}, then it is a Slater point for \cref{prb:Ph-StateConstrained} (for $h$ small enough) (and thus feasible).
 \begin{proof}
 We have
 \begin{IEEEeqnarray*}{rCl"l}
@@ -131,11 +131,11 @@ For the variational discretization we find
 \begin{IEEEeqnarray*}{rCl}
 \frac{\lambda}{2} \| \bar{u}_h \|^2 &\leq& J(\bar{u}_h, \bar{y}_h) \\
 &\leq& J(u_0, y_h(u_0)) \\
-&=& \frac{1}{2} \| y_{0, h} - y_a \|^2 + \frac{\lambda}{2} \| u_0 \|^2
+&=& \frac{1}{2} \| y_{0, h} - y_d \|^2 + \frac{\lambda}{2} \| u_0 \|^2
 \end{IEEEeqnarray*}
 This implies
 \begin{IEEEeqnarray*}{rCl}
-\lambda \| \bar{u}_h \|^2 &\leq& \| y_{0, h} - y_a \|^2 + \frac{\lambda} \| u_0 \|^2.
+\lambda \| \bar{u}_h \|^2 &\leq& \| y_{0, h} - y_d \|^2 + \lambda \| u_0 \|^2.
 \end{IEEEeqnarray*}
 Given that $\| y_{0, h} \| \leq c \| u_0 \|$ with $c$ independent of $h$, we have $\| \bar{u}_h \| \leq c$ and $\| \bar{y}_h \| \leq c$.
 
@@ -149,8 +149,8 @@ This implies
 - \frac{\delta}{2} &\leq& \langle \bar{\mu}_{b, h}, \bar{y}_h - y_{0, h} \rangle \\
 &=& \langle \bar{\mu}_{b, h},  G_h( \bar{u}_h - u_{0} ) \rangle \\
 &=& ( \nabla \bar{p}_h, \nabla (\bar{y}_h - y_{0, h})) - ( \bar{y}_h - y_d, \bar{y}_h - y_{0, h}) \\
-&=& (\bar{u}_h - u_0, \bar{p}_h) - (\bar{y}_h - y_d, \bar{y}_h - y_{a, h}) \\
-&=& - \frac{1}{\lambda} (\bar{u}_h - u_0, \bar{u}_h) - (\bar{y}_h - y_d, \bar{y}_h - y_{a, h}) \\
+&=& (\bar{u}_h - u_0, \bar{p}_h) - (\bar{y}_h - y_d, \bar{y}_h - y_{0, h}) \\
+&=& - \frac{1}{\lambda} (\bar{u}_h - u_0, \bar{u}_h) - (\bar{y}_h - y_d, \bar{y}_h - y_{0, h}) \\
 &\leq& c.
 \end{IEEEeqnarray*}
 Here we assumed that there was no lower bound present, for the general case, one exploits the separation of the supports of $\bar{\mu}_{b, h}$ and $\bar{\mu}_{a, h}$.

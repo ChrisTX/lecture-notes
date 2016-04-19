@@ -135,7 +135,7 @@ We call $\bar{p}$ the \emph{adjoint state} associated with $(\bar{u}, \bar{y})$ 
 \begin{theorem}
 If $A$ is invertible, $\bar{u}$ is the optimal control for \cref{prb:P}, and $\bar{y}$ is the associated optimal state, then there exists a unique solution $\bar{p}$ of the adjoint equation $A^\tp \bar{p} = \bar{y} - y_d$, and it holds:
 \[
-\left( B^\tp + \nabla_u J(\bar{y}, \bar{u}), u - \bar{u} \right) \geq 0 \quad \forall u \in U_{ad}.
+\left( B^\tp \bar{p} + \nabla_u J(\bar{y}, \bar{u}), u - \bar{u} \right) \geq 0 \quad \forall u \in U_{ad}.
 \]
 \end{theorem}
 \begin{example}
@@ -145,11 +145,11 @@ U_{ad} = \left\{ u \in \R^m \gmid u_a \leq u \leq u_b \text{ component wise } \r
 \]
 Then
 \[
-	\left( B^\tp + \nabla_u J(\bar{y}, \bar{u}), u - \bar{u} \right) \geq 0 \quad \forall u \in U_{ad}
+	\left( B^\tp \bar{p} + \nabla_u J(\bar{y}, \bar{u}), u - \bar{u} \right) \geq 0 \quad \forall u \in U_{ad}
 \]
 implies
 \[
-	\left( B^\tp + \nabla_u J(\bar{y}, \bar{u}), \bar{u} \right) \leq \left( B^\tp + \nabla_u J(\bar{y}, \bar{u}), u \right) \quad \forall u \in U_{ad}.
+	\left( B^\tp \bar{p} + \nabla_u J(\bar{y}, \bar{u}), \bar{u} \right) \leq \left( B^\tp  \bar{p} + \nabla_u J(\bar{y}, \bar{u}), u \right) \quad \forall u \in U_{ad}.
 \]
 Hence, $\bar{u}$ solves
 \[

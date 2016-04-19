@@ -9,7 +9,7 @@ Literature: \cite[Chapter 4]{Troeltzsch}.
 \begin{IEEEeqnarraybox}{rCl"l}
 - \lapl y + c_0(x) y + y^3 &=& u & \text{in $\Omega$} \\
 \partial_n y + \alpha(x) y &=& 0 & \text{on $\Gamma$}
-\end{IEEEeqnarraybox}
+\end{IEEEeqnarraybox} \\
 u_a \leq u(x) \leq u_b
 \end{IEEEeqnarray*}
 \end{example}
@@ -31,7 +31,7 @@ First, let us consider the simplified case
 \begin{IEEEeqnarraybox}{rCl"l}
 - \lapl y + y^3 &=& u & \text{in $\Omega$} \\
 \partial_n y &=& 0 & \text{on $\Gamma$}
-\end{IEEEeqnarraybox}
+\end{IEEEeqnarraybox} \\
 u_a \leq u(x) \leq u_b
 \end{IEEEeqnarray*}
 \end{example}
@@ -78,7 +78,7 @@ Using integration by parts:
 This yields:
 \begin{IEEEeqnarray*}{rCl}
 	\int_\Omega (- \lapl \bar{p} v - (\bar{y} - y_d) v + 3 \bar{y}^2 \bar{p} v) \dx &=& 0 \\
-	\int_\Gamma (- \partial_n v \bar{p} + \partial_n v \bar{p} + \partial_n \bar{p} v) \ds &=& 0
+	\int_\Gamma (- \partial_n v \bar{p} + \partial_n v \bar{p} - \partial_n \bar{p} v) \ds &=& 0
 \end{IEEEeqnarray*}
 Therefore, we have the full system:
 \begin{IEEEeqnarray*}{c}
@@ -98,7 +98,7 @@ A y + c_0(x) y + d(x, y) &=& f & \text{on $\Omega$} \\
 \partial_{n_A} y + \alpha(x) y + b(x, y) &=& g & \text{on $\Gamma$}
 \end{IEEEeqnarray*}
 \begin{theorem}
-Let $V$ be a separable Hilbert space and $A : V \to V^*$ a monotone, coercive and continuous operator. Then, $Ay = f$ admits for every $f \in V^*$ a solution $y$. The set of solutions is bounded, convex and closed. If $A$ is strictly monotone, then $y$ is unique. If $A$ is strongly monotone, then $A^{-1}: V^* \to V$ is Lipschitz continuous.
+Let $V$ be a separable Hilbert space and $A : V \to V^*$ a monotone, coercive and hemi-continuous operator. Then, $Ay = f$ admits for every $f \in V^*$ a solution $y$. The set of solutions is bounded, convex and closed. If $A$ is strictly monotone, then $y$ is unique. If $A$ is strongly monotone, then $A^{-1}: V^* \to V$ is Lipschitz continuous.
 \end{theorem}
 \begin{itemize}
 \item An operator $A: V \to V^*$ is monotone if
@@ -111,9 +111,10 @@ holds. It is called strictly monotone if equality to zero holds only for $y_1 = 
 	\frac{(Ay, y)_{V^*, V}}{\| y\|_V} \to \infty \quad \text{for } \| y \|_V \to \infty.
 \]
 \item $A$ is called hemi-continuous, if
-\[
-	\varphi : [0, 1] \to \R \quad : \quad t \mapsto (A(y + tv), w)_{V^*, V}
-\]
+\begin{IEEEeqnarray*}{rCl}
+	\varphi : [0, 1] &\to& \R \\
+	t &\mapsto& (A(y + tv), w)_{V^*, V}
+\end{IEEEeqnarray*}
 is continuous for all fixed $y, v, w \in V$.
 \item If there exists $\beta_0 > 0$ such that
 \[

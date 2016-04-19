@@ -19,7 +19,7 @@ Then there exists constants $\varepsilon > 0$ and $\sigma > 0$ such that the qua
 f(u) \geq f(\bar{u}) + \sigma \| u - \bar{u} \|_U^2
 \]
 for all $u \in C$ with $\| u - \bar{u} \|_U \leq \varepsilon$ is fulfilled.
-This implies that $\bar{u}$ is a strict local multiplier of $f$ in $C$.
+This implies that $\bar{u}$ is a strict local minimum of $f$ in $C$.
 \end{theorem}
 \begin{proof}
 \begin{IEEEeqnarray*}{rCl}
@@ -110,7 +110,7 @@ One can calculate for the remainder term
 \end{IEEEeqnarray*}
 If $f$ was twice Fréchet differentiable, the remainder term divided by the norm of $h$ would have to go to zero. However:
 \[
-\frac{\left| r_2^f(0, h) \right|}{\| h \|_{L^2(0, 1)}^2} = \frac{\varepsilon c}{\int_0^\varepsilon 1^2 \dx} = c
+\frac{ r_2^f(0, h) }{\| h \|_{L^2(0, 1)}^2} = \frac{\varepsilon c}{\int_0^\varepsilon 1^2 \dx} = c
 \]
 Of course, $c$ does not converge to zero for $\| h \|_{L^2} \to 0$, so we cannot have Fréchet differentiability.
 
@@ -124,7 +124,7 @@ f(u+h) &=& - \int_0^1 \cos (u(x) + h(x)) \dx \\
 \end{IEEEeqnarray*}
 Secondly, we can use the definition of Fréchet differentiability:
 \begin{IEEEeqnarray*}{rCl}
-f(u+h) &=& \int_0^1 \left[-\cos(u(x)) + \sin(u(x))h(x) + \frac{1}{2} \cos(u(x))h(x)^2 \right] \dx + r_2^f(0, h) 
+f(u+h) &=& \int_0^1 \left[-\cos(u(x)) + \sin(u(x))h(x) + \frac{1}{2} \cos(u(x))h(x)^2 \right] \dx + r_2^f(u, h) 
 \end{IEEEeqnarray*}
 Therefore, we get:
 \begin{IEEEeqnarray*}{rCl}
@@ -132,8 +132,8 @@ r_2^f(u, h) &=& \int_0^1 \int_0^1 (1-s) [\cos(u(x)) + sh(x)) - \cos(u(x))] h^2(x
 \end{IEEEeqnarray*}
 By considering the norm, we obtain:
 \begin{IEEEeqnarray*}{rCl}
-\left| r_2^f(u, h) \right| &\leq& \int_0^1 \int_0^1 (1-s) \underbrace{ [\cos(u(x)) + sh(x)) - \cos(u(x))] }_{|h(x)|} h^2(x) \ds \dx. \\
-&\leq& \int_0^1 \int0^1 (1-s) |h(x)| h^2(x) \ds \dx \\
+\left| r_2^f(u, h) \right| &\leq& \int_0^1 \int_0^1 (1-s) \underbrace{ [\cos(u(x)) + sh(x)) - \cos(u(x))] }_{\leq s|h(x)|} h^2(x) \ds \dx. \\
+&\leq& \int_0^1 \int_0^1 (1-s)s |h(x)| h^2(x) \ds \dx \\
 &\leq& \frac{1}{6} \| h \|_{L^\infty(0, 1)} \| h \|_{L^2(0,1)}^2.
 \end{IEEEeqnarray*}
 Now, we can calculate:
@@ -146,7 +146,7 @@ Let's return to the $\cos$-problem:
 \begin{IEEEeqnarray*}{rCl}
 	f(0+h) &=& f(0) + \underbrace{f'(0)}_{=0} h + \frac{1}{2} f''(0) h^2 + r_2^f(0, h) \\
 	&=& f(0) + \frac{1}{2} \| h \|_{L^2(0, 1)}^2 + r_2^f(0, h) \\
-	&=& f(0) + \| h \|_{L^2(0, 1)}^2 \Bigg( \frac{1}{2} + \underbrace{ \frac{r_2^f(0, h)}{\| h \|_L^2(0, 1)^2} }_{\leq \frac{1}{6} \| h \|_{L^\infty(0, 1)}} \Bigg) \\
+	&=& f(0) + \| h \|_{L^2(0, 1)}^2 \Bigg( \frac{1}{2} + \underbrace{ \frac{r_2^f(0, h)}{\| h \|_{L^2(0, 1)}^2} }_{\leq \frac{1}{6} \| h \|_{L^\infty(0, 1)}} \Bigg) \\
 	&\geq& f(0) + \| h \|_{L^2(0,1)}^2 \left( \frac{1}{2} - \frac{1}{6} \| h \|_{L^\infty(0, 1)} \right) \\
 	&\geq& f(0) + \frac{1}{3} \| h \|_{L^2(0, 1)}^2 \quad \text{for } \| h \|_{L^\infty(0, 1)} \leq \varepsilon = 1.
 \end{IEEEeqnarray*}

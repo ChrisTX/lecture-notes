@@ -39,11 +39,11 @@ y_a \leq Su \leq y_b
 For sake of simplicity, let $y_a \equiv -\infty$ for now.
 In analogy to the case without constraints on the state, we apply the formal Lagrange technique: The Lagrange function would be
 \[
-	L(u, \mu) = f(u) + \int (Su - y_d) \mu.
+	L(u, \mu) = f(u) + \int (Su - y_b) \mu.
 \]
 Thus we obtain a set of conditions as follows
 \begin{IEEEeqnarray*}{rCl}
-Lu (\bar{u}, \bar{\mu}) &=& 0, \\
+L_u (\bar{u}, \bar{\mu}) &=& 0, \\
 S \bar{u} - y_b &\leq& 0, \\
 \mu &\geq& 0, \\
 \int (S\bar{u} - y_b) \bar{\mu} &=& 0.

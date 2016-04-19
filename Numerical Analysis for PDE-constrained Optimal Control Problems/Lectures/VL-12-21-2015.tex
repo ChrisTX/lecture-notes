@@ -71,9 +71,9 @@ with $u^\gamma$ being the Slater point mentioned above.
 This gives us:
 \begin{IEEEeqnarray*}{rCl}
 	y^h(\hat{u}_h) &=& \sum_{i=1}^m \hat{u}_{h_i} y^h_i \\
-	&=& \sum_{i=1}^m \left( \bar{u}_i + t \left( u^{\gamma}_i - \bar{u}_i \right) \right) \\
-	&=& (1-t) \underbrace{ \sum_{i=1}^m \bar{u}_i y^h_i }_{=y^h(\bar{u})} + t \sum_{i=1}^m u^{\gamma}_i y^h_i \\
-	&=& (1-t) \underbrace{ \sum_{i=1}^m \bar{u}_i y_i }_{=\bar{y} \leq b} + (1-t) \sum_{i=1}^m \bar{u}_i (y^h_i - y_i) + t \sum_{i=1}^m u^\gamma_i y^h_i \\
+	&=& \sum_{i=1}^m \left( \bar{u}_i + t \left( u^{\gamma}_i - \bar{u}_i \right) \right) y^h_i \\
+	&=& (1-t) \underbrace{ \sum_{i=1}^m \bar{u}_i y^h_i }_{=y^h(\bar{u})} {} + t \sum_{i=1}^m u^{\gamma}_i y^h_i \\
+	&=& (1-t) \underbrace{ \sum_{i=1}^m \bar{u}_i y_i }_{=\bar{y} \leq b} {} + (1-t) \sum_{i=1}^m \bar{u}_i (y^h_i - y_i) + t \sum_{i=1}^m u^\gamma_i y^h_i \\
 	&\leq& (1-t) b + (1-t) ch^2 |\log h| + t \underbrace{ \sum_{i=1}^m u^\gamma_i y_i }_{\leq b - \gamma} {} + t \sum_{i=1}^m u^\gamma_i \underbrace{ (y^h_i - y_i) }_{\leq ch^2 |\log h|} \\
 	&\leq& b - t\gamma + ch^2 |\log h| \\
 	&\leq& b \quad \text{for $h$ small enough}
@@ -88,12 +88,12 @@ There exists a unique optimal control $\bar{u}_h$ of \cref{prb:SemiInfinitePh} w
 \]
 which fulfills the (necessary and sufficient) optimality conditions:
 \begin{IEEEeqnarray*}{rCl}
-\bar{\mu}_h \geq 0 \quad \int_K (\bar{y}^h - b) \: \mathrm{d} \bar{\mu}_h &=& 0 \\
+\bar{\mu}_h \geq 0 \quad \int_K (\bar{y}_h - b) \: \mathrm{d} \bar{\mu}_h &=& 0 \\
 \langle \lambda \bar{u}_h + p_{u_h}, v \rangle_{\R^m} + \sum_{i=1}^m \int_K y_i^h v \: \mathrm{d} \bar{\mu}_h &\geq& 0 \quad \forall v \in \R^m
 \end{IEEEeqnarray*}
 for a regular Borel measure $\bar{\mu}_h \in M(K)$, where
 \[
-	p_{u_h} = \int_K (\bar{y}^h - y_d) y_i^h \dx.
+	p_{u_h} = \int_K (\bar{y}_h - y_d) y_i^h \dx.
 \]
 \paragraph{Convergence analysis}
 We'll split this analysis in three parts:

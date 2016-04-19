@@ -24,7 +24,7 @@ fulfill
 \[
 	\psi(x, u) = \gamma_1(x) u + \gamma_2(x) u^2,
 \]
-where $\gamma_1, \gamma_2 \in L^2\infty(\Omega)$ and $\gamma_2 \geq 0$ almost everywhere.
+where $\gamma_1, \gamma_2 \in L^\infty(\Omega)$ and $\gamma_2 \geq 0$ almost everywhere.
 Then $J$ is twice continuously Fréchet differentiable in $L^2(\Omega)$.
 \end{itemize}
 Consider
@@ -34,7 +34,7 @@ Consider
 with $\gamma_1, \gamma_2 \in L^\infty$, $\gamma_2 \geq 0$, where
 \begin{IEEEeqnarray*}{c}
 \begin{IEEEeqnarraybox}{rCl"l}
-- \lapl + d(y) &=& u & \text{in $\Omega$} \\
+- \lapl y + d(y) &=& u & \text{in $\Omega$} \\
 \partial_n y &=& 0 & \text{on $\partial \Omega$}
 \end{IEEEeqnarraybox} \\
 u_a \leq u \leq u_b,
@@ -75,7 +75,7 @@ then
 \]
 One could write this as
 \[
-	(\underbrace{G'(\bar{u})^* (G(\bar{u}) - y_d)}_{\bar{p}} + \lambda \bar{u}, u),
+	(\underbrace{G'(\bar{u})^* (G(\bar{u}) - y_d)}_{\bar{p}} + \lambda (\bar{u}, u),
 \]
 but we'll work of the first formulation here
 \[
@@ -96,7 +96,7 @@ meaning we can write
 \]
 Putting this into the above equation:
 \begin{IEEEeqnarray*}{rCl}
-f''(\bar{u}) u^2 &=& (G(\bar{u}) - y_d, - G'(\bar{u}) d_{yy}(x, \bar{y}) \tilde{y}^2) + (\tilde{y}, \tilde{y}) + \lambda(u, u) \\
+f''(\bar{u}) u^2 &=& (G(\bar{u}) - y_d, - G'(\bar{u}) (d_{yy}(x, \bar{y}) \tilde{y}^2)) + (\tilde{y}, \tilde{y}) + \lambda(u, u) \\
 &=& (\underbrace{ G'(\bar{u})^* (G(\bar{u}) - y_d) }_{\bar{p}}, -d_{yy}(x, \bar{y}) \tilde{y}^2 ) + (\tilde{y}, \tilde{y}) + \lambda (u, u) \\
 &=& \int_\Omega -d_{yy}(x, \bar{y}) \bar{p} \tilde{y}^2 + \tilde{y}^2 + \lambda u^2 \dx
 \end{IEEEeqnarray*}
@@ -133,6 +133,6 @@ $\| \bar{u} - \bar{u}_h \|_{L^2} = r$ (we would like to exclude this, because $\
 	\bar{u}_h^r \xrightarrow[h\to 0]{L^2} \bar{u}_h.
 \]
 The rates of convergence depending on the particular discretization. This excludes $\| \bar{u}_h^r - \bar{u} \|_{L^2} = r \; \forall h$.
-We will have shown that $\bar{u}$ can be approximated by local solutions of $(P_h)$
+We will have shown that $\bar{u}$ can be approximated by local solutions of $(P_h)$.
 \end{itemize}
 \end{document}

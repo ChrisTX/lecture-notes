@@ -43,7 +43,7 @@ f(u_\tau) &=& f(\bar{u}_h) + \underbrace{ f(u_\tau) - f(\bar{u}_h) }_{\leq c \ta
 Plugging this into the inequality, we obtain
 \begin{IEEEeqnarray*}{rCl}
 	f_h(\bar{u}_h) &\leq& ch^2 |\log h| + f(\bar{u}) \\
-	&\leq& ch^2 | \log h | + f(u_\tau) - \omega |u_\tau^h - \bar{u}|^2 \\
+	&\leq& ch^2 | \log h | + f(u_\tau) - \omega |u_\tau - \bar{u}|^2 \\
 	&\leq& f(\bar{u}_h) + ch^2 |\log h| - \frac{\omega}{2} |\bar{u}_h - \bar{u}|^2.
 \end{IEEEeqnarray*}
 By rearranging the terms:
@@ -77,7 +77,7 @@ Moreover, there exists $\sigma > 0$ such that
 \subsection*{Main result: Improved error estimate}
 \begin{theorem}
 Let $\bar{u}$ be the optimal control of \cref{prb:SemiInfiniteP}, $\bar{u}_h$ the optimal control of \cref{prb:SemiInfinitePh}.
-Furthermore, assume that $\bar{y}$ admits exactly $m$ strongly active points (i.e.\ where the Lagrange Multipliers are strictly positive) $x_1, \ldots, x_m$ fulfilling \cref{eq:ActiveSetHessian} and let the matrix
+Furthermore, assume that $\bar{y}$ admits exactly $m$ strongly active points (i.e.\ where the Lagrange Multipliers are strictly positive) $\bar{x}_1, \ldots, \bar{x}_m$ fulfilling \cref{eq:ActiveSetHessian} and let the matrix
 \[
 	Y_{i,j} \coloneqq y_i(\bar{x}_j)
 \]
@@ -97,8 +97,8 @@ Firstly, we need:
 \]
 which gives us
 \begin{IEEEeqnarray*}{rCl}
-\sum_{i=1}^m \bar{u}_i y_i(\bar{x}_j) = \bar{y}(x_j) = b = \bar{y}_h(\bar{x}_j^h) &=& \sum_{i=1}^m \bar{u}^h_i y_i^h(\bar{x}_j^h) \\
-&=& \sum{i=1}^m \left[ \left( y_i^h (\bar{x}_j ^h) - y_i(\bar{x}_j^h) \right) + y_i (\bar{x}_j^h) \right]
+\sum_{i=1}^m \bar{u}_i y_i(\bar{x}_j) = \bar{y}(\bar{x}_j) = b = \bar{y}_h(\bar{x}_j^h) &=& \sum_{i=1}^m \bar{u}^h_i y_i^h(\bar{x}_j^h) \\
+&=& \sum_{i=1}^m \bar{u}_i^h \left[ \left( y_i^h (\bar{x}_j ^h) - y_i(\bar{x}_j^h) \right) + y_i (\bar{x}_j^h) \right]
 \end{IEEEeqnarray*}
 This yields:
 \begin{IEEEeqnarray*}{rCl}
@@ -107,7 +107,7 @@ This yields:
 \end{IEEEeqnarray*}
 Rearranging:
 \begin{IEEEeqnarray*}{rCl}
-ch^2 |\log h| &\geq& \sum_{i=1}^m \left[ \left( \bar{u}_i - \bar{u}_i^h \right) y_i (\bar{x}_j) + \bar{u}_i^h \underbrace{ \left( y_i(\bar{x}_j) - y_i(\bar{x}_j^h) \right) }_{\text{Taylor}} \right] \\
+ch^2 |\log h| &\geq& \sum_{i=1}^m \Big[ \left( \bar{u}_i - \bar{u}_i^h \right) y_i (\bar{x}_j) + \bar{u}_i^h \underbrace{ \left( y_i(\bar{x}_j) - y_i(\bar{x}_j^h) \right) }_{\text{Taylor}} \Big] \\
 &\geq& \left| \sum_{i=1}^m \left( \bar{u}_i - \bar{u}_i^h \right) y_i(\bar{x}_j) - \bar{u}_i^h \nabla y_i (\bar{x}_j) ( \bar{x}_j^h - \bar{x}_j) \right| + \mathcal{O} \left( \left|\bar{x}_j^h - \bar{x}_j \right|^2 \right)
 \end{IEEEeqnarray*}
 Therefore, we need a distance estimate for the active points. We will prove:

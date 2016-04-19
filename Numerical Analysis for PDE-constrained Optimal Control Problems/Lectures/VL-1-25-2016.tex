@@ -56,7 +56,7 @@ Recall that we have
 We calculate
 \begin{IEEEeqnarray*}{rCl}
 f'(u) h &=& F'(G(u)) \cdot G'(u) h + Q'(u) h \\
-&=& \int_\Omega \varphi_y(x, y(x)) \underbrace{ \tilde{y}(x) }_{G'(u)h} \dx + \int_\Omega \psi(x, u(x)) h \dx.
+&=& \int_\Omega \varphi_y(x, y(x)) \underbrace{ \tilde{y}(x) }_{G'(u)h} \dx + \int_\Omega \psi_u(x, u(x)) h \dx.
 \end{IEEEeqnarray*}
 where $\tilde{y}$ solves the linearized PDE
 \begin{IEEEeqnarray*}{rCl"l}
@@ -130,9 +130,9 @@ with
 	\frac{\| r_2^F(u, h) \|_V}{\| h \|^2_U} \xrightarrow{h \to 0} 0.
 \]
 \paragraph{Calculations of $F''(u)$}
-We start from $\tilde{\mathscr{F}}(u) \coloneqq F'(u)$.
+We start from $\tilde{F}(u) \coloneqq F'(u) u_1$.
 \begin{IEEEeqnarray*}{rCl}
-\tilde{\mathscr{F}} u_2 &=& \frac{\mathrm{d}}{\mathrm{d}t} \tilde{\mathscr{F}}(u + t u_2) |_{t=0} \\
+\tilde{F} u_2 &=& \frac{\mathrm{d}}{\mathrm{d}t} \tilde{F}(u + t u_2) |_{t=0} \\
 &=& \frac{\mathrm{d}}{\mathrm{d}t} \left(F'(u+tu_2)u_1\right)|_{t=0} \\
 &=& \left( F''(u + tu_2)u_1 \right) u_2 |_{t=0} \\
 &=& F''(u)[u_1, u_2]
@@ -140,32 +140,32 @@ We start from $\tilde{\mathscr{F}}(u) \coloneqq F'(u)$.
 \begin{example}
 Consider the case
 \[
-	\phi(y) = \varphi(\cdot, y(\cdot))
+	\Phi(y) = \varphi(\cdot, y(\cdot))
 \]
 and take $L^\infty = Y$.
 Then,
 \[
-	(\phi'(y)y_1)(x) = \varphi_y(x, y(x))y_1(x).
+	(\Phi'(y)y_1)(x) = \varphi_y(x, y(x))y_1(x).
 \]
 Now, we set as before:
 \begin{IEEEeqnarray*}{rCL}
 \tilde{\varphi}(x, y) &\coloneqq& \varphi_y(x, y(x)) y_1(x) \\
-\tilde{\phi(y)} &\coloneqq& \tilde{\varphi}(\cdot, y(\cdot)).
+\tilde{\Phi}(y) &\coloneqq& \tilde{\varphi}(\cdot, y(\cdot)).
 \end{IEEEeqnarray*}
 Thus we calculate:
 \begin{IEEEeqnarray*}{rCl}
-(\tilde{\phi}'(y_2))x &=& \tilde{\varphi}_y(x, y(x)) y_2(x) \\
+(\tilde{\Phi}'(y_2))x &=& \tilde{\varphi}_y(x, y(x)) y_2(x) \\
 &=& \varphi_{yy}(x, y(x)) y_1(x) y_2(x).
 \end{IEEEeqnarray*}
 Therefore,
 \[
-	\phi''(y)[y_1, y_2](x) = \varphi_{yy}(x, y(x)) y_1(x) y_2(x).
+	\Phi''(y)[y_1, y_2](x) = \varphi_{yy}(x, y(x)) y_1(x) y_2(x).
 \]
 \end{example}
 \begin{theorem}
-Let $\varphi = \varphi(x, y) : E \times \R \to \R$ be measurable in $x$ for all $y \in \R$ and twice partially differentiable with respect to $y$ for almost all $x \in E$. Moreover, let boundedness and Lipschitz continuity of order two be fulfilled. Then, the associated Nemytskii operator $\phi$ is twice continuously Fréchet differentiable in $L^\infty(E)$ and
+Let $\varphi = \varphi(x, y) : E \times \R \to \R$ be measurable in $x$ for all $y \in \R$ and twice partially differentiable with respect to $y$ for almost all $x \in E$. Moreover, let boundedness and local Lipschitz continuity of order two be fulfilled. Then, the associated Nemytskii operator $\Phi$ is twice continuously Fréchet differentiable in $L^\infty(E)$ and
 \[
-	\phi''(y)[y_1, y_2] = \varphi_{yy} (x, y(x)) y_1(x) y_2(x)
+	\Phi''(y)[y_1, y_2] = \varphi_{yy} (x, y(x)) y_1(x) y_2(x)
 \]
 \end{theorem}
 \begin{proof}

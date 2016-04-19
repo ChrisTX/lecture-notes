@@ -34,7 +34,7 @@ and
 \]
 For the Lagrange multipliers, we have $\bar{\mu}_a, \bar{\mu}_b \geq 0$
 \[
-\langle \bar{\mu}_a, y_a - \bar{y} \rangle = \langle \bar{\mu}_b, y_b - \bar{y} \rangle.
+\langle \bar{\mu}_a, y_a - \bar{y} \rangle = 0 = \langle \bar{\mu}_b, y_b - \bar{y} \rangle.
 \]
 
 In the setting $\bar{u} \in L^2$ and one has $\bar{y} \in H_0^1 \cap H^2 \hookrightarrow C(\bar{\Omega})$.
@@ -66,7 +66,7 @@ and $p_{1, h}, p_{2, h}$, respectively, are the finite element approximations of
 \lambda \| \bar{u} - \bar{u}_h \|_{L^2}^2 &\leq& f_h''(\xi) (\bar{u} - \bar{u}_h, \bar{u} - \bar{u}_h) \\
 &=& f_h'(\bar{u})(\bar{u} - \bar{u}_h) - f_h'(\bar{u}_h)(\bar{u}-\bar{u}_h) \\
 &=& (\lambda \bar{u} + p_{1, h}(\bar{u}), \bar{u} - \bar{u}_h) - (\lambda \bar{u}_h + p_{1, h}(\bar{u}_h), \bar{u} - \bar{u}_h) \\
-&=& (\lambda \bar{u} + p_1(\bar{u}), \bar{u} - \bar{u}_h) - (p_1(\bar{u} - p_{1, h}(\bar{u}), \bar{u}-\bar{u}_h) \\
+&=& (\lambda \bar{u} + p_1(\bar{u}), \bar{u} - \bar{u}_h) - (p_1(\bar{u}) - p_{1, h}(\bar{u}), \bar{u}-\bar{u}_h) \\
 && \quad {} - (\lambda \bar{u}_h + p_{1, h}(\bar{u}_h), \bar{u} - \bar{u}_h))
 \end{IEEEeqnarray*}
 and because $0 = \lambda \bar{u} + \bar{p} = \lambda \bar{u} + p_1(\bar{u}) + p_2(\bar{\mu})$ one has $\lambda \bar{u} + p_1(\bar{u}) = p_2(\bar{u}) \neq 0$, and this can be transformed into
@@ -96,7 +96,7 @@ Let's discuss the first term on the right hand side:
 &=& \langle y_b - \underbrace{y(\bar{u})}_{= \bar{y}} + y(\bar{u}) - y_h(\bar{u}), \bar{\mu}_b \rangle \\
 &=& \underbrace{ \langle y_b - \bar{y}, \bar{\mu}_b \rangle }_{=0} + \langle y(\bar{u}) - y_h(\bar{u}), \bar{\mu}_b \rangle \\
 &=& \langle y(\bar{u}) - y_h(\bar{u}), \bar{\mu}_b \rangle_{C, C^*} \\
-&\leq& \| y(\bar{u}) - y_h(\bar{u}) \|_{L^\infty} \| \bar{u}_b \|_{M}
+&\leq& \| y(\bar{u}) - y_h(\bar{u}) \|_{L^\infty} \| \bar{\mu}_b \|_{M}
 \end{IEEEeqnarray*}
 The second term can be estimated in the same manner:
 \[

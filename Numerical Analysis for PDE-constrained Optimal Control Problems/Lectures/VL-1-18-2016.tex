@@ -14,8 +14,8 @@ that maps a function $y : E \to \R$ to a function $z : E \to \R$ defined by
 \[
 	z(x) = \varphi(x, y(x))
 \]
-is called a Nemytskii operator (or superposition operator)
-\item A function $\varphi : \varphi(x, y) : E \times \R \to \R$ satisfies the \emph{Carathèodory condition}, if $\varphi$ is measurable in $x$ for every fixed $y \in \R$, and continuous in $y$ for almost all $x \in E$.
+is called a Nemytskii operator (or superposition operator).
+\item A function $\varphi : \varphi(x, y) : E \times \R \to \R$ satisfies the \emph{Carathéodory condition}, if $\varphi$ is measurable in $x$ for every fixed $y \in \R$, and continuous in $y$ for almost all $x \in E$.
 \item $H$ satisfies the boundedness condition if there exists a constant $K > 0$ such that
 \[
 	|\varphi(x, 0)| \leq K
@@ -62,12 +62,12 @@ By taking the $r$-th root the claim follows.
 for almost all $x \in E$, and $\ell = 0, \ldots, k$.
 \item $\varphi$ satisfies the local Lipschitz condition of order $k$ if there exists an $M$-dependent Lipschitz constant $L(M)$ such that
 \[
-	|D_y^k \varphi(x, y_1) - D_y^k(x, y_2)| \leq L(M) | y_1 - y_2 |
+	|D_y^k \varphi(x, y_1) - D_y^k \varphi(x, y_2)| \leq L(M) | y_1 - y_2 |
 \]
 for all $|y_i| \leq M, i = 1, 2$.
 \end{itemize}
 \paragraph{First order derivatives in $L^\infty$}
-If $\varphi$ is continuous differentiable, is $\Phi$ continuously differentiable as well?
+If $\varphi$ is continuously differentiable, is $\Phi$ continuously differentiable as well?
 We calculate
 \begin{IEEEeqnarray*}{rCl}
 (\Phi'(y) h)(x) &=& \lim_{t \downarrow 0} \frac{1}{t} \left[ \varphi(x, y(x) + th(x)) - \varphi(x, y(x)) \right] \\
@@ -119,22 +119,18 @@ Then, the Nemytskii operator $\Phi$ associated with $\varphi$ is Fréchet-differ
 for almost all $x \in E$.
 \end{proposition}
 \begin{proof}
-We start by considering
-\[
-	\varphi(x, y(x) + h(x)) - \varphi(x, y(x))
-\]
-and estimating it using Taylor-type arguments, so that if $h$ goes to zero, so does this term.
+We obtain for arbitrary $y, h \in L^\infty(E)$ which are bounded almost everywhere by $M$ that
 \begin{IEEEeqnarray*}{rCl}
 \varphi(x, y(x) + h(x)) - \varphi(x, y(x)) &=& \varphi_y(x, y(x))h(x) \\
 && {} + \underbrace{ \int_{s=0}^1 \varphi_y(x, y(x) + sh(x)) - \varphi_y(x, y(x)) \ds \cdot h(x) }_{r(x, y, h)}
 \end{IEEEeqnarray*}
 For $r(x, y, h)$ we have
 \[
-	|r(x, y, h)| \leq L(M) \int_{s=0}^1 sh(x)^2 \ds = \frac{L(M)}{2} |h(x)^2|.
+	|r(x, y, h)| \leq L(2M) \int_{s=0}^1 s |h(x)| \ds |h(x)| = \frac{L(2M)}{2} |h(x)|^2 \leq \frac{L(2M)}{2} \| h \|_{L^\infty(E)}^2.
 \]
 Therefore,
 \[
-	\frac{\| r(x) \|_{L^\infty}}{\| h(x) \|_{L^\infty}} = c \| h(x) \|_{L^\infty} \xrightarrow{\| h(x) \|_{L^\infty} \to 0} 0,
+	\frac{\| r(x, y, h) \|_{L^\infty}}{\| h(x) \|_{L^\infty}} = c \| h(x) \|_{L^\infty} \xrightarrow{\| h(x) \|_{L^\infty} \to 0} 0,
 \]
 which proves differentiability.
 \end{proof}
