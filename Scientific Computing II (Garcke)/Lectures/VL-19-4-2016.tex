@@ -2,38 +2,32 @@
 
 \begin{document}
 \begin{theorem} % Theorem 10
-The dual space $\spHstar$ of a RKHS of functions on some set $\Omega$ is the closure of the span of all point evaluation functionals $\delta_x$ for $x \in \Omega$.
-For each pair $\lambda, \mu \in \spHstar$ one can define $\lambda^x(\mu^y(K(x, y)))$ uniquely via Cauchy sequences to yield
-\[
-	(*)
-	\lambda^x(\mu^y(K(x, y))) = \langle \lambda, \mu \rangle_{\spHstar}
-\]
-The Riesz representative of $\lambda \in \spHstar$ is $\lambda^x K(\cdot, x) \in \mathcal{X}$.
-\end{theorem} % Th 8
-\begin{theorem}
-
+\label{thm:10}
+The dual space $\spHstar$ of a \ac{RKHS} of functions on some set $\Omega$ is the closure of the span of all point evaluation functionals $\delta_x$ for $x \in \Omega$.
+For each pair $\lambda, \mu$ of functionals from the dual $\spHstar$ of $\spH$, one can define $\lambda^x(\mu^y(K(x, y)))$ uniquely via Cauchy sequences to yield
+\begin{equation}
+\label{eq:three-star}
+\tag{$\star\star\star$}
+	\lambda^x(\mu^y(K(x, y))) = \langle \lambda, \mu \rangle_{\spHstar} \quad \text{for all } \lambda, \mu \in \spHstar
+\end{equation}
+as a generalization of \cref{eq:two-star}.
+In particular, the Riesz representer of $\lambda \in \spHstar$ is $\lambda^x(K(\cdot, x)) \in \spH$.
 \end{theorem}
 \begin{proof}
-
-\end{proof}
-\begin{proof}
 The first part is the dual form of \cref{thm:7}.
-The identity (*) holds for all linear combinations of point evaluation functionals an by colinearity it carries our to all limits of Cauchy sequences, i.e.\ to all functionals in the dual.
+The identity \cref{eq:three-star} holds for all linear combinations of point evaluation functionals and by collinearity it carries our to all limits of Cauchy sequences, i.e.\ to all functionals in the dual.
 For linear combinations of point evaluations (and then later for all functionals) the reproduction equation is
 \[
-	\lambda(f) = \langle f, \lambda^x K(\cdot, x) \rangle_{\mathcal{X}}
+	\lambda(f) = \langle f, \lambda^x K(\cdot, x) \rangle_{\spH}
 \]
 proving
 \[
 	R(\lambda) = \lambda^x(K(\cdot, x)).
 \]
 \end{proof}
-Roughly spoken, the dual space consist of functionals which
-\begin{itemize}
-\item can be obtained via sequences of linear combinations of point evaluation functionals
-\item such that their application in the limit is possible for both arguments of $K$ independently.
-\end{itemize}
-We aim to functionals like
+Roughly spoken, the dual space consist of functionals which can be obtained via sequences of linear combinations of point evaluation functionals such that their application in the limit is possible for both arguments of $K$ independently.
+
+We aim for functionals like
 \[
 	f \mapsto (\Delta f)(x)
 \]
@@ -43,8 +37,8 @@ or
 \]
 We are aiming for a sufficient condition for these to lie in $\spHstar$.
 \begin{theorem} % Theorem 11
-\label{eq:thm11}
-Assume that the kernel $K$ of a RKHS $\spH$ of functions on some set $\Omega$ is explicitly known as a function on $\Omega \times \Omega$ and assume it allows the action of a general functional $\lambda$ to both arguments, i.e.\ $\lambda^y(\lambda^x(K(y, x))) \in \R$ exists.
+\label{thm:11}
+Assume that the kernel $K$ of a \ac{RKHS} $\spH$ of functions on some set $\Omega$ is explicitly known as a function on $\Omega \times \Omega$ and assume it allows the action of a general functional $\lambda$ to both arguments, i.e.\ $\lambda^y(\lambda^x(K(y, x))) \in \R$ exists.
 Furthermore, assume that there is a sequence $\{ \lambda_n \}_{n \in \N}$ of linear combinations of point evaluation functionals on points of $\Omega$ such that for all $\varepsilon > 0$ there is a $N \in \N$ such that for all $n, m \geq N$ we have
 \[
 	\left\| \lambda_n^y(\lambda_m^x(K(y,x))) - \lambda^y(\lambda^x(K(y, x))) \right\| \leq \varepsilon.
@@ -53,19 +47,17 @@ Finally assume
 \[
 	\lim_{n \to \infty} \lambda_n^y(K(x,y)) = \lambda^y(K(x,y)) \quad \text{for all } x \in \Omega.
 \]
-Then $\lambda \in \spHstar$ and is the limit of the Cauchy sequence $\{ \lambda_n \}_{n \in \N} \subset \spHstar$.
+Then $\lambda \in \spHstar$ and it is the limit of the Cauchy sequence $\{ \lambda_n \}_{n \in \N} \subset \spHstar$.
 \end{theorem}
 \begin{proof}
-We start with $\{\lambda_n\}_{n \in \N}$ is a Cauchy sequence in $\spHstar$.
-Then:
+We start showing that $\{\lambda_n\}_{n \in \N}$ is a Cauchy sequence in $\spHstar$:
 \begin{IEEEeqnarray*}{rCl}
 	\| \lambda_n - \lambda_m \|_{\spHstar}^2 &=& \| \lambda_n \|_{\spHstar}^2 + \| \lambda_m \|_{\spHstar}^2 - 2 \langle \lambda_n, \lambda_m \rangle_{\spHstar} \\
-	&\overset{\text{\cref{thm:10}}}{=}& \lambda_n^y \lambda_n^x K(y, x) + \lambda_m^y \lambda_n^x K(y, x) - 2 \lambda_n^y \lambda_m^x K(y, x) \\
+	&\overset{\text{\cref{thm:10}}}{=}& \lambda_n^y \lambda_n^x K(y, x) + \lambda_m^y \lambda_m^x K(y, x) - 2 \lambda_n^y \lambda_m^x K(y, x) \\
 	&\overset{\pm \lambda^y \lambda^x K(y, x)}{\leq}& 4 \varepsilon \quad \text{for all } n, m > N.
 \end{IEEEeqnarray*}
 Therefore the $\{ \lambda_n \}$ must have a limit $\tilde{\lambda} \in \spHstar$ and we need to show that $\tilde{\lambda} = \lambda$ as functionals on $\spH$.
-From (***) % TODO
-we set
+From the assumption on the limit we set % Was "From (**)".. ?
 \[
 	\lim_{n \to \infty} \lambda_n^y K(x, y) = \tilde{\lambda}^y K(x, y) = \lambda^y K(x, y) \quad \text{for all } x \in \Omega.
 \]
@@ -80,19 +72,19 @@ The subspace kernel is $K_0(x, \cdot) = \Pi_0(K(x, \cdot))$ for all $x \in \Omeg
 \begin{proof}
 The identity on $\spH$ can be decomposed into
 \[
-	I = \Pi_0 + (I - \Pi_0) = \Pi + \Pi_0^\perp.
+	I = \Pi_0 + (I - \Pi_0) = \Pi_0 + \Pi_0^\perp.
 \]
-Insert into (* RE) % TODO
+Thus:
 \[
 	f(y) = (\Pi_0 f)(y) + \left( \Pi_0^\perp f \right)(y).
 \]
-Thus:
+Insert into \cref{eq:starRE}:
 \begin{IEEEeqnarray*}{rCl}
 f(y) &=& \langle f, K(y, \cdot) \rangle_{\spH} \\
-&=& \langle \Pi_0 f + \Pi_0^f, \Pi_0 K(y, \cdot) + \Pi_0^\perp K(y, \cdot) \rangle_{\spH} \\
+&=& \langle \Pi_0 f + \Pi_0^\perp f, \Pi_0 K(y, \cdot) + \Pi_0^\perp K(y, \cdot) \rangle_{\spH} \\
 &=& \langle \Pi_0 f, \Pi_0 K(y, \cdot) \rangle_{\spH} + \langle \Pi_0^\perp f, \Pi_0^\perp K(y, \cdot) \rangle_{\spH}
 \end{IEEEeqnarray*}
-with $f \in \spH_0$ we set the first result and then easily see the second.
+with $f \in \spH_0$ we see the first result and then easily see the second.
 \end{proof}
 \begin{remark}
 Orthogonal space decompositions relate additive kernel decompositions using the corresponding projectors.
@@ -110,8 +102,7 @@ Then
 \]
 \end{theorem}
 \begin{proof}
-If $f(X) = \{ 0 \}$ then $f \in \spH_X^\perp$ by (*RE) % TODO
-and conversely.
+If $f(X) = \{ 0 \}$ then $f \in \spH_X^\perp$ by \cref{eq:starRE} and conversely.
 \end{proof}
 Now take the projector $\Pi_X$ from $\spH$ to $\spH_X$ and denote
 \[
@@ -132,7 +123,7 @@ Additionally,
 \]
 and 
 \[
-	\| f_X \|_{\spH} = \inf_{\substack{f(X) = g(X) \; \forall x \in X \\ g \in \spH}} \| g \|_{\spH} = \inf_{v \in \spH_X^\perp} \| f - v \|_{\spH}
+	\| f_X \|_{\spH} = \inf_{\substack{f(x) = g(x) \; \forall x \in X \\ g \in \spH}} \| g \|_{\spH} = \inf_{v \in \spH_X^\perp} \| f - v \|_{\spH}
 \]
 due to the orthogonality of the decomposition.
 \end{theorem}
@@ -150,11 +141,11 @@ for completeness, we easily see
 \label{thm:17}
 For all sets $X \subseteq Y \subseteq \Omega$ and all $f \in \spH$ we have
 \[
-	\| f_X \|_{\spH} \leq \| f_y \|_{\spH} \leq \| f \|_{\spH}
+	\| f_X \|_{\spH} \leq \| f_Y \|_{\spH} \leq \| f \|_{\spH}
 \]
 and
 \[
-	\| f \|_{\spH} \geq \| f - f_X \|_{\spH} \geq \| f - f_y \|_{\spH}.
+	\| f \|_{\spH} \geq \| f - f_X \|_{\spH} \geq \| f - f_Y \|_{\spH}.
 \]
 \end{corollary}
 \subsection*{Interpolate on finite sets}
@@ -165,14 +156,14 @@ We now restrict ourselves to finite sets $X = \{ x_1, \ldots, x_N \} \subseteq \
 with $\alpha_j \in \R$.
 The coefficients $\alpha_j$ might not be unique since we do not assume that the kernels $K(x_j, \cdot)$ are linearly independent.
 We know that $f_X$ interpolates $f$ on $X$, therefore it holds
-\addtocounter{equation}{2} % 18 and 19 follow next lecture
+\addtocounter{dummythm}{2} % 18 and 19 follow next lecture
 \begin{theorem} % Theorem 20
 \label{thm:20}
 For each $f \in \spH$, the linear system
 \[
 	\sum_{j=1}^N \alpha_j K(x_j, x_k) = f_k, \quad 1 \leq k \leq N
 \]
-with $f_k = f(x_k)$ and with the symmetric kernel matrix
+with $f_k = f(x_k)$ and the symmetric kernel matrix
 \[
 	A = (K(x_j, x_k))_{1 \leq j, k \leq N}
 \]
@@ -183,10 +174,10 @@ The kernel matrix can be singular under the assumptions made, therefore this res
 \end{remark}
 \begin{theorem} % Theorem 21
 \label{thm:21}
-In RKHS, the kernel matrix for a finite set $X$ is positive semidefinite. It is positive definite if the point evaluation functionals $\delta_X$ for $x \in X$ or equivalently the functions $K(x, \cdot)$ for $x \in X$ are linearly independent.
+In an \ac{RKHS}, the kernel matrix for a finite set $X$ is positive semidefinite. It is positive definite if the point evaluation functionals $\delta_X$ for $x \in X$ or equivalently the functions $K(x, \cdot)$ for $x \in X$ are linearly independent.
 \end{theorem}
 \begin{proof}
-This follows because any kernel matrix on a finite set $X$ is a Gram matrix for the functionals $\delta_{x_j}$ or the functions $K(x_j, \cdot)$, due to (*RE). % TODO
+This follows because any kernel matrix on a finite set $X$ is a Gram matrix for the functionals $\delta_{x_j}$ or the functions $K(x_j, \cdot)$, due to \cref{eq:starRE}.
 \end{proof}
 \begin{remark}
 The \cref{thm:20} therefore says that the right hand side of point evaluations is always in the span of the columns of the matrix.

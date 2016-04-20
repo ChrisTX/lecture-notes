@@ -39,6 +39,7 @@ The Gaussian kernel is the prime example of a kernel:
 for all $x, y \in \R^d$.
 % Plot: Gaussian kernel for various alphas.
 \begin{definition} % Def 1
+\label{thm:1}
 Let $\Omega$ be an arbitrary nonempty set.
 A function $K : \Omega \times \Omega \to \R$ is called a \emph{kernel} on $\Omega$. We call $K$ a \emph{symmetric kernel} if
 \[
@@ -54,12 +55,14 @@ The Gaussian kernel can be written as
 	&=& \phi(\| x - y \|_2)
 \end{IEEEeqnarray*}
 \begin{definition} % Def 2
+\label{thm:2}
 A function $\Phi : \R^d \to \R$ is said to be radial if there exists a function $\phi : [0, \infty] \to \R$ such that
 \[
 	\Phi(x) = \Phi(\| x \|_2)
 \]
 for all $x \in \R^d$.
-Such functions are traditionally called \ac{RBF}.
+Such functions are traditionally called \emph{\acf{RBF}}.
+\end{definition}
 Other \ac{RBF}s are
 \begin{itemize}
 \item $\beta > 0$, multiquadratics, $\phi(r) = (1 + \alpha r^2)^\beta$ 
@@ -74,7 +77,6 @@ Special case:
 \]
 This is the thin-plate spline.
 \end{itemize}
-\end{definition}
 % Plot: Inverse multiquadratics for various beta.
 % Plot: Multiquadratics for various beta.
 % Plot: Polyharmonic functions for various
@@ -111,14 +113,14 @@ In $\R^d$,
 \]
 $x$ and $y$ are very dissimilar if they are orthogonal and $x$ and $y$ are very similar if they point in the same direction.
 
-To work with general data, we first represent it in a Hilbert space $\mathcal{F}$, the so called \emph{feature space}.
+To work with general data, we first represent it in a Hilbert space $\spF$, the so called \emph{feature space}.
 One considers the feature map
 \[
-	\Phi : \Omega \to \mathcal{F}.
+	\Phi : \Omega \to \spF.
 \]
-We can use the scalar product in $\mathcal{F}$,
+We can use the scalar product in $\spF$,
 \[
-	\langle \Phi(x), \Phi(y) \rangle_{\mathcal{F}} \eqqcolon K(x, y) \quad \text{for all } x, y \in \Omega
+	\langle \Phi(x), \Phi(y) \rangle_{\spF} \eqqcolon K(x, y) \quad \text{for all } x, y \in \Omega
 \]
 and define a kernel that way.
 

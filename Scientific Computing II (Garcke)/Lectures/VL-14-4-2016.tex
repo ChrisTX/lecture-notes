@@ -1,0 +1,140 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+Given a kernel, an associated feature map is not unique. Let $\Omega = \R$, $K(x, y) = x \cdot y$ for all $x, y \in \R$.
+The identity $\operatorname{Id}_\R$ is a feature map on $\R$, so the feature space is $\spF = \R$ and this fits into the concept.
+But the map $\Phi : \Omega \to \R^2$ defined by
+\[
+	\Phi(x) \coloneqq \left( \frac{x}{\sqrt{2}}, \frac{x}{\sqrt{2}} \right) \quad \text{for all } x \in \Omega
+\]  
+is also a feature map given the same $K$:
+\[
+	\langle \Phi(x), \Phi(y) \rangle_{\R^2} = \frac{x}{\sqrt{2}} \frac{y}{\sqrt{2}} + \frac{x}{\sqrt{2}} \frac{y}{\sqrt{2}} = xy = K(x, y) \quad \text{for all } x, y \in \R.
+\]
+\section{Kernels from Hilbert spaces}
+We have some domain $\Omega$. For each $x \in \Omega$ and each function $f$ we want that $x \mapsto f(x) \in \R$ is a ``nice'' operator, which depends on $f$ and $x$.
+So we fix $f$ and a space $\spH$ of functions. On $\spH$ assume a structure, namely that it is a Hilbert space with the inner product $\langle \cdot, \cdot \rangle_K$.
+
+Considering a space of functions is no specific case of a Hilbert space. Any arbitrary Hilbert space $\spH$ is a Hilbert space of functions on its dual space $\spHstar$ via
+\[
+	f(\mu) \coloneqq \mu(f) \quad \text{for all } f \in \spH, \mu \in \spHstar.
+\] 
+The dual space in this view now contains only point evaluation functionals, where ``points'' are functionals themselves.
+Now for $x \in \Omega$ we consider the point evaluation functional $\delta_x : f \mapsto f(x)$..
+Therefore these functionals are in the topological dual $\spHstar$ of $\spH$ and it holds for continuous $\delta_x$:
+\[
+	|\delta_x(f)| = |f(x)| \leq \| \delta_x \|_{\spHstar} \| f \|_{\spH}.
+\]
+We quote some results from functional analysis:
+\begin{theorem}[Riesz representation formula] % Theorem 3
+\label{thm:3}
+Any continuous linear functional $\lambda$ on a Hilbert space $\spH$ can be written as $\lambda = \langle \cdot, g_\lambda \rangle_{\spH}$ with a unique element $g_\lambda \in \spH$ satisfying $\| \lambda \|_{\spHstar} = \| g_\lambda \|_{\spH}$.
+\end{theorem}
+\begin{definition} % Def 4
+\label{thm:4}
+The  map $R : \spHstar \to \spH$ with $\lambda \mapsto g_\lambda$ for all $\lambda \in \spHstar$ on the dual space $\spHstar$ of a Hilbert space $\spH$ is called \emph{Riesz map}. Another description is
+\[
+	\langle f, R(\lambda) \rangle_{\spH} = \lambda(f) \quad \text{for all } \lambda \in \spHstar, f \in \spH.
+\]
+\end{definition}
+\begin{theorem} % Theorem 5
+\label{thm:5}
+The Riesz map is a linear isometric bijection between a Hilbert space $\spH$ and its dual $\spHstar$. In particular, the dual norm can be written as a Hilbert space norm based on an inner product $\langle \cdot, \cdot \rangle_{\spHstar}$ satisfying
+\[
+	\langle R(\lambda), R(\mu) \rangle_{\spH} = \langle \mu, \lambda \rangle_{\spHstar} \quad \text{for all } \lambda, \mu \in \spHstar.
+\]
+\end{theorem}
+Therefore any Hilbert space is isometrically isomorphic to its dual via the Riesz map.
+
+By applying the Riesz map on $\delta_x$, we now get a function
+\[
+	K(x, \cdot) \coloneqq R(\delta_x) \in \spH \quad \text{for all } x \in \Omega,
+\]
+which is a kernel on $\Omega$ according to our definition.
+
+It holds
+\begin{equation} % (*RE)
+\label{eq:starRE}
+\tag{$\star$RE}
+	f(y) = \delta_y(f) = \langle f, R(\delta_y) \rangle_{\spH} = \langle f, K(y, \cdot) \rangle_{\spH} \quad \text{for all } f \in \spH, y \in \Omega.
+\end{equation}
+which is a \emph{reproduction equation} for values of functions from the inner product.
+Any kernel $K(x, \cdot)$ satisfying the reproduction equation must be the Riesz representer of the point evaluation functional $\delta_x$. It follows that in \cref{eq:starRE} the reproducing kernel is unique.
+
+Now consider $f = K(x, \cdot) \in \spH$, we get
+\begin{equation} % (**)
+\label{eq:two-star}
+\tag{$\star\star$}
+	K(x, y) = \langle K(x, \cdot), K(y, \cdot) \rangle_{\spH} = \langle \delta_y, \delta_x \rangle_{\spHstar} \quad \text{for all } x, y \in \spH.
+\end{equation}
+Together we have shown
+\begin{theorem} % Theorem 6
+\label{thm:6}
+Each Hilbert space $\spH$ of real valued functions on some set $\Omega$ with continuous point evaluation functionals is a \emph{\acf{RKHS}} with a unique kernel $K : \Omega \times \Omega \to \R$ satisfying the reproduction equation \cref{eq:starRE} and the representation \cref{eq:two-star}. 
+\end{theorem}
+Using Cauchy-Schwarz we can observe
+\begin{IEEEeqnarray*}{rCl}
+	|K(x, y)|^2 &\overset{\text{\cref{eq:two-star}}}{=}& |\langle K(x, \cdot), K(y, \cdot) \rangle|^2 \\
+	&\leq& \langle K(x, \cdot), K(x, \cdot) \rangle \langle K(y, \cdot), K(y, \cdot) \rangle \\
+	&=& K(x, x) \cdot K(y, y) \quad \text{for all } x, y \in \Omega.
+\end{IEEEeqnarray*}
+\begin{theorem} % Theorem 7
+\label{thm:7}
+All Hilbert spaces $\spH$ of functions on some set $\Omega$ with a reproducing kernel $K$ coincide with the closure of linear combinations of functions $K(y, \cdot)$ for all $y \in \Omega$.
+\end{theorem}
+\begin{proof}
+Assume that some $f \in \spH$ is orthogonal to all $K(y, \cdot)$. Then \cref{eq:starRE} gives $f(y) = \langle f, K(y, \cdot) \rangle_{\spH} = 0$ and therefore $f$ is zero as a function on $\Omega$.
+\end{proof}
+\begin{theorem} % Theorem 8
+\label{thm:8}
+If a Hilbert (sub-)space of functions on $\Omega$ has a finite orthonormal basis $v_1, \ldots, v_N$ the reproducing kernel is
+\[
+	K_N(x, \cdot) = \sum_{j=1}^N v_j (x) v_j(\cdot) \quad \text{for all } x \in \Omega.
+\]
+In case of a subspace we have
+\[
+	K_N(x, x) = \sum_{j=1}^N |v_j(x)|^2 \leq K(x,x) \quad \text{for all } x \in \Omega.
+\]
+\end{theorem}
+\begin{proof}
+The kernel must have a representation as
+\begin{IEEEeqnarray*}{rCl}
+	K_N(x, \cdot) &=& \sum_{j=1}^N \langle K_N(x, \cdot), v_j \rangle_{\spH} v_j(\cdot) \\
+	&\overset{\cref{eq:starRE}}{=}& \sum_{j=1}^N v_j(x) v_j(\cdot).
+\end{IEEEeqnarray*}
+Now consider
+\begin{IEEEeqnarray*}{rCl}
+	K_N(x, x) &=& \langle K_N(x, \cdot), K_N(x, \cdot) \rangle_{\spH} \\
+	&=& \langle K_N(x, \cdot), K(x, \cdot) \rangle_{\spH}.
+\end{IEEEeqnarray*}
+With Cauchy-Schwarz we get then
+\[
+	K_N(x, x) \leq \sqrt{K_N(x, x)} \sqrt{K(x, x)} \quad \text{for all } x \in \Omega.
+\]
+\end{proof}
+For increasing $N$ the functions $v_N$ must get small, although the normalization is independent of $N$. But note that the Hilbert space norm often includes derivatives, which has an effect on the normalization, namely that basis functions with sharp spikes tend to be small in the function values.
+\begin{corollary} % Corollary 9
+\label{thm:9}
+If a Hilbert (sub-)space with continuous point evaluation has a complete orthonormal basis, then \cref{thm:8} also holds for $N = \infty$.
+\end{corollary}
+\begin{proof}
+We use a series expansion in the above proof and employ Bessel's inequality:
+\begin{IEEEeqnarray*}{rCl}
+	\sum_{j=1}^\infty |v_j(x)|^2 &=& \sum_{j=1}^\infty \left|\langle K(x, \cdot), v_j \rangle_{\spH} \right|^2 \\
+	&\leq& \| K(x, \cdot) \|_{\spH}^2 \\
+	&=& K(x, x) < \infty,
+\end{IEEEeqnarray*}
+due to the continuous point evaluations.
+This gives for 
+\begin{IEEEeqnarray*}{rCl}
+	K(x, y) &=& \sum_{j=1}^\infty v_j(x) v_j(y) \\
+	&\leq& \sum_{j=1}^\infty |v_j(x) v_j(y)| \\
+	&\overset{\text{Hölder}}{\leq}& \sqrt{\sum_{j=1}^\infty |v_j(x)|^2} \cdot \sqrt{\sum_{j=1}^\infty |v_j(y)|^2} < \infty
+\end{IEEEeqnarray*}
+and the series converges pointwise and absolutely.
+\end{proof}
+\begin{remark}
+The result\slash{}kernel $K_N$ does not depend on the basis, all will yield the same unique kernel, only the representation changes.
+\end{remark}
+\underline{Notation:} Superscript arguments indicate the action of variables, e.g.\ $\lambda^x$ denotes the action of $\lambda$ with respect to the variable $x$.
+\end{document}

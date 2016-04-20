@@ -4,27 +4,22 @@
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
+\usepackage{ifpdf}
 
 \usepackage{subfiles}
 
 \usepackage{relsize}
-\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage[dvipsnames]{xcolor}
 \usepackage{enumerate}
+\usepackage{acro}
 
 \usepackage{mathtools}
 \usepackage{amssymb}
 \usepackage{stmaryrd}
 \usepackage{mathrsfs}
 
-\usepackage{xfrac}
-
 \usepackage{tikz}
-\usepackage{acro}
-
-\usepackage{ifpdf}
-\usepackage{dsfont}
 \usepackage{chngcntr}
-\usepackage{centernot}
 
 \ifpdf
 	\pdfminorversion=7
@@ -46,6 +41,7 @@
 }
 
 % These have to be loaded after hyperref!
+% \usepackage[vlined,linesnumbered]{algorithm2e} % Not needed thus far
 \usepackage[amsmath,hyperref,thmmarks]{ntheorem}
 \ifpdf
 	\usepackage[ntheorem,framemethod=tikz]{mdframed}
@@ -75,20 +71,21 @@
 \maketitle{}
 
 \frontmatter
-% \printacronyms
+\printacronyms
 \tableofcontents
 
 \mainmatter
 \counterwithout{equation}{chapter}
 
 \subfile{Lectures/VL-12-4-2016}
+\subfile{Lectures/VL-14-4-2016}
 \subfile{Lectures/VL-19-4-2016}
 
-\backmatter
-\cleardoublepage
-\phantomsection
-\addcontentsline{toc}{chapter}{Biblography}
-\bibliographystyle{amsalpha}
-\bibliography{literature}
+% \backmatter
+% \cleardoublepage
+% \phantomsection
+% \addcontentsline{toc}{chapter}{Biblography}
+% \bibliographystyle{amsalpha}
+% \bibliography{literature}
 
 \end{document}
