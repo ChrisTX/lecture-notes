@@ -3,7 +3,6 @@
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage{lmodern}
 \usepackage{ifpdf}
 
 \usepackage{subfiles}
@@ -27,6 +26,17 @@
 \else
 	\usepackage[hypertex]{hyperref}
 \fi
+
+% Proprietary Adobe font packages
+% WARNING:
+%	These are *NOT* included with normal, free LaTeX redistributions
+% 	In order to acquire these fonts, one has to install "FontPro" and provide the appropriate OpenType font files.
+% IMPORTANT: The lecture notes can be compiled *without* these packages, comment them out to use Computer Modern
+\usepackage{CronosPro} 								% Replaces sans-serif fonts only
+\usepackage[minionint,mathlf,swash,]{MinionPro} 	% Replaces serif text fonts and math fonts. Also pulls in MnSymbol.
+
+% When building without Adobe fonts, uncomment the following line!
+% \usepackage{lmodern}
 
 \newcommand\myshade{85}
 \colorlet{mylinkcolor}{NavyBlue}
@@ -81,6 +91,7 @@
 \subfile{Lectures/VL-14-4-2016}
 \subfile{Lectures/VL-19-4-2016}
 \subfile{Lectures/VL-21-4-2016}
+\subfile{Lectures/VL-26-4-2016}
 
 % \backmatter
 % \cleardoublepage

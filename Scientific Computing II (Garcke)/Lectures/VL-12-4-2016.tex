@@ -30,8 +30,10 @@ so
 	f(x) = \sum_{j=1}^N c_j K(x_j, x).
 \]
 We will also consider $f(x_i) \approx f_i$.
-\chapter{Kernel based methods}
-\section{Kernels}
+\chapter{Kernel based methods} % Chapter 1
+\label{sec:1}
+\section{Kernels} % Section 1.1
+\label{sec:1.1}
 The Gaussian kernel is the prime example of a kernel:
 \[
 	K(x, y) \coloneqq \exp\left(- \alpha \| x - y \|_2^2 \right)
@@ -134,7 +136,7 @@ A simple kernel is the vector space kernel
 \[
 	K(t_1, t_2) \coloneqq \langle \Phi(t_1), \Phi(t_2) \rangle = \sum_{j=1}^d wf(w_j, t_1) \cdot wf(w_j, t_2).
 \]
-Natural extensions take e.g.\ word order, relevance or semantics into account, which can be achieved by using matrices in the scalar product:
+Natural extensions to this kernel take e.g.\ word order, relevance or semantics into account, which can be achieved by using matrices in the scalar product:
 \begin{IEEEeqnarray*}{rCl}
 	K(t_1, t_2) &\coloneqq& \langle S \Phi(t_1), S \Phi(t_2) \rangle \\
 	&=& \Phi^\tp(t_1) S^\tp S \Phi(t_2).
