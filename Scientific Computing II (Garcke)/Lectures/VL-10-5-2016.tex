@@ -1,0 +1,188 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+\begin{remark}
+One can build knowledge into this setup by considering
+\[
+\bar{f} = f + h, \quad f \in \spH, h \in \spn\{ \psi_p \}
+\]
+where $\psi_p$ can be specific functions having interpretability.
+Then one obtains a semiparametric representation
+\[
+\bar{f}(x) = \sum_{i=1}^N \alpha_i K(x, x_i) + \sum_{p=1}^M \beta_p \psi_p(x).
+\]
+\end{remark}
+\begin{remark}
+If both the loss function and the regularization $s$ are convex, one has a unique minimum.
+\end{remark}
+On $L_2(\Omega)$, we have
+\[
+	\langle f, g \rangle_{L_2(\Omega)} = \int_\Omega fg \dx.
+\]
+We are aiming for
+\[
+	\langle f, g \rangle_{\spH} = \langle Sf, Sg \rangle_{L_2} = \int_\Omega Sf(x) Sg(x) \dx.
+\]
+The transformation $S$ picks those parts of $f$ which should be regularized. Now think of $S$ as extracting derivations and we see that it is $S$ for smoothness.
+\begin{definition} % Definition 42
+\label{thm:42}
+A \emph{regularization operator} $S$ is defined as a linear map from the space of functions $\{ f \mid f : \Omega \to \R \}$ into a space $D$ equipped with a scalar product.
+The regularization term $s(f)$ takes the form
+\[
+	s(f) \coloneqq \langle Sf, Sf \rangle_D
+\]
+or sometimes
+\[
+	s(f) \coloneqq \frac{1}{2} \langle Sf, Sf \rangle_D.
+\]
+\end{definition}
+\begin{remark}
+Since we can always define $\tilde{S} \coloneqq (S^\dualst S)^{\frac{1}{2}}$ and
+\[
+	\langle f, S^\dualst S f \rangle_{\spL} = \langle Sf, Sf \rangle_D,
+\]
+we can assume $S$ is a positive semidefinite regularization operator.
+\end{remark}
+\begin{theorem}[Mercer's theorem] % Theorem 43
+\label{thm:43}
+Let $\Omega$ be a compact domain, $\nu$ a Borel measure on $\Omega$, and $K : \Omega \times \Omega$ symmetric and continuous.
+The corresponding integral operator $T_K$ shall be positive semidefinite, i.e.
+\[
+	\int_{\Omega \times \Omega} K(x, y) f(x) f(y) \geq 0 \quad \text{for all } f \in L_2^\nu(\Omega).
+\]
+Let $\lambda_i$ be the $i$-th eigenvalue of $T_K$ and $\{ \psi_i \}_{i \geq 1}$ the corresponding and normalized eigenfunctions.
+It then holds
+\[
+	K(x, y) = \sum_{i=1}^\infty \lambda_i \cdot \phi_i(x) \phi_i(y) \quad \text{for all } x, y \in \Omega,
+\]
+where the convergence is absolute (for each $x, y \in \Omega \times \Omega$) and uniform (on $\Omega \times \Omega$).
+\end{theorem}
+\begin{proof}
+A proof is given in \cite{Hochstadt} for $\Omega = [0, 1]$ and the Lebesgue measure, but the proof is valid for this more general situation.
+\end{proof}
+\begin{remark}
+More generally, Hilbert-Schmidt theory ensures the existence of $L_2$-convergent eigenfunction expansions of compact, self-adjoint operators.
+\end{remark}
+We go over to weighted inner products with a weight function $\sigma$:
+\[
+	\langle f, g \rangle = \int_\Omega f(x) g(x) \sigma(x) \dx.
+\]
+The eigenvalue problem of the integral operator $T_K$ is
+\[
+	\int_\Omega K(x, z) \phi(x) \sigma(x) \dx = \langle K(x, z), \phi(x) \rangle = \lambda \phi(z).
+\]
+
+We consider the (non-homogeneous) linear (ordinary or partial) differential equation
+\[
+	(Lu)(x) = f(x) \quad \text{on } \Omega \subset \R^d
+\]
+with a linear and elliptic operator $L$ and some suitable boundary conditions.
+The solution can be written with Green's function $g$
+\[
+	u(x) = \int_\Omega f(z) g(x, z) \dz,
+\]
+where for $g$ it holds
+\[
+	(Lg)(x, z) = \delta(x - z),
+\]
+where $z$ denotes a fixed and arbitrary ``source''.
+\begin{example}[Brownian bridge kernel]
+Let $\Omega = [0, 1]$ and
+\begin{IEEEeqnarray*}{rCl}
+	K(x, z) &=& \min(x, z) - xz \\
+	&=& \begin{cases}
+	x(1-z) & x \leq z \\
+	z(1-x) & x \geq z
+	\end{cases}.
+\end{IEEEeqnarray*}
+This kernel may be obtained by observing properties of the Green's function for
+\begin{IEEEeqnarray*}{rCl}
+	- \frac{\diffd^2}{\diffd x^2} K(x, z) &=& \delta(x - z) \\
+\noalign{\noindent with boundary conditions \vspace{\jot}}
+	K(0, z) &=& K(1, z) = 0.
+\end{IEEEeqnarray*}
+For example 
+\begin{itemize}
+\item $y$ is continuous along the diagonal $x=z$
+\item $\frac{\diffd y}{\diffd x}$ has for any fixed $z \in (0, 1)$ a jump discontinuity at $x = z$
+\item $y$ is piecewise linearly defined on $[0, 1]^2$.
+\end{itemize}
+Therefore $K$ is the Green's function for $L = \frac{\diffd^2}{\diffd x^2}$.
+\end{example}
+\begin{remark}
+It can be seen that the Green's function, and therefore the corresponding kernel, are symmetric for self-adjoint differential operators $L$.
+\end{remark}
+\begin{theorem} % Theorem 44
+\label{thm:44}
+For every \ac{RKHS} $\spH$ with reproducing kernel $K$, there exists a corresponding regularization operator $S : \spH \to D$, such that for all $f \in \spH$,
+\begin{equation}
+\tag{$\star$}
+\label{eq:RegRKf}
+	f(x) = \langle SK(x, \cdot), Sf \rangle_D 
+\end{equation}
+and in particular
+\[
+	\langle SK(x, \cdot), SK(z, \cdot) \rangle_D = K(x, z).
+\]
+Likewise, for every regularization operator $S : \spL \to D$, where $\spL$ is some function space equipped with a scalar product and with a corresponding Green's function for $S^\dualst S$, there exists a corresponding \ac{RKHS} $\spH$, with reproducing kernel $K$, such that both equations are satisfied.
+\end{theorem}
+\begin{proof}
+For the first direction, we consider $S = \text{Id}$ and $D = \spH$. This construction fulfills all wanted properties.
+
+Now we start with a function $G_x$ which fulfills
+\[
+	f(x) = \langle S^\dualst S G_x, f \rangle_\spL \quad \text{for all } f \in S^\dualst S \spL.
+\]
+This exists as the Green's function for the operator $S^\dualst S$.
+\begin{IEEEeqnarray*}{rCl}
+	f(x) &=& \langle \underbrace{ S^\dualst S }_{L} G_x, f \rangle_\spL \\
+	&=& \langle L G_x, f \rangle \\
+	&=& \langle f, \delta(z -x) \\
+	&=& f(x).
+\end{IEEEeqnarray*}
+We have the reproduction property \cref{eq:RegRKf} on the set $S^\dualst S \spL$ using the properties of the adjoint:
+\[
+	\langle S^\dualst S G_x, f \rangle_{\spL} = \langle S G_x, S f \rangle_D.
+\]
+With $f = G_z$ it follows 
+\begin{IEEEeqnarray*}{rCl}
+G_z(x) &=& \langle SG_x, SG_z \rangle_D \\
+&=& \langle SG_z, SG_x \rangle_D \\
+&=& G_x(z),
+\end{IEEEeqnarray*}
+i.e.\ $G$ is symmetric in this sense and we write
+\[
+	g(x, y) = G_z(x),
+\]
+with
+\begin{IEEEeqnarray*}{rCl}
+	g(x, z) &=& \langle S G_x, S G_z \rangle_D
+\end{IEEEeqnarray*}
+we notice that $x \mapsto SG_x$ is actually a feature map.
+With \cref{thm:28}, we know that this is a positive semidefinite kernel and we define
+\[
+	K(x, z) = g(x, z).
+\]
+It can be seen that the corresponding \ac{RKHS} is the closure of 
+\[
+	\left\{ f \in S^\dualst S \spL \gmid \| Sf \|_D^2 \leq \infty \right\}.
+\]
+\end{proof}
+$D$ is a \ac{RKHS} with inner product $\langle S \cdot, S \cdot \rangle_D = \langle \cdot, \cdot \rangle_\spH$.
+
+We want to connect
+\begin{itemize}
+\item integral operator eigenvalue problem
+\item related eigenvalue problem for the differential operator
+\end{itemize}
+To simplify the situation, we consider the free-space\slash{}fullspace Green's function with boundary conditions.
+We use $g$ as a kernel $K$, i.e.\ $(LK)(x, z) = \delta(x - z)$.
+Now applying $L$ to the integral equation gives
+\begin{IEEEeqnarray*}{c"rCl}
+	& \underbrace{ L \int_\Omega K(x, z) \phi(x) \sigma(x) \dx }_{\int_\Omega L K(x, z) \phi(x) \sigma(x) \dx} &=& L \gamma \phi(z) \\
+\Longleftrightarrow	& \underbrace{ \int_\Omega \delta(x - z) \phi(x) \dx }_{\phi(z) \sigma(z)} &=& \gamma L \phi(z) \\
+\implies & L \phi(z) &=& \frac{1}{\gamma} \phi(z) \sigma(z)
+\end{IEEEeqnarray*}
+where for simplicity we assume that $L$ has no eigenvalue $0$.
+This shows that $L$ has eigenvalues which are the reciprocals of the eigenvalues of $T_K$, while the corresponding eigenfunctions are the same, taking the weight function into account.
+\end{document}

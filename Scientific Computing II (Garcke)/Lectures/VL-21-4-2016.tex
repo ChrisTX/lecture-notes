@@ -1,0 +1,195 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+Consider $f(\cdot) = K(x, \cdot)$ in \cref{thm:20}.
+We therefore know that for every $x \in \Omega$
+\begin{equation}
+\tag{$\star\!\star$}
+\label{eq:two-star-finite}
+	K(x, x_k) = \sum_{j=1}^N u_j(x) K(x_j, x_k), \quad 1 \leq k \leq N
+\end{equation}
+has a solution $u_j(x)$ as a function on $\Omega$.
+Additionally, it holds for all $x, z \in \Omega$
+\[
+	K(x, \cdot)_{X} (z) = \sum_{j=1}^N u_j(x) K(x_j, z),
+\]
+i.e. the interpolant of $K(x, \cdot)$ on $X$.
+\begin{theorem} % Theorem 24
+\label{thm:24}
+The $u_j$ in \cref{eq:two-star-finite} are in $\spH_X$ and a Lagrange basis, i.e.
+\[
+	u_j(x_k) = \delta_{j, k} \quad 1 \leq j, k \leq N
+\]
+if the kernel matrix is nonsingular. In general, we still have
+\[
+	f_X = \sum_{j=1}^N u_j(x) f(x_i)
+\]
+\end{theorem}
+\begin{proof}
+The first statement follows from \cref{eq:two-star-finite}.
+For the second one
+\begin{IEEEeqnarray*}{rCl}
+f_X(\cdot) &=& \sum_{k = 1}^N \alpha_k K(x_k, \cdot) \\
+&\overset{\text{\cref{eq:two-star-finite}}}{=}& \sum_{k=1}^N \alpha_K \sum_{j=1} u_j(\cdot) K(x_j, x_k) \\
+&=& \sum_{j=1}^N u_j(\cdot) \sum_{k=1}^N \alpha_k K(x_i, x_k) \\
+&=& \sum_{j=1}^N u_j(\cdot) f(x_j).
+\end{IEEEeqnarray*}
+This proves everything
+\end{proof}
+We consider now only $f = K(x, \cdot)$ for a fixed $x \in \Omega$.
+\addtocounter{dummythm}{-7}
+\begin{definition} % Definition 18
+\label{thm:18}
+The function
+\[
+	P_X(x) \coloneqq \| K(x, \cdot) - K(x, \cdot)_X \|_{\spH} \quad x \in \Omega
+\]
+is called \emph{power function} with respect to the set $X$ and the kernel $K$.
+\end{definition}
+A different definition goes with the error functional
+\[
+	\epsilon_{x, X} f \mapsto f(x) - (\Pi_X(f))(x).
+\]
+which is in $\spHstar$ and the power function is defined as
+\[
+	P_X(x) \coloneqq \| \epsilon_{x, X} \|_{\spHstar} \quad \text{for all } x \in \Omega.
+\]
+\begin{theorem} % Theorem 19
+\label{thm:19}
+The error definitions are equivalent. Furthermore, the power function has the properties
+\begin{enumerate}
+\item $P_X(x) = 0$ for all $x \in X$.
+\item $P_0(X)^2 = K(x, x)$ for all $x \in \Omega$
+\item $P_\Omega(x) = 0$ for all $x \in \Omega$
+\item $0 = P_{\Omega} \leq P_Y(x) \leq P_X(x) \leq P_0(x)$ for all $x \in \Omega$, $X \subseteq Y \subseteq \Omega$
+\item $P_X(x) = \inf_{g \in \spH_{X}} \| K(x, \cdot) - g \|_{\spH}$
+\item $P_X(x) = \sup_{\substack{f \in \spH, \| f \|_{\spH} \leq 1 \\ f(X) = \{ 0 \}}} f(x)$ for all $x \in \Omega$
+\end{enumerate}
+and finally th important error bound
+\begin{IEEEeqnarray*}{rCl}
+|f(x) - f_X(x) | &=& \left| f_X^\perp (x) \right| \\
+&\leq& P_X(x) \left\| f_X^\perp \right\|_{\spH} \\
+&=& P_X(x) \| f - f_X \|_{\spH} \\
+&\leq& P_X(x) \| f \|_{\spH}
+\end{IEEEeqnarray*}
+for all $x \in \Omega, f \in \spH$.
+\end{theorem}
+\addtocounter{dummythm}{5}
+\begin{proof}
+For the equivalence, we show that the Riesz representer of $\delta_x \circ \Pi_X$ is $K(x, \cdot)_X$.
+\begin{IEEEeqnarray*}{rCl}
+\langle f, R(\delta_x \circ \Pi_X) \rangle_{\spH} &=& \delta_X \circ \Pi_X(f)) \\
+&=& f_X(x) \\
+&=& \langle f_X, K(x, \cdot) \rangle_{\spH} \\
+&=& \langle f_X, K(x, \cdot)_X + K(x, \cdot)_{X^\perp} \rangle_{\spH} \\
+&=& \langle f_X, K(x, \cdot)_X \rangle_{\spH} \\
+&=& \langle f - f_{X^\perp}, K(x, \cdot)_X \rangle_{\spH} \\
+&=& \langle f, K(x, \cdot)_X \rangle_{\spH}
+\end{IEEEeqnarray*}
+The listed properties are easily derived from \cref{thm:18} and the previous results.
+With the error representation
+\begin{IEEEeqnarray*}{rCl}
+f(X) - f_X(x) &=& f_{X^\perp} (x) \\
+&=& \langle f_{X^\perp}, K(x, \cdot) \rangle_{\spH} \\
+&=& \langle f_{X^\perp}, K(x, \cdot) - K(x, \cdot)_X \rangle_{\spH}
+\end{IEEEeqnarray*}
+The error bound follows.
+For the sixth property, we see from the first inequality of the error bound that
+\[
+	P_X(x) \geq \sup_{\left\| f_{X^\perp} \right\| \leq 1} f_{X^\perp} (x)
+\]
+and equality must hold for the representation of $\epsilon_{x, X}$.
+\end{proof}
+\begin{remark}
+Consider the subspace
+\[
+	\spHstar_{X} \coloneqq \overline{ \spn \left\{ \delta_x \mid x \in X \right\} }
+\]
+of the dual space. Then the fifth property can be equivalently be given as
+\[
+	P_X(x) = \inf_{\lambda \in \spHstar_X} \| \delta_x - \lambda \|_{\spHstar} \quad \text{for all } x \in \Omega.
+\]
+It indicates how well the point evaluation functional $\delta_x$ can be approximated by arbitrary linear combinations of the $\delta_{x'}$ for $x' \in X$.
+\end{remark}
+Using again
+\[
+% (***) in he lecture, but already defined above, see two-star-finite.
+K(x, \cdot)_X (z) = \sum_{j=1}^N u_j(x) K(x_j, z)
+\]
+and plug this into the power function. We set
+\begin{theorem} % Theorem 25
+\label{thm:25}
+The power function has the explicit representation
+\begin{IEEEeqnarray*}{rCl}
+	P_X^2(x) &=& K(x, x) - 2 \sum_{j=1}^N u_j(x) K(x, x_j) + \sum_{j=1}^N \sum_{k=1}^N u_j(x) u_k(x) K(x_j, x_k) \\
+	&=& K(x, x) - K(x, \cdot)_X (x)
+\end{IEEEeqnarray*}
+\end{theorem}
+\begin{proof}
+\begin{IEEEeqnarray*}{rCl}
+P_X^2(x) &=& \langle K(x, \cdot) - K(x, \cdot)_X, K(x, \cdot) - K(x, \cdot)_X \rangle_{\spH} \\
+&\overset{\cref{eq:two-star-finite}}{=}& K(x, x) - 2 \langle K(x, \cdot), \sum_{j=1} u_j(x) K(x_j, \cdot) \rangle_{\spH} + \sum_{j=1}^N \sum_{k=1}^N u_j(x) u_k (x) K(x_j, x_k) \\
+&=& K(x, x) - 2 \sum_{j=1}^N u_j(x) K(x, x_j) + \sum_{j=1}^N \sum_{k=1}^N u_j(x) u_k (x) K(x_j, x_k)
+\end{IEEEeqnarray*}
+Now as we can use
+\[
+	K(x, x_k) = \sum_{j=1}^N u_j(x) K(x_j, x_k)
+\]
+in second term, it cancels out once with the last term, and identify the remainder with 
+\[
+K(x, \cdot)_X (x).
+\]
+\end{proof}
+\subsection*{Best linear estimation}
+Consider
+\[
+	f_X = \sum_{j=1}^N u_j(\cdot) f(x_j)
+\]
+from \cref{thm:24} in the interpolant on the set $X$. We will see in what kind of sense it is the best linear predictor\slash{}estimator. This is important when the kernel comes from a covariance, i.e.
+\[
+	K(s, t) \coloneqq \Cov (X_s, X_t),
+\]
+where for every $t \in \Omega$ we have a random variable $X_t$ with existing second moments.
+
+Now let us consider completely arbitrary estimation formulas
+\[
+	(x, f) \mapsto \sum_{j=1}^N v_j(x) f(x_j)
+\]
+with no assumption on $v_j(x)$.
+These representations are linear in $f$.
+For fixed $x$ we get the error functional
+\[
+	f \mapsto f(x) - \sum_{j=1}^N v_j(x) f(x_j) = \left( \delta_x - \sum_{j=1}^N v_j(x) \delta_{x_j} \right)(f).
+\]
+We want to have the estimation to be optimal over all $f \in \spH$, therefore we chose the $v_j(x)$ to minimize
+\[
+	V_{X, v} (x) \coloneqq \left\| \delta_x - \sum_{j=1}^N v_j(x) \delta_{x_j} \right\|_{\spHstar}.
+\]
+% Original: By (*) from the remark after \cref{thm:19} ... (*) wasn't defined?
+By the equivalent formulation of error function that we listed in the remark after \cref{thm:19} we know the solution, namely the functions $u_j$ and the optimal error in the worst case sense is described by the power function.
+\begin{theorem} % Theorem 26
+\label{thm:26}
+In the above worse case sense, kernel based interpolation yields the best linear predictor of unknown function values $f(x)$ from known functions values $f(x_j)$ at points $x_j$, $1 \leq j \leq N$.
+\end{theorem}
+Consider the kernel via covariance, with $X_t$ with mean zero and bounded variance. In this case the numerical estimation technique is called Kriging, and $V_{X, v}^2$ is the variance of the prediction error.
+We define the error of the general linear predictor at $x$ by 
+\[
+	\epsilon_{x, X, v} \coloneqq X_{x} - \sum_{j=1}^N v_j(x) X_{x_j}.
+\]
+It has zero mean, and the variance
+\[
+	\mathbb{E} \left(\epsilon_{x, X, v}^2 \right) = \Cov (X_x, X_x) - 2\sum_{j=1}^N v_j(x) \Cov(X_x, X_{x_j}) + \sum_{j=1}^N \sum_{k=1}^N v_j(x) v_k(x) \Cov(X_{x_j}, X_{x_k}) \\
+\]
+Because
+\[
+	\Cov(X, Y) = K(x, x)
+\]
+and
+\[
+	K(x, y) = \langle \delta_x, \delta_y \rangle_{\spH}
+\]
+this yields:
+\[
+	\mathbb{E} \left(\epsilon_{x, X, v}^2 \right) = V_{X, v}^2.
+\]
+\end{document}

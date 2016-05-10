@@ -1,0 +1,156 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+\subsection*{Power function and stability}
+A kind of uncertainty principle holds:
+It is possible to make the power function and the condition of the kernel matrix small at the same time.
+We express now the power function via the kernel matrix.
+Besides the set $X = \{ x_1, \ldots, x_N \}$ we now take another point $x_0 \coloneqq x$ and we define $u_0(\cdot) \coloneqq - 1$.
+We define
+\[
+	A = K(x_i, x_k)_{0 \leq i, j \leq N}
+\]
+and
+\[
+	u \coloneqq \left( u_0(x), u_1(x), \ldots, u_N(x)\right)^\tp.
+\]
+Now look at the quadratic form (and remember $K(x_0, x_0) \coloneqq K(x, x)$):
+\begin{IEEEeqnarray*}{rCl}
+	u^\tp A u &=& \sum_{j=0}^N \sum_{k=0}^N u_j(x) u_k(x) K(x_j, x_k) \\
+	&=& K(x, x) - 2 \sum_{j=1}^N u_j(x) K(x, x_j) + \sum_{j=1}^N \sum_{k=1}^N u_j(x) u_k(x) K(x_j, x_k) \\
+	&\overset{\text{\cref{thm:25}}}{=}& P_X^2(x).
+\end{IEEEeqnarray*}
+$A$ is symmetric and positive semidefinite, therefore has $N + 1$ non-negative real eigenvalues $\lambda_0 \geq \lambda_1 \geq \ldots \geq \lambda_N \geq 0$ and we obtain
+\[
+	P_X^2(x) \geq \lambda_N \left( 1 + \sum_{j=1}^N u_j(x)^2 \right) \geq \lambda_N,
+\]
+where we can use
+\[
+	\lambda_N \| u \|_2^2 \leq u^\tp A u \leq \lambda_0 \| u \|_2^2. 
+\]
+We eliminate the special role of the point $x$ and obtain the following:
+\begin{theorem} % Theorem 27
+\label{thm:27}
+The kernel matrix for $N$ points $x_1, \ldots, x_N$ forming a set $X$ has a smallest eigenvalue $\lambda$ bounded from above by
+\[
+	\lambda \leq \min_{1 \leq j \leq N} P_{X \setminus \{ x_j \}} (x_j).
+\]
+\end{theorem}
+This gives us information about the condition of the kernel matrix.
+In situations where the power function is still small after one point is left out, the kernel matrix must be ill-conditioned.
+\section{Hilbert spaces from kernels} % Section 1.3
+\begin{theorem} % Theorem 28
+\label{thm:28}
+Kernels arising from feature maps, i.e.
+\[
+	K(x, y) = \langle \Phi(x), \Phi(y) \rangle_{\spF}
+\]
+are positive semidefinite.
+\end{theorem}
+\begin{proof}
+Such kernels result in kernel matrices which are Gram matrices, and these are always positive semidefinite.
+\end{proof}
+\begin{remark}
+A large class of kernels have the form
+\[
+	K(x, y) = \sum_{i \in I} \lambda_i \varphi_i(x) \varphi_i(y),
+\]
+where $I$ is a countable index set and $\varphi_i : \Omega \to (\R, i \in I)$, with $\lambda_i \geq 0$, $i \in I$, and the summability condition holds for all $x \in \Omega$:
+\[
+	K(x, x) = \sum_{i \in I} \lambda_i |\varphi_i(x)|^2 < \infty.
+\]
+We call these \emph{expansion kernels}.
+\end{remark}
+\begin{theorem} % Theorem 29
+\label{thm:29}
+Let $K$ be a symmetric positive semidefinite kernel on $\Omega$. Then
+\begin{enumerate}
+\item\label{thm:29-1}$K(x, x) \geq 0$ for all $x \in \Omega$.
+\item\label{thm:29-2} $K(y, x) = K(x, y)$ for all $x, y \in \Omega$.
+\item\label{thm:29-3} $|K(x, y)|^2 \leq K(x, x) K(y, y)$ for all $x, y \in \Omega$.
+\item\label{thm:29-4} $2|K(x, y)|^2 \leq K(x, x)^2 + K(y, y)$ for all $x, y \in \Omega$.
+\item\label{thm:29-5} Any finite linear combination of positive semidefinite kernels with nonnegative coefficients gives a positive semidefinite kernel. If one of these kernels is positive definite, and its coefficient is positive, then the combination of kernels is positive definite.
+\item\label{thm:29-6} Additionally the product of two positive semidefinite kernels is positive semidefinite.
+\item\label{thm:29-7} The product of two positive definite kernels is positive definite.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+\begin{enumerate}
+\item This follows with the point set $\{ x \} \subset \Omega$ in \cref{thm:22}.
+\item One can conclude this statement directly from the definition of a symmetric kernel.
+\item The determinant of a positive semidefinite symmetric matrix is nonnegative, therefore this follows from the kernel matrix for the set $\{ x, y\}$.
+\item With the inequality
+\[
+	2 ab \leq a^2 + b^2 \quad \text{for } a, b \in \R_0^+
+\]
+this follows from \cref{thm:29-3}.
+\item This property is easy to see, just expand the sum $x^\tp K x$.
+\item The property follows from \cref{thm:30}.
+\item The property follows from the proof of \cref{thm:30}. One can repeat the same proof with strict inequalities due to linear algebra.
+\end{enumerate}
+\end{proof}
+\begin{lemma}[Schur's Lemma] % Lemma 30
+\label{thm:30}
+For two matrices $A$, $B$ the matrix $C$ with elements
+\[
+	C_{ij} = A_{ij} B_{ij}
+\]
+is called \emph{Schur product} or \emph{Hadamard product}.
+The Schur product of two positive semidefinite matrices is positive semidefinite.
+\end{lemma}
+\begin{proof}
+We can decompose a positive semidefinite matrix into
+\[
+	A = S^\tp D S
+\]
+with $S$ an orthogonal matrix and $D = \diag(\lambda_1, \ldots, \lambda_N)$ a diagonal matrix with $\lambda_i \geq 0$ the eigenvalues of $A$.
+For all $q \in \R^N$, we look at
+\begin{IEEEeqnarray*}{rCl}
+q^\tp C q = \sum_{j, k =1}^N q_j q_k \overbrace{a_{jk} b_{jk}}^{c_{jk}} &=& \sum_{j, k =1}^N q_j q_k b_{jk} \sum_{m=1}^N \lambda_m S_{jm} S_{km} \\
+&=& \sum_{m=1}^N \lambda_m \sum_{j,k=1}^N \underbrace{ q_j S_{jm} }_{p_{jm}} \underbrace{ q_k S_{km} }_{p_{km}} b_{jk} \\
+&=& \sum_{m=1}^N \lambda_m \underbrace{ \sum_{j, k = 1}^N p_{jm} p_{km} b_{jk} }_{\geq 0, \text{ since $B$ is positive semidefinite}} \geq 0.
+\end{IEEEeqnarray*}
+This however is exactly what we had to prove.
+\end{proof}
+Let $K$ be a symmetric positive semidefinite kernel on $\Omega$.
+We define the linear space
+\[
+	H \coloneqq \spn \left\{ K(x, \cdot ) \mid x \in \Omega \right\}
+\]
+of all finite linear combinations of translates of the kernel.
+In the same way, we define the linear space
+\[
+	L \coloneqq \spn \left\{ \delta_x \mid x \in \Omega, \; \delta_x : H \to \R \right\}
+\]
+of all finite linear combinations of point evaluation functionals acting on functions in $H$.
+In particular, we explicitly restrict the action to functions in $H$.
+We can write all elements from $L$ and $H$ as
+\begin{IEEEeqnarray*}{rCl}
+	\lambda_{a, X} &\coloneqq& \sum_{j=1}^N a_j \delta_{x_j} \\
+	f_{a, X} (x) &\coloneqq& \lambda_{a, X}^y K(x, y) = \sum_{j=1}^N a_j K(x, x_j)
+\end{IEEEeqnarray*}
+with some $a \in \R^N$, $X = \{ x_1, \ldots, x_N \} \subset \Omega$, where $X$ is any arbitrary finite subset of $\Omega$.
+Unfortunately, from $f_{a, X} (\cdot) = 0$ on $\lambda_{a, X}(\cdot) = 0$ it does not follow that $a = 0$, we head to observe that, but it will pose no problem.
+We define a bilinear form on $L$:
+\begin{equation}
+\label{eq:LBilinearForm}
+\tag{$\star$}
+\begin{IEEEeqnarraybox}[][c]{rCl}
+	\langle \lambda_{a, X}, \lambda_{b, Y} \rangle &\coloneqq& \sum_{j = 1}^M \sum_{k = 1}^N a_j b_k K(x_j, y_k) \\
+	&=& \lambda_{a, X}^x \lambda_{b, Y}^y K(x, y) \\
+	&=& \lambda_{a, X} \left( f_{b, Y} \right).
+\end{IEEEeqnarraybox}
+\end{equation}
+This is well-defined, since it is independent of the specific representation, i.e.\ $a$, $b$, due to the functionals and their actions on the second line.
+We observe that the form is positive semidefinite since the kernel matrix has this property.
+Further, we have
+\begin{equation}
+\label{eq:LBilinearEstimate}
+\tag{$\star\!\star$}
+\begin{IEEEeqnarraybox}[][c]{rCl}
+	\left| \lambda_{a, X} \left( f_{b, Y} \right) \right| &=& \left| \left\langle \lambda_{a, X}, \lambda_{b, Y} \right\rangle_L \right| \\
+	&\leq& \left\| \lambda_{a, X} \right\|_L \left\| \lambda_{a, Y} \right\|_L
+\end{IEEEeqnarraybox}
+\end{equation}
+where it may be just a seminorm, not a norm.	
+\end{document}

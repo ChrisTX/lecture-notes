@@ -1,0 +1,162 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+\addtocounter{dummythm}{1} % Theorem 31 does apparently not exist?
+\begin{theorem} % Theorem 32
+\label{thm:32}
+If $K$ is a positive semidefinite kernel on $\Omega$, then the bilinear form $\langle \cdot, \cdot \rangle_L$ from \cref{eq:LBilinearForm} is positive definite on the space $L$ of functionals defined on function on $\Omega$. Thus $L$ is a pre-Hilbert space of functions on $\Omega$.
+\end{theorem}
+\begin{proof}
+Assume that
+\begin{IEEEeqnarray*}{rCl"l}
+\langle \lambda_{a, X}, \lambda_{a, X} \rangle_L &=& \lambda_{a, X} \left( f_{a, X} \right) = 0 & \text{for } a \in \R^N \text{, and } X \subset \Omega.
+\end{IEEEeqnarray*}
+Then by the equality \cref{eq:LBilinearEstimate} we have $\lambda_{a, X} = 0$ as a functional on $H$.
+Here we use that the functionals in $L$ are restricted to functions in $H$. Note that we do not get $a = 0$, neither will we need that.
+\end{proof}
+\begin{theorem} % Theorem 33
+\label{thm:33}
+The mapping $R : \lambda_{a, X} \mapsto f_{a, X} \coloneqq \lambda_{a, X} \left(K(\cdot, y) \right)$ is linear and bijective from $L$ onto $H$.
+Thus
+\begin{IEEEeqnarray*}{rCl}
+\langle f_{a, X}, f_{b, Y} \rangle_H &\coloneqq& \langle \lambda_{a, X}, \lambda_{b, Y} \rangle_{L} \\
+&=& \left\langle R\left(\lambda_{a, X}\right), R\left(\lambda_{b, Y}\right) \right\rangle_H
+\end{IEEEeqnarray*}
+is an inner product on $H$.
+$R$ acts as the Riesz map.
+\end{theorem}
+\begin{proof}
+Linearity is obvious.
+If a $f_{b, Y} = R(\lambda_{b, Y}) \in H$ vanishes, the definition of $\langle \cdot, \cdot \rangle_L$ implies that $\lambda_{b, Y}$ is orthogonal to all of $L$, thus zero due to the \cref{thm:32}.
+Thus we have bijectivity.
+The Riesz property is present in the definition of $\langle \cdot, \cdot \rangle_L$, since
+\begin{IEEEeqnarray*}{rCl}
+\lambda_{a, X}(f_{b, Y}) &=& \langle \lambda_{a, X}, \lambda_{b, Y} \rangle_L \\
+&=& \langle f_{a, X}, f_{b, Y} \rangle_H \\
+&=& \langle R(\lambda_{a, X}), f_{b, Y} \rangle_H,
+\end{IEEEeqnarray*}
+which showed everything.
+\end{proof}
+We get \cref{eq:starRE} in $H$ by inserting $\lambda_{a, X}$ in the bilinear form, i.e.\ one point $x \in \Omega$, with $a = 1$:
+\begin{IEEEeqnarray*}{rCl}
+f_{b, Y} (x) &=& \lambda_{1, X} (f_{b, Y}) \\
+&=& \langle \lambda_{1, X}, \lambda_{b, Y} \rangle_L \\
+&=& \langle R(\lambda_{1, X}), f_{b, Y} \rangle_H \\
+&=& \langle K(x, \cdot), f_{b, Y} \rangle_H
+\end{IEEEeqnarray*}
+with $\lambda_{b, Y} = \lambda_{1, Y}$ it follows
+\[
+	\langle K(x, \cdot), K(y, \cdot) \rangle_H = \langle \delta_{x}, \delta_{y} \rangle_L.
+\]
+With the properties of $H$, we now can follow it being a classic Hilbert space and so to the closure $\spH$ of $H$ under $\langle \cdot, \cdot \rangle_H$.
+This is an abstract space defined by equivalence classes of Cauchy sequences in $H$.
+The closure is complete, therefore a Hilbert space.
+Furthermore, each continuous map from $H$ to a Banach space $Y$ extends uniquely to the closure.
+\begin{theorem} % Theorem 34
+\label{thm:34}
+Each symmetric positive definite kernel $K$ on a set $\Omega$ is the reproducing kernel of a Hilbert space called the \emph{native space} $\spH \eqqcolon \spN_K$ of the kernel.
+This Hilbert space is unique and it is a space of functions on $\Omega$.
+The kernel $K$ is the reproducing kernel of $\spN_K$, in the sense of
+\[
+	\langle f, K(y, \cdot) \rangle_H = f(y) \quad \text{for all } y \in \Omega, f \in \spN_K.
+\]
+\end{theorem}
+\begin{proof}
+The existence of the native space follows from standard Hilbert space arguments.
+In the reproduction equation
+\[
+	f_{b, Y}(x) = \langle f_{b, Y}, K(x, \cdot) \rangle_H
+\]
+both sides continuously depend on $f \in H$, therefore the equation carries over to the closure, i.e.\ the native space, which proves the reproduction formula in the theorem.
+The equation explains how an abstract element $f$ of the native space can be interpreted as a function, namely the left hand side $\langle f, K(y, \cdot) \rangle_H$ defines the right hand side $f(y)$.
+
+If $K$ is a reproducing kernel in a possibly different Hilbert space $T$ with an analogous reproduction equation, we see 
+\[
+	\langle K(x, \cdot), K(y, \cdot) \rangle_H = K(x, y) = \langle K(x, \cdot), K(y, \cdot) \rangle_T.
+\]
+Therefore the inner products of $T$ and $\spN_K$ coincide on $H$.
+Since $T$ is a Hilbert space, it must contain the closure of $H$ which is $\spN_K$, as a closed subspace.
+If $T$ were larger than $\spN_K$, there must be a nonzero element $f \in T$ which is orthogonal to $\spN_K$ and in particular orthogonal to $H$.
+We observe
+\[
+	f(y) = \langle f, K(y, \cdot) \rangle_T = 0 \quad \text{for all } y \in \Omega,
+\] 
+which is a contradiction.
+\end{proof}
+\subsection*{Mercer kernels}
+\begin{definition} % Definition 35
+\label{thm:35}
+A \emph{Mercer kernel} is a continuous, symmetric and positive semidefinite kernel.
+\end{definition}
+\begin{definition} % Definition 36
+\label{thm:36}
+Let $K : \Omega \times \Omega \to \R$ be continuous, $\Omega$ be a compact domain, $\nu$ by a Borel measure and $L_2^\nu(\Omega)$ be the Hilbert space of square integrable functions on $\Omega$.
+We define the integral operator $T_K : L_2^\nu(\Omega) \to L_2^\nu(\Omega)$ by
+\[
+	\left( T_K f \right) (\cdot) = \int_\Omega K(x, \cdot) f(x) \dd \nu
+\]
+We call $K$ the kernel of $T_K$.
+\end{definition}
+One can show that
+\[
+	K(x, y) = \sum_{i=1}^\infty \lambda_i \phi_i(x) \phi_i(y)
+\]
+for positive semidefinite operators $T_K$.
+\begin{theorem} % Theorem 37
+\label{thm:37}
+Let $\Omega \subset \R^d$ be compact and $K$ be a continuous kernel.
+Let the corresponding integral operator $T_K$ be positive semidefinite:
+\[
+	\int_{\Omega \times \Omega} K(x, y) f(x) f(y) \dx \dy \geq 0 \quad \text{for all } f \in L_2(\Omega).
+\]
+Then we can expand $K(x, y)$ in a uniformly convergent series (on $\Omega \times \Omega$) in terms of functions $\phi_j$, satisfying $\langle \phi_i, \phi_j \rangle = \delta_{ij}$, as
+\[
+	K(x, y) = \sum_{i=1}^\infty \phi_i(x) \phi_i(y).
+\]
+Furthermore, the series
+\[
+	\sum_{i=1}^\infty \| \phi_i \|_{L_2}^2
+\]
+is convergent.
+\end{theorem}
+\begin{proof}
+Assume there is a finite set $\{ x_1, \ldots, x_N \}$ so that the corresponding kernel matrix is not positive semidefinite.
+Let $q$ such that
+\[
+	\sum_{i,j=1}^N q_i q_j K(x_i, x_j) = \varepsilon < 0.
+\]
+Now let 
+\[
+	f_{\sigma}(x) = \sum_{i=1}^d q_i \frac{1}{(2\pi \sigma)^{\frac{d}{2}}} \exp \left( - \frac{\| x - x_i \|^2}{2\sigma} \right).
+\]
+We have $f_\sigma \in L_2$, and additionally
+\[
+	\lim_{\sigma \to 0} \int_{\Omega \times \Omega} K(x, y) f_\sigma(x) f_\sigma(y) \dx \dy = \varepsilon.
+\]
+But then for some $\sigma > 0$ the integral will be less than $0$, which contradicts the positivity of the integral operator $T_K$.
+Therefore, we have a Mercer kernel.
+Now consider the native space $\spN_K$ of $K$.
+For continuous $K$ and $\Omega \subset \R^d$, one can show that $\spN_K$ is separable and in particular there exists a countable orthonormal basis of $\spN_K$ called $\phi_i$, $i = 1, \ldots$.
+The technical proof of the separability is being omitted here.
+Then we have an expansion in the orthonormal basis for $K(x, \cdot)$, namely
+\begin{IEEEeqnarray*}{rCl}
+	K(x, y) &=& \sum_{i=1}^\infty \langle K(x_i, \cdot), \phi_i(\cdot) \rangle \phi_i(\cdot) \\
+	&=& \sum_{i=1}^\infty \phi_i(x) \phi_i(y)
+\end{IEEEeqnarray*}
+with the required properties.
+\begin{remark}
+Continuity of the kernel is relevant as the eigenvalue expansion
+\[
+	K(x, y) = \sum_{i=1}^\infty \lambda_i \phi_i(x) \phi_i(y)
+\]
+would not work for discontinuous kernels.
+\end{remark}
+Finally, we observe
+\begin{IEEEeqnarray*}{rCl}
+	\lim_{n \to \infty} \sum_{i=1}^n \| \phi_i \|_{L_2}^2 &=& \lim_{n \to \infty} \sum_{i=1}^n \int_\Omega \phi_i(x) \phi_i(x) \dx \\
+	&=& \lim_{n\to \infty} \int_\Omega \sum_{i=1}^n \phi_i(x) \phi_i(x) \dx \\
+	&=& \int_\Omega \lim_{n \to \infty} \sum_{i=1}^n \phi_i(x) \phi_i(x) \dx < \infty,
+\end{IEEEeqnarray*}
+where we use the compactness of $\Omega$.
+\end{proof}
+\end{document}

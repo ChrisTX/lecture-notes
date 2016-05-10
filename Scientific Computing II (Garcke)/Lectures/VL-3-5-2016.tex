@@ -1,0 +1,171 @@
+\documentclass[../skript.tex]{subfiles}
+
+\begin{document}
+In general if we have a countable basis we can write
+\[
+	K(x, y) = \sum_{i=1}^\infty \phi_i(x) \phi_i(y) = \langle \Phi(x), \Phi(y) \rangle_{\ell_2}.
+\]
+
+For example, in the exercises we had $W_0^m(\Pi)$ with the kernel
+\[
+	R^1(x, y) = 2 \sum_{k \in \Z \setminus \{ 0 \}} k^{-2m} \cos \left( k(x-y) \right).
+\]
+Here, weights could be added to the different frequencies in order to bias the result in the way desired.
+
+\section{Kernel methods for prediction} % Section 1.4
+\label{sec:1.4}
+We will now stray away from pure interpolation because we so far assumed data in the form of $f(x) = y$, but with data stemming from measurements, we'll have errors of the form $f(x) = y + \varepsilon$. If our interpolation matrix was ill-conditioned, this would pose a problem.
+
+One might want to value errors differently than just using the plain $L_2$-error. Therefore, we define
+\begin{definition} % Definition 38
+\label{thm:38}
+Let $(\Omega, \Sigma)$ be a measurable space and $Y \subset \R$ be a closed subset.
+Denote by $(x, y, f(x)) \in \Omega \times Y \times \R$ the triplet consisting of a pattern $x$, an observation $y$, and a prediction $f(x)$.
+A function $\ell : \Omega \times Y \times \R \to [0, \infty)$ is called a \emph{loss function} if it measurable and $\ell(x, y, y) = 0$ holds for all $x \in \Omega$, $y \in Y$.
+\end{definition}
+We consider at first real values $y$ and we want $y - f(x)$ to be small.
+The most popular choice for a loss function is the squared loss:
+\[
+	\ell(x, y, f(x)) = \left( f(x) - y \right)^2 = \tilde{\ell}( \underbrace{f(x) - y}_{\zeta} ).
+\]
+% Plot: $\tilde{\ell}$ plotted for $\zeta$ on $[-5, 5]$
+For robust estimation the so called Huber's loss can be useful:
+\[
+	\tilde{\ell}(\zeta) = \begin{cases}
+	\frac{1}{\sigma} (\zeta)^2 & \text{if } |\zeta| \leq \sigma \\
+	|\zeta| & \text{otherwise}
+	\end{cases}.
+\]
+% Plot: Huber's loss for some range
+Furthermore, one can use the $\ell_1$-loss:
+\[
+	\tilde{\ell}(\zeta) = |\zeta|.
+\]
+% Plot: $\ell_1$-loss.
+Another possibility is to use the $\varepsilon$-sensitive loss. Here one tolerates errors inside the interval $[\zeta - \varepsilon, \zeta - \varepsilon]$. Formally:
+\[
+	\tilde{\ell}(\zeta) = \max \left( |\zeta| - \varepsilon, 0 \right) \eqqcolon |\zeta|_{\varepsilon}.
+\]
+% Plot: $\varepsilon$-sensitive loss.
+
+Let's consider $Y = \{ -1, 1 \}$ or $Y = \{ 0, 1 \}$.
+The simplest loss is the misclassification error:
+\[
+	\ell(x, y, f(x)) = \begin{cases}
+	0 & \text{if } y = f(x) \\
+	1 & \text{otherwise}
+	\end{cases}
+\]
+or for $Y = \{ -1, 1 \}$:
+\[
+	\ell(x, y, f(x)) = \begin{cases}
+	0 & \text{if } y = \sgn f(x) \\
+	1 & \text{otherwise}
+	\end{cases}.
+\]
+Another plausible choice, for example for advertisement campaigns would be the weighted misclassification loss:
+\[
+	\ell(x, y, f(x)) = \begin{cases}
+	0 & \text{if } y = \sgn f(x) \\
+	\tilde{\ell}(y) & \text{otherwise}
+	\end{cases}.
+\]
+There's also the soft margin loss:
+\[
+	\ell(x, y, f(x)) = \max(1 - yf(x), 0) = \begin{cases}
+	0 & \text{if } y = f(x) \geq 1 \\
+	1 - y f(x) & \text{otherwise}
+	\end{cases}.
+\]
+% Plot: soft margin loss for x-axis of $y (x)$.
+This loss is used for support vector machines, which is one of the most common classification procedure.
+
+Finally, the logistic loss is often used, it ``assigns'' a probabilistic meaning to $f(x)$:
+\[
+	\ell(x, y, f(x)) = \ell_1\left(1 + \exp\left( -y f(x) \right)\right).
+\]
+% Plot: logistic loss
+\begin{definition} % Definition 39
+\label{thm:39}
+Let $\ell$ be a loss function and $\probP$ be a probability measure on $\Omega \times Y$.
+Then, for a measurable function $f : \Omega \to \R$, the \emph{expected $\ell$-risk} is defined by
+\begin{IEEEeqnarray*}{rCl}
+	\riskR_{\ell, \probP}(f) &\coloneqq& \int_{\Omega \times Y} \ell(x, y) f(x) \dd \probP(x, y) \\
+	&=& \int_\Omega \int_Y \ell(x, y, f(x)) \dd \probP\left(y \mid x\right) \dd \probP_x(x).
+\end{IEEEeqnarray*}
+\end{definition}
+For given $D \coloneqq \left\{ \left( x_i, y_i \right)\right\}_{i=1}^N$, $x_i \in \Omega$, $y_i \in Y$, we can define the empirical measure
+\[
+	\probP_{\mathrm{emp}} = \frac{1}{N} \sum_{i=1}^N \delta_{x_i, y_i}
+\]
+by using the Dirac measure.
+\begin{definition} % Definition 40
+\label{thm:40}
+The \emph{empirical $\ell$-risk} of a function $f: \Omega \to \R$ is defined as
+\begin{IEEEeqnarray*}{rCl}
+\riskRemp{\ell}(f) &=& \int_{\Omega \times Y} \ell\left(x, y, f(x\right)) \dd \probP_{\mathrm{emp}} \\
+&=& \frac{1}{N} \sum_{i=1}^N \ell\left(x_i, y_i, f(x_i) \right).
+\end{IEEEeqnarray*}
+\end{definition}
+For inverse problems one uses Tikhonov-regularization to restrict the class of admissible functions.
+In particular, we use function space regularization.
+An alternative is to penalize on the coefficients $\alpha$ when
+\[
+	f = \sum_{i=1}^N \alpha_j K(x_j, \cdot),
+\]
+e.g.\ to obtain sparsity one can use $\| \alpha \|_{1}$.
+For support vector machines, one can observe that a ``small'' number of the coefficients $\alpha$ are nonzero.
+
+In the following, we will assume that $\riskRemp{\ell}(f)$ is continuous in $f$.
+The regularization can be seen as restricting the class of possible minimizers to some compact set $\spH$.
+For a continuous function on a compact set $\spH$, we can apply the operator inversion lemma to get that the inverse map from the minimum of $\riskRemp{\ell} : \spH \to \R$ to its minimizer $\hat{f}$ is continuous and the optimization problem is well-posed.
+
+Directly minimizing $\riskRemp{\ell}$ in $\spH$ is typically a difficult constrained optimization problem.
+Instead we add a regularization term to the empirical loss:
+\[
+	\riskRreg{\ell}(f) \coloneqq \riskRemp{\ell}(f) + \lambda \tilde{s}(f).
+\]
+Here, the $\lambda$ is the regularization parameter, which balances the empirical error and the smoothness or simplicity enforced by the regularization term $\tilde{s}(f)$.
+\begin{theorem} % Theorem 41
+\label{thm:41}
+Let $s : [0, \infty) \to \R$ be a strictly monotone increasing function, $\lambda > 0$, $\Omega$ be a set, $\spH$ a \ac{RKHS} over $\Omega$, and let $\ell : \Omega \times Y \times \R$ be a loss function.
+Then, for the data $D \coloneqq \left\{ \left( x_i, y_i \right ) \right\}_{i=1}^N$, $x_i \in \Omega$, $y_i \in Y$, each minimizer $f \in \spH$ of the regularized empirical risk
+\begin{equation}
+\label{eq:RegRiskMinimizer}
+\tag{$\star$}
+\riskRreg\ell (f) = \frac{1}{N} \sum_{i=1}^N \ell(x_i, y_i, f(x_i)) + \lambda s\left( \| f \|_{\spH} \right) 
+\end{equation}
+admits a representation
+\[
+	f(x) = \sum_{i=1}^N \alpha_i K(x_i, x),
+\]
+or $f \in \spH_{X}$, $X = \{ x_1, \ldots, x_N \}$.
+\end{theorem}
+\begin{proof}
+Without loss of generality, we assume
+\[
+	s \left( \| f \|_{\spH} \right) = \bar{s} \left( \| f \|_{\spH}^2 \right).
+\]
+We decompose any $f \in \spH$ into $f_X \in \spH_X$ and $f_{X^\perp} \in \spH_{X}^\perp$ after \cref{thm:14}.
+Then,
+\[
+	f = \sum_{i=1}^N \alpha_i K(x_i, \cdot) + f_{X^\perp}, \quad \alpha_i \in \R.
+\]
+We know
+\[
+	\langle f_{X^\perp}, K(x_i, x) \rangle_{\spH} = 0 \quad \text{for all } i = 1, \ldots, N
+\]
+with \cref{eq:starRE} this yields:
+\begin{IEEEeqnarray*}{rCl}
+f(x_j) = \langle f(\cdot), K(x_j, \cdot) \rangle &=& \sum_{i=1}^N \alpha_i K(x_i, x_j) + \langle f_{X^\perp}, K(x_j, \cdot) \rangle_{\spH} \\
+&=& \sum_{i=1}^N \alpha_i K(x_i, x_j).
+\end{IEEEeqnarray*}
+Furthermore, for all $f_{X^\perp}$,
+\begin{IEEEeqnarray*}{rCl}
+	s(\| f \|_{\spH}) &=& \bar{s} \left( \| f_X \|_{\spH}^2 + \| f_{X^\perp} \|_{\spH}^2 \right) \\
+	&\geq& \bar{s} \left( \| f_X \|_{\spH}^2 \right)
+\end{IEEEeqnarray*}
+Therefore, \cref{eq:RegRiskMinimizer} is for any fixed $\alpha \in \R^N$ minimal if $f_{X^\perp} = 0$.
+This also has to hold for minimizing $f$.
+\end{proof}
+\end{document}
