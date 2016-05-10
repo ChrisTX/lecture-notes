@@ -1,5 +1,15 @@
+% Various symbols, small o, transpose, dual space star, ...
+\newcommand{\tp}{\ensuremath{\mathsmaller T}}
+\newcommand{\smallo}{\ensuremath{\mathit{o}}}
+\newcommand{\dualst}{\ensuremath{\star}}
+\newcommand{\diffd}{\ensuremath{\mathrm{d}}}
+
+% Middle operators: stretchable mid, mid colon
+\newcommand{\gmid}{\mathrel{}\middle|\mathrel{}}
+\newcommand{\midcolon}{\mathrel{}:\mathrel{}}
+
 % differentials
-\newcommand{\dd}{\:\mathrm{d}}
+\newcommand{\dd}{\:\diffd}
 \newcommand{\dx}{\dd x}
 \newcommand{\dy}{\dd y}
 \newcommand{\dz}{\dd z}
@@ -45,13 +55,7 @@
 \DeclareMathOperator{\codim}{codim}
 \DeclareMathOperator{\diag}{diag}
 
-% Transpose symbol
-\newcommand{\gmid}{\mathrel{}\middle|\mathrel{}}
-\newcommand{\tp}{\ensuremath{\mathsmaller T}}
-\newcommand{\smallo}{\ensuremath{\mathit{o}}}
 
-% Mid colon
-\newcommand{\midcolon}{\mathrel{}:\mathrel{}}
 
 % Lecture specific content
 
@@ -62,8 +66,9 @@
 % Symbols
 \newcommand{\spF}{\ensuremath{\mathcal{F}}}
 \newcommand{\spH}{\ensuremath{\mathcal{H}}}
-\newcommand{\spHstar}{\ensuremath{\mathcal{H}^\star}}
+\newcommand{\spHstar}{\ensuremath{\mathcal{H}^\dualst}}
 \newcommand{\spN}{\ensuremath{\mathcal{N}}}
+\newcommand{\spL}{\ensuremath{\mathcal{L}}}
 
 % Operators
 \DeclareMathOperator{\Cov}{Cov}
