@@ -40,16 +40,16 @@ The Gaussian kernel is the prime example of a kernel:
 \]
 for all $x, y \in \R^d$.
 % Plot: Gaussian kernel for various alphas.
-\begin{figure}
+\begin{figure}[htpb]
 \centering
-\begin{tikzpicture}[scale=\textwidth/8.5cm]
-	\draw[->] (-4.2, 0) -- (4.2, 0);
+\begin{tikzpicture}[scale=\textwidth/6.5cm]
+	\draw[->] (0, 0) -- (6.2, 0);
 	\draw[->] (0,0) -- (0, 1.7);
 	\foreach \a in {2, 4, ..., 10}
-		\draw[domain=-4:4, color=green!\a 0!red, thick] plot (\x, {exp(-\a*0.01*\x*\x)});
+		\draw[domain=0:6, color=green!\a 0!red, thick] plot (\x, {exp(-\a*0.01*\x*\x)});
 \end{tikzpicture}
 \captionsetup{labelformat=empty}
-\caption{Gaussian kernels for various $\alpha$ values}
+\caption{Figure: Gaussian kernels for various $\alpha$ values}
 \end{figure}
 \begin{definition} % Definition 1
 \label{thm:1}
@@ -79,21 +79,34 @@ Such functions are traditionally called \keydef{\acf{RBF}}.
 Other \ac{RBF}s are
 \begin{itemize}
 \item $\beta > 0$, multiquadratics, $\phi(r) = (1 + \alpha r^2)^\beta$ 
-\begin{figure}
+\begin{figure}[htpb]
 \centering
-\begin{tikzpicture}[scale=\textwidth/8.5cm]
-	\draw[->] (-4.2, 0) -- (4.2, 0);
-	\draw[->] (0,0) -- (0, 1.7);
+\begin{tikzpicture}[scale=\textwidth/6.5cm]
+	\draw[->] (0, 0) -- (6.2, 0);
+	\draw[->] (0,0) -- (0, 3.6);
 	\foreach \a in {2, 4, ..., 10}
-		\draw[domain=-4:4, color=green!\a 0!red, thick] plot (\x, {pow(1 + \x*\x, \a/30)});
+		\draw[domain=0:6, color=green!\a 0!red, thick] plot (\x, {pow(1 + \x*\x, \a/30)});
 \end{tikzpicture}
 \captionsetup{labelformat=empty}
-\caption{Multiquadratics for various $\beta$ values}
+\caption{Figure: Multiquadratics for various $\beta$ values}
 \end{figure}
 \item $\beta < 0$, inverse multiquadratics $\phi(r) = (1 + \alpha r^2)^\beta$
+\begin{figure}[htpb]
+\centering
+\begin{tikzpicture}[scale=\textwidth/6.5cm ]
+	\draw[->] (0, 0) -- (6.2, 0);
+	\draw[->] (0,0) -- (0, 2);
+	\foreach \a in {2, 4, ..., 10}
+		\draw[domain=0:1, color=green!\a 0!red, thick, samples=100] plot (\x, {pow(\x, \a/30)});
+	\foreach \a in {2, 4, ..., 10}
+		\draw[domain=1:6, color=green!\a 0!red, thick] plot (\x, {pow(\x, \a/30)});
+\end{tikzpicture}
+\captionsetup{labelformat=empty}
+\caption{Figure: Inverse multiquadratics for various $\beta$ values}
+\end{figure}
 \item powers: $\phi(r) = r^\beta$, $\beta \notin 2 \Z$. These belong to the polyharmonic family of kernels:
 \[
-	\phi(r) = r^\beta \log(r), \quad \beta 2 \Z.
+	\phi(r) = r^\beta \log(r), \quad \beta \in 2 \Z.
 \]
 Special case:
 \[
@@ -103,7 +116,6 @@ This is the thin-plate spline.
 \end{itemize}
 % Plot: Inverse multiquadratics for various beta.
 % Plot: Multiquadratics for various beta.
-% Plot: Polyharmonic functions for various
 Wendland's kernel is a compactly supported kernel:
 \[
 	\phi_{3, 1}(r) = (1-r)^4_{+} (1 + 4r)
