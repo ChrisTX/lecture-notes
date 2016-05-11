@@ -3,9 +3,14 @@
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
+
+% NOTE: This document is designed to work with PDFs.
+% Using a TeX engine other than pdftex has not been tested and most likely will cause box errors!
 \usepackage{ifpdf}
 
 \usepackage{subfiles}
+\usepackage{csquotes}
+\usepackage[backend=biber,style=alphabetic]{biblatex}
 
 \usepackage{relsize}
 \usepackage[dvipsnames]{xcolor}
@@ -23,6 +28,7 @@
 \ifpdf
 	\pdfminorversion=7
 	\usepackage{hyperref}
+	\usepackage{microtype}
 \else
 	\usepackage[hypertex]{hyperref}
 \fi
@@ -31,12 +37,12 @@
 % WARNING:
 %	These are *NOT* included with normal, free LaTeX redistributions
 % 	In order to acquire these fonts, one has to install "FontPro" and provide the appropriate OpenType font files.
-% IMPORTANT: The lecture notes can be compiled *without* these packages, comment them out to use Computer Modern
-\usepackage{CronosPro} 								% Replaces sans-serif fonts only
-\usepackage[minionint,mathlf,swash,]{MinionPro} 	% Replaces serif text fonts and math fonts. Also pulls in MnSymbol.
-
-% When building without Adobe fonts, uncomment the following line!
-% \usepackage{lmodern}
+\ifx\adobefonts\undefined
+	\usepackage{lmodern}								% Without Adobe fonts, lmodern is preferable over the default
+\else
+	\usepackage{CronosPro} 								% Replaces sans-serif fonts only
+	\usepackage[minionint,mathlf,swash]{MinionPro} 		% Replaces serif text fonts and math fonts. Also pulls in MnSymbol.
+\fi
 
 \newcommand\myshade{85}
 \colorlet{mylinkcolor}{NavyBlue}
@@ -62,6 +68,13 @@
 \usepackage[a4paper]{geometry}
 \usepackage{IEEEtrantools}
 
+% This command can be mappted to \tag{#1} in order to provide the same equation tagging as in the lecture
+\ifx\originaltags\undefined
+	\newcommand{\opttag}[1]{}
+\else
+	\newcommand{\opttag}[1]{\tag{#1}}
+\fi
+
 % Dokument structure
 \setcounter{secnumdepth}{2}
 \setcounter{tocdepth}{2}
@@ -72,7 +85,7 @@
 % Abbreviations
 \input{defines.tex}
 
-\newcommand*\circled[1]{\tikz[baseline=(char.base)]{\node[shape=circle,draw,inner sep=1pt] (char) {#1};}}
+\bibliography{literature}
 
 \begin{document}
 \pagenumbering{alph}
@@ -97,10 +110,6 @@
 \subfile{Lectures/VL-10-5-2016}
 
 \backmatter
-\cleardoublepage
-\phantomsection
-\addcontentsline{toc}{chapter}{Biblography}
-\bibliographystyle{amsalpha}
-\bibliography{literature}
+\printbibliography[heading=bibintoc]
 
 \end{document}

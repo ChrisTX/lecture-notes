@@ -56,7 +56,11 @@ which is a kernel on $\Omega$ according to our definition.
 It holds
 \begin{equation} % (*RE)
 \label{eq:starRE}
-\tag{$\star$RE}
+\ifx\orinaltags\undefined
+	\tag{RE}
+\else
+	\opttag{$\star$RE}
+\fi
 	f(y) = \delta_y(f) = \langle f, R(\delta_y) \rangle_{\spH} = \langle f, K(y, \cdot) \rangle_{\spH} \quad \text{for all } f \in \spH, y \in \Omega.
 \end{equation}
 which is a \emph{reproduction equation} for values of functions from the inner product.
@@ -65,7 +69,7 @@ Any kernel $K(x, \cdot)$ satisfying the reproduction equation must be the Riesz 
 Now consider $f = K(x, \cdot) \in \spH$, we get
 \begin{equation} % (**)
 \label{eq:two-star}
-\tag{$\star\!\star$}
+\opttag{$\star\star$}
 	K(x, y) = \langle K(x, \cdot), K(y, \cdot) \rangle_{\spH} = \langle \delta_y, \delta_x \rangle_{\spHstar} \quad \text{for all } x, y \in \spH.
 \end{equation}
 Together we have shown
@@ -101,7 +105,7 @@ In case of a subspace we have
 The kernel must have a representation as
 \begin{IEEEeqnarray*}{rCl}
 	K_N(x, \cdot) &=& \sum_{j=1}^N \langle K_N(x, \cdot), v_j \rangle_{\spH} v_j(\cdot) \\
-	&\overset{\cref{eq:starRE}}{=}& \sum_{j=1}^N v_j(x) v_j(\cdot).
+	&\overset{\text{\cref{eq:starRE}}}{=}& \sum_{j=1}^N v_j(x) v_j(\cdot).
 \end{IEEEeqnarray*}
 Now consider
 \begin{IEEEeqnarray*}{rCl}
