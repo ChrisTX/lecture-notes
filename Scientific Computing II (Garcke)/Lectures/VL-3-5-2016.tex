@@ -21,7 +21,7 @@ One might want to value errors differently than just using the plain $L_2$-error
 \label{thm:38}
 Let $(\Omega, \Sigma)$ be a measurable space and $Y \subset \R$ be a closed subset.
 Denote by $(x, y, f(x)) \in \Omega \times Y \times \R$ the triplet consisting of a pattern $x$, an observation $y$, and a prediction $f(x)$.
-A function $\ell : \Omega \times Y \times \R \to [0, \infty)$ is called a \emph{loss function} if it measurable and $\ell(x, y, y) = 0$ holds for all $x \in \Omega$, $y \in Y$.
+A function $\ell : \Omega \times Y \times \R \to [0, \infty)$ is called a \keydef{loss function} if it measurable and $\ell(x, y, y) = 0$ holds for all $x \in \Omega$, $y \in Y$.
 \end{definition}
 We consider at first real values $y$ and we want $y - f(x)$ to be small.
 The most popular choice for a loss function is the squared loss:
@@ -88,7 +88,7 @@ Finally, the logistic loss is often used, it ``assigns'' a probabilistic meaning
 \begin{definition} % Definition 39
 \label{thm:39}
 Let $\ell$ be a loss function and $\probP$ be a probability measure on $\Omega \times Y$.
-Then, for a measurable function $f : \Omega \to \R$, the \emph{expected $\ell$-risk} is defined by
+Then, for a measurable function $f : \Omega \to \R$, the \keydef{expected $\ell$-risk} is defined by
 \begin{IEEEeqnarray*}{rCl}
 	\riskR_{\ell, \probP}(f) &\coloneqq& \int_{\Omega \times Y} \ell(x, y) f(x) \dd \probP(x, y) \\
 	&=& \int_\Omega \int_Y \ell(x, y, f(x)) \dd \probP\left(y \mid x\right) \dd \probP_x(x).
@@ -101,7 +101,7 @@ For given $D \coloneqq \left\{ \left( x_i, y_i \right)\right\}_{i=1}^N$, $x_i \i
 by using the Dirac measure.
 \begin{definition} % Definition 40
 \label{thm:40}
-The \emph{empirical $\ell$-risk} of a function $f: \Omega \to \R$ is defined as
+The \keydef{empirical $\ell$-risk} of a function $f: \Omega \to \R$ is defined as
 \begin{IEEEeqnarray*}{rCl}
 \riskRemp{\ell}(f) &=& \int_{\Omega \times Y} \ell\left(x, y, f(x\right)) \dd \probP_{\mathrm{emp}} \\
 &=& \frac{1}{N} \sum_{i=1}^N \ell\left(x_i, y_i, f(x_i) \right).

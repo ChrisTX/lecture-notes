@@ -16,6 +16,7 @@
 \usepackage[dvipsnames]{xcolor}
 \usepackage{enumerate}
 \usepackage{acro}
+\usepackage[xindy]{imakeidx}
 
 \usepackage{mathtools}
 \usepackage{amssymb}
@@ -27,8 +28,8 @@
 
 \ifpdf
 	\pdfminorversion=7
-	\usepackage{hyperref}
 	\usepackage{microtype}
+	\usepackage[pdfpagelabels]{hyperref}
 \else
 	\usepackage[hypertex]{hyperref}
 \fi
@@ -43,6 +44,11 @@
 	\usepackage{CronosPro} 								% Replaces sans-serif fonts only
 	\usepackage[minionint,mathlf,swash]{MinionPro} 		% Replaces serif text fonts and math fonts. Also pulls in MnSymbol.
 \fi
+
+% Document structure
+\setcounter{secnumdepth}{2}
+\setcounter{tocdepth}{2}
+\counterwithout{equation}{chapter}
 
 \newcommand\myshade{85}
 \colorlet{mylinkcolor}{NavyBlue}
@@ -64,20 +70,17 @@
 \else
 	\usepackage[ntheorem,framemethod=default]{mdframed}
 \fi
+
 \usepackage[capitalize,nameinlink]{cleveref}
 \usepackage[a4paper]{geometry}
 \usepackage{IEEEtrantools}
 
-% This command can be mappted to \tag{#1} in order to provide the same equation tagging as in the lecture
+% Given (*) works badly in lecture notes, we default to numbered equations. Define \originaltags to change the behavior
 \ifx\originaltags\undefined
 	\newcommand{\opttag}[1]{}
 \else
 	\newcommand{\opttag}[1]{\tag{#1}}
 \fi
-
-% Dokument structure
-\setcounter{secnumdepth}{2}
-\setcounter{tocdepth}{2}
 
 % Theorems
 \input{theorems.tex}
@@ -86,6 +89,9 @@
 \input{defines.tex}
 
 \bibliography{literature}
+
+\makeindex[name=keydefinitions, title=Index of key definitions, intoc]
+\newcommand{\keydef}[1]{\emph{#1}\index[keydefinitions]{#1}}
 
 \begin{document}
 \pagenumbering{alph}
@@ -98,7 +104,6 @@
 \tableofcontents
 
 \mainmatter
-\counterwithout{equation}{chapter}
 
 \subfile{Lectures/VL-12-4-2016}
 \subfile{Lectures/VL-14-4-2016}
@@ -110,6 +115,7 @@
 \subfile{Lectures/VL-10-5-2016}
 
 \backmatter
+\printindex[keydefinitions]
 \printbibliography[heading=bibintoc]
 
 \end{document}
