@@ -1,12 +1,16 @@
 \documentclass[11pt, USenglish, oneside, parskip=yes]{scrbook}
 \usepackage{babel}
 
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-
 % NOTE: This document is designed to work with PDFs.
-% Using a TeX engine other than pdftex has not been tested and most likely will cause box errors!
+% Only pdfLaTeX and XeLaTeX have been tested.
 \usepackage{ifpdf}
+\usepackage{ifxetex}
+
+\ifxetex
+\else
+	\usepackage[utf8]{inputenc}
+\fi
+\usepackage[T1]{fontenc}
 
 \usepackage{subfiles}
 \usepackage{csquotes}
@@ -29,12 +33,12 @@
 
 \usepackage{needspace} 	% Needed so we can glue theorems right after sections
 
+\usepackage{microtype}
 \ifpdf
 	\pdfminorversion=7
-	\usepackage{microtype}
 	\usepackage[pdfpagelabels]{hyperref}
 \else
-	\usepackage[hypertex]{hyperref}
+	\usepackage{hyperref}
 \fi
 
 % Proprietary Adobe font packages
@@ -68,11 +72,7 @@
 % These have to be loaded after hyperref!
 % \usepackage[vlined,linesnumbered]{algorithm2e} % Not needed thus far
 \usepackage[amsmath,hyperref,thmmarks]{ntheorem}
-\ifpdf
-	\usepackage[ntheorem,framemethod=tikz]{mdframed}
-\else
-	\usepackage[ntheorem,framemethod=default]{mdframed}
-\fi
+\usepackage[ntheorem,framemethod=tikz]{mdframed}
 
 \usepackage[capitalize,nameinlink]{cleveref}
 \usepackage[a4paper]{geometry}
