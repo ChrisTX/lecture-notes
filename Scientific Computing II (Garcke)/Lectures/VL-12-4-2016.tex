@@ -40,7 +40,18 @@ The Gaussian kernel is the prime example of a kernel:
 \]
 for all $x, y \in \R^d$.
 % Plot: Gaussian kernel for various alphas.
-\begin{definition} % Def 1
+\begin{figure}
+\centering
+\begin{tikzpicture}[scale=\textwidth/8.5cm]
+	\draw[->] (-4.2, 0) -- (4.2, 0);
+	\draw[->] (0,0) -- (0, 1.7);
+	\foreach \a in {2, 4, ..., 10}
+		\draw[domain=-4:4, color=green!\a 0!red, thick] plot (\x, {exp(-\a*0.01*\x*\x)});
+\end{tikzpicture}
+\captionsetup{labelformat=empty}
+\caption{Gaussian kernels for various $\alpha$ values}
+\end{figure}
+\begin{definition} % Definition 1
 \label{thm:1}
 Let $\Omega$ be an arbitrary nonempty set.
 A function $K : \Omega \times \Omega \to \R$ is called a \keydef{kernel} on $\Omega$. We call $K$ a \keydef{symmetric kernel} if
@@ -56,7 +67,7 @@ The Gaussian kernel can be written as
 	&=& \phi(r) \\
 	&=& \phi(\| x - y \|_2)
 \end{IEEEeqnarray*}
-\begin{definition} % Def 2
+\begin{definition} % Definition 2
 \label{thm:2}
 A function $\Phi : \R^d \to \R$ is said to be radial if there exists a function $\phi : [0, \infty] \to \R$ such that
 \[
@@ -68,6 +79,17 @@ Such functions are traditionally called \keydef{\acf{RBF}}.
 Other \ac{RBF}s are
 \begin{itemize}
 \item $\beta > 0$, multiquadratics, $\phi(r) = (1 + \alpha r^2)^\beta$ 
+\begin{figure}
+\centering
+\begin{tikzpicture}[scale=\textwidth/8.5cm]
+	\draw[->] (-4.2, 0) -- (4.2, 0);
+	\draw[->] (0,0) -- (0, 1.7);
+	\foreach \a in {2, 4, ..., 10}
+		\draw[domain=-4:4, color=green!\a 0!red, thick] plot (\x, {pow(1 + \x*\x, \a/30)});
+\end{tikzpicture}
+\captionsetup{labelformat=empty}
+\caption{Multiquadratics for various $\beta$ values}
+\end{figure}
 \item $\beta < 0$, inverse multiquadratics $\phi(r) = (1 + \alpha r^2)^\beta$
 \item powers: $\phi(r) = r^\beta$, $\beta \notin 2 \Z$. These belong to the polyharmonic family of kernels:
 \[
