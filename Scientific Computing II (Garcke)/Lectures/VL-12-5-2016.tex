@@ -1,0 +1,157 @@
+\documentclass[../lecture-notes.tex]{subfiles}
+
+\begin{document}
+\begin{example}[revisited]
+We have
+\[
+	\int_\Omega K(x, z) \phi(x) \sigma(x) \dx = \gamma \phi(z)
+\]
+with $\sigma \equiv 1$, $K(x, z) = \min(x, z) - xz$ on $\Omega = [0, 1]$.
+This gives 
+\[
+	\int_0^z x \phi(x) \dx + \int_z^1 z \phi(x) \dx - \int_0^1 xz \phi(x) \dx = \gamma \phi(z).
+\]
+Now apply $L = - \frac{\diffd^2}{\diffd z^2}$ to this:
+\begin{IEEEeqnarray*}{c"rCl}
+	& \frac{\diffd^2}{\diffd z^2} \left\{ z \phi(z) - \int_1^z \phi(x) \dx - z \phi(x) - \int_0^1 x \phi(x) \dx \right\} &=& \gamma \phi''(z) \\
+	\Longleftrightarrow & - \frac{1}{\gamma} \phi(z) &=& \phi''(z)
+\end{IEEEeqnarray*}
+\end{example}
+\begin{remark}
+From functional analysis one can derive, that for a Green's function which is positive semidefinite, Mercer's theorem applies, namely we obtain a representation by the eigenvalues and eigenfunctions.
+One example would be Sturm-Liouville differential operators.
+
+Note that not for all differential operators $L$ a Green's function will exist, e.g.\ if $L$ has a nontrivial null space of functions which also satisfy the boundary conditions.
+\end{remark}
+\begin{theorem} % Theorem 45
+\label{thm:45}
+Given a regularization operator $S$ with an expansion of $S^\dualst S$ into a discrete normalized eigendecomposition with $\gamma_i, \phi_i$, $i = 1, \ldots$ and a kernel with
+\[
+	K(x, z) \coloneqq \sum_{i, \gamma_i \neq 0} \frac{d_i}{\gamma_i} \phi_i(x) \phi(z),
+\]
+where $d_i \in \{ 0, 1\}$ for all $i$, and
+\[
+	\sum_{i=1}^\infty \frac{d_i}{\gamma_i}
+\]
+is convergent, then $K$ satisfies from \cref{thm:44}
+\[
+	\langle S K(x, \cdot), S K(z, \cdot) \rangle_D = K(x, z) = \langle K(x, \cdot), K(z, \cdot) \rangle_{\spH}.
+\]
+Moreover, the corresponding \ac{RKHS} is given by
+\[
+	\spn \{ \phi_i \mid d_i = 1, i \in \N \}.
+\]
+\end{theorem}
+\begin{proof}
+We use $f = K(z, \cdot)$ in \cref{thm:44}.
+\begin{IEEEeqnarray*}{rCl}
+\langle K(x, \cdot), S^\dualst S K(z, \cdot) \rangle &=& \left\langle \sum_{i} \frac{d_i}{\gamma_i} \phi_i(x) \phi_i(\cdot), S^\dualst S \left( \sum_{i} \frac{d_i}{\gamma_i} \phi_i(z) \phi_i(\cdot) \right) \right\rangle \\
+&=& \sum_{i, j} \frac{d_i}{\gamma_i} \frac{d_j}{\gamma_j} \phi_i(x) \phi_j(z) \langle \phi_i(x), \underbrace{ S^\dualst S \phi_j(\cdot) }_{\gamma_j \phi_j} \rangle \\
+&\overset{\text{orthonormal $\phi_i$}}{=}& \sum_{i} \frac{d_i}{\gamma_i^2} \gamma_i \phi_i(x) \phi_i(z) \\
+&=& K(x, z)
+\end{IEEEeqnarray*}
+From the construction of the $K$ follows the statement about the span.
+\end{proof}
+Now going over to regularized empirical risks, we use the squared loss for $\ell$ and
+\[
+	s\left( \| f \|_{\spH} \right) = \frac{1}{2} \| f \|_{\spH}^2,
+\]
+i.e.
+\[
+	\min_{f \in \spH} \frac{1}{N} \sum_{i=1}^N \left( f(x_i) - y_i \right)^2 + \frac{\lambda}{2} \| f \|_{\spH}^2.
+\]
+We write
+\[
+	f = \sum_{j=1}^\infty \beta_j \phi_j
+\]
+after the theorem.
+For simplicity consider positive definite operators, i.e.\ no eigenvalues zero.
+\begin{IEEEeqnarray*}{rCl}
+\| f \|_{\spH}^2 = \langle f, f \rangle_{\spH} &=& \langle Sf, Sf \rangle_D \\
+&=& \langle f, S^\dualst S f \rangle \\
+&=& \Bigg\langle \sum_{j=1}^\infty \beta_j \phi_j, \underbrace{ S^\dualst S \sum_{j=1}^\infty \beta_j \phi_j }_{\sum_{i=1}^\infty \beta_j \gamma_j \phi_j} \Bigg\rangle \\
+&=& \sum_{j=1}^\infty \beta_j^2 \gamma_j.
+\end{IEEEeqnarray*}
+Therefore,
+\[
+	\min_{f \in \spH} \riskRreg{\ell_2}(f) = \min_{f \in \spH} \frac{1}{N} \sum_{j=1}^N \left( f(x_i) - y_i \right)^2 + \frac{\lambda}{2} \sum_{j=1}^\infty \beta_j^2 \gamma_j.
+\]
+Differentiation after $\beta_j$ gives for $j= 1, \ldots, \infty$
+\[
+	\frac{\partial \riskRreg{\ell_2}}{\partial \beta_j} = \frac{1}{N} \sum_{i=1}^N (f(x_i) - y_i) \phi_j(x_i) + \beta_j \gamma_j \lambda.
+\]
+We define $\alpha_i \coloneqq y_i - f(x_i)$, i.e.\ pointwise unknowns.
+Inserting this and solving for $\beta_j$ gives
+\[
+	\beta_j = \frac{1}{\lambda \gamma_j N} \sum_{i=1}^N \alpha_i \phi_j (x_i)
+\]
+and we obtain for $f$:
+\begin{IEEEeqnarray*}{rCl}
+f(x) = \sum_{j=1}^\infty \beta_j \phi_j &=& \frac{1}{\lambda}{N} \sum_{j=1}^\infty \frac{1}{\gamma_j} \sum_{i=1}^N \alpha_i \phi_j(x_i) \phi_j(x) \\
+&=& \frac{1}{\lambda N} \sum_{i=1}^N \alpha_i K(x_i, x)
+\end{IEEEeqnarray*}
+with $K$ as in the theorem.
+Inserting this representation into
+\[
+	\alpha_i = y_i - f(x_i) = y_i - \frac{1}{\lambda N} \underbrace{ \sum_{k=1}^N \alpha_k K(x_k, x_i) }_{(K\alpha)_i}.
+\]
+This gives in matrix notation:
+\[
+	\left( I + \frac{1}{\lambda N} K \right) \alpha = y
+\]
+or
+\[
+	\left( \tilde{\lambda} I + K \right) \underbrace{\frac{\alpha}{\tilde{\lambda}}}_{\tilde{\alpha}} = y
+\]
+with $\tilde{\lambda} = {\lambda}N$.
+\begin{remark}
+In a stochastic view, such an equation arises for Gaussian process regression. Here one models $y = f(x) + \varepsilon$, where $\varepsilon$ is an \ac{iid}\ Gaussian noise with variance $\sigma_N^2$. 
+Then $K$ is viewed as a covariance function and the problem to solve is
+\[
+	\left( \sigma_N^2 I + K \right) \alpha = y.
+\]
+\end{remark}
+How to solve $(\lambda I + K) \alpha = y$? Possibilities are
+\begin{itemize}
+\item LR decomposition
+\item CG, maybe with preconditioners.
+\begin{itemize}
+\item When to stop the CG? Stopping has a regularization effect, called regularization by discretization\slash{}approximation.
+\end{itemize}
+\end{itemize}
+\begin{remark}
+Adding a scaled identity matrix improves the condition of the kernel matrix.
+The better the condition, the ``worse'' are the results on the given data.
+\end{remark}
+We need to solve for several $\lambda$, therefore it is useful to compute once the eigendecomposition of $K$,
+\[
+	K = V \Gamma V^\tp,
+\]
+with an orthonormal matrix $V$ and $ \Gamma = \diag (x_i)_{i=1}^N$, where $x_i$ are the eigenvalues of $K$.
+Then:
+\begin{IEEEeqnarray*}{rCl}
+	G \coloneqq (\lambda I + K)^{-1} &=& \left( \lambda I + V \Gamma V^\tp \right)^{-1} \\
+	&=& V \left( \lambda I + \Gamma \right)^{-1} V^\tp.
+\end{IEEEeqnarray*}
+Having once performed the costly eigenvalue decomposition, we can solve for several $\lambda$'s using this equation:
+\[
+	\alpha^\lambda = V \left(\lambda I + \Gamma\right)^{-1} V^\tp y.
+\]
+
+In order to evaluate the performance of a predictive model, one usually uses cross-validation.
+In the simplest setting, we split the available data $D$ into training data $D_T$ and the validation data $D_V$.
+The empirical risk on $D_V$ is used to measure the predictive performance (or generalization) performance.
+
+Usually, one uses $k$-fold cross-validation.
+\begin{figure}[htpb]
+\centering
+\begin{tikzpicture}[scale=\textwidth/10cm]
+	\foreach \x in {1,...,5}
+		\draw ({2*\x}, 0) rectangle ({2*(\x+1)}, 1);
+\end{tikzpicture}
+\captionsetup{labelformat=empty}
+\caption{Figure: Idea of $k$-fold cross-validation}
+\end{figure}
+We split $D$ into $k$ disjoint subsets. One is used as $D_V$, the other $k-1$ as $D_T$, solve and evaluate, repeat $k$ times.
+The average over the $k$ empirical risks is the performance measure.
+\end{document}

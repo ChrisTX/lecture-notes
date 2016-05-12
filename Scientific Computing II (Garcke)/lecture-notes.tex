@@ -1,16 +1,27 @@
-\documentclass[11pt, USenglish, oneside, parskip=yes]{scrbook}
-\usepackage{babel}
+\documentclass[11pt, oneside, parskip=yes]{scrbook}
 
-% NOTE: This document is designed to work with PDFs.
-% Only pdfLaTeX and XeLaTeX have been tested.
-\usepackage{ifpdf}
-\usepackage{ifxetex}
+% This document is only designed for
+% XeLaTeX, LuaLaTeX or pdfLaTeX
+% 
+\usepackage{iftex}
 
-\ifxetex
+\ifXeTeX
+	\usepackage{polyglossia}
+	\setdefaultlanguage[variant=us]{english}
+	\usepackage{unicode-math}
 \else
-	\usepackage[utf8]{inputenc}
+	\ifLuaTeX
+		\usepackage{polyglossia}
+		\setdefaultlanguage[variant=us]{english}
+		\usepackage{unicode-math}
+	\else
+		\usepackage[USenglish]{babel}
+		\usepackage[utf8]{inputenc}
+		\usepackage[T1]{fontenc}
+		\usepackage{amssymb}
+		\usepackage{stmaryrd}
+	\fi
 \fi
-\usepackage[T1]{fontenc}
 
 \usepackage{subfiles}
 \usepackage{csquotes}
@@ -23,10 +34,6 @@
 \usepackage[xindy]{imakeidx}
 
 \usepackage{mathtools}
-\usepackage{amssymb}
-\usepackage{stmaryrd}
-\usepackage{mathrsfs}
-
 \usepackage{tikz}
 \usepackage{chngcntr}
 \usepackage{caption}
@@ -34,6 +41,7 @@
 \usepackage{needspace} 	% Needed so we can glue theorems right after sections
 
 \usepackage{microtype}
+\usepackage{ifpdf}
 \ifpdf
 	\pdfminorversion=7
 	\usepackage[pdfpagelabels]{hyperref}
@@ -116,6 +124,7 @@
 \subfile{Lectures/VL-28-4-2016}
 \subfile{Lectures/VL-3-5-2016}
 \subfile{Lectures/VL-10-5-2016}
+\subfile{Lectures/VL-12-5-2016}
 
 \backmatter
 \printindex[keydefinitions]
