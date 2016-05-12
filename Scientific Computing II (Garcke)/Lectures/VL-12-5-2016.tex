@@ -4,16 +4,16 @@
 \begin{example}[revisited]
 We have
 \[
-	\int_\Omega K(x, z) \phi(x) \sigma(x) \dx = \gamma \phi(z)
+	\int_\Omega K(x, z) \phi(x) \sigma(x) \dd x = \gamma \phi(z)
 \]
 with $\sigma \equiv 1$, $K(x, z) = \min(x, z) - xz$ on $\Omega = [0, 1]$.
 This gives 
 \[
-	\int_0^z x \phi(x) \dx + \int_z^1 z \phi(x) \dx - \int_0^1 xz \phi(x) \dx = \gamma \phi(z).
+	\int_0^z x \phi(x) \dd x + \int_z^1 z \phi(x) \dd x - \int_0^1 xz \phi(x) \dd x = \gamma \phi(z).
 \]
 Now apply $L = - \frac{\diffd^2}{\diffd z^2}$ to this:
 \begin{IEEEeqnarray*}{c"rCl}
-	& \frac{\diffd^2}{\diffd z^2} \left\{ z \phi(z) - \int_1^z \phi(x) \dx - z \phi(x) - \int_0^1 x \phi(x) \dx \right\} &=& \gamma \phi''(z) \\
+	& \frac{\diffd^2}{\diffd z^2} \left\{ z \phi(z) - \int_1^z \phi(x) \dd x - z \phi(x) - \int_0^1 x \phi(x) \dd x \right\} &=& \gamma \phi''(z) \\
 	\Longleftrightarrow & - \frac{1}{\gamma} \phi(z) &=& \phi''(z)
 \end{IEEEeqnarray*}
 \end{example}

@@ -108,7 +108,7 @@ for positive semidefinite operators $T_K$.
 Let $\Omega \subset \R^d$ be compact and $K$ be a continuous kernel.
 Let the corresponding integral operator $T_K$ be positive semidefinite:
 \[
-	\int_{\Omega \times \Omega} K(x, y) f(x) f(y) \dx \dy \geq 0 \quad \text{for all } f \in L_2(\Omega).
+	\int_{\Omega \times \Omega} K(x, y) f(x) f(y) \dd x \dd y \geq 0 \quad \text{for all } f \in L_2(\Omega).
 \]
 Then we can expand $K(x, y)$ in a uniformly convergent series (on $\Omega \times \Omega$) in terms of functions $\phi_j$, satisfying $\langle \phi_i, \phi_j \rangle = \delta_{ij}$, as
 \[
@@ -132,7 +132,7 @@ Now let
 \]
 We have $f_\sigma \in L_2$, and additionally
 \[
-	\lim_{\sigma \to 0} \int_{\Omega \times \Omega} K(x, y) f_\sigma(x) f_\sigma(y) \dx \dy = \varepsilon.
+	\lim_{\sigma \to 0} \int_{\Omega \times \Omega} K(x, y) f_\sigma(x) f_\sigma(y) \dd x \dd y = \varepsilon.
 \]
 But then for some $\sigma > 0$ the integral will be less than $0$, which contradicts the positivity of the integral operator $T_K$.
 Therefore, we have a Mercer kernel.
@@ -154,9 +154,9 @@ would not work for discontinuous kernels.
 \end{remark}
 Finally, we observe
 \begin{IEEEeqnarray*}{rCl}
-	\lim_{n \to \infty} \sum_{i=1}^n \| \phi_i \|_{L_2}^2 &=& \lim_{n \to \infty} \sum_{i=1}^n \int_\Omega \phi_i(x) \phi_i(x) \dx \\
-	&=& \lim_{n\to \infty} \int_\Omega \sum_{i=1}^n \phi_i(x) \phi_i(x) \dx \\
-	&=& \int_\Omega \lim_{n \to \infty} \sum_{i=1}^n \phi_i(x) \phi_i(x) \dx < \infty,
+	\lim_{n \to \infty} \sum_{i=1}^n \| \phi_i \|_{L_2}^2 &=& \lim_{n \to \infty} \sum_{i=1}^n \int_\Omega \phi_i(x) \phi_i(x) \dd x \\
+	&=& \lim_{n\to \infty} \int_\Omega \sum_{i=1}^n \phi_i(x) \phi_i(x) \dd x \\
+	&=& \int_\Omega \lim_{n \to \infty} \sum_{i=1}^n \phi_i(x) \phi_i(x) \dd x < \infty,
 \end{IEEEeqnarray*}
 where we use the compactness of $\Omega$.
 \end{proof}

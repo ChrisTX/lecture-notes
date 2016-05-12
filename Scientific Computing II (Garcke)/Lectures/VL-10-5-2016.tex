@@ -17,11 +17,11 @@ If both the loss function and the regularization $s$ are convex, one has a uniqu
 \end{remark}
 On $L_2(\Omega)$, we have
 \[
-	\langle f, g \rangle_{L_2(\Omega)} = \int_\Omega fg \dx.
+	\langle f, g \rangle_{L_2(\Omega)} = \int_\Omega fg \dd x.
 \]
 We are aiming for
 \[
-	\langle f, g \rangle_{\spH} = \langle Sf, Sg \rangle_{L_2} = \int_\Omega Sf(x) Sg(x) \dx.
+	\langle f, g \rangle_{\spH} = \langle Sf, Sg \rangle_{L_2} = \int_\Omega Sf(x) Sg(x) \dd x.
 \]
 The transformation $S$ picks those parts of $f$ which should be regularized. Now think of $S$ as extracting derivations and we see that it is $S$ for smoothness.
 \begin{definition} % Definition 42
@@ -66,11 +66,11 @@ More generally, Hilbert-Schmidt theory ensures the existence of $L_2$-convergent
 \end{remark}
 We go over to weighted inner products with a weight function $\sigma$:
 \[
-	\langle f, g \rangle = \int_\Omega f(x) g(x) \sigma(x) \dx.
+	\langle f, g \rangle = \int_\Omega f(x) g(x) \sigma(x) \dd x.
 \]
 The eigenvalue problem of the integral operator $T_K$ is
 \[
-	\int_\Omega K(x, z) \phi(x) \sigma(x) \dx = \langle K(x, z), \phi(x) \rangle = \lambda \phi(z).
+	\int_\Omega K(x, z) \phi(x) \sigma(x) \dd x = \langle K(x, z), \phi(x) \rangle = \lambda \phi(z).
 \]
 
 We consider the (non-homogeneous) linear (ordinary or partial) differential equation
@@ -180,8 +180,8 @@ To simplify the situation, we consider the free-space\slash{}fullspace Green's f
 We use $g$ as a kernel $K$, i.e.\ $(LK)(x, z) = \delta(x - z)$.
 Now applying $L$ to the integral equation gives
 \begin{IEEEeqnarray*}{c"rCl}
-	& \underbrace{ L \int_\Omega K(x, z) \phi(x) \sigma(x) \dx }_{\int_\Omega L K(x, z) \phi(x) \sigma(x) \dx} &=& L \gamma \phi(z) \\
-\Longleftrightarrow	& \underbrace{ \int_\Omega \delta(x - z) \phi(x) \dx }_{\phi(z) \sigma(z)} &=& \gamma L \phi(z) \\
+	& \underbrace{ L \int_\Omega K(x, z) \phi(x) \sigma(x) \dd x }_{\int_\Omega L K(x, z) \phi(x) \sigma(x) \dd x} &=& L \gamma \phi(z) \\
+\Longleftrightarrow	& \underbrace{ \int_\Omega \delta(x - z) \phi(x) \dd x }_{\phi(z) \sigma(z)} &=& \gamma L \phi(z) \\
 \implies & L \phi(z) &=& \frac{1}{\gamma} \phi(z) \sigma(z)
 \end{IEEEeqnarray*}
 where for simplicity we assume that $L$ has no eigenvalue $0$.
