@@ -8,16 +8,19 @@
 \ifXeTeX
 	\usepackage{polyglossia}
 	\setdefaultlanguage[variant=us]{english}
+	\usepackage{mathtools}
 	\usepackage{unicode-math}
 \else
 	\ifLuaTeX
 		\usepackage{polyglossia}
 		\setdefaultlanguage[variant=us]{english}
+		\usepackage{mathtools}
 		\usepackage{unicode-math}
 	\else
 		\usepackage[USenglish]{babel}
 		\usepackage[utf8]{inputenc}
 		\usepackage[T1]{fontenc}
+		\usepackage{mathtools}
 		\usepackage{amssymb}
 		\usepackage{stmaryrd}
 	\fi
@@ -33,7 +36,6 @@
 \usepackage{acro}
 \usepackage[xindy]{imakeidx}
 
-\usepackage{mathtools}
 \usepackage{tikz}
 \usepackage{chngcntr}
 \usepackage{caption}
@@ -78,7 +80,6 @@
 }
 
 % These have to be loaded after hyperref!
-% \usepackage[vlined,linesnumbered]{algorithm2e} % Not needed thus far
 \usepackage[amsmath,hyperref,thmmarks]{ntheorem}
 \usepackage[ntheorem,framemethod=tikz]{mdframed}
 
@@ -105,12 +106,47 @@
 \newcommand{\keydef}[1]{\emph{#1}\index[keydefinitions]{#1}}
 
 \begin{document}
-\pagenumbering{alph}
-\title{\textbf{Scientific Computing II}}
-\author{}
-\maketitle{}
-
 \frontmatter
+\begin{titlepage}
+
+	\centering
+
+	% Oberer Teil der Titelseite:
+	\includegraphics[width=0.30\textwidth]{INS-Logo_ohne}\par\vspace{2.2cm}
+	
+	\textsc{\LARGE Institut für Numerische Simulation}\par\vspace{0.3cm}
+	\textsc{\small Rheinische Friedrich-Wilhelms-Universität Bonn}\par\vspace{0.9cm}
+	
+	\vfill
+
+	\begin{mdframed}[rightline=false,linewidth=0.5mm,leftline=false,innerbottommargin=\baselineskip,innertopmargin=\baselineskip]
+	\centering\textbf{\huge Scientific Computing II}
+	\end{mdframed}
+	
+	\vspace{1.5cm}
+	
+	\begin{minipage}{0.4\textwidth}
+		\centering\large
+		\textit{held by:} \\
+		Prof.\ Dr.\ Jochen \textsc{Garcke}
+	\end{minipage}
+	\vfill
+	\vfill
+	\vfill
+	\vfill
+	\begin{minipage}{0.4\textwidth}
+		\centering\large
+		\textit{lectures notes created by:}\\
+		Christian \textsc{Pfeiffer}
+	\end{minipage}
+	
+	\vfill
+	
+	% Unterer Teil der Seite
+	{\large \today}
+
+\end{titlepage}
+
 \printacronyms
 \tableofcontents
 

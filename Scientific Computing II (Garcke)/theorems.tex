@@ -5,16 +5,14 @@
 
 \theoremseparator{.}
 \theoremstyle{plain}
-\newmdtheoremenv[style=theoremframing]{theorem}[dummythm]{Theorem}
+\newmdtheoremenv[style=theoremframing,backgroundcolor=LimeGreen!100!white!20,linecolor=LimeGreen]{theorem}[dummythm]{Theorem}
 \crefname{theorem}{Theorem}{Theorems}
-\newmdtheoremenv[style=theoremframing]{lemma}[dummythm]{Lemma}
+\newmdtheoremenv[style=theoremframing,backgroundcolor=LimeGreen!100!white!10,linecolor=LimeGreen]{lemma}[dummythm]{Lemma}
 \crefname{lemma}{Lemma}{Lemmata}
-\newmdtheoremenv[style=theoremframing]{corollary}[dummythm]{Corollary}
+\newmdtheoremenv[style=theoremframing,backgroundcolor=LimeGreen!100!white!10,linecolor=LimeGreen]{corollary}[dummythm]{Corollary}
 \crefname{corollary}{Corollary}{Corollaries}
-\newmdtheoremenv[style=theoremframing]{proposition}[dummythm]{Proposition}
-\crefname{proposition}{Proposition}{Propositions}
 \theorembodyfont{\normalfont}
-\newmdtheoremenv[style=theoremframing]{definition}[dummythm]{Definition}
+\newmdtheoremenv[style=theoremframing,backgroundcolor=cyan!100!white!10,linecolor=cyan!100!white!90]{definition}[dummythm]{Definition}
 \crefname{definition}{Definition}{Definitions}
 
 \theoremstyle{nonumberplain}
@@ -31,17 +29,3 @@
 \theoremsymbol{\rule{1ex}{1ex}}
 \newtheorem{proof}{Proof}
 \crefname{proof}{Proof}{Proofs}
-
-% Approximation Algorithm specific
-\newenvironment{problem}[1][]{\begin{mdframed}[style=theoremframing,frametitle={#1},frametitlefont={\sc},frametitlebelowskip=0pt]}{\end{mdframed}}
-\newenvironment{algorithmbox}[1][]{\begin{mdframed}[style=theoremframing,frametitle={#1},frametitlefont={\sc},frametitlebelowskip=0pt]}{\end{mdframed}}
-
-% Algorithm2e specific
-% \IncMargin{2.5em}
-% \SetNlSty{circled}{}{}
-% \SetNlSkip{1em}
-% \DontPrintSemicolon
-% \newcommand{\EndAlgorithmLine}{\vskip\medskipamount % or other desired dimension
-% \leaders\vrule width \textwidth\vskip0.4pt % or other desired thickness
-% \vskip\smallskipamount % ditto
-% \nointerlineskip}
