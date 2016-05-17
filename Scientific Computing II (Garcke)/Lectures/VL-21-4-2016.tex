@@ -177,9 +177,10 @@ We define the error of the general linear predictor at $x$ by
 	\epsilon_{x, X, v} \coloneqq X_{x} - \sum_{j=1}^N v_j(x) X_{x_j}.
 \]
 It has zero mean, and the variance
-\[
-	\mathbb{E} \left(\epsilon_{x, X, v}^2 \right) = \Cov (X_x, X_x) - 2\sum_{j=1}^N v_j(x) \Cov(X_x, X_{x_j}) + \sum_{j=1}^N \sum_{k=1}^N v_j(x) v_k(x) \Cov(X_{x_j}, X_{x_k}) \\
-\]
+\begin{IEEEeqnarray*}{rCl}
+	\mathbb{E} \left(\epsilon_{x, X, v}^2 \right) &=& \Cov (X_x, X_x) - 2\sum_{j=1}^N v_j(x) \Cov(X_x, X_{x_j}) \\ 
+	&& {} + \sum_{j=1}^N \sum_{k=1}^N v_j(x) v_k(x) \Cov(X_{x_j}, X_{x_k})
+\end{IEEEeqnarray*}
 Because
 \[
 	\Cov(X, Y) = K(x, x)

@@ -1,4 +1,5 @@
-\documentclass[11pt, oneside, parskip=yes]{scrbook}
+\documentclass{scrbook}
+\KOMAoptions{twoside=false,parskip=yes}
 
 % This document is only designed for
 % XeLaTeX, LuaLaTeX or pdfLaTeX
@@ -111,7 +112,6 @@
 
 	\centering
 
-	% Oberer Teil der Titelseite:
 	\includegraphics[width=0.30\textwidth]{INS-Logo_ohne}\par\vspace{2.2cm}
 	
 	\textsc{\LARGE Institut für Numerische Simulation}\par\vspace{0.3cm}
@@ -141,8 +141,7 @@
 	\end{minipage}
 	
 	\vfill
-	
-	% Unterer Teil der Seite
+
 	{\large \today}
 
 \end{titlepage}
