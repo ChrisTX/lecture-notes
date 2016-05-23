@@ -6,25 +6,28 @@
 % 
 \usepackage{iftex}
 
+\newif\ifHaveUnicodeTeX
+
 \ifXeTeX
-	\usepackage{polyglossia}
-	\setdefaultlanguage[variant=us]{english}
-	\usepackage{mathtools}
-	\usepackage{unicode-math}
+	\global\HaveUnicodeTeXtrue
 \else
 	\ifLuaTeX
-		\usepackage{polyglossia}
-		\setdefaultlanguage[variant=us]{english}
-		\usepackage{mathtools}
-		\usepackage{unicode-math}
-	\else
-		\usepackage[USenglish]{babel}
-		\usepackage[utf8]{inputenc}
-		\usepackage[T1]{fontenc}
-		\usepackage{mathtools}
-		\usepackage{amssymb}
-		\usepackage{stmaryrd}
+		\global\HaveUnicodeTeXtrue
 	\fi
+\fi
+
+\ifHaveUnicodeTeX
+	\usepackage{mathtools}
+	\usepackage{unicode-math}
+	\usepackage{polyglossia}
+	\setdefaultlanguage[variant=us]{english}
+\else
+	\usepackage[USenglish]{babel}
+	\usepackage[utf8]{inputenc}
+	\usepackage[T1]{fontenc}
+	\usepackage{mathtools}
+	\usepackage{amssymb}
+	\usepackage{stmaryrd}
 \fi
 
 \usepackage{subfiles}
@@ -43,7 +46,6 @@
 
 \usepackage{needspace} 	% Needed so we can glue theorems right after sections
 
-\usepackage{microtype}
 \usepackage{ifpdf}
 \ifpdf
 	\pdfminorversion=7
@@ -52,15 +54,21 @@
 	\usepackage{hyperref}
 \fi
 
+\usepackage{microtype}
+
 % Proprietary Adobe font packages
 % WARNING:
 %	These are *NOT* included with normal, free LaTeX redistributions
 % 	In order to acquire these fonts, one has to install "FontPro" and provide the appropriate OpenType font files.
-\ifx\adobefonts\undefined
-	\usepackage{lmodern}								% Without Adobe fonts, lmodern is preferable over the default
-\else
-	\usepackage{CronosPro} 								% Replaces sans-serif fonts only
-	\usepackage[minionint,mathlf,swash]{MinionPro} 		% Replaces serif text fonts and math fonts. Also pulls in MnSymbol.
+% NOTE: This is not supported with XeLaTeX or LuaLaTeX because MnSymbol does not work in a reasonable way with unicode-math
+%		There is a font called Minion Math for this purpose, but it's also proprietary		
+\ifHaveUnicodeTeX
+	\ifx\adobefonts\undefined
+		\usepackage{lmodern}								% Without Adobe fonts, lmodern is preferable over the default
+	\else
+		\usepackage{CronosPro} 								% Replaces sans-serif fonts only
+		\usepackage[minionint,mathlf,swash]{MinionPro} 		% Replaces serif text fonts and math fonts. Also pulls in MnSymbol.
+	\fi
 \fi
 
 % Document structure
@@ -106,13 +114,16 @@
 \makeindex[name=keydefinitions, title=Index of key definitions, intoc]
 \newcommand{\keydef}[1]{\emph{#1}\index[keydefinitions]{#1}}
 
+\input{pgf-bug-fix.tex}
+
 \begin{document}
 \frontmatter
+
 \begin{titlepage}
 
 	\centering
 
-	\includegraphics[width=0.30\textwidth]{INS-Logo_ohne}\par\vspace{2.2cm}
+	\input{INS-Logo.tex}\par\vspace{2.2cm}
 	
 	\textsc{\LARGE Institut für Numerische Simulation}\par\vspace{0.3cm}
 	\textsc{\small Rheinische Friedrich-Wilhelms-Universität Bonn}\par\vspace{0.9cm}

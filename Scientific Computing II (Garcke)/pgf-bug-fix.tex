@@ -1,0 +1,44 @@
+\newif\ifbuggedpgf
+\begingroup
+\def\getmainversion#1.#2\getmainversion{#1}
+\ifnum\expandafter\getmainversion\pgfversion\getmainversion<3
+  \global\buggedpgftrue
+\fi
+\endgroup
+
+\ifbuggedpgf
+	\GenericWarning{}{Using PGF bug fix for broken pow function}
+	\makeatletter
+	\def\pgfmathfloatpow@#1#2{%
+	    \begingroup%
+	    \expandafter\pgfmathfloat@decompose@tok#1\relax\pgfmathfloat@a@S\pgfmathfloat@a@Mtok\pgfmathfloat@a@E
+	    \ifcase\pgfmathfloat@a@S\relax
+	        % 0 ^ #2 = 0
+	        \pgfmathfloatcreate{0}{0.0}{0}%
+	    \else
+	        \expandafter\pgfmathfloat@decompose@tok#2\relax\pgfmathfloat@a@S\pgfmathfloat@a@Mtok\pgfmathfloat@a@E
+	        \ifcase\pgfmathfloat@a@S\relax
+	            % #1 ^ 0 = 1
+	            \pgfmathfloatcreate{1}{1.0}{0}%
+	        \or
+	            % #2 > 0
+	            \pgfmathfloatpow@@{#1}{#2}%
+	        \or
+	            % #2 < 0
+	            \pgfmathfloatpow@@{#1}{#2}%
+	        \or
+	            % #2 = nan
+	            \edef\pgfmathresult{#2}%
+	        \or
+	            % #2 = inf
+	            \edef\pgfmathresult{#2}%
+	        \or
+	            % #2 = -inf
+	            \pgfmathfloatcreate{0}{0.0}{0}%
+	        \fi
+	    \fi
+	    \pgfmath@smuggleone\pgfmathresult
+	    \endgroup
+	}%
+	\makeatother
+\fi
