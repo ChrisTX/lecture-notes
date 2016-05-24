@@ -1,0 +1,168 @@
+\documentclass[../lecture-notes.tex]{subfiles}
+
+\begin{document}
+Define $I^{D_V} \in \{0, 1\}^{|D_V| \times N}$ where the rows of $I^{D_V}$ are the rows from $I$ for the indices from $D_V$.
+We denote
+\[
+	I_{D_V}^{D_V} = (I^{D_V})^\tp I^{D_V}
+\]
+
+\begin{theorem} % Theorem 47
+\label{thm:47}
+The vector $I^{D_V} y^{D_V}$ consisting of the output values of the hold out data points $D_V$ predicted with $f_{D_V}$ can be obtained by
+\[
+	I^{D_V} y^{D_V} = \left[I_{|D_V|} - I^{D_V} (KG) \left( I^{D_V} \right)^\tp \right]^{-1} \left( I^{D_V} \hat{y} - I^{D_V} (KG) I_{D_V}^{D_V} y \right)
+\]
+\end{theorem}
+\begin{proof}
+Exercise.
+\end{proof}
+All the computations can be done in regard to the eigenvectors. The complexity can be seen to be $\bigO(|D_V|^2 N)$.
+
+For $k$-fold CV we have $\frac{N}{k}$-sized folds and the overall complexity
+\[
+	\bigO \left( k \left( \frac{N}{k} \right)^2 N \right) = \bigO \left( \frac{N^3}{k} \right)
+\]
+instead of $\bigO(k N^3)$ when solving the system for each fold.
+If $k = N$, we arrive at LOOCV % TODO
+with complexity $\bigO(N^2)$.
+We only need the diagonal elements of $KG$.
+\begin{corollary} % Corollary 48
+\label{thm:48}
+Let $f(x_j)$ and $f_j(x_j)$ denote the outcome of the RCS algorithm % TODO
+on training data $x_j$, where $f$ is trained with $D$ and $f_j$ with $D \setminus \{ x_j, y_j \}$, respectively.
+One can calculate $f_j(x_j)$ by 
+\[
+	f_j(x_j) = \frac{f(x_j) - (KG)_{jj} y_j}{1 - (KG)_{jj}}.
+\]
+\end{corollary}
+\begin{definition} % Definition 49
+\label{thm:49}
+A \keydef{Gaussian process} is a collection of random variables, any finite number of which have a joint distribution.
+\end{definition}
+We define for a real process $f(X)$ the mean $m(x)$ as
+\[
+	m(x) = \expValue [f(x)] 
+\]
+and the covariance $K(x, z)$ as
+\[
+	K(x, z) = \expValue [(f(x) - m(x))(f(z) - m(z))].
+\]
+Usually one takes the mean function to be zero for notational simplicity.
+As the covariance we use the squared exponential:
+\[
+	\Cov(f(x_p), f(x_q)) = K(x_p, x_q) = \exp \left( - \frac{1}{2 w^2} \| x_p - x_q \|^2 \right).
+\]
+Note that the covariance of the outputs is written as a function of the inputs.
+Further, $w$ is the length scale of the process.
+
+For an \ac{iid} noise $\varepsilon$ with variance $\sigma_N^2$, i.e.
+\[
+	y = f(x) + \varepsilon,
+\]
+one gets
+\[
+	\Cov (y_p, y_q) = K(x_p, x_q) + \sigma_N^2 \partial_{pq}
+\]
+or
+\[
+	\Cov(Y) = K(X, X) + \sigma_N^2 I,
+\]
+where $Y = [y_1, \ldots, y_N]^\tp$ and $X$ is a collection of $x_i$.
+The joint distribution of the observed target values and the function values at the evaluation points can be seen to be
+\[
+	\begin{pmatrix}
+	y \\ f_e
+	\end{pmatrix} \sim N \left( 0, \begin{pmatrix}
+		K(X, X) + \sigma_N^2 I & K(X, X_e) \\
+		K(X_e, X) & K(X_e, X_e)
+	\end{pmatrix} \right)
+\]
+Deriving the conditional distributions on the observations one arrives at
+\[
+	f_e \mid X, Y, X_e \sim N\left(\bar{f}_e, \Cov(f_e) \right),
+\]
+where
+\[
+	\bar{f}_e = \expValue [f_e \mid X, Y, X ] = K(X_e, X)\underbrace{ \left[ K(X, X) + \sigma_N^2 I \right]^{-1} y}_{\alpha}
+\]
+and
+\[
+	\Cov(f_e) = K(X_e, X_e) - K(X_e, X) \left[ K(X, X) + \sigma_N^2 I \right]^{-1} K(X, X_e).
+\]
+Go to one evaluation $x_e$ we have
+\[
+	f(x_e) = K(X, x_e)^\tp (K(X, X) + \sigma_N^2 I)^{-1} y = \sum_{i=1}^N \alpha_i K(x_i, x_e).
+\]
+with
+\[
+	K(X, x_e) = (K(x_1, x_e), \ldots, K(x_n, x_e)).
+\]
+Then we have
+\[
+	\Var(f) = K(x_e, x_e) - K(X, x_e)^\tp \left[ K(X, X) + \sigma_N^2 I \right]^{-1} K(X, x_e).
+\]
+
+Consider now the marginal likelihood
+\[
+	\probP(y \mid X) = \int \probP(y \mid f, X) \probP(f \mid X) \dd f
+\]
+Under the Gaussian process view the prior is Gaussian $f \mid X \sim N(0, K)$.
+\[
+	\log \probP (f \mid X) = - \frac{1}{2} f^\tp K(X, X)^{-1} f - \frac{1}{2} \log |K| - \frac{n}{2} \log 2 \pi
+\]
+and the likelihood is
+\[
+	y \mid f \sim N(f, \sigma_n^2 I)
+\]
+Using that the product of two Gaussian distributions gives another Gaussian we can rewrite the integral as
+\[
+	\log \probP(y \mid X) = - \frac{1}{2} y^\tp \left( K(X, X) + \sigma_n^2 I \right)^{-1} y - \frac{1}{2} \log \left( K(X, X) + \sigma_n^2 I \right) - \frac{n}{2} \log 2 \pi.
+\]
+This is the log marginal likelihood.
+Using Bayes model selection for hyperparameters, one, roughly speaking, looks at the probability of the data $y$, given the model and the hyperparameters, expressed by the marginal likelihood:
+\[
+	\probP(y \mid X, \Theta).
+\]
+Rewriting:
+\[
+	\log \probP(y \mid X, \Theta) = - \frac{1}{2} y^\tp K_y^{-1} y - \frac{1}{2} \log |K_y| - \frac{n}{2} \log 2 \pi,
+\]
+where $K y = K + \sigma_n^2 I$ and $\Theta$ are the parameters of the covariance function.
+The first term
+\[
+- \frac{1}{2} y^\tp K_y^{-1} y
+\]
+measures the data fit. On the other hand, the second term
+\[
+	- \frac{1}{2} \log |K_y|
+\]
+is the complexity penalty depending on the covariance function. The last term,
+\[
+	- \frac{n}{2} \log 2 \pi
+\]
+is a normalizing constant that can be ignored for optimization purposes.
+One observes that
+\begin{itemize}
+\item the model gets less complex with growing length scale, therefore the negative complexity penalty increases.
+\item the data fit decreases with the length scale, since the model becomes less and less flexible.
+\item with more data, the log marginal likelihood gets typically more peaked.
+\end{itemize}
+To set the hyperparameters one maximizes the log likelihood.
+The derivative of it can be seen to be 
+\begin{IEEEeqnarray*}{rCl}
+	\frac{\partial}{\partial \Theta_j} \log \probP (y \mid X, \Theta) &=& \frac{1}{2} y^\tp K y^{-1} \frac{\partial K_y}{\partial \Theta_j} K_y^{-1} y - \frac{1}{2} \operatorname{tr} \left( K_y^{-1} \frac{\partial K_y}{\partial \Theta_j} \right) \\
+	&=& \frac{1}{2} \operatorname{tr} \left( \left( \alpha \alpha^\tp - K_y^{-1} \right) \frac{\partial K_y}{\partial \Theta_j} \right)
+\end{IEEEeqnarray*}
+with $\alpha = K_y^{-1} y$.
+For the squared exponential kernel one writes often
+\[
+	\sigma_f^2 \exp \left( - \frac{1}{2w^2} \| x_q - x_q \|^2 \right) + \sigma_N^2 \delta_{pq},
+\]
+where one calls
+\begin{itemize}
+\item $\sigma_f^2$ the signal variance
+\item $\sigma_N^2$ the noise variance.
+\end{itemize}
+From the optimization view there are two hyperparameters: The length scale $w$ and the noise level $\sigma$.
+\end{document}
