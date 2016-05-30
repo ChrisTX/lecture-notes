@@ -51,7 +51,7 @@ The corresponding integral operator $T_K$ shall be positive semidefinite, i.e.
 \[
 	\int_{\Omega \times \Omega} K(x, y) f(x) f(y) \geq 0 \quad \text{for all } f \in L_2^\nu(\Omega).
 \]
-Let $\lambda_i$ be the $i$-th eigenvalue of $T_K$ and $\{ \psi_i \}_{i \geq 1}$ the corresponding and normalized eigenfunctions.
+Let $\lambda_i$ be the $i$-th eigenvalue of $T_K$ and $\{ \phi_i \}_{i \geq 1}$ the corresponding and normalized eigenfunctions.
 It then holds
 \[
 	K(x, y) = \sum_{i=1}^\infty \lambda_i \cdot \phi_i(x) \phi_i(y) \quad \text{for all } x, y \in \Omega,
@@ -138,7 +138,7 @@ This exists as the Green's function for the operator $S^\dualst S$.
 \begin{IEEEeqnarray*}{rCl}
 	f(x) &=& \langle \underbrace{ S^\dualst S }_{L} G_x, f \rangle_\spL \\
 	&=& \langle L G_x, f \rangle \\
-	&=& \langle f, \delta(z -x) \\
+	&=& \langle f, \delta(z -x) \rangle \\
 	&=& f(x).
 \end{IEEEeqnarray*}
 We have the reproduction property \cref{eq:RegRKf} on the set $S^\dualst S \spL$ using the properties of the adjoint:

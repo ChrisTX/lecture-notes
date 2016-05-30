@@ -49,9 +49,9 @@
 \usepackage{ifpdf}
 \ifpdf
 	\pdfminorversion=7
-	\usepackage[pdfpagelabels]{hyperref}
+	\usepackage[pdfpagelabels,hyperindex=false]{hyperref}
 \else
-	\usepackage{hyperref}
+	\usepackage[hyperindex=false]{hyperref}
 \fi
 
 \usepackage{microtype}
@@ -63,6 +63,7 @@
 % NOTE: This is not supported with XeLaTeX or LuaLaTeX because MnSymbol does not work in a reasonable way with unicode-math
 %		There is a font called Minion Math for this purpose, but it's also proprietary		
 \ifHaveUnicodeTeX
+\else
 	\ifx\adobefonts\undefined
 		\usepackage{lmodern}								% Without Adobe fonts, lmodern is preferable over the default
 	\else

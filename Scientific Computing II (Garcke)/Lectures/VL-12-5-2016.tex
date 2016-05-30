@@ -29,11 +29,7 @@ Given a regularization operator $S$ with an expansion of $S^\dualst S$ into a di
 \[
 	K(x, z) \coloneqq \sum_{i, \gamma_i \neq 0} \frac{d_i}{\gamma_i} \phi_i(x) \phi(z),
 \]
-where $d_i \in \{ 0, 1\}$ for all $i$, and
-\[
-	\sum_{i=1}^\infty \frac{d_i}{\gamma_i}
-\]
-is convergent, then $K$ satisfies from \cref{thm:44}
+where $d_i \in \{ 0, 1\}$ for all $i$, and $\sum_{i=1}^\infty \frac{d_i}{\gamma_i}$ is convergent, then $K$ satisfies from \cref{thm:44}
 \[
 	\langle S K(x, \cdot), S K(z, \cdot) \rangle_D = K(x, z) = \langle K(x, \cdot), K(z, \cdot) \rangle_{\spH}.
 \]
@@ -65,7 +61,7 @@ We write
 	f = \sum_{j=1}^\infty \beta_j \phi_j
 \]
 after the theorem.
-For simplicity consider positive definite operators, i.e.\ no eigenvalues zero.
+For simplicity consider positive definite operators, i.e.\ no eigenvalues are zero.
 \begin{IEEEeqnarray*}{rCl}
 \| f \|_{\spH}^2 = \langle f, f \rangle_{\spH} &=& \langle Sf, Sf \rangle_D \\
 &=& \langle f, S^\dualst S f \rangle \\
@@ -91,7 +87,7 @@ f(x) = \sum_{j=1}^\infty \beta_j \phi_j &=& \frac{1}{\lambda}{N} \sum_{j=1}^\inf
 &=& \frac{1}{\lambda N} \sum_{i=1}^N \alpha_i K(x_i, x)
 \end{IEEEeqnarray*}
 with $K$ as in the theorem.
-Inserting this representation into
+Inserting this representation into yields
 \[
 	\alpha_i = y_i - f(x_i) = y_i - \frac{1}{\lambda N} \underbrace{ \sum_{k=1}^N \alpha_k K(x_k, x_i) }_{(K\alpha)_i}.
 \]
@@ -142,7 +138,7 @@ In order to evaluate the performance of a predictive model, one usually uses cro
 In the simplest setting, we split the available data $D$ into training data $D_T$ and the validation data $D_V$.
 The empirical risk on $D_V$ is used to measure the predictive performance (or generalization) performance.
 
-Usually, one uses $k$-fold cross-validation.
+Usually, one uses $k$-fold \ac{CV}.
 \begin{figure}[htpb]
 \centering
 \begin{tikzpicture}[scale=\textwidth/10cm]
@@ -150,7 +146,7 @@ Usually, one uses $k$-fold cross-validation.
 		\draw ({2*\x}, 0) rectangle ({2*(\x+1)}, 1);
 \end{tikzpicture}
 \captionsetup{labelformat=empty}
-\caption{Figure: Idea of $k$-fold cross-validation}
+\caption{Figure: Idea of $k$-fold \acl{CV}}
 \end{figure}
 We split $D$ into $k$ disjoint subsets. One is used as $D_V$, the other $k-1$ as $D_T$, solve and evaluate, repeat $k$ times.
 The average over the $k$ empirical risks is the performance measure.
